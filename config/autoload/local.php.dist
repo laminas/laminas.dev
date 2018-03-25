@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Local configuration.
  *
@@ -7,5 +6,41 @@
  * `local.php` is ignored by git and safe to use for local and sensitive data like usernames and passwords.
  */
 
+declare(strict_types=1);
+
+use Xtreamwayz\Expressive\Messenger\Transport\EnqueueTransportFactory;
+
 return [
+    // @codingStandardsIgnoreStart
+    'dependencies' => [
+        'factories' => [
+            'messenger.transport.xtreamlabs' => [EnqueueTransportFactory::class, 'redis://127.0.0.1:6379?vendor=phpredis'],
+        ],
+    ],
+    // @codingStandardsIgnoreEnd
+
+    'slack' => [
+        'token'              => 'xoxp-',
+        'default_channel'    => '#dev',
+        'verification_token' => '',
+        'team_id'            => 'T0MCU03QC',
+    ],
+
+    'github' => [
+        'webhook_secret' => '',
+    ],
+
+    /*
+        'monolog' => [
+            'slack' => [
+                'token'   => '',
+                'channel' => '#server-log',
+                'name'    => 'xtreamlabs.com',
+            ],
+        ],
+    */
+
+    'asana' => [
+        'token' => '',
+    ],
 ];

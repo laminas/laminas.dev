@@ -1,71 +1,72 @@
 # xtreamlabs.com
 
-## Getting Started
+## Deploy
 
 ```bash
-$ composer run --timeout=0 serve
+cd /var/www/xtreamlabs.com
+sudo -u deploy make deploy target=master
+sudo systemctl restart xtreamlabs-queue-default.service
+sudo systemctl status xtreamlabs-queue-default.service
 ```
 
-You can then browse to http://localhost:8080.
+## Docker CLI
 
-## Application Development Mode Tool
+docker exec -ti xtreamlabs-php /bin/sh
 
-This skeleton comes with [zf-development-mode](https://github.com/zfcampus/zf-development-mode). 
-It provides a composer script to allow you to enable and disable development mode.
+## Development tooling
 
-### To enable development mode
+Create a factory class file for the named class. The class file is created in the same directory as the class specified.
+```bash
+vendor/bin/expressive factory:create App\Path\To\Class
+```
 
-**Note:** Do NOT run development mode on your production server!
+Create a PSR-15 request handler class file. Also generates a factory for the generated class, and, if a template renderer is registered with the application container, generates a template and modifies the class to render it into a zend-diactoros HtmlResponse.
+```bash
+vendor/bin/expressive handler:create App\Handler\MyHandler
+```
+
+Create a PSR-15 middleware class file.
+```bash
+vendor/bin/expressive middleware:create App\Middleware\MyMiddleware
+```
+
+## Setup background queue processing
 
 ```bash
-$ composer development-enable
+sudo nano /etc/systemd/system/xtreamlabs-queue-default.service
 ```
 
-**Note:** Enabling development mode will also clear your configuration cache, to 
-allow safely updating dependencies and ensuring any new configuration is picked 
-up by your application.
+```
+[Unit]
+Description=xtreamlabs.com messenger.transport.xtreamlabs
+After=network.target
+Requires=mysql.service
 
-### To disable development mode
+[Service]
+Type=simple
+User=www-data
+Group=www-data
+WorkingDirectory=/var/www/xtreamlabs.com
+ExecStart=/var/www/xtreamlabs.com/vendor/bin/expressive-console messenger:consume messenger.transport.xtreamlabs
+TimeoutStopSec=20
+KillMode=process
+Restart=always
+RestartSec=5
 
+[Install]
+WantedBy=multi-user.target
+```
+
+Commands:
 ```bash
-$ composer development-disable
+sudo systemctl daemon-reload
+sudo systemctl enable xtreamlabs-queue-default.service
+sudo systemctl start xtreamlabs-queue-default.service
+sudo systemctl status xtreamlabs-queue-default.service
+sudo journalctl -u xtreamlabs-queue-default
 ```
 
-### Development mode status
+## Slack ChatOps app
 
-```bash
-$ composer development-status
-```
-
-## Configuration caching
-
-By default, the skeleton will create a configuration cache in
-`data/config-cache.php`. When in development mode, the configuration cache is
-disabled, and switching in and out of development mode will remove the
-configuration cache.
-
-You may need to clear the configuration cache in production when deploying if
-you deploy to the same directory. You may do so using the following:
-
-```bash
-$ composer clear-config-cache
-```
-
-You may also change the location of the configuration cache itself by editing
-the `config/config.php` file and changing the `config_cache_path` entry of the
-local `$cacheConfig` variable.
-
-## Resources
-
-- https://api.slack.com/
-- https://api.slack.com/slash-commands
-
-- https://framework.zend.com/blog/2017-08-08-expressive-rest-representations.html
-- https://github.com/zendframework/zend-problem-details
-- https://github.com/zendframework/zend-expressive-hal
-
-- https://github.com/KnpLabs/php-github-api
-- http://docs.php-http.org/en/latest/index.html
-- https://github.com/razorpay/slack
-- https://github.com/cleentfaar/slack
-- https://github.com/slackapi/hubot-slack/blob/master/src/client.coffee
+https://api.slack.com/apps
+https://api.slack.com/apps/A9Z8BTAP3/general

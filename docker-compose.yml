@@ -1,0 +1,28 @@
+version: "3"
+services:
+
+  web:
+    image: xtreamwayz/nginx
+    container_name: xtreamlabs-web
+    ports:
+      - "80:80"
+    volumes:
+      - ./public:/app/public:ro,cached
+
+  php:
+    image: xtreamwayz/php:7.1
+    container_name: xtreamlabs-php
+    volumes:
+      - ./bin:/app/bin
+      - ./config:/app/config:ro,cached
+      - ./data/cache:/app/data/cache:rw,delegated
+      - ./data/log:/app/data/log:rw,delegated
+      - ./public/index.php:/app/public/index.php:ro,cached
+      - ./src:/app/src:ro,cached
+      - ./test:/app/test:ro,cached
+      - ./templates:/app/templates:ro,cached
+      - ./vendor:/app/vendor:ro,cached
+
+  redis:
+    image: redis:3-alpine
+    container_name: xtreamlabs-redis

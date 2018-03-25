@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Development-only configuration.
  *
@@ -10,13 +9,13 @@
  * `composer development-enable`.
  */
 
+declare(strict_types=1);
+
 use Zend\Expressive\Container;
 use Zend\Expressive\Middleware\ErrorResponseGenerator;
 
 return [
     'dependencies' => [
-        'invokables' => [
-        ],
         'factories'  => [
             ErrorResponseGenerator::class       => Container\WhoopsErrorResponseGeneratorFactory::class,
             'Zend\Expressive\Whoops'            => Container\WhoopsFactory::class,

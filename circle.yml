@@ -1,0 +1,60 @@
+version: 2
+
+jobs:
+  build:
+    docker:
+      - image: xtreamwayz/php:7.1
+
+    working_directory: ~/project
+
+    steps:
+      - checkout
+
+      - restore_cache:
+          keys:
+            - composer-v1-{{ checksum "composer.lock" }}
+            - composer-v1-
+
+      - run:
+          name: Setup project
+          command: |
+            cp ./config/autoload/local.php.dist ./config/autoload/local.php
+            mkdir -p /tmp/test-results
+
+      - run:
+          name: Install dependencies
+          command: |
+            composer install --no-interaction --prefer-dist --optimize-autoloader --classmap-authoritative
+
+      - save_cache:
+          key: composer-v1-{{ checksum "composer.lock" }}
+          paths:
+            - /root/.composer/cache/files
+
+      - run:
+          name: Validate composer config and dependencies
+          command: |
+            composer validate --no-check-all --no-check-publish
+            composer outdated --direct
+
+      - run:
+          name: PHPUnit and coverage
+          command: |
+            vendor/bin/phpunit --log-junit=/tmp/test-results/phpunit/phpunit.junit.xml --coverage-xml=/tmp/test-results/phpunit/coverage-xml
+
+      - run:
+          name: PHP coding style analysis
+          command: |
+            vendor/bin/phpcs
+
+      - run:
+          name: PHP static analysis
+          command: |
+            vendor/bin/phpstan analyse
+
+      - store_artifacts:
+          path: /tmp/test-results
+          destination: raw-test-output
+
+      - store_test_results:
+          path: /tmp/test-results

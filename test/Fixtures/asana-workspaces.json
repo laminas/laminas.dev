@@ -1,0 +1,15 @@
+{
+    "url": "https://app.asana.com/api/1.0/workspaces",
+    "data": [
+        {
+            "id": 101471104689194,
+            "gid": "101471104689194",
+            "name": "xtreamwayz.com"
+        },
+        {
+            "id": 498346170860,
+            "gid": "498346170860",
+            "name": "Personal Projects"
+        }
+    ]
+}
