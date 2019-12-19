@@ -1,0 +1,46 @@
+name: laminas_dev
+
+type: php:7.2
+
+size: S
+
+disk: 256
+
+build:
+  flavor: none
+
+hooks:
+  build: |
+    set -e
+    echo "Installing platform.sh CLI"
+    curl -sS https://platform.sh/cli/installer | php
+
+crons:
+    snapshot:
+        # Take a snapshot automatically every night at 3 am (UTC).
+        spec: '0 3 * * *'
+        cmd: |
+            if [ "$PLATFORM_BRANCH" = master ]; then
+                platform snapshot:create --yes --no-wait
+            fi
+    renewcert:
+        # Force a redeploy at 8 am (UTC) on the 14th and 28th of every month.
+        spec: '0 8 14,28 * *'
+        cmd: |
+            if [ "$PLATFORM_BRANCH" = master ]; then
+                platform redeploy --yes --no-wait
+            fi
+
+web:
+  locations:
+    '/':
+      root: 'public'
+      index:
+        - index.html
+      expires: -1
+      scripts: true
+      allow: false
+      rules:
+        \.(css|js|gif|jpe?g|png|ttf|eot|woff2?|otf|cast|mp4|json|html|ico|svg)$:
+          allow: true
+          expires: 300s

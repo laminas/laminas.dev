@@ -1,0 +1,8 @@
+"https://{default}/":
+  type: upstream
+  upstream: 'laminas_dev:http'
+  tls:
+    strict_transport_security:
+      enabled: true
+      include_subdomains: true
+      preload: true
