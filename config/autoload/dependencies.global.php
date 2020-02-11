@@ -6,10 +6,14 @@ namespace App;
 
 use Mezzio\ProblemDetails\ProblemDetailsMiddleware;
 use Laminas\Stratigility\Middleware\ErrorHandler;
+use Phly\EventDispatcher\EventDispatcher;
+use Psr\EventDispatcher\EventDispatcherInterface;
 
 return [
     'dependencies' => [
-        'aliases'   => [],
+        'aliases'   => [
+            EventDispatcherInterface::class => EventDispatcher::class,
+        ],
         'factories' => [
             ErrorHandler::class             => Container\ErrorHandlerFactory::class,
             ProblemDetailsMiddleware::class => Container\ProblemDetailsMiddlewareFactory::class,

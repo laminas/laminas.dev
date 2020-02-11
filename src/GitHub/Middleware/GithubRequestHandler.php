@@ -8,24 +8,24 @@ use App\GitHub\Message;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Symfony\Component\Messenger\MessageBusInterface;
 use Laminas\Diactoros\Response\EmptyResponse;
 use Laminas\Diactoros\Response\JsonResponse;
+use Psr\EventDispatcher\EventDispatcherInterface;
 
 /**
  * @see https://developer.github.com/webhooks/
  */
 class GithubRequestHandler implements RequestHandlerInterface
 {
-    /** @var MessageBusInterface */
-    private $bus;
+    /** @var EventDispatcherInterface */
+    private $dispatcher;
 
-    public function __construct(MessageBusInterface $bus)
+    public function __construct(EventDispatcherInterface $dispatcher)
     {
-        $this->bus = $bus;
+        $this->dispatcher = $dispatcher;
     }
 
-    public function handle(ServerRequestInterface $request) : ResponseInterface
+    public function handle(ServerRequestInterface $request): ResponseInterface
     {
         $eventName = $request->getHeaderLine('X-GitHub-Event');
         $payload   = (array) $request->getParsedBody();
@@ -55,7 +55,7 @@ class GithubRequestHandler implements RequestHandlerInterface
         }
 
         if ($eventName === 'ping') {
-            return new JsonResponse(['message' => 'Hello from XtreamLabs :D'], 204);
+            return new JsonResponse(['message' => 'Hello from Laminas Bot :D'], 204);
         }
 
         if ($message === null || $message->ignore()) {
@@ -68,7 +68,7 @@ class GithubRequestHandler implements RequestHandlerInterface
             return new JsonResponse(['error' => $e->getMessage()], 400, ['X-Status-Reason' => 'Validation failed']);
         }
 
-        $this->bus->dispatch($message);
+        $this->dispatcher->dispatch($message);
 
         return new EmptyResponse(204);
     }

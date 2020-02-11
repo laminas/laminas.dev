@@ -13,8 +13,8 @@ $cacheConfig = [
 ];
 
 $aggregator = new ConfigAggregator([
-    \Xtreamwayz\Expressive\Messenger\ConfigProvider::class,
-    \Xtreamwayz\Expressive\Console\ConfigProvider::class,
+    \Phly\EventDispatcher\ConfigProvider::class,
+    \Phly\Swoole\TaskWorker\ConfigProvider::class,
     \Mezzio\ConfigProvider::class,
     \Mezzio\Helper\ConfigProvider::class,
     \Mezzio\Router\ConfigProvider::class,
@@ -22,6 +22,7 @@ $aggregator = new ConfigAggregator([
     \Mezzio\Twig\ConfigProvider::class,
     \Laminas\HttpHandlerRunner\ConfigProvider::class,
     \Mezzio\ProblemDetails\ConfigProvider::class,
+    \App\ConfigProvider::class,
 
     // Include cache configuration
     new ArrayProvider($cacheConfig),
