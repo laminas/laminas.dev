@@ -8,7 +8,7 @@
 
 declare(strict_types=1);
 
-use Xtreamwayz\Expressive\Messenger\Transport\EnqueueTransportFactory;
+use Xtreamwayz\Mezzio\Messenger\Transport\EnqueueTransportFactory;
 
 return [
     // @codingStandardsIgnoreStart

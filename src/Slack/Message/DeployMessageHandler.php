@@ -11,7 +11,7 @@ use App\Slack\SlackClientInterface;
 use phpseclib\Crypt\RSA;
 use phpseclib\Net\SSH2;
 use Psr\Log\LoggerInterface;
-use Xtreamwayz\Expressive\Messenger\Exception\RejectMessageException;
+use Xtreamwayz\Mezzio\Messenger\Exception\RejectMessageException;
 use function file_get_contents;
 use function implode;
 use function sprintf;

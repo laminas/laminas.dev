@@ -9,8 +9,8 @@ use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Log\LoggerInterface;
 use Throwable;
-use Zend\ProblemDetails\ProblemDetailsMiddleware;
-use Zend\ProblemDetails\ProblemDetailsResponseFactory;
+use Mezzio\ProblemDetails\ProblemDetailsMiddleware;
+use Mezzio\ProblemDetails\ProblemDetailsResponseFactory;
 use function date;
 
 class ProblemDetailsMiddlewareFactory

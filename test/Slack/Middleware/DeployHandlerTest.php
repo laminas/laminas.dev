@@ -8,7 +8,7 @@ use App\Slack\Middleware\DeployHandler;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
-use Zend\Diactoros\ServerRequest;
+use Laminas\Diactoros\ServerRequest;
 use function sprintf;
 
 class DeployHandlerTest extends TestCase

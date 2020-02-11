@@ -8,8 +8,6 @@ return [
     // @codingStandardsIgnoreStart
     'dependencies' => [
         'factories' => [
-            //'messenger.transport.xtreamlabs' => [EnqueueTransportFactory::class, 'redis:'],
-
             GitHub\Handler\GitHubIssueHandler::class       => GitHub\Handler\GitHubIssueHandlerFactory::class,
             GitHub\Handler\GitHubPullRequestHandler::class => GitHub\Handler\GitHubPullRequestHandlerFactory::class,
             GitHub\Handler\GitHubPushHandler::class        => GitHub\Handler\GitHubPushHandlerFactory::class,

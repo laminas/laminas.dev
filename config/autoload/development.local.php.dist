@@ -11,15 +11,15 @@
 
 declare(strict_types=1);
 
-use Zend\Expressive\Container;
-use Zend\Expressive\Middleware\ErrorResponseGenerator;
+use Mezzio\Container;
+use Mezzio\Middleware\ErrorResponseGenerator;
 
 return [
     'dependencies' => [
         'factories'  => [
             ErrorResponseGenerator::class       => Container\WhoopsErrorResponseGeneratorFactory::class,
-            'Zend\Expressive\Whoops'            => Container\WhoopsFactory::class,
-            'Zend\Expressive\WhoopsPageHandler' => Container\WhoopsPageHandlerFactory::class,
+            'Mezzio\Whoops'            => Container\WhoopsFactory::class,
+            'Mezzio\WhoopsPageHandler' => Container\WhoopsPageHandlerFactory::class,
         ],
     ],
 

@@ -9,7 +9,7 @@ use App\Slack\Domain\Attachment;
 use App\Slack\Domain\AttachmentColor;
 use App\Slack\Method\ChatPostMessage;
 use App\Slack\SlackClientInterface;
-use Xtreamwayz\Expressive\Messenger\Exception\RejectMessageException;
+use Xtreamwayz\Mezzio\Messenger\Exception\RejectMessageException;
 use function sprintf;
 
 class GitHubStatusHandler

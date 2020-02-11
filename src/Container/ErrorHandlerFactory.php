@@ -9,8 +9,8 @@ use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Log\LoggerInterface;
 use Throwable;
-use Zend\Expressive\Middleware\ErrorResponseGenerator;
-use Zend\Stratigility\Middleware\ErrorHandler;
+use Mezzio\Middleware\ErrorResponseGenerator;
+use Laminas\Stratigility\Middleware\ErrorHandler;
 use function date;
 
 class ErrorHandlerFactory
