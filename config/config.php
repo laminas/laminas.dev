@@ -22,6 +22,7 @@ $aggregator = new ConfigAggregator([
     \Mezzio\Twig\ConfigProvider::class,
     \Laminas\HttpHandlerRunner\ConfigProvider::class,
     \Mezzio\ProblemDetails\ConfigProvider::class,
+    \Mezzio\Swoole\ConfigProvider::class,
     \App\ConfigProvider::class,
 
     // Include cache configuration

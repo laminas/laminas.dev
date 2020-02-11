@@ -8,21 +8,7 @@
 
 declare(strict_types=1);
 
-use Phly\Swoole\TaskWorker\DeferredListenerDelegator;
-
 return [
-    // @codingStandardsIgnoreStart
-    'dependencies' => [
-        'delegator_factories' => [
-            \App\GitHub\Handler\GitHubIssueHandler::class       => [DeferredListenerDelegator::class],
-            \App\GitHub\Handler\GitHubPullRequestHandler::class => [DeferredListenerDelegator::class],
-            \App\GitHub\Handler\GitHubPushHandler::class        => [DeferredListenerDelegator::class],
-            \App\GitHub\Handler\GitHubStatusHandler::class      => [DeferredListenerDelegator::class],
-            \App\Slack\Message\DeployMessageHandler::class      => [DeferredListenerDelegator::class],
-        ],
-    ],
-    // @codingStandardsIgnoreEnd
-
     'slack' => [
         'token'              => 'xoxp-',
         'default_channel'    => '#dev',
