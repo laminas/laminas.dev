@@ -2,12 +2,9 @@
 
 declare(strict_types=1);
 
-use App\GitHub;
-use App\Slack;
 use Psr\Container\ContainerInterface;
 use Mezzio\Application;
 use Mezzio\Handler\NotFoundHandler;
-use Mezzio\Helper\BodyParams\BodyParamsMiddleware;
 use Mezzio\Helper\ServerUrlMiddleware;
 use Mezzio\Helper\UrlHelperMiddleware;
 use Mezzio\MiddlewareFactory;
@@ -16,13 +13,12 @@ use Mezzio\Router\Middleware\ImplicitHeadMiddleware;
 use Mezzio\Router\Middleware\ImplicitOptionsMiddleware;
 use Mezzio\Router\Middleware\MethodNotAllowedMiddleware;
 use Mezzio\Router\Middleware\RouteMiddleware;
-use Mezzio\ProblemDetails\ProblemDetailsMiddleware;
 use Laminas\Stratigility\Middleware\ErrorHandler;
 
 /**
  * Setup middleware pipeline:
  */
-return function (Application $app, MiddlewareFactory $factory, ContainerInterface $container) : void {
+return function (Application $app, MiddlewareFactory $factory, ContainerInterface $container): void {
     // The error handler should be the first (most outer) middleware to catch
     // all Exceptions.
     $app->pipe(ErrorHandler::class);
@@ -45,20 +41,6 @@ return function (Application $app, MiddlewareFactory $factory, ContainerInterfac
     // - $app->pipe('/api', $apiMiddleware);
     // - $app->pipe('/docs', $apiDocMiddleware);
     // - $app->pipe('/files', $filesMiddleware);
-    //$app->pipe('/api', ProblemDetailsMiddleware::class);
-    $app->pipe('/api/github', [
-        ProblemDetailsMiddleware::class,
-        GitHub\Middleware\VerificationMiddleware::class,
-        BodyParamsMiddleware::class,
-        GitHub\Middleware\GithubRequestHandler::class,
-    ]);
-
-    $app->pipe('/api/slack/deploy', [
-        ProblemDetailsMiddleware::class,
-        Slack\Middleware\VerificationMiddleware::class,
-        BodyParamsMiddleware::class,
-        Slack\Middleware\DeployHandler::class,
-    ]);
 
     // Register the routing middleware in the middleware pipeline.
     // This middleware registers the Mezzio\Router\RouteResult request attribute.

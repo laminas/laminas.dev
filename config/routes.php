@@ -2,9 +2,15 @@
 
 declare(strict_types=1);
 
+use App\GitHub\Middleware\GithubRequestHandler;
+use App\GitHub\Middleware\VerificationMiddleware as GithubVerificationMiddleware;
+use App\Slack\Handler\DeployHandler as SlackDeployHandler;
+use App\Slack\Middleware\VerificationMiddleware as SlackVerificationMiddleware;
 use Psr\Container\ContainerInterface;
 use Mezzio\Application;
+use Mezzio\Helper\BodyParams\BodyParamsMiddleware;
 use Mezzio\MiddlewareFactory;
+use Mezzio\ProblemDetails\ProblemDetailsMiddleware;
 
 /**
  * Setup routes with a single request method:
@@ -32,6 +38,19 @@ use Mezzio\MiddlewareFactory;
  *     'contact'
  * );
  */
-return function (Application $app, MiddlewareFactory $factory, ContainerInterface $container) : void {
+return function (Application $app, MiddlewareFactory $factory, ContainerInterface $container): void {
     $app->get('/', App\Handler\HomePageHandler::class, 'home');
+    $app->post('/api/github', [
+        ProblemDetailsMiddleware::class,
+        GitHubVerificationMiddleware::class,
+        BodyParamsMiddleware::class,
+        GithubRequestHandler::class,
+    ], 'api.github');
+
+    $app->post('/api/slack/deploy', [
+        ProblemDetailsMiddleware::class,
+        SlackVerificationMiddleware::class,
+        BodyParamsMiddleware::class,
+        SlackDeployHandler::class,
+    ], 'api.slack');
 };
