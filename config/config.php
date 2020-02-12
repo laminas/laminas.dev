@@ -13,6 +13,8 @@ $cacheConfig = [
 ];
 
 $aggregator = new ConfigAggregator([
+    \Laminas\I18n\ConfigProvider::class,
+    \Laminas\Validator\ConfigProvider::class,
     \Phly\EventDispatcher\ConfigProvider::class,
     \Phly\Swoole\TaskWorker\ConfigProvider::class,
     \Mezzio\ConfigProvider::class,

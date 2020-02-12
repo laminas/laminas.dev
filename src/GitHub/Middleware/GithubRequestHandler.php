@@ -39,6 +39,10 @@ class GithubRequestHandler implements RequestHandlerInterface
                 $message = new Message\GitHubPush($payload);
                 break;
 
+            case 'release':
+                $message = new Message\GitHubRelease($payload);
+                break;
+
             case 'status':
                 $message = new Message\GitHubStatus($payload);
                 break;

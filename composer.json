@@ -25,6 +25,7 @@
         "laminas/laminas-diactoros": "^1.7",
         "laminas/laminas-servicemanager": "^3.3",
         "laminas/laminas-stdlib": "^3.1",
+        "laminas/laminas-twitter": "^3.0",
         "mezzio/mezzio": "^3.0",
         "mezzio/mezzio-fastroute": "^3.0",
         "mezzio/mezzio-helpers": "^5.0",
