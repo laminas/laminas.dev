@@ -2,26 +2,30 @@
 
 declare(strict_types=1);
 
-namespace App\Container;
+namespace App\Factory;
 
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Log\LoggerInterface;
 use Throwable;
-use Mezzio\ProblemDetails\ProblemDetailsMiddleware;
-use Mezzio\ProblemDetails\ProblemDetailsResponseFactory;
+use Mezzio\Middleware\ErrorResponseGenerator;
+use Laminas\Stratigility\Middleware\ErrorHandler;
 use function date;
 
-class ProblemDetailsMiddlewareFactory
+class ErrorHandlerFactory
 {
-    public function __invoke(ContainerInterface $container) : ProblemDetailsMiddleware
+    public function __invoke(ContainerInterface $container) : ErrorHandler
     {
-        $middleware = new ProblemDetailsMiddleware($container->get(ProblemDetailsResponseFactory::class));
+        $generator = $container->has(ErrorResponseGenerator::class)
+            ? $container->get(ErrorResponseGenerator::class)
+            : null;
+
+        $errorHandler = new ErrorHandler($container->get(ResponseInterface::class), $generator);
 
         if ($container->has(LoggerInterface::class)) {
             $logger = $container->get(LoggerInterface::class);
-            $middleware->attachListener(function (
+            $errorHandler->attachListener(function (
                 Throwable $throwable,
                 RequestInterface $request,
                 ResponseInterface $response
@@ -37,6 +41,6 @@ class ProblemDetailsMiddlewareFactory
             });
         }
 
-        return $middleware;
+        return $errorHandler;
     }
 }

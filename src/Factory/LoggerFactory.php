@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Container;
+namespace App\Factory;
 
 use Monolog\Handler\SlackHandler;
 use Monolog\Handler\StreamHandler;

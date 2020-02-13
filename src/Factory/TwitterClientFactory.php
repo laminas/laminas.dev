@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Twitter;
+namespace App\Factory;
 
 use Laminas\Twitter\Twitter;
 use Psr\Container\ContainerInterface;
