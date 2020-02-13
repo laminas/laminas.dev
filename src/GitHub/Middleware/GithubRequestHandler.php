@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\GitHub\Middleware;
 
-use App\GitHub\Message;
+use App\GitHub\Event;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
@@ -32,23 +32,23 @@ class GithubRequestHandler implements RequestHandlerInterface
 
         switch ($eventName) {
             case 'pull_request':
-                $message = new Message\GitHubPullRequest($payload);
+                $message = new Event\GitHubPullRequest($payload);
                 break;
 
             case 'push':
-                $message = new Message\GitHubPush($payload);
+                $message = new Event\GitHubPush($payload);
                 break;
 
             case 'release':
-                $message = new Message\GitHubRelease($payload);
+                $message = new Event\GitHubRelease($payload);
                 break;
 
             case 'status':
-                $message = new Message\GitHubStatus($payload);
+                $message = new Event\GitHubStatus($payload);
                 break;
 
             case 'issues':
-                $message = new Message\GitHubIssue($payload);
+                $message = new Event\GitHubIssue($payload);
                 break;
 
             case 'deployment':          // TODO: GitHub deployment event

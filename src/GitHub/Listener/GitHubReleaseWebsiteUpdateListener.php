@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace App\GitHub\Handler;
+namespace App\GitHub\Listener;
 
-use App\GitHub\Message\GitHubRelease;
+use App\GitHub\Event\GitHubRelease;
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Stream;
 use Psr\Log\LoggerInterface;
 
-class GitHubReleaseWebsiteUpdateHandler
+class GitHubReleaseWebsiteUpdateListener
 {
     private const DEFAULT_RELEASE_API_URL = 'https://getlaminas.org/api/release';
 

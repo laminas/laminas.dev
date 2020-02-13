@@ -13,12 +13,12 @@ class ListenerProviderDelegatorFactory
     {
         $provider = $factory();
 
-        $provider->listen(Message\GitHubIssue::class, $container->get(Handler\GitHubIssueHandler::class));
-        $provider->listen(Message\GitHubPullRequest::class, $container->get(Handler\GitHubPullRequestHandler::class));
-        $provider->listen(Message\GitHubPush::class, $container->get(Handler\GitHubPushHandler::class));
-        $provider->listen(Message\GitHubRelease::class, $container->get(Handler\GitHubReleaseWebsiteUpdateHandler::class));
-        $provider->listen(Message\GitHubRelease::class, $container->get(Handler\GitHubReleaseTweetHandler::class));
-        $provider->listen(Message\GitHubStatus::class, $container->get(Handler\GitHubStatusHandler::class));
+        $provider->listen(Event\GitHubIssue::class, $container->get(Listener\GitHubIssueListener::class));
+        $provider->listen(Event\GitHubPullRequest::class, $container->get(Listener\GitHubPullRequestListener::class));
+        $provider->listen(Event\GitHubPush::class, $container->get(Listener\GitHubPushListener::class));
+        $provider->listen(Event\GitHubRelease::class, $container->get(Listener\GitHubReleaseWebsiteUpdateListener::class));
+        $provider->listen(Event\GitHubRelease::class, $container->get(Listener\GitHubReleaseTweetListener::class));
+        $provider->listen(Event\GitHubStatus::class, $container->get(Listener\GitHubStatusListener::class));
 
         return $provider;
     }

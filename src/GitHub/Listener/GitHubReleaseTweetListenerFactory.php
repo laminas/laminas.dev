@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace App\GitHub\Handler;
+namespace App\GitHub\Listener;
 
 use Laminas\Twitter\Twitter;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
-class GitHubReleaseTweetHandlerFactory
+class GitHubReleaseTweetListenerFactory
 {
-    public function __invoke(ContainerInterface $container): GitHubReleaseTweetHandler
+    public function __invoke(ContainerInterface $container): GitHubReleaseTweetListener
     {
-        return new GitHubReleaseTweetHandler(
+        return new GitHubReleaseTweetListener(
             $container->get(Twitter::class),
             $container->get(LoggerInterface::class)
         );

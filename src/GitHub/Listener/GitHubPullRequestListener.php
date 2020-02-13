@@ -2,17 +2,16 @@
 
 declare(strict_types=1);
 
-namespace App\GitHub\Handler;
+namespace App\GitHub\Listener;
 
-use App\GitHub\Message\GitHubPush;
+use App\GitHub\Event\GitHubPullRequest;
 use App\Slack\Domain\Attachment;
 use App\Slack\Domain\AttachmentColor;
 use App\Slack\Method\ChatPostMessage;
 use App\Slack\SlackClientInterface;
 use Xtreamwayz\Mezzio\Messenger\Exception\RejectMessageException;
-use function sprintf;
 
-class GitHubPushHandler
+class GitHubPullRequestListener
 {
     /** @var SlackClientInterface */
     private $slackClient;
@@ -22,21 +21,23 @@ class GitHubPushHandler
         $this->slackClient = $slackClient;
     }
 
-    public function __invoke(GitHubPush $message) : void
+    public function __invoke(GitHubPullRequest $message) : void
     {
-        // Build attachment
+        // Build message
+        $apiRequest = new ChatPostMessage($this->slackClient->getDefaultChannel());
+
+        // Build attachments
         $summary    = $message->getSummary();
         $attachment = (new Attachment($summary, AttachmentColor::default()))
-            ->addText(sprintf('*%s*', $summary))
+            ->withPretext($summary)
+            ->addText($message->getCommitMessage());
+        $apiRequest->addAttachment($attachment);
+
+        $attachment = (new Attachment($message->getTitle(), AttachmentColor::default()))
+            ->withTitle($message->getTitle())
+            ->withTitleLink($message->getTitleLink())
             ->withFooter($message->getFooter());
-
-        foreach ($message->getCommits() as $commit) {
-            $attachment->addText($commit);
-        }
-
-        // Build message
-        $apiRequest = (new ChatPostMessage($this->slackClient->getDefaultChannel()))
-            ->addAttachment($attachment);
+        $apiRequest->addAttachment($attachment);
 
         $response = $this->slackClient->sendApiRequest($apiRequest);
         if (! $response->isOk()) {

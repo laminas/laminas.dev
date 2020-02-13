@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace App\GitHub\Handler;
+namespace App\GitHub\Listener;
 
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
-class GitHubReleaseWebsiteUpdateHandlerFactory
+class GitHubReleaseWebsiteUpdateListenerFactory
 {
-    public function __invoke(ContainerInterface $container): GitHubReleaseWebsiteUpdateHandler
+    public function __invoke(ContainerInterface $container): GitHubReleaseWebsiteUpdateListener
     {
-        return new GitHubReleaseWebsiteUpdateHandler(
+        return new GitHubReleaseWebsiteUpdateListener(
             $container->get(LoggerInterface::class),
             $container->get('config')['getlaminas']['token']
         );

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\GitHub\Message;
+namespace App\GitHub\Event;
 
 use Assert\Assert;
 use function in_array;

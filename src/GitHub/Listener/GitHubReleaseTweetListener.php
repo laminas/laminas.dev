@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\GitHub\Handler;
+namespace App\GitHub\Listener;
 
-use App\GitHub\Message\GitHubRelease;
+use App\GitHub\Event\GitHubRelease;
 use Laminas\Twitter\Twitter;
 use Psr\Log\LoggerInterface;
 
-class GitHubReleaseTweetHandler
+class GitHubReleaseTweetListener
 {
     private const TWEET_TEMPLATE = "Released: {package} {version}\n\n{url}";
 

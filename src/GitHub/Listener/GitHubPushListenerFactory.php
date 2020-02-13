@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace App\GitHub\Handler;
+namespace App\GitHub\Listener;
 
 use App\Slack\SlackClientInterface;
 use Psr\Container\ContainerInterface;
 
-class GitHubStatusHandlerFactory
+class GitHubPushListenerFactory
 {
-    public function __invoke(ContainerInterface $container) : GitHubStatusHandler
+    public function __invoke(ContainerInterface $container) : GitHubPushListener
     {
-        return new GitHubStatusHandler(
+        return new GitHubPushListener(
             $container->get(SlackClientInterface::class)
         );
     }
