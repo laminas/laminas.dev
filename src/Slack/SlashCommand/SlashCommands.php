@@ -33,6 +33,14 @@ class SlashCommands
     {
         $command = strtolower($request->command());
 
+        // Handle the /laminas command
+        if ($command === 'laminas') {
+            return $this->responseFactory->createResponse(sprintf(
+                "Available commands:\n\n%s",
+                $this->help()
+            ), 200);
+        }
+
         // Unknown command; detail available slash commands
         if (! isset($this->commands[$command])) {
             return $this->responseFactory->createResponse(sprintf(
@@ -64,8 +72,8 @@ class SlashCommands
     private function help(): string
     {
         $help = array_reduce($this->commands, function ($help, SlashCommandInterface $command) {
-            return sprintf("%s\n%s", $help, $command->help());
-        }, '');
+            return sprintf("%s\n- /%s: %s", $help, $command->command(), $command->help());
+        }, '- /laminas: list commands this bot provides');
         return trim($help);
     }
 }
