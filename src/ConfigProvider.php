@@ -85,7 +85,7 @@ class ConfigProvider
                 GitHub\Listener\GitHubReleaseTweetListener::class         => GitHub\Listener\GitHubReleaseTweetListenerFactory::class,
                 GitHub\Listener\GitHubReleaseWebsiteUpdateListener::class => GitHub\Listener\GitHubReleaseWebsiteUpdateListenerFactory::class,
                 GitHub\Listener\GitHubStatusListener::class               => GitHub\Listener\GitHubStatusListenerFactory::class,
-                GitHub\Middleware\GithubRequestHandler::class             => GitHub\Middleware\GithubRequestHandlerFactory::class,
+                GitHub\Middleware\GitHubRequestHandler::class             => GitHub\Middleware\GitHubRequestHandlerFactory::class,
                 GitHub\Middleware\VerificationMiddleware::class           => GitHub\Middleware\VerificationMiddlewareFactory::class,
                 Handler\HomePageHandler::class                            => Handler\HomePageHandlerFactory::class,
                 LoggerInterface::class                                    => Factory\LoggerFactory::class,
@@ -106,7 +106,7 @@ class ConfigProvider
             ProblemDetailsMiddleware::class,
             GitHub\Middleware\VerificationMiddleware::class,
             BodyParamsMiddleware::class,
-            GitHub\Middleware\GithubRequestHandler::class,
+            GitHub\Middleware\GitHubRequestHandler::class,
         ], 'api.github');
     }
 }
