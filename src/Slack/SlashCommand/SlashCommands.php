@@ -58,11 +58,10 @@ class SlashCommands
             return $this->responseFactory->createResponse($command->help(), 200);
         }
 
-        $message = $command->validate($payload);
-
+        $response = $command->validate($payload);
         // Was the payload malformed? Inform the user.
-        if ($message !== null) {
-            return $this->responseFactory->createResponse($message, 422);
+        if ($response !== null) {
+            return $response;
         }
 
         // Dispatch the command with the payload

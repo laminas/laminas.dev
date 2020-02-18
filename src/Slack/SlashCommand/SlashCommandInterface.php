@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Slack\SlashCommand;
 
-use Laminas\Feed\Reader\Http\ResponseInterface;
+use Psr\Http\Message\ResponseInterface;
 
 interface SlashCommandInterface
 {
@@ -19,9 +19,10 @@ interface SlashCommandInterface
     public function help(): string;
 
     /**
-     * @return null|string Returns null if valid, and a string error message otherwise.
+     * @return null|ResponseInterface Returns null if valid, and a response
+     *     describing the validation error otherwise.
      */
-    public function validate(string $payload): ?string;
+    public function validate(string $payload): ?ResponseInterface;
 
     public function dispatch(string $payload): ResponseInterface;
 }
