@@ -21,7 +21,8 @@ class SlashCommands
 
     public function attach(SlashCommandInterface $command): void
     {
-        $this->commands[$command->command()] = $command;
+        $name = strtolower($command->command());
+        $this->commands[$name] = $command;
     }
 
     /**
@@ -30,7 +31,9 @@ class SlashCommands
      */
     public function handle(SlashCommandRequest $request): ResponseInterface
     {
-        $command = $request->command();
+        $command = strtolower($request->command());
+
+        // Unknown command; detail available slash commands
         if (! isset($this->commands[$command])) {
             return $this->responseFactory->createResponse(sprintf(
                 "Unknown command '%s'; available commands:\n\n%s",
@@ -41,12 +44,20 @@ class SlashCommands
 
         $command = $this->commands[$command];
         $payload = $request->payload();
+
+        // Request was for help with a command; return that
+        if (preg_match('/^help\s/i', $payload)) {
+            return $this->responseFactory->createResponse($command->help(), 200);
+        }
+
         $message = $command->validate($payload);
 
+        // Was the payload malformed? Inform the user.
         if ($message !== null) {
             return $this->responseFactory->createResponse($message, 422);
         }
 
+        // Dispatch the command with the payload
         return $command->dispatch($payload);
     }
 
