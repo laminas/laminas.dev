@@ -7,6 +7,8 @@ namespace App;
 use Laminas\Http\Client\Adapter\Curl;
 use Laminas\Stratigility\Middleware\ErrorHandler;
 use Laminas\Twitter\Twitter as TwitterClient;
+use Mezzio\Application;
+use Mezzio\Helper\BodyParams\BodyParamsMiddleware;
 use Mezzio\ProblemDetails\ProblemDetailsMiddleware;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
@@ -95,5 +97,16 @@ class ConfigProvider
                 TwitterClient::class                                      => Factory\TwitterClientFactory::class,
             ],
         ];
+    }
+
+    public function registerRoutes(Application $app, string $basePath = '/'): void
+    {
+        $app->get('/', Handler\HomePageHandler::class, 'home');
+        $app->post('/api/github', [
+            ProblemDetailsMiddleware::class,
+            GitHub\Middleware\VerificationMiddleware::class,
+            BodyParamsMiddleware::class,
+            GitHub\Middleware\GithubRequestHandler::class,
+        ], 'api.github');
     }
 }
