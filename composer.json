@@ -22,7 +22,7 @@
         "laminas/laminas-component-installer": "^2.1",
         "laminas/laminas-config-aggregator": "^1.0",
         "laminas/laminas-dependency-plugin": "^1.0",
-        "laminas/laminas-diactoros": "^1.7",
+        "laminas/laminas-diactoros": "^2.2.2",
         "laminas/laminas-servicemanager": "^3.3",
         "laminas/laminas-stdlib": "^3.1",
         "laminas/laminas-twitter": "^3.0",
@@ -36,6 +36,7 @@
         "phly/phly-event-dispatcher": "^1.0",
         "phly/phly-swoole-taskworker": "^1.1",
         "phpseclib/phpseclib": "^2.0",
+        "psr/http-factory": "^1.0",
         "psr/log": "^1.0"
     },
     "require-dev": {

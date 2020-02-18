@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace App;
 
+use Laminas\Diactoros\ResponseFactory;
+use Laminas\Diactoros\StreamFactory;
 use Laminas\Http\Client\Adapter\Curl;
+use Laminas\ServiceManager\Factory\InvokableFactory;
 use Laminas\Stratigility\Middleware\ErrorHandler;
 use Laminas\Twitter\Twitter as TwitterClient;
 use Mezzio\Application;
@@ -17,6 +20,8 @@ use Phly\EventDispatcher\ListenerProvider\AttachableListenerProvider;
 use Phly\Swoole\TaskWorker\DeferredListenerDelegator;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Psr\EventDispatcher\ListenerProviderInterface;
+use Psr\Http\Message\ResponseFactoryInterface;
+use Psr\Http\Message\StreamFactoryInterface;
 use Psr\Log\LoggerInterface;
 
 class ConfigProvider
@@ -63,6 +68,8 @@ class ConfigProvider
             'aliases' => [
                 EventDispatcherInterface::class  => EventDispatcher::class,
                 ListenerProviderInterface::class => AttachableListenerProvider::class,
+                ResponseFactoryInterface::class  => ResponseFactory::class,
+                StreamFactoryInterface::class    => StreamFactory::class,
             ],
             'delegator_factories' => [
                 AttachableListenerProvider::class => [
@@ -90,10 +97,13 @@ class ConfigProvider
                 Handler\HomePageHandler::class                            => Handler\HomePageHandlerFactory::class,
                 LoggerInterface::class                                    => Factory\LoggerFactory::class,
                 ProblemDetailsMiddleware::class                           => Factory\ProblemDetailsMiddlewareFactory::class,
-                Slack\Message\DeployMessageHandler::class                 => Slack\Message\DeployMessageHandlerFactory::class,
+                ResponseFactory::class                                    => InvokableFactory::class,
                 Slack\Middleware\VerificationMiddleware::class            => Slack\Middleware\VerificationMiddlewareFactory::class,
-                Slack\Middleware\DeployHandler::class                     => Slack\Middleware\DeployHandlerFactory::class,
+                Slack\Middleware\SlashCommandHandler::class               => Slack\Middleware\SlashCommandHandlerFactory::class,
                 Slack\SlackClientInterface::class                         => Slack\SlackClientFactory::class,
+                Slack\SlashCommand\SlashCommandResponseFactory::class     => Slack\SlashCommand\SlashCommandResponseFactoryFactory::class,
+                Slack\SlashCommand\SlashCommands::class                   => Slack\SlashCommand\SlashCommandsFactory::class,
+                StreamFactory::class                                      => InvokableFactory::class,
                 TwitterClient::class                                      => Factory\TwitterClientFactory::class,
             ],
         ];
@@ -108,5 +118,12 @@ class ConfigProvider
             BodyParamsMiddleware::class,
             GitHub\Middleware\GitHubRequestHandler::class,
         ], 'api.github');
+
+        $app->post('/api/slack', [
+            ProblemDetailsMiddleware::class,
+            BodyParamsMiddleware::class,
+            Slack\Middleware\VerificationMiddleware::class,
+            Slack\Middleware\SlashCommandHandler::class,
+        ], 'api.slack');
     }
 }
