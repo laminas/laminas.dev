@@ -30,6 +30,10 @@ class ConfigProvider
     {
         return [
             'dependencies' => $this->getDependencies(),
+            'discourse' => [
+                'url'    => 'https://discourse.laminas.dev',
+                'secret' => 'NOT-A-SECRET',
+            ],
             'getlaminas' => [
                 'token' => '',
             ],
@@ -74,8 +78,9 @@ class ConfigProvider
             'delegator_factories' => [
                 AttachableListenerProvider::class => [
                     GitHub\ListenerProviderDelegatorFactory::class,
-                    Slack\ListenerProviderDelegatorFactory::class,
+                    Discourse\ListenerProviderDelegatorFactory::class,
                 ],
+                Discourse\Listener\DiscoursePostListener::class           => [DeferredListenerDelegator::class],
                 GitHub\Listener\GitHubIssueListener::class                => [DeferredListenerDelegator::class],
                 GitHub\Listener\GitHubPullRequestListener::class          => [DeferredListenerDelegator::class],
                 GitHub\Listener\GitHubPushListener::class                 => [DeferredListenerDelegator::class],
@@ -85,6 +90,9 @@ class ConfigProvider
                 Slack\Message\DeployMessageHandler::class                 => [DeferredListenerDelegator::class],
             ],
             'factories' => [
+                Discourse\Listener\DiscoursePostListener::class           => Discourse\Listener\DiscoursePostListenerFactory::class,
+                Discourse\Middleware\DiscourseHandler::class              => Discourse\Middleware\DiscourseHandlerFactory::class,
+                Discourse\Middleware\VerificationMiddleware::class        => Discourse\Middleware\VerificationMiddlewareFactory::class,
                 ErrorHandler::class                                       => Factory\ErrorHandlerFactory::class,
                 GitHub\Listener\GitHubIssueListener::class                => GitHub\Listener\GitHubIssueListenerFactory::class,
                 GitHub\Listener\GitHubPullRequestListener::class          => GitHub\Listener\GitHubPullRequestListenerFactory::class,
@@ -112,6 +120,14 @@ class ConfigProvider
     public function registerRoutes(Application $app, string $basePath = '/'): void
     {
         $app->get('/', Handler\HomePageHandler::class, 'home');
+
+        $app->post('/api/discourse/{channel:[A-Z0-9]+}/{event:post|topic}', [
+            ProblemDetailsMiddleware::class,
+            Discourse\Middleware\VerificationMiddleware::class,
+            BodyParamsMiddleware::class,
+            Discourse\Middleware\DiscourseHandler::class,
+        ], 'api.discourse');
+
         $app->post('/api/github', [
             ProblemDetailsMiddleware::class,
             GitHub\Middleware\VerificationMiddleware::class,

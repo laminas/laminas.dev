@@ -14,6 +14,10 @@ return [
     // Enable debugging; typically used to provide debugging information within templates.
     'debug' => false,
 
+    'discourse' => [
+        'secret' => getenv('DISCOURSE_SECRET'),
+    ],
+
     'mezzio' => [
         // Provide templates for the error handling middleware to use when
         // generating responses.
