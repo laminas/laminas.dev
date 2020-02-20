@@ -10,7 +10,7 @@ use RuntimeException;
 
 class SlackClientFactory
 {
-    public function __invoke(ContainerInterface $container) : SlackClient
+    public function __invoke(ContainerInterface $container): SlackClient
     {
         $config = $container->has('config') ? $container->get('config') : [];
         if (! isset($config['slack']['token'])) {

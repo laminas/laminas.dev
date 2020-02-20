@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\GitHub\Event;
 
 use Assert\Assert;
+use DateTimeImmutable;
 
 use function in_array;
 
@@ -87,5 +88,55 @@ class GitHubRelease implements GitHubMessageInterface
     public function getAuthorUrl(): string
     {
         return $this->payload['release']['author']['html_url'];
+    }
+
+    public function getMessagePayload(): array
+    {
+        $payload = $this->payload;
+        $repo    = $payload['repository'];
+        $release = $payload['release'];
+        $author  = $release['author'];
+        $name    = $payload['release_name'] ?: sprintf('%s %s', $repo['full_name'], $release['tag_name']);
+
+        return [
+            'fallback'    => sprintf(
+                '[%s] New release %s created by %s: %s',
+                $repo['full_name'],
+                $name,
+                $author['login'],
+                $release['html_url']
+            ),
+            'color'       => '#4183C4',
+            'pretext'     => sprintf(
+                '[<%s|%s>] New release <%s|%s> created by <%s|%s>',
+                $repo['html_url'],
+                $repo['full_name'],
+                $release['html_url'],
+                $name,
+                $author['html_url'],
+                $author['login']
+            ),
+            'author_name' => sprintf('%s (GitHub)', $repo['full_name']),
+            'author_link' => $repo['html_url'],
+            'author_icon' => self::GITHUB_ICON,
+            'title'       => $name,
+            'title_link'  => $release['html_url'],
+            'text'        => $release['body'],
+            'fields'      => [
+                [
+                    'title' => 'Repository',
+                    'value' => sprintf('<%s|%s>', $repo['html_url'], $repo['full_name']),
+                    'short' => true,
+                ],
+                [
+                    'title' => 'Released By',
+                    'value' => sprintf('<%s|%s>', $author['html_url'], $author['login']),
+                    'short' => true,
+                ],
+            ],
+            'footer'      => 'GitHub',
+            'footer_icon' => self::GITHUB_ICON,
+            'ts'          => (new DateTimeImmutable($release['published_at']))->getTimestamp(),
+        ];
     }
 }

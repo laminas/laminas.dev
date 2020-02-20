@@ -10,7 +10,6 @@ use function sprintf;
 
 /**
  * @see https://developer.github.com/v3/activity/events/types/#pullrequestevent
- * @see https://github.com/integrations/slack/blob/master/lib/messages/pull-request.js
  */
 final class GitHubPullRequest implements GitHubMessageInterface
 {
@@ -28,66 +27,101 @@ final class GitHubPullRequest implements GitHubMessageInterface
         Assert::that($this->payload)->keyIsset('repository');
         Assert::that($this->payload['repository'])->isArray();
         Assert::that($this->payload['repository'])->keyIsset('full_name');
+        Assert::that($this->payload['repository'])->keyIsset('html_url');
         Assert::that($this->payload)->keyIsset('pull_request');
-        Assert::that($this->payload['pull_request'])->keyIsset('user');
-        Assert::that($this->payload['pull_request']['user'])->keyIsset('login');
-        Assert::that($this->payload['pull_request'])->keyIsset('base');
-        Assert::that($this->payload['pull_request']['base'])->keyIsset('label');
-        Assert::that($this->payload['pull_request'])->keyIsset('head');
-        Assert::that($this->payload['pull_request']['head'])->keyIsset('label');
+        Assert::that($this->payload['pull_request'])->keyIsset('html_url');
+        Assert::that($this->payload['pull_request'])->keyIsset('number');
         Assert::that($this->payload['pull_request'])->keyIsset('title');
+        Assert::that($this->payload)->keyIsset('sender');
+        Assert::that($this->payload['sender'])->keyIsset('login');
+        Assert::that($this->payload['sender'])->keyIsset('html_url');
     }
 
     public function ignore() : bool
     {
         return ! in_array($this->payload['action'], [
             'opened',
-            'edited',
             'closed',
             'reopened',
         ], true);
     }
 
-    public function getSummary() : string
+    public function getMessagePayload():  array
     {
-        return sprintf(
-            '[%s] Pull request %s by %s',
-            $this->payload['repository']['full_name'],
-            $this->payload['action'],
-            $this->payload['pull_request']['user']['login']
-        );
-    }
+        $payload = $this->payload;
+        $pr      = $payload['pull_request'];
+        $author  = $payload['sender'];
+        $repo    = $payload['repository'];
+        $action  = $payload['action'] === 'closed' && isset($pr['merged'])
+            ? 'merged'
+            : $payload['action'];
 
-    public function getCommitMessage() : string
-    {
-        return sprintf(
-            'Merge into %s from %s',
-            $this->payload['pull_request']['base']['label'],
-            $this->payload['pull_request']['head']['label']
-        );
-    }
+        switch ($action)
+        {
+            case 'closed':
+                $ts = (new DateTimeImmutable($pr['closed_at']))->getTimestamp();
+                break;
+            case 'merged':
+                $ts = (new DateTimeImmutable($pr['merged_at']))->getTimestamp();
+                break;
+            case 'reopened':
+                $ts = (new DateTimeImmutable($pr['updated_at']))->getTimestamp();
+                break;
+            case 'opened':
+            default:
+                $ts = (new DateTimeImmutable($pr['created_at']))->getTimestamp();
+                break;
+        }
 
-    public function getTitle() : string
-    {
-        return $this->payload['pull_request']['title'];
-    }
-
-    public function getTitleLink() : string
-    {
-        return $this->payload['pull_request']['html_url'];
-    }
-
-    public function getBody() : string
-    {
-        return $this->payload['pull_request']['body'] ?? '';
-    }
-
-    public function getFooter() : string
-    {
-        return sprintf(
-            '<%s|%s>',
-            $this->payload['pull_request']['html_url'],
-            $this->payload['repository']['full_name']
-        );
+        return [
+            'fallback' => sprintf(
+                '[%s] Pull request %s by %s: %s',
+                $repo['full_name'],
+                $action,
+                $author['login'],
+                $pr['html_url']
+            ),
+            'color'   => '#E3E4E6',
+            'pretext' => sprintf(
+                '[<%s|#%s>] Pull request %s by <%s|%s>',
+                $repo['html_url'],
+                $repo['full_name'],
+                $action,
+                $author['html_url'],
+                $author['login']
+            ),
+            'author_name' => sprintf('%s (GitHub)', $repo['full_name']),
+            'author_link' => $repo['html_url'],
+            'author_icon' => self::GITHUB_ICON,
+            'title'       => sprintf(
+                'Pull request %s: %s#%s %s',
+                $action,
+                $repo['full_name'],
+                $pr['number'],
+                $pr['title']
+            ),
+            'title_link'  => $pr['html_url'],
+            'text'        => $action === 'created' ? $pr['body'] : '',
+            'fields'      => [
+                [
+                    'title' => 'Repository',
+                    'value' => sprintf('<%s>', $repo['html_url']),
+                    'short' => true,
+                ],
+                [
+                    'title' => 'Reporter',
+                    'value' => sprintf('<%s|%s>', $author['html_url'], $author['login']),
+                    'short' => true,
+                ],
+                [
+                    'title' => 'Status',
+                    'value' => $action,
+                    'short' => true,
+                ],
+            ],
+            'footer'      => 'GitHub',
+            'footer_icon' => self::GITHUB_ICON,
+            'ts'          => $ts,
+        ];
     }
 }

@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\GitHub\Listener;
 
-use App\GitHub\Event\GitHubIssue;
+use App\GitHub\Event\GitHubIssueComment;
 use App\Slack\Domain\Attachment;
 use App\Slack\Method\ChatPostMessage;
 use App\Slack\SlackClient;
 
-class GitHubIssueListener
+class GitHubIssueCommentListener
 {
     /** @var string */
     private $channel;
@@ -23,10 +23,10 @@ class GitHubIssueListener
         $this->slackClient = $slackClient;
     }
 
-    public function __invoke(GitHubIssue $issue) : void
+    public function __invoke(GitHubIssueComment $comment) : void
     {
         $notification = new ChatPostMessage($this->channel);
-        $notification->addAttachment(new Attachment($issue->getMessagePayload()));
+        $notification->addAttachment(new Attachment($comment->getMessagePayload()));
         $this->slackClient->sendApiRequest($notification);
     }
 }

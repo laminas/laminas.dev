@@ -4,86 +4,69 @@ declare(strict_types=1);
 
 namespace App\Slack\Domain;
 
-use function implode;
+use Assert\Assert;
 
 /**
  * @see https://api.slack.com/docs/message-attachments
  */
 class Attachment
 {
-    /** @var string */
-    private $fallback;
+    /** @var array array<string, mixed> */
+    private $payload;
 
-    /** @var AttachmentColor */
-    private $color;
-
-    /** @var null|string */
-    private $pretext;
-
-    /** @var null|string */
-    private $title;
-
-    /** @var null|string */
-    private $titleLink;
-
-    /** @var string[] */
-    private $text = [];
-
-    /** @var string */
-    private $footer;
-
-    public function __construct(string $fallback, ?AttachmentColor $color = null)
+    public function __construct(array $payload)
     {
-        $this->fallback = $fallback;
-        $this->color    = $color ?? AttachmentColor::default();
-    }
+        if (! isset($payload['color'])) {
+            $payload['color'] = AttachmentColor::DEFAULT;
+        }
 
-    public function withPretext(string $pretext) : self
-    {
-        $this->pretext = $pretext;
+        $this->validatePayload($payload);
 
-        return $this;
-    }
+        $markdownFields = $this->identifyMarkdownFields($payload);
+        if (! empty($markdownFields)) {
+            $payload['mrkdwn_in'] = $markdownFields;
+        }
 
-    public function withTitle(string $title) : self
-    {
-        $this->title = $title;
-
-        return $this;
-    }
-
-    public function withTitleLink(string $titleLink) : self
-    {
-        $this->titleLink = $titleLink;
-
-        return $this;
-    }
-
-    public function addText(string $text) : self
-    {
-        $this->text[] = $text;
-
-        return $this;
-    }
-
-    public function withFooter(string $footer) : self
-    {
-        $this->footer = $footer;
-
-        return $this;
+        $this->payload = $payload;
     }
 
     public function toArray() : array
     {
-        return [
-            'fallback'   => $this->fallback,
-            'color'      => (string) $this->color,
-            'pretext'    => $this->pretext,
-            'title'      => $this->title,
-            'title_link' => $this->titleLink,
-            'text'       => implode("\n", $this->text),
-            'footer'     => $this->footer,
-            'mrkdwn_in'  => ['pretext', 'text'],
-        ];
+        return $this->payload;
+    }
+
+    private function validatePayload($payload): void
+    {
+        Assert::that($payload)->keyIsset('fallback')->string()->notEmpty();
+        Assert::that($payload['fallback'])->string()->notEmpty();
+
+        Assert::that($payload['color'])->satisfy([AttachmentColor::class, 'validate']);
+
+        Assert::that($payload)->keyIsset('title');
+        Assert::that($payload['title'])->string()->notEmpty();
+
+        Assert::that($payload)->keyIsset('title_link');
+        Assert::that($payload['title_link'])->url();
+
+        Assert::that($payload)->keyIsset('text');
+        Assert::that($payload['text'])->string();
+
+        Assert::that($payload)->keyIsset('footer');
+        Assert::that($payload['footer'])->string();
+
+        Assert::that($payload)->keyIsset('ts');
+        Assert::that($payload['ts'])->integer();
+    }
+
+    private function identifyMarkdownFields(array $payload): array
+    {
+        $fields = [];
+        if (isset($payload['text'])) {
+            $fields[] = 'text';
+        }
+        if (isset($payload['pretext'])) {
+            $fields[] = 'pretext';
+        }
+        return $fields;
     }
 }

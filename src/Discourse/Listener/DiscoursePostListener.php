@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Discourse\Listener;
 
 use App\Discourse\Event\DiscoursePost;
+use App\Slack\Domain\Attachment;
 use App\Slack\Method\ChatPostMessage;
 use App\Slack\SlackClient;
 
@@ -25,7 +26,7 @@ class DiscoursePostListener
         }
 
         $message = new ChatPostMessage($post->getChannel());
-        $message->addAttachment($post->getPostData());
+        $message->addAttachment(new Attachment($post->getMessagePayload()));
 
         $this->slack->sendApiRequest($message);
     }

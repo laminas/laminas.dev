@@ -61,7 +61,7 @@ class DiscoursePost
         return $this->channel;
     }
 
-    public function getPostData(): array
+    public function getMessagePayload(): array
     {
         $post      = $this->payload['post'];
         $timestamp = (new DateTimeImmutable($post['created_at']))->getTimestamp();

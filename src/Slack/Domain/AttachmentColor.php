@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Slack\Domain;
 
-use DomainException;
 use function in_array;
 use function preg_match;
 use function strtolower;
@@ -21,48 +20,20 @@ class AttachmentColor
 
     public const DANGER = 'danger';
 
-    /** @var string */
-    private $color;
+    private const VALID_COLORS = [
+        self::SUCCESS,
+        self::WARNING,
+        self::DANGER,
+    ];
 
-    public function __construct(string $hexColor)
+    public static function validate(string $hexColor): bool
     {
         $color = strtolower($hexColor);
-        if (! in_array($color, ['good', 'warning', 'danger'], true)
+        if (! in_array($color, self::VALID_COLORS, true)
             && preg_match('/#([a-f0-9]{6})\b/i', $color) !== 1
         ) {
-            throw new DomainException('Invalid hex color string');
+            return false;
         }
-
-        $this->color = $color;
-    }
-
-    public static function default() : AttachmentColor
-    {
-        return new self(self::DEFAULT);
-    }
-
-    public static function info() : AttachmentColor
-    {
-        return new self(self::INFO);
-    }
-
-    public static function success() : AttachmentColor
-    {
-        return new self(self::SUCCESS);
-    }
-
-    public static function warning() : AttachmentColor
-    {
-        return new self(self::WARNING);
-    }
-
-    public static function danger() : AttachmentColor
-    {
-        return new self(self::DANGER);
-    }
-
-    public function __toString() : string
-    {
-        return $this->color;
+        return true;
     }
 }

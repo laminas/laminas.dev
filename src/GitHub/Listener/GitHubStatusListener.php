@@ -9,51 +9,95 @@ use App\Slack\Domain\Attachment;
 use App\Slack\Domain\AttachmentColor;
 use App\Slack\Method\ChatPostMessage;
 use App\Slack\SlackClientInterface;
-use Xtreamwayz\Mezzio\Messenger\Exception\RejectMessageException;
+use Assert\AssertionFailedException;
+use GuzzleHttp\Client as HttpClient;
+use Psr\Http\Message\RequestFactoryInterface;
+use Psr\Log\LoggerInterface;
+
 use function sprintf;
 
 class GitHubStatusListener
 {
+    private const GITHUB_ISSUE_SEARCH_URI = 'https://api.github.com/search/issues';
+
+    /** @var string */
+    private $channel;
+
+    /** @var HttpClient */
+    private $httpClient;
+
+    /** @var LoggerInterface */
+    private $logger;
+
+    /** @var RequestFactoryInterface */
+    private $requestFactory;
+
     /** @var SlackClientInterface */
     private $slackClient;
 
-    public function __construct(SlackClientInterface $slackClient)
-    {
-        $this->slackClient = $slackClient;
+    public function __construct(
+        string $channel,
+        SlackClientInterface $slackClient,
+        HttpClient $httpClient,
+        RequestFactoryInterface $requestFactory,
+        LoggerInterface $logger
+    ) {
+        $this->channel        = $channel;
+        $this->slackClient    = $slackClient;
+        $this->httpClient     = $httpClient;
+        $this->requestFactory = $requestFactory;
+        $this->logger         = $logger;
     }
 
     public function __invoke(GitHubStatus $message) : void
     {
-        // Attachment color
-        switch ($message->getState()) {
-            case 'success':
-                $color = AttachmentColor::success();
-                break;
+        $notification = new ChatPostMessage($this->channel);
+        $notification->addAttachment(new Attachment(
+            $message->isForPullRequest()
+                ? $this->fetchPullRequestData($message)
+                : $message->getMessagePayload()
+        ));
 
-            case 'failure':
-            case 'error':
-            default:
-                $color = AttachmentColor::danger();
-                break;
+        $this->slackClient->sendApiRequest($notification);
+    }
+
+    /**
+     * @return array array<string,mixed>
+     */
+    private function fetchPullRequestData(GitHubStatus $status): array
+    {
+        $url = sprintf(
+            '%?repo:%s+%s',
+            self::GITHUB_ISSUE_SEARCH_URI,
+            $status->getRepository(),
+            $status->getCommitIdentifier()
+        );
+
+        $response = $this->httpClient->send(
+            $this->requestFactory->createRequest('GET', $url)
+                ->withHeader('Accept', 'application/json')
+        );
+
+        if ($response->getStatusCode() !== 200) {
+            $this->logger->error(sprintf(
+                'Error fetching pull request details for %s@%s (%s): %s',
+                $status->getRepository(),
+                $status->getBranch(),
+                $status->getCommitIdentifier(),
+                (string) $response->getBody()
+            ));
+            return $status->getMessagePayload();
         }
 
-        // Build attachment
-        $summary    = $message->getSummary();
-        $attachment = (new Attachment($summary, $color))
-            ->addText(sprintf('*%s*', $summary));
-
-        $commit = $message->getCommit();
-        if ($commit) {
-            $attachment->addText($commit);
+        $pullRequest = new PullRequest(
+            json_decode((string) $response->getBody(), true)
+        );
+        try {
+            $pullRequest->validate();
+        } catch (AssertionFailedException $e) {
+            return $status->getMessagePayload();
         }
 
-        // Build message
-        $apiRequest = new ChatPostMessage($this->slackClient->getDefaultChannel());
-        $apiRequest->addAttachment($attachment);
-
-        $response = $this->slackClient->sendApiRequest($apiRequest);
-        if (! $response->isOk()) {
-            throw new RejectMessageException($response->getError(), $response->getStatusCode());
-        }
+        return $status->prepareMessagePayloadForPullRequestStatus($pullRequest);
     }
 }

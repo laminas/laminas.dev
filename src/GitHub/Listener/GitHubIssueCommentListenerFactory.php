@@ -7,11 +7,11 @@ namespace App\GitHub\Listener;
 use App\Slack\SlackClient;
 use Psr\Container\ContainerInterface;
 
-class GitHubIssueListenerFactory
+class GitHubIssueCommentListenerFactory
 {
-    public function __invoke(ContainerInterface $container): GitHubIssueListener
+    public function __invoke(ContainerInterface $container): GitHubIssueCommentListener
     {
-        return new GitHubIssueListener(
+        return new GitHubIssueCommentListener(
             $container->get('config')['slack']['channels']['github'],
             $container->get(SlackClient::class)
         );

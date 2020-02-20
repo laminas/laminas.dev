@@ -26,4 +26,10 @@ return [
             'template_error' => 'error::error',
         ],
     ],
+
+    'slack' => [
+        'channels' => [
+            'github' => getenv('SLACK_CHANNEL_GITHUB'),
+        ],
+    ],
 ];

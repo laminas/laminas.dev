@@ -9,9 +9,10 @@ use Psr\Container\ContainerInterface;
 
 class GitHubPullRequestListenerFactory
 {
-    public function __invoke(ContainerInterface $container) : GitHubPullRequestListener
+    public function __invoke(ContainerInterface $container): GitHubPullRequestListener
     {
         return new GitHubPullRequestListener(
+            $container->get('config')['slack']['channels']['github'],
             $container->get(SlackClientInterface::class)
         );
     }

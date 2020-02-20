@@ -9,7 +9,7 @@ use App\Slack\Domain\Attachment;
 use App\Slack\Method\ChatPostMessage;
 use App\Slack\SlackClient;
 
-class GitHubIssueListener
+class GitHubReleaseSlackListener
 {
     /** @var string */
     private $channel;
@@ -23,10 +23,10 @@ class GitHubIssueListener
         $this->slackClient = $slackClient;
     }
 
-    public function __invoke(GitHubIssue $issue) : void
+    public function __invoke(GitHubRelease $release) : void
     {
         $notification = new ChatPostMessage($this->channel);
-        $notification->addAttachment(new Attachment($issue->getMessagePayload()));
+        $notification->addAttachment(new Attachment($release->getMessagePayload()));
         $this->slackClient->sendApiRequest($notification);
     }
 }

@@ -35,10 +35,6 @@ class GithubRequestHandler implements RequestHandlerInterface
                 $message = new Event\GitHubPullRequest($payload);
                 break;
 
-            case 'push':
-                $message = new Event\GitHubPush($payload);
-                break;
-
             case 'release':
                 $message = new Event\GitHubRelease($payload);
                 break;

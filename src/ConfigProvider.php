@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App;
 
+use GuzzleHttp\Client as HttpClient;
+use Laminas\Diactoros\RequestFactory;
 use Laminas\Diactoros\ResponseFactory;
 use Laminas\Diactoros\StreamFactory;
 use Laminas\Http\Client\Adapter\Curl;
@@ -20,6 +22,7 @@ use Phly\EventDispatcher\ListenerProvider\AttachableListenerProvider;
 use Phly\Swoole\TaskWorker\DeferredListenerDelegator;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Psr\EventDispatcher\ListenerProviderInterface;
+use Psr\Http\Message\RequestFactoryInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\StreamFactoryInterface;
 use Psr\Log\LoggerInterface;
@@ -44,6 +47,11 @@ class ConfigProvider
                         'stream' => 'data/log/app-{date}.log',
                         'level'  => Logger::DEBUG,
                     ],
+                ],
+            ],
+            'slack' => [
+                'channels' => [
+                    'github' => '',
                 ],
             ],
             'twitter' => [
@@ -72,6 +80,7 @@ class ConfigProvider
             'aliases' => [
                 EventDispatcherInterface::class  => EventDispatcher::class,
                 ListenerProviderInterface::class => AttachableListenerProvider::class,
+                RequestFactoryInterface::class   => RequestFactory::class,
                 ResponseFactoryInterface::class  => ResponseFactory::class,
                 StreamFactoryInterface::class    => StreamFactory::class,
             ],
@@ -82,8 +91,9 @@ class ConfigProvider
                 ],
                 Discourse\Listener\DiscoursePostListener::class           => [DeferredListenerDelegator::class],
                 GitHub\Listener\GitHubIssueListener::class                => [DeferredListenerDelegator::class],
+                GitHub\Listener\GitHubIssueCommentListener::class         => [DeferredListenerDelegator::class],
                 GitHub\Listener\GitHubPullRequestListener::class          => [DeferredListenerDelegator::class],
-                GitHub\Listener\GitHubPushListener::class                 => [DeferredListenerDelegator::class],
+                GitHub\Listener\GitHubReleaseSlackListener::class         => [DeferredListenerDelegator::class],
                 GitHub\Listener\GitHubReleaseTweetListener::class         => [DeferredListenerDelegator::class],
                 GitHub\Listener\GitHubReleaseWebsiteUpdateListener::class => [DeferredListenerDelegator::class],
                 GitHub\Listener\GitHubStatusListener::class               => [DeferredListenerDelegator::class],
@@ -95,14 +105,16 @@ class ConfigProvider
                 Discourse\Middleware\VerificationMiddleware::class        => Discourse\Middleware\VerificationMiddlewareFactory::class,
                 ErrorHandler::class                                       => Factory\ErrorHandlerFactory::class,
                 GitHub\Listener\GitHubIssueListener::class                => GitHub\Listener\GitHubIssueListenerFactory::class,
+                GitHub\Listener\GitHubIssueCommentListener::class         => GitHub\Listener\GitHubIssueCommentListenerFactory::class,
                 GitHub\Listener\GitHubPullRequestListener::class          => GitHub\Listener\GitHubPullRequestListenerFactory::class,
-                GitHub\Listener\GitHubPushListener::class                 => GitHub\Listener\GitHubPushListenerFactory::class,
+                GitHub\Listener\GitHubReleaseSlackListener::class         => GitHub\Listener\GitHubReleaseSlackListenerFactory::class,
                 GitHub\Listener\GitHubReleaseTweetListener::class         => GitHub\Listener\GitHubReleaseTweetListenerFactory::class,
                 GitHub\Listener\GitHubReleaseWebsiteUpdateListener::class => GitHub\Listener\GitHubReleaseWebsiteUpdateListenerFactory::class,
                 GitHub\Listener\GitHubStatusListener::class               => GitHub\Listener\GitHubStatusListenerFactory::class,
                 GitHub\Middleware\GitHubRequestHandler::class             => GitHub\Middleware\GitHubRequestHandlerFactory::class,
                 GitHub\Middleware\VerificationMiddleware::class           => GitHub\Middleware\VerificationMiddlewareFactory::class,
                 Handler\HomePageHandler::class                            => Handler\HomePageHandlerFactory::class,
+                HttpClient::class                                         => Factory\HttpClientFactory::class,
                 LoggerInterface::class                                    => Factory\LoggerFactory::class,
                 ProblemDetailsMiddleware::class                           => Factory\ProblemDetailsMiddlewareFactory::class,
                 ResponseFactory::class                                    => InvokableFactory::class,
