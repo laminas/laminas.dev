@@ -8,25 +8,19 @@
 
 declare(strict_types=1);
 
+use Monolog\Handler\SlackHandler;
+use Monolog\Logger;
+
 return [
-    'slack' => [
-        'token'              => 'xoxp-',
-        'default_channel'    => '#dev',
-        'verification_token' => '',
-        'team_id'            => 'T0MCU03QC',
-    ],
-
-    'github' => [
-        'webhook_secret' => '',
-    ],
-
-    /*
-        'monolog' => [
+    'monolog' => [
+        'handlers' => [
             'slack' => [
-                'token'   => '',
-                'channel' => '#server-log',
-                'name'    => 'xtreamlabs.com',
+                'type'    => SlackHandler::class,
+                'token'   => getenv('SLACK_TOKEN'),
+                'channel' => getenv('SLACK_CHANNEL_ERROR'),
+                'name'    => getenv('SLACK_BOT_NAME'),
+                'level'   => Logger::ERROR,
             ],
         ],
-    */
+    ],
 ];

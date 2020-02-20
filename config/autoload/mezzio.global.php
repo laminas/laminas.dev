@@ -18,6 +18,10 @@ return [
         'secret' => getenv('DISCOURSE_SECRET'),
     ],
 
+    'github' => [
+        'secret' => getenv('GITHUB_SECRET'),
+    ],
+
     'mezzio' => [
         // Provide templates for the error handling middleware to use when
         // generating responses.
@@ -28,8 +32,12 @@ return [
     ],
 
     'slack' => [
-        'channels' => [
+        'channels'           => [
             'github' => getenv('SLACK_CHANNEL_GITHUB'),
         ],
+        'token'              => getenv('SLACK_TOKEN'),
+        'default_channel'    => 'github',
+        'team_id'            => getenv('SLACK_TEAM_ID'),
+        'secret'             => getenv('SLACK_SECRET'),
     ],
 ];

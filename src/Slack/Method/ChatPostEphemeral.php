@@ -42,7 +42,7 @@ class ChatPostEphemeral implements ApiRequestInterface
 
     public function __construct(string $channel, string $user, ?string $text = null)
     {
-        $this->channel = $channel;
+        $this->channel = sprintf('#%s', ltrim($channel, '#'));
         $this->user    = $user;
 
         if (! $text) {

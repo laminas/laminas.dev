@@ -27,7 +27,7 @@ class DiscoursePost
 
     public function __construct(string $channel, array $payload, string $discourseUrl)
     {
-        $this->channel      = $channel;
+        $this->channel      = sprintf('#%s', ltrim($channel, '#'));
         $this->payload      = $payload;
         $this->discourseUrl = $discourseUrl;
     }

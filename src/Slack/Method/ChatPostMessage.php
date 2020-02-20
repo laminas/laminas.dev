@@ -36,7 +36,7 @@ class ChatPostMessage implements ApiRequestInterface
 
     public function __construct(string $channel, ?string $text = null)
     {
-        $this->channel = $channel;
+        $this->channel = sprintf('#%s', ltrim($channel, '#'));
 
         if (! $text) {
             return;

@@ -11,6 +11,7 @@ use GuzzleHttp\Client as HttpClient;
 use GuzzleHttp\Psr7\Request;
 use Psr\Http\Message\RequestInterface;
 use Psr\Log\LoggerInterface;
+
 use function json_encode;
 use function sprintf;
 
@@ -48,16 +49,16 @@ class SlackClient implements SlackClientInterface
     ) {
         $this->httpClient     = $httpClient;
         $this->token          = $token;
-        $this->defaultChannel = $defaultChannel;
+        $this->defaultChannel = sprintf('#%s', ltrim($defaultChannel, '#'));
         $this->logger         = $logger;
     }
 
-    public function getDefaultChannel() : string
+    public function getDefaultChannel(): string
     {
         return $this->defaultChannel;
     }
 
-    public function send(RequestInterface $request) : SlackResponseInterface
+    public function send(RequestInterface $request): SlackResponseInterface
     {
         // Send json request with auth token
         $response = $this->httpClient->send(
@@ -75,7 +76,7 @@ class SlackClient implements SlackClientInterface
         return $slackResponse;
     }
 
-    public function sendApiRequest(ApiRequestInterface $apiRequest) : SlackResponseInterface
+    public function sendApiRequest(ApiRequestInterface $apiRequest): SlackResponseInterface
     {
         $endpoint = sprintf('https://slack.com/api/%s', $apiRequest->getEndpoint());
 

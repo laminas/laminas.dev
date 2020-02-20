@@ -43,16 +43,20 @@ class ConfigProvider
             'monolog' => [
                 'handlers' => [
                     [
-                        'type'   => StreamHandler::class,
-                        'stream' => 'data/log/app-{date}.log',
-                        'level'  => Logger::DEBUG,
+                        'type'           => StreamHandler::class,
+                        'stream'         => 'php://stderr',
+                        'level'          => Logger::DEBUG,
+                        'bubble'         => true,
+                        'expandNewLines' => true,
                     ],
                 ],
             ],
             'slack' => [
-                'channels' => [
+                'channels'        => [
                     'github' => '',
                 ],
+                'token'           => '',
+                'default_channel' => 'github',
             ],
             'twitter' => [
                 'access_token' => [
