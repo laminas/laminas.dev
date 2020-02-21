@@ -48,71 +48,107 @@ class GitHubIssue implements GitHubMessageInterface
         ], true);
     }
 
-    public function getMessagePayload():  array
+    public function getFallbackMessage(): string
     {
         $payload = $this->payload;
         $issue   = $payload['issue'];
         $author  = $payload['sender'];
         $repo    = $payload['repository'];
 
-        switch ($payload['action'])
-        {
-            case 'closed':
-                $ts = (new DateTimeImmutable($issue['closed_at']))->getTimestamp();
-                break;
-            case 'reopened':
-                $ts = (new DateTimeImmutable($issue['updated_at']))->getTimestamp();
-                break;
-            case 'opened':
-            default:
-                $ts = (new DateTimeImmutable($issue['created_at']))->getTimestamp();
-                break;
-        }
+        return sprintf(
+            '[%s] Issue #%s %s by %s: %s',
+            $repo['full_name'],
+            $issue['number'],
+            $payload['action'],
+            $author['login'],
+            $issue['html_url']
+        );
+    }
+
+    public function getMessageBlocks():  array
+    {
+        $payload = $this->payload;
+        $issue   = $payload['issue'];
+        $author  = $payload['sender'];
+        $repo    = $payload['repository'];
 
         return [
-            'fallback' => sprintf(
-                '[%s] Issue #%s %s by %s: %s',
-                $repo['full_name'],
-                $issue['number'],
-                $payload['action'],
-                $author['login'],
-                $issue['html_url']
-            ),
-            'color'   => 'warning',
-            'pretext' => sprintf(
-                '[<%s|#%s>] Issue %s by <%s|%s>',
-                $repo['html_url'],
-                $repo['full_name'],
-                $payload['action'],
-                $author['html_url'],
-                $author['login']
-            ),
-            'author_name' => sprintf('%s (GitHub)', $repo['full_name']),
-            'author_link' => $repo['html_url'],
-            'author_icon' => self::GITHUB_ICON,
-            'title'       => sprintf('#%s %s', $issue['number'], $issue['title']),
-            'title_link'  => $issue['html_url'],
-            'text'        => $issue['body'],
-            'fields'      => [
-                [
-                    'title' => 'Repository',
-                    'value' => sprintf('<%s>', $repo['html_url']),
-                    'short' => true,
-                ],
-                [
-                    'title' => 'Reporter',
-                    'value' => sprintf('<%s|%s>', $author['html_url'], $author['login']),
-                    'short' => true,
-                ],
-                [
-                    'title' => 'Status',
-                    'value' => $payload['action'],
-                    'short' => true,
+            $this->createContextBlock($repo['html_url']),
+            [
+                'type' => 'section',
+                'text' => [
+                    'type' => 'mrkdwn',
+                    'text' => sprintf(
+                        '<%s|*[%s] #%s %s*>',
+                        $issue['html_url'],
+                        $payload['action'],
+                        $issue['number'],
+                        $issue['title']
+                    ),
                 ],
             ],
-            'footer'      => 'GitHub',
-            'footer_icon' => self::GITHUB_ICON,
-            'ts'          => $ts,
+            [
+                'type' => 'section',
+                'text' => [
+                    'type' => 'mrkdwn',
+                    'text' => $issue['body'],
+                ],
+            ],
+            $this->createFieldsBlock($payload['action'], $repo, $author),
+        ];
+    }
+
+    private function createContextBlock(string $url): array
+    {
+        return [
+            'type'     => 'context',
+            'elements' => [
+                [
+                    'type'      => 'image',
+                    'image_url' => self::GITHUB_ICON,
+                    'alt_text'  => 'GitHub',
+                ],
+                [
+                    'type' => 'mrkdwn',
+                    'text' => sprintf(
+                        '<%s|*GitHub*>',
+                        $url
+                    ),
+                ],
+            ],
+        ];
+    }
+
+    private function createFieldsBlock(string $action, array $repo, array $author): array
+    {
+        return [
+            'type' => 'section',
+            'fields' => [
+                [
+                    'type' => 'mrkdwn',
+                    'text' => '*Repository*',
+                ],
+                [
+                    'type' => 'mrkdwn',
+                    'text' => '*Reporter*',
+                ],
+                [
+                    'type' => 'mrkdwn',
+                    'text' => '*Status*',
+                ],
+                [
+                    'type' => 'mrkdwn',
+                    'text' => sprintf('<%s>', $repo['html_url']),
+                ],
+                [
+                    'type' => 'mrkdwn',
+                    'text' => sprintf('<%s|%s>', $author['html_url'], $author['login']),
+                ],
+                [
+                    'type' => 'mrkdwn',
+                    'text' => $payload['action'],
+                ],
+            ],
         ];
     }
 }

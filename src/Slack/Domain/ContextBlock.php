@@ -33,12 +33,13 @@ class ContextBlock implements BlockInterface
         foreach ($this->payload['elements'] as $element) {
             Assert::that($element)->isArray();
             Assert::that($element)->keyIsset('type');
-            Assert::that($element['type'])->string()->inArray(['text', 'image']);
+            Assert::that($element['type'])->string()->inArray(['plain_text', 'mrkdown', 'image']);
             switch ($element['type']) {
                 case 'image':
                     $this->validateImageElement($element);
                     break;
-                case 'text':
+                case 'mrkdown':
+                case 'plain_text':
                 default:
                     $this->validateTextObject($element);
                     break;
