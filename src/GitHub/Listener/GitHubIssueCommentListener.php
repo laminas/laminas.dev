@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\GitHub\Listener;
 
 use App\GitHub\Event\GitHubIssueComment;
-use App\Slack\Domain\Attachment;
+use App\Slack\Domain\Block;
 use App\Slack\Method\ChatPostMessage;
 use App\Slack\SlackClient;
 
@@ -26,7 +26,10 @@ class GitHubIssueCommentListener
     public function __invoke(GitHubIssueComment $comment) : void
     {
         $notification = new ChatPostMessage($this->channel);
-        $notification->addAttachment(new Attachment($comment->getMessagePayload()));
+        $notification->setText($comment->getFallbackMessage());
+        foreach ($comment->getMessageBlocks() as $blockData) {
+            $notification->addBlock(Block::create($blockData));
+        }
         $this->slackClient->sendApiRequest($notification);
     }
 }

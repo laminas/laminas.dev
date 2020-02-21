@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\GitHub\Event;
 
 use Assert\Assert;
-use DateTimeImmutable;
 
 use function in_array;
 use function sprintf;
@@ -13,7 +12,7 @@ use function sprintf;
 /**
  * @see https://developer.github.com/v3/activity/events/types/#issuesevent
  */
-class GitHubIssue implements GitHubMessageInterface
+class GitHubIssue extends AbstractGitHubEvent
 {
     /** @var array */
     private $payload;
@@ -95,27 +94,6 @@ class GitHubIssue implements GitHubMessageInterface
                 ],
             ],
             $this->createFieldsBlock($payload['action'], $repo, $author),
-        ];
-    }
-
-    private function createContextBlock(string $url): array
-    {
-        return [
-            'type'     => 'context',
-            'elements' => [
-                [
-                    'type'      => 'image',
-                    'image_url' => self::GITHUB_ICON,
-                    'alt_text'  => 'GitHub',
-                ],
-                [
-                    'type' => 'mrkdwn',
-                    'text' => sprintf(
-                        '<%s|*GitHub*>',
-                        $url
-                    ),
-                ],
-            ],
         ];
     }
 
