@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Discourse\Event;
 
-use DateTimeImmutable;
-
 class DiscoursePost
 {
     // phpcs:disable
@@ -61,53 +59,107 @@ class DiscoursePost
         return $this->channel;
     }
 
-    public function getMessagePayload(): array
+    public function getPostUrl(): string
     {
-        $post      = $this->payload['post'];
-        $timestamp = (new DateTimeImmutable($post['created_at']))->getTimestamp();
-        $url       = sprintf(
+        $post = $this->payload['post'];
+        return sprintf(
             '%s/t/%s/%s/%s',
             $this->discourseUrl,
             $post['topic_slug'],
             $post['topic_id'],
             $post['id']
         );
+    }
+
+    public function getFallbackMessage(): string
+    {
+        return sprintf(
+            'Discourse: Comment created for %s: %s',
+            $this->payload['post']['topic_title'],
+            $this->getPostUrl()
+        );
+    }
+
+    public function getMessageBlocks(): array
+    {
+        $post      = $this->payload['post'];
 
         return [
-            'color'       => self::COLOR,
-            'fallback'    => sprintf('Discourse: Comment created for %s: %s', $post['topic_title'], $url),
-            'author_name' => 'Discourse',
-            'author_link' => $this->discourseUrl,
-            'author_icon' => self::AUTHOR_ICON,
-            'title'       => sprintf('Comment created for %s by %s', $post['topic_title'], $post['name']),
-            'title_link'  => $url,
-            'text'        => $post['cooked'],
-            'fields'      => [
+            $this->createContextBlock(),
+            [
+                'type' => 'section',
+                'text' => [
+                    'type' => 'mrkdwn',
+                    'text' => sprintf(
+                        "<%s|*Comment created for %s by %s*>",
+                        $this->getPostUrl(),
+                        $post['topic_title'],
+                        $post['name']
+                    ),
+                ],
+            ],
+            [
+                'type' => 'section',
+                'text' => [
+                    'type' => 'mrkdwn',
+                    'text' => $post['raw'],
+                ],
+            ],
+            $this->createFieldsBlock($post),
+        ];
+    }
+
+    private function createContextBlock(): array
+    {
+        return [
+            'type'     => 'context',
+            'elements' => [
                 [
-                    'title' => 'In reply to',
-                    'value' => sprintf(
+                    'type' => 'image',
+                    'image_url' => self::AUTHOR_ICON,
+                    'alt_text' => 'Discourse',
+                ],
+                [
+                    'type' => 'mrkdwn',
+                    'text' => sprintf('<%s|*Discourse*>', $this->discourseUrl),
+                ],
+            ],
+        ];
+    }
+
+    private function createFieldsBlock(array $post): array
+    {
+        return [
+            'type'   => 'section',
+            'fields' => [
+                [
+                    'type' => 'mrkdwn',
+                    'text' => '*In reply to*',
+                ],
+                [
+                    'type' => 'mrkdwn',
+                    'text' => '*Posted by*',
+                ],
+                [
+                    'type' => 'mrkdwn',
+                    'text' => sprintf(
                         '<%s/t/%s/%s|%s>',
                         $this->discourseUrl,
                         $post['topic_slug'],
                         $post['topic_id'],
                         $post['topic_title']
                     ),
-                    'short'  => true,
                 ],
                 [
-                    'title' => 'Posted by',
-                    'value' => sprintf(
+                    'type' => 'mrkdwn',
+                    'text' => sprintf(
                         '<%s/u/%s|%s>',
                         $this->discourseUrl,
                         $post['username'],
                         $post['name']
                     ),
-                    'short'  => true,
                 ],
             ],
-            'footer'      => 'Discourse',
-            'footer_icon' => self::FOOTER_ICON,
-            'ts'          => $timestamp,
         ];
     }
 }

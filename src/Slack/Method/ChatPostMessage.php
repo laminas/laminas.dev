@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Slack\Method;
 
-use App\Slack\Domain\Attachment;
+use App\Slack\Domain\Block;
 use DomainException;
 use function implode;
 
@@ -13,56 +13,40 @@ use function implode;
  */
 class ChatPostMessage implements ApiRequestInterface
 {
+    /** @var BlockInterface[] */
+    private $blocks = [];
+
     /** @var string */
-    private $method = 'POST';
+    private $channel;
 
     /** @var string */
     private $endpoint = 'chat.postMessage';
 
     /** @var string */
-    private $channel;
-
-    /** @var string[] */
-    private $text = [];
-
-    /** @var Attachment[] */
-    private $attachments = [];
+    private $method = 'POST';
 
     /** @var bool */
     private $mrkdwn = true;
 
-    /** @var null|string */
-    private $username;
+    /** @var string */
+    private $text = [];
 
-    public function __construct(string $channel, ?string $text = null)
+    public function __construct(string $channel)
     {
         $this->channel = sprintf('#%s', ltrim($channel, '#'));
-
-        if (! $text) {
-            return;
-        }
-
-        $this->text[] = $text;
     }
 
-    public function addText(string $text, ?bool $mrkdwn = null) : self
+    public function setText(string $text, bool $mrkdwn = true) : self
     {
-        $this->text[] = $text;
-        $this->mrkdwn = $mrkdwn ?? true;
+        $this->text   = $text;
+        $this->mrkdwn = $mrkdwn;
 
         return $this;
     }
 
-    public function withUsername(string $username) : self
+    public function addBlock(BlockInterface $block) : self
     {
-        $this->username = $username;
-
-        return $this;
-    }
-
-    public function addAttachment(Attachment $attachment) : self
-    {
-        $this->attachments[] = $attachment;
+        $this->blocks[] = $block;
 
         return $this;
     }
@@ -79,19 +63,24 @@ class ChatPostMessage implements ApiRequestInterface
 
     public function toArray() : array
     {
-        if (empty($this->text) && empty($this->attachments)) {
-            throw new DomainException('Message must contain text, attachment(s) or both');
+        if (empty($this->text) && empty($this->blocks)) {
+            throw new DomainException('Message must contain text, one or more blocks, or both');
         }
 
-        $message = [
-            'channel'  => $this->channel,
-            'text'     => implode("\n", $this->text),
-            'mrkdwn'   => $this->mrkdwn,
-            'username' => $this->username,
-        ];
+        $message = ['channel' => $this->channel];
 
-        foreach ($this->attachments as $attachment) {
-            $message['attachments'][] = $attachment->toArray();
+        if (! empty($this->text)) {
+            $message = array_merge($message, [
+                'text'   => $this->text,
+                'mrkdwn' => $this->mrkdwn,
+            ]);
+        }
+
+        if (! empty($this->blocks)) {
+            $message['blocks'] = array_reduce($this->blocks, function (array $serialized, Block $block) {
+                $serialized[] = $block->toArray();
+                return $serialized;
+            }, []);
         }
 
         return $message;

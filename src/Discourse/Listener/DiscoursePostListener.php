@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Discourse\Listener;
 
 use App\Discourse\Event\DiscoursePost;
-use App\Slack\Domain\Attachment;
+use App\Slack\Domain\Block;
 use App\Slack\Method\ChatPostMessage;
 use App\Slack\SlackClient;
 
@@ -26,7 +26,11 @@ class DiscoursePostListener
         }
 
         $message = new ChatPostMessage($post->getChannel());
+        $message->setText($post->getFallbackMessage());
         $message->addAttachment(new Attachment($post->getMessagePayload()));
+        foreach ($post->getMessageBlocks() as $blockData) {
+            $message->addBlock(Block::create($blockData));
+        }
 
         $this->slack->sendApiRequest($message);
     }
