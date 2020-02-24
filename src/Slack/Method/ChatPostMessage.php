@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Slack\Method;
 
 use App\Slack\Domain\Block;
+use App\Slack\Domain\BlockInterface;
 use DomainException;
-use function implode;
 
 /**
  * https://api.slack.com/methods/chat.postMessage

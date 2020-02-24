@@ -12,7 +12,7 @@ use function in_array;
 /**
  * @see https://developer.github.com/v3/repos/releases/#get-a-single-release
  */
-class GitHubRelease implements GitHubMessageInterface
+final class GitHubRelease extends AbstractGitHubEvent
 {
     /** @var array */
     private $payload;
@@ -80,6 +80,14 @@ class GitHubRelease implements GitHubMessageInterface
         return $this->payload['repository']['full_name'];
     }
 
+    public function getReleaseName(): string
+    {
+        $payload = $this->payload;
+        $repo    = $payload['repository'];
+        $release = $payload['release'];
+        return $payload['release_name'] ?: sprintf('%s %s', $repo['full_name'], $release['tag_name']);
+    }
+
     public function getAuthorName(): string
     {
         return $this->payload['release']['author']['login'];
@@ -90,7 +98,23 @@ class GitHubRelease implements GitHubMessageInterface
         return $this->payload['release']['author']['html_url'];
     }
 
-    public function getMessagePayload(): array
+    public function getFallbackMessage(): string
+    {
+        $payload = $this->payload;
+        $repo    = $payload['repository'];
+        $release = $payload['release'];
+        $author  = $release['author'];
+        
+        return sprintf(
+            '[%s] New release %s created by %s: %s',
+            $repo['full_name'],
+            $this->getReleaseName(),
+            $author['login'],
+            $release['html_url']
+        );
+    }
+
+    public function getMessageBlocks(): array
     {
         $payload = $this->payload;
         $repo    = $payload['repository'];
@@ -99,44 +123,49 @@ class GitHubRelease implements GitHubMessageInterface
         $name    = $payload['release_name'] ?: sprintf('%s %s', $repo['full_name'], $release['tag_name']);
 
         return [
-            'fallback'    => sprintf(
-                '[%s] New release %s created by %s: %s',
-                $repo['full_name'],
-                $name,
-                $author['login'],
-                $release['html_url']
-            ),
-            'color'       => '#4183C4',
-            'pretext'     => sprintf(
-                '[<%s|%s>] New release <%s|%s> created by <%s|%s>',
-                $repo['html_url'],
-                $repo['full_name'],
-                $release['html_url'],
-                $name,
-                $author['html_url'],
-                $author['login']
-            ),
-            'author_name' => sprintf('%s (GitHub)', $repo['full_name']),
-            'author_link' => $repo['html_url'],
-            'author_icon' => self::GITHUB_ICON,
-            'title'       => $name,
-            'title_link'  => $release['html_url'],
-            'text'        => $release['body'],
-            'fields'      => [
+            $this->createContextBlock($repo['html_url']),
+            [
+                'type' => 'section',
+                'text' => sprintf(
+                    '[<%s|%s>] New release <%s|%s> created by <%s|%s>',
+                    $repo['html_url'],
+                    $repo['full_name'],
+                    $release['html_url'],
+                    $name,
+                    $author['html_url'],
+                    $author['login']
+                ),
+            ],
+            [
+                'type' => 'section',
+                'text' => $release['body'],
+            ],
+            $this->createFieldBlocks($repo, $author),
+        ];
+    }
+
+    private function createFieldBlocks(array $repo, array $author): array
+    {
+        return [
+            'type'   => 'section',
+            'fields' => [
                 [
-                    'title' => 'Repository',
-                    'value' => sprintf('<%s|%s>', $repo['html_url'], $repo['full_name']),
-                    'short' => true,
+                    'type' => 'mrkdwn',
+                    'text' => '*Repository*',
                 ],
                 [
-                    'title' => 'Released By',
-                    'value' => sprintf('<%s|%s>', $author['html_url'], $author['login']),
-                    'short' => true,
+                    'type' => 'mrkdwn',
+                    'text' => '*Released By*',
+                ],
+                [
+                    'type' => 'mrkdwn',
+                    'text' => sprintf('<%s|%s>', $repo['html_url'], $repo['full_name']),
+                ],
+                [
+                    'type' => 'mrkdwn',
+                    'text' => sprintf('<%s|%s>', $author['html_url'], $author['login']),
                 ],
             ],
-            'footer'      => 'GitHub',
-            'footer_icon' => self::GITHUB_ICON,
-            'ts'          => (new DateTimeImmutable($release['published_at']))->getTimestamp(),
         ];
     }
 }
