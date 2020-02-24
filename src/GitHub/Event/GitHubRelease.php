@@ -140,11 +140,11 @@ final class GitHubRelease extends AbstractGitHubEvent
                 'type' => 'section',
                 'text' => $release['body'],
             ],
-            $this->createFieldBlocks($repo, $author),
+            $this->createFieldsBlock($repo, $author),
         ];
     }
 
-    private function createFieldBlocks(array $repo, array $author): array
+    private function createFieldsBlock(array $repo, array $author): array
     {
         return [
             'type'   => 'section',

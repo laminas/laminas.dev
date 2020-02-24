@@ -163,7 +163,7 @@ final class GitHubStatus extends AbstractGitHubEvent
                     ),
                 ],
             ],
-            $this->createFieldBlocks($repo, 'Branch', sprintf(
+            $this->createFieldsBlock($repo, 'Branch', sprintf(
                 '%s (%s)',
                 $branch,
                 substr($payload['sha'], 0, 8)
@@ -193,7 +193,7 @@ final class GitHubStatus extends AbstractGitHubEvent
                     ),
                 ],
             ],
-            $this->createFieldBlocks($repo, 'Pull Request', sprintf(
+            $this->createFieldsBlock($repo, 'Pull Request', sprintf(
                 '<%s|#%s %s>',
                 $pullRequest->getUrl(),
                 $pullRequest->getNumber(),
@@ -224,7 +224,7 @@ final class GitHubStatus extends AbstractGitHubEvent
         ];
     }
 
-    private function createFieldBlocks(array $repo, string $extraLabel, string $extraValue): array
+    private function createFieldsBlock(array $repo, string $extraLabel, string $extraValue): array
     {
         return [
             'type'   => 'section',
