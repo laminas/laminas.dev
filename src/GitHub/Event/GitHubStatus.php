@@ -6,7 +6,6 @@ namespace App\GitHub\Event;
 
 use App\GitHub\Listener\PullRequest;
 use Assert\Assert;
-use DateTimeImmutable;
 
 use function in_array;
 use function sprintf;
@@ -15,7 +14,7 @@ use function substr;
 /**
  * @see https://developer.github.com/v3/activity/events/types/#statusevent
  */
-final class GitHubStatus implements GitHubMessageInterface
+final class GitHubStatus extends AbstractGitHubEvent
 {
     /** @var array */
     private $payload;
@@ -84,7 +83,7 @@ final class GitHubStatus implements GitHubMessageInterface
 
     public function getBuildStatus(): string
     {
-        switch ($payload['state']) {
+        switch ($this->payload['state']) {
             case 'success':
                 return 'passed';
             case 'error':
@@ -95,126 +94,166 @@ final class GitHubStatus implements GitHubMessageInterface
         }
     }
 
-    public function getMessageColor(): string
+    public function getFallbackMessage(?PullRequest $pullRequest = null): string
     {
-        switch ($payload['state']) {
-            case 'success':
-                return 'good';
-            case 'error':
-                return 'danger';
-            case 'failed':
-            default:
-                return 'danger';
-        }
+        return $pullRequest
+            ? $this->getFallbackMessageForPullRequest($pullRequest)
+            : $this->getDefaultFallbackMessage();
     }
 
-    public function getMessagePayload(): array
+    private function getDefaultFallbackMessage(): string
     {
-        $payload    = $this->payload;
-        $repo       = $payload['repository'];
-        $branch     = $this->getBranch();
-        $commit     = $payload['commit'];
-        $authorName = $this->getAuthorName();
+        $payload = $this->payload;
+        $repo    = $payload['repository'];
+
+        return sprintf(
+            'Build %s for %s@%s (%s): %s',
+            $this->getBuildStatus(),
+            $repo['full_name'],
+            $this->getBranch(),
+            substr($payload['sha'], 0, 8),
+            $payload['target_url']
+        );
+    }
+
+    private function getFallbackMessageForPullRequest(PullRequest $pullRequest): string
+    {
+        $payload = $this->payload;
+        $repo    = $payload['repository'];
+
+        return sprintf(
+            '[%s] Build %s for pull request #%s %s: %s',
+            $repo['full_name'],
+            $this->getBuildStatus(),
+            $pullRequest->getNumber(),
+            $pullRequest->getTitle(),
+            $payload['target_url']
+        );
+    }
+
+    public function getMessageBlocks(?PullRequest $pullRequest = null): array
+    {
+        return $pullRequest
+            ? $this->getMessageBlocksForPullRequest($pullRequest)
+            : $this->getDefaultMessageBlocks();
+    }
+
+    private function getDefaultMessageBlocks(): array
+    {
+        $payload = $this->payload;
+        $repo    = $payload['repository'];
+        $branch  = $this->getBranch();
+        $commit  = $payload['commit'];
 
         return [
-            'fallback' => sprintf(
-                'Build %s for %s@%s (%s): %s',
-                $this->getBuildStatus(),
-                $repo['full_name'],
-                $branch,
-                substr($payload['sha'], 0, 8),
-                $payload['target_url']
-            ),
-            'color'       => $this->getMessageColor(),
-            'author_name' => $authorName,
-            'author_link' => $payload['target_url'],
-            'author_icon' => $payload['avatar_url'],
-            'text'        => sprintf(
-                '<%s|Build %s> for <%s|%s>@%s (<%s|%s>)',
-                $payload['target_url'],
-                $this->getBuildStatus(),
-                $repo['html_url'],
-                $repo['full_name'],
-                $branch,
-                $commit['html_url'],
-                substr($payload['sha'], 0, 8)
-            ),
-            'fields'      => [
-                [
-                    'title' => 'Repository',
-                    'value' => sprintf('<%s|%s>', $repo['html_url'], $repo['full_name']),
-                    'short' => true,
-                ],
-                [
-                    'title' => 'Status',
-                    'value' => $this->getBuildStatus(),
-                    'short' => true,
-                ],
-                [
-                    'title' => 'Branch',
-                    'value' => sprintf('%s (%s)', $branch, substr($payload['sha'], 0, 8)),
-                    'short' => true,
+            $this->createContextBlock(),
+            [
+                'type' => 'section',
+                'text' => [
+                    'type' => 'mrkdwn',
+                    'text' => sprintf(
+                        '<%s|Build %s> for <%s|%s>@%s (<%s|%s>)',
+                        $payload['target_url'],
+                        $this->getBuildStatus(),
+                        $repo['html_url'],
+                        $repo['full_name'],
+                        $branch,
+                        $commit['html_url'],
+                        substr($payload['sha'], 0, 8)
+                    ),
                 ],
             ],
-            'footer'      => $authorName,
-            'footer_icon' => $payload['avatar_url'],
-            'ts'          => (new DateTimeImmutable($payload['updated_at']))->getTimestamp(),
+            $this->createFieldBlocks($repo, 'Branch', sprintf(
+                '%s (%s)',
+                $branch,
+                substr($payload['sha'], 0, 8)
+            )),
         ];
     }
 
-    public function prepareMessagePayloadForPullRequestStatus(PullRequest $pullRequest): array
+    private function getMessageBlocksForPullRequest(PullRequest $pullRequest): array
     {
-        $payload    = $this->payload;
-        $repo       = $payload['repository'];
-        $authorName = $this->getAuthorName();
+        $payload = $this->payload;
+        $repo    = $payload['repository'];
 
         return [
-            'fallback' => sprintf(
-                '[%s] Build %s for pull request #%s %s: %s',
-                $repo['full_name'],
-                $this->getBuildStatus(),
-                $pullRequest->getNumber(),
-                $pullRequest->getTitle(),
-                $payload['target_url']
-            ),
-            'color'       => $this->getMessageColor(),
-            'author_name' => $authorName,
-            'author_link' => $payload['target_url'],
-            'author_icon' => $payload['avatar_url'],
-            'text'        => sprintf(
-                '<%s|Build %s> for pull request <%s|%s#%s %s>',
-                $payload['target_url'],
-                $this->getBuildStatus(),
-                $pullRequest->getUrl(),
-                $repo['full_name'],
-                $pullRequest->getNumber(),
-                $pullRequest->getTitle(),
-            ),
-            'fields'      => [
-                [
-                    'title' => 'Repository',
-                    'value' => sprintf('<%s|%s>', $repo['html_url'], $repo['full_name']),
-                    'short' => true,
-                ],
-                [
-                    'title' => 'Status',
-                    'value' => $this->getBuildStatus(),
-                    'short' => true,
-                ],
-                [
-                    'title' => 'Pull Request',
-                    'value' => sprintf(
-                        '<%s|#%s %s>',
+            $this->createContextBlock(),
+            [
+                'type' => 'section',
+                'text' => [
+                    'type' => 'mrkdwn',
+                    'text' => sprintf(
+                        '<%s|Build %s> for pull request <%s|%s#%s %s>',
+                        $payload['target_url'],
+                        $this->getBuildStatus(),
                         $pullRequest->getUrl(),
+                        $repo['full_name'],
                         $pullRequest->getNumber(),
-                        $pullRequest->getTitle()
+                        $pullRequest->getTitle(),
                     ),
-                    'short' => true,
                 ],
             ],
-            'footer'      => $authorName,
-            'footer_icon' => $payload['avatar_url'],
-            'ts'          => (new DateTimeImmutable($payload['updated_at']))->getTimestamp(),
+            $this->createFieldBlocks($repo, 'Pull Request', sprintf(
+                '<%s|#%s %s>',
+                $pullRequest->getUrl(),
+                $pullRequest->getNumber(),
+                $pullRequest->getTitle()
+            )),
+        ];
+    }
+
+    private function createContextBlock(): array
+    {
+        return [
+            'type'     => 'context',
+            'elements' => [
+                [
+                    'type'      => 'image',
+                    'image_url' => $this->payload['avatar_url'],
+                    'alt_text'  => 'GitHub',
+                ],
+                [
+                    'type' => 'mrkdwn',
+                    'text' => sprintf(
+                        '<%s|*GitHub*>',
+                        $this->payload['target_url'],
+                        $this->getAuthorName()
+                    ),
+                ],
+            ],
+        ];
+    }
+
+    private function createFieldBlocks(array $repo, string $extraLabel, string $extraValue): array
+    {
+        return [
+            'type'   => 'section',
+            'fields' => [
+                [
+                    'type' => 'mrkdwn',
+                    'text' => '*Repository*',
+                ],
+                [
+                    'type' => 'mrkdwn',
+                    'text' => '*Status*',
+                ],
+                [
+                    'type' => 'mrkdwn',
+                    'text' => sprintf('*%s*', $extraLabel),
+                ],
+                [
+                    'type' => 'mrkdwn',
+                    'text' => sprintf('<%s|%s>', $repo['html_url'], $repo['full_name']),
+                ],
+                [
+                    'type' => 'mrkdwn',
+                    'text' => $this->getBuildStatus(),
+                ],
+                [
+                    'type' => 'mrkdwn',
+                    'text' => $extraValue,
+                ],
+            ],
         ];
     }
 }

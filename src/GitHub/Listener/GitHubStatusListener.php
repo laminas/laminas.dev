@@ -5,8 +5,7 @@ declare(strict_types=1);
 namespace App\GitHub\Listener;
 
 use App\GitHub\Event\GitHubStatus;
-use App\Slack\Domain\Attachment;
-use App\Slack\Domain\AttachmentColor;
+use App\Slack\Domain\Block;
 use App\Slack\Method\ChatPostMessage;
 use App\Slack\SlackClientInterface;
 use Assert\AssertionFailedException;
@@ -51,20 +50,20 @@ class GitHubStatusListener
 
     public function __invoke(GitHubStatus $message) : void
     {
+        $pullRequest = $message->isForPullRequest()
+            ? $this->fetchPullRequestData($message)
+            : null;
+
         $notification = new ChatPostMessage($this->channel);
-        $notification->addAttachment(new Attachment(
-            $message->isForPullRequest()
-                ? $this->fetchPullRequestData($message)
-                : $message->getMessagePayload()
-        ));
+        $notification->setText($message->getFallbackMessage($pullRequest));
+        foreach ($message->getMessageBlocks($pullRequest) as $block) {
+            $notification->addBlock(Block::create($block));
+        }
 
         $this->slackClient->sendApiRequest($notification);
     }
 
-    /**
-     * @return array array<string,mixed>
-     */
-    private function fetchPullRequestData(GitHubStatus $status): array
+    private function fetchPullRequestData(GitHubStatus $status): ?PullRequest
     {
         $url = sprintf(
             '%?repo:%s+%s',
@@ -86,18 +85,18 @@ class GitHubStatusListener
                 $status->getCommitIdentifier(),
                 (string) $response->getBody()
             ));
-            return $status->getMessagePayload();
+            return null;
         }
 
-        $pullRequest = new PullRequest(
-            json_decode((string) $response->getBody(), true)
-        );
         try {
+            $pullRequest = new PullRequest(
+                json_decode((string) $response->getBody(), true)
+            );
             $pullRequest->validate();
         } catch (AssertionFailedException $e) {
-            return $status->getMessagePayload();
+            return null;
         }
 
-        return $status->prepareMessagePayloadForPullRequestStatus($pullRequest);
+        return $pullRequest;
     }
 }
