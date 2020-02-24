@@ -12,7 +12,7 @@ use function sprintf;
 /**
  * @see https://developer.github.com/v3/activity/events/types/#issuesevent
  */
-class GitHubIssue extends AbstractGitHubEvent
+final class GitHubIssue extends AbstractGitHubEvent
 {
     /** @var array */
     private $payload;
@@ -78,9 +78,10 @@ class GitHubIssue extends AbstractGitHubEvent
                 'text' => [
                     'type' => 'mrkdwn',
                     'text' => sprintf(
-                        '<%s|*[%s] #%s %s*>',
+                        '<%s|*[%s] Issue %s#%s %s*>',
                         $issue['html_url'],
                         $payload['action'],
+                        $repo['full_name'],
                         $issue['number'],
                         $issue['title']
                     ),

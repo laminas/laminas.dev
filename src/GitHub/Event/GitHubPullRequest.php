@@ -5,13 +5,14 @@ declare(strict_types=1);
 namespace App\GitHub\Event;
 
 use Assert\Assert;
+
 use function in_array;
 use function sprintf;
 
 /**
  * @see https://developer.github.com/v3/activity/events/types/#pullrequestevent
  */
-final class GitHubPullRequest implements GitHubMessageInterface
+final class GitHubPullRequest extends AbstractGitHubEvent
 {
     /** @var array */
     private $payload;
@@ -46,82 +47,100 @@ final class GitHubPullRequest implements GitHubMessageInterface
         ], true);
     }
 
-    public function getMessagePayload():  array
+    public function getAction(): string
+    {
+        $payload = $this->payload;
+        $pr      = $payload['pull_request'];
+        return $payload['action'] === 'closed' && isset($pr['merged'])
+            ? 'merged'
+            : $payload['action'];
+    }
+
+    public function getFallbackMessage(): string
     {
         $payload = $this->payload;
         $pr      = $payload['pull_request'];
         $author  = $payload['sender'];
         $repo    = $payload['repository'];
-        $action  = $payload['action'] === 'closed' && isset($pr['merged'])
-            ? 'merged'
-            : $payload['action'];
+        return sprintf(
+            '[%s] Pull request %s by %s: %s',
+            $repo['full_name'],
+            $this->getAction(),
+            $author['login'],
+            $pr['html_url']
+        );
+    }
 
-        switch ($action)
-        {
-            case 'closed':
-                $ts = (new DateTimeImmutable($pr['closed_at']))->getTimestamp();
-                break;
-            case 'merged':
-                $ts = (new DateTimeImmutable($pr['merged_at']))->getTimestamp();
-                break;
-            case 'reopened':
-                $ts = (new DateTimeImmutable($pr['updated_at']))->getTimestamp();
-                break;
-            case 'opened':
-            default:
-                $ts = (new DateTimeImmutable($pr['created_at']))->getTimestamp();
-                break;
-        }
+    public function getMessageBlocks(): array
+    {
+        $payload = $this->payload;
+        $pr      = $payload['pull_request'];
+        $author  = $payload['sender'];
+        $repo    = $payload['repository'];
+        $action  = $this->getAction();
 
-        return [
-            'fallback' => sprintf(
-                '[%s] Pull request %s by %s: %s',
-                $repo['full_name'],
-                $action,
-                $author['login'],
-                $pr['html_url']
-            ),
-            'color'   => '#E3E4E6',
-            'pretext' => sprintf(
-                '[<%s|#%s>] Pull request %s by <%s|%s>',
-                $repo['html_url'],
-                $repo['full_name'],
-                $action,
-                $author['html_url'],
-                $author['login']
-            ),
-            'author_name' => sprintf('%s (GitHub)', $repo['full_name']),
-            'author_link' => $repo['html_url'],
-            'author_icon' => self::GITHUB_ICON,
-            'title'       => sprintf(
-                'Pull request %s: %s#%s %s',
-                $action,
-                $repo['full_name'],
-                $pr['number'],
-                $pr['title']
-            ),
-            'title_link'  => $pr['html_url'],
-            'text'        => $action === 'created' ? $pr['body'] : '',
-            'fields'      => [
-                [
-                    'title' => 'Repository',
-                    'value' => sprintf('<%s>', $repo['html_url']),
-                    'short' => true,
-                ],
-                [
-                    'title' => 'Reporter',
-                    'value' => sprintf('<%s|%s>', $author['html_url'], $author['login']),
-                    'short' => true,
-                ],
-                [
-                    'title' => 'Status',
-                    'value' => $action,
-                    'short' => true,
+        $blocks = [
+            $this->createContextBlock($repo['html_url']),
+            [
+                'type' => 'section',
+                'text' => [
+                    'type' => 'mrkdwn',
+                    'text' => sprintf(
+                        '<%s|*[%s] Pull request #%s %s*>',
+                        $pr['html_url'],
+                        $action,
+                        $repo['full_name'],
+                        $pr['number'],
+                        $pr['title']
+                    ),
                 ],
             ],
-            'footer'      => 'GitHub',
-            'footer_icon' => self::GITHUB_ICON,
-            'ts'          => $ts,
+        ];
+
+        if ($action === 'created') {
+            $blocks[] = [
+                'type' => 'section',
+                'text' => [
+                    'type' => 'mrkdwn',
+                    'text' => $pr['body'],
+                ],
+            ];
+        }
+
+        $blocks[] = $this->createFieldsBlock($repo, $author);
+        return $blocks;
+    }
+
+    private function createFieldsBlock(array $repo, array $author): array
+    {
+        return [
+            'type'   => 'section',
+            'fields' => [
+                [
+                    'type' => 'mrkdwn',
+                    'text' => '*Repository*',
+                ],
+                [
+                    'type' => 'mrkdwn',
+                    'text' => '*Reporter*',
+                ],
+                [
+                    'type'  => 'mrkdwn',
+                    'text' => '*Status*',
+                ],
+                [
+                    'type' => 'mrkdwn',
+                    'text' => sprintf('<%s>', $repo['html_url']),
+                ],
+                [
+                    'type' => 'mrkdwn',
+                    'text' => sprintf('<%s|%s>', $author['html_url'], $author['login']),
+                ],
+                [
+                    'type' => 'mrkdwn',
+                    'text' => $this->getAction(),
+                ],
+            ],
         ];
     }
 }
