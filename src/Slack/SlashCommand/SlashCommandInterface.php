@@ -22,7 +22,7 @@ interface SlashCommandInterface
      * @return null|ResponseInterface Returns null if valid, and a response
      *     describing the validation error otherwise.
      */
-    public function validate(string $payload): ?ResponseInterface;
+    public function validate(string $payload, AuthorizedUserList $authorizedUsers): ?ResponseInterface;
 
     public function dispatch(string $payload): ResponseInterface;
 }

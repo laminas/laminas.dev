@@ -89,6 +89,7 @@ class ConfigProvider
                 StreamFactoryInterface::class    => StreamFactory::class,
             ],
             'delegator_factories' => [
+                Application::class                => [Slack\ApplicationDelegator::class],
                 AttachableListenerProvider::class => [
                     GitHub\ListenerProviderDelegatorFactory::class,
                     Discourse\ListenerProviderDelegatorFactory::class,
@@ -125,6 +126,7 @@ class ConfigProvider
                 Slack\Middleware\VerificationMiddleware::class            => Slack\Middleware\VerificationMiddlewareFactory::class,
                 Slack\Middleware\SlashCommandHandler::class               => Slack\Middleware\SlashCommandHandlerFactory::class,
                 Slack\SlackClientInterface::class                         => Slack\SlackClientFactory::class,
+                Slack\SlashCommand\AuthorizedUserList::class              => Slack\SlashCommand\AuthorizedUserListFactory::class,
                 Slack\SlashCommand\SlashCommandResponseFactory::class     => Slack\SlashCommand\SlashCommandResponseFactoryFactory::class,
                 Slack\SlashCommand\SlashCommands::class                   => Slack\SlashCommand\SlashCommandsFactory::class,
                 StreamFactory::class                                      => InvokableFactory::class,

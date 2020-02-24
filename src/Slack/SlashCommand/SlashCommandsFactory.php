@@ -11,7 +11,8 @@ class SlashCommandsFactory
     public function __invoke(ContainerInterface $container): SlashCommands
     {
         return new SlashCommands(
-            $container->get(SlashCommandResponseFactory::class)
+            $container->get(SlashCommandResponseFactory::class),
+            $container->get(AuthorizedUserList::class)
         );
     }
 }

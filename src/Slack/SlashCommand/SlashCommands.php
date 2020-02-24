@@ -8,15 +8,19 @@ use Laminas\Feed\Reader\Http\ResponseInterface;
 
 class SlashCommands
 {
+    /** AuthorizedUserList */
+    private $authorizedUsers;
+
     /** @var SlashCommandInterface[] array<string, SlashCommandInterface> */
     private $commands = [];
 
     /** @var SlashCommandResponseFactory */
     private $responseFactory;
 
-    public function __construct(SlashCommandResponseFactory $responseFactory)
+    public function __construct(SlashCommandResponseFactory $responseFactory, AuthorizedUserList $authorizedUsers)
     {
         $this->responseFactory = $responseFactory;
+        $this->authorizedUsers = $authorizedUsers;
     }
 
     public function attach(SlashCommandInterface $command): void
@@ -58,7 +62,7 @@ class SlashCommands
             return $this->responseFactory->createResponse($command->help(), 200);
         }
 
-        $response = $command->validate($payload);
+        $response = $command->validate($payload, $this->authorizedUsers);
         // Was the payload malformed? Inform the user.
         if ($response !== null) {
             return $response;
