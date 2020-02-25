@@ -26,7 +26,7 @@ class BuildDocsCommand implements SlashCommandInterface
 
     public function command(): string
     {
-        return 'builddocs';
+        return 'build-docs';
     }
 
     public function usage(): string
