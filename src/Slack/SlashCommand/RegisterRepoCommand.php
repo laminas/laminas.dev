@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Slack\SlashCommand;
 
-use App\GitHub\Event\DocsBuildAction;
+use App\GitHub\Event\RegisterWebhook;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Psr\Http\Message\ResponseInterface;
 
-class BuildDocsCommand implements SlashCommandInterface
+class RegisterRepoCommand implements SlashCommandInterface
 {
     use ValidateRepoArgumentTrait;
 
@@ -25,7 +25,7 @@ class BuildDocsCommand implements SlashCommandInterface
 
     public function command(): string
     {
-        return 'build-docs';
+        return 'register-repo';
     }
 
     public function usage(): string
@@ -35,13 +35,16 @@ class BuildDocsCommand implements SlashCommandInterface
 
     public function help(): string
     {
-        return 'Trigger a documentation build for the repository described by {repo}.';
+        return 'Register the laminas-bot webhook with the repository described by {repo}.';
     }
 
     public function dispatch(SlashCommandRequest $request): ResponseInterface
     {
         $repo = trim($request->text());
-        $this->dispatcher->dispatch(new DocsBuildAction($repo, $request->responseUrl()));
-        return $this->responseFactory->createResponse(sprintf('Documentation build for %s queued', $repo));
+        $this->dispatcher->dispatch(new RegisterWebhook($repo, $request->responseUrl()));
+        return $this->responseFactory->createResponse(sprintf(
+            'Request to register laminas-bot webhook for %s queued',
+            $repo
+        ));
     }
 }

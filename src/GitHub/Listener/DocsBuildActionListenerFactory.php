@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\GitHub\Listener;
 
-use GuzzleHttp\Client;
+use App\GitHub\GitHubClient;
+use App\Slack\SlackClient;
 use Psr\Container\ContainerInterface;
-use Psr\Http\Message\RequestFactoryInterface;
 use Psr\Log\LoggerInterface;
 
 class DocsBuildActionListenerFactory
@@ -14,10 +14,9 @@ class DocsBuildActionListenerFactory
     public function __invoke(ContainerInterface $container): DocsBuildActionListener
     {
         return new DocsBuildActionListener(
-            $container->get('config')['github']['token'],
-            $container->get(Client::class),
-            $container->get(RequestFactoryInterface::class),
-            $container->get(LoggerInterface::class)
+            $container->get(GitHubClient::class),
+            $container->get(LoggerInterface::class),
+            $container->get(SlackClient::class)
         );
     }
 }

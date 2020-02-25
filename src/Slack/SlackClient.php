@@ -90,4 +90,15 @@ class SlackClient implements SlackClientInterface
 
         return $this->send($request);
     }
+
+    public function sendWebhookMessage(string $url, array $message): SlackResponseInterface
+    {
+        $request = new Request(
+            'POST',
+            $url,
+            ['Content-Type' => 'application/json; charset=utf-8'],
+            json_encode($message, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE)
+        );
+        return $this->send($request);
+    }
 }

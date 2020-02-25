@@ -4,59 +4,65 @@ declare(strict_types=1);
 
 namespace App\GitHub\Listener;
 
+use App\GitHub\GitHubClient;
 use App\GitHub\Event\DocsBuildAction;
-use GuzzleHttp\Client;
-use Psr\Http\Message\RequestFactoryInterface;
+use App\Slack\SlackClientInterface;
 use Psr\Log\LoggerInterface;
 
 class DocsBuildActionListener
 {
-    /** @var Client */
-    private $httpClient;
+    /** @var GitHubClient */
+    private $githubClient;
 
     /** @var LoggerInterface */
     private $logger;
 
-    /** @var RequestFactoryInterface */
-    private $requestFactory;
-
-    /** @var string */
-    private $token;
+    /** @var SlackClientInterface */
+    private $slack;
 
     public function __construct(
-        string $token,
-        Client $httpClient,
-        RequestFactoryInterface $requestFactory,
-        LoggerInterface $logger
+        GitHubClient $githubClient,
+        LoggerInterface $logger,
+        SlackClientInterface $slack
     ) {
-        $this->token          = $token;
-        $this->httpClient     = $httpClient;
-        $this->requestFactory = $requestFactory;
-        $this->logger         = $logger;
+        $this->githubClient = $githubClient;
+        $this->logger       = $logger;
+        $this->slack        = $slack;
     }
 
     public function __invoke(DocsBuildAction $docsAction): void
     {
-        $request = $this->requestFactory->createRequest(
+        $request = $this->githubClient->createRequest(
             'POST',
             sprintf('https://api.github.com/repos/%s/dispatches', $docsAction->repo())
         );
-        $request = $request
-            ->withHeader('Authorization', sprintf('token %s', $this->token))
-            ->withHeader('Accept', 'application/json')
-            ->withHeader('Content-Type', 'application/json');
         $request->getBody()->write(json_encode(
             ['event_type' => 'docs-build'],
             JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES
         ));
 
-        $response = $this->client->send($request);
+        $response = $this->githubClient->send($request);
         if ($response->getStatusCode() !== 204) {
-            $this->logger->error(sprintf(
-                'Error attempting to trigger documentation build for %s: %s',
-                $docsAction->repo(),
-                (string) $response->getBody()
-            ));
+            $this->reportError($response, $docsAction);
+            return;
         }
+    }
+
+    private function reportError(ResponseInterface $response, DocsBuildAction $docsAction): void
+    {
+        $this->logger->error(sprintf(
+            'Error attempting to trigger documentation build for %s: %s',
+            $docsAction->repo(),
+            (string) $response->getBody()
+        ));
+
+        $this->slack->sendWebhookMessage($docsAction->responseUrl(), [
+            'response_type' => 'ephemeral',
+            'mrkdwn'        => true,
+            'text'          => sprintf(
+                '*Error queueing documentation build for %s*; ask Matthew to check the error logs for details',
+                $docsAction->repo()
+            ),
+        ]);
     }
 }

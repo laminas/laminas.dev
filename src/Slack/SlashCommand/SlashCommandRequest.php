@@ -41,4 +41,9 @@ class SlashCommandRequest
     {
         return $this->payload['userId'] ?? '';
     }
+
+    public function responseUrl(): string
+    {
+        return $this->payload['response_url'] ?? '';
+    }
 }

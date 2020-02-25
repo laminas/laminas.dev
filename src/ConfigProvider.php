@@ -106,6 +106,7 @@ class ConfigProvider
                 GitHub\Listener\GitHubReleaseTweetListener::class         => [DeferredListenerDelegator::class],
                 GitHub\Listener\GitHubReleaseWebsiteUpdateListener::class => [DeferredListenerDelegator::class],
                 GitHub\Listener\GitHubStatusListener::class               => [DeferredListenerDelegator::class],
+                GitHub\Listener\RegisterWebhookListener::class            => [DeferredListenerDelegator::class],
                 Slack\Message\DeployMessageHandler::class                 => [DeferredListenerDelegator::class],
             ],
             'factories' => [
@@ -113,6 +114,7 @@ class ConfigProvider
                 Discourse\Middleware\DiscourseHandler::class              => Discourse\Middleware\DiscourseHandlerFactory::class,
                 Discourse\Middleware\VerificationMiddleware::class        => Discourse\Middleware\VerificationMiddlewareFactory::class,
                 ErrorHandler::class                                       => Factory\ErrorHandlerFactory::class,
+                GitHub\GitHubClient::class                                => GitHub\GitHubClientFactory::class,
                 GitHub\Listener\DocsBuildActionListener::class            => GitHub\Listener\DocsBuildActionListenerFactory::class,
                 GitHub\Listener\GitHubIssueListener::class                => GitHub\Listener\GitHubIssueListenerFactory::class,
                 GitHub\Listener\GitHubIssueCommentListener::class         => GitHub\Listener\GitHubIssueCommentListenerFactory::class,
@@ -121,6 +123,7 @@ class ConfigProvider
                 GitHub\Listener\GitHubReleaseTweetListener::class         => GitHub\Listener\GitHubReleaseTweetListenerFactory::class,
                 GitHub\Listener\GitHubReleaseWebsiteUpdateListener::class => GitHub\Listener\GitHubReleaseWebsiteUpdateListenerFactory::class,
                 GitHub\Listener\GitHubStatusListener::class               => GitHub\Listener\GitHubStatusListenerFactory::class,
+                GitHub\Listener\RegisterWebhookListener::class            => GitHub\Listener\RegisterWebhookListenerFactory::class,
                 GitHub\Middleware\GitHubRequestHandler::class             => GitHub\Middleware\GitHubRequestHandlerFactory::class,
                 GitHub\Middleware\VerificationMiddleware::class           => GitHub\Middleware\VerificationMiddlewareFactory::class,
                 Handler\HomePageHandler::class                            => Handler\HomePageHandlerFactory::class,
@@ -133,10 +136,12 @@ class ConfigProvider
                 Slack\SlackClientInterface::class                         => Slack\SlackClientFactory::class,
                 Slack\SlashCommand\AuthorizedUserList::class              => Slack\SlashCommand\AuthorizedUserListFactory::class,
                 Slack\SlashCommand\BuildDocsCommand::class                => Slack\SlashCommand\BuildDocsCommandFactory::class,
+                Slack\SlashCommand\RegisterRepoCommand::class             => Slack\SlashCommand\RegisterRepoCommandFactory::class,
                 Slack\SlashCommand\SlashCommandResponseFactory::class     => Slack\SlashCommand\SlashCommandResponseFactoryFactory::class,
                 Slack\SlashCommand\SlashCommands::class                   => Slack\SlashCommand\SlashCommandsFactory::class,
                 StreamFactory::class                                      => InvokableFactory::class,
                 TwitterClient::class                                      => Factory\TwitterClientFactory::class,
+                UrlHelper::class                                          => Factory\UrlHelperFactory::class,
             ],
         ];
     }

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\GitHub\Event;
 
-class DocsBuildAction
+class RegisterWebhook
 {
     /** @var string */
     private $repo;
