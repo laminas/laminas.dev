@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Slack\SlashCommand;
 
+use App\Slack\Middleware\SlashCommandHandler;
 use Laminas\Feed\Reader\Http\ResponseInterface;
 
 class SlashCommands
@@ -51,32 +52,42 @@ class SlashCommands
                 "Unknown command '%s'; available commands:\n\n%s",
                 $command,
                 $this->help()
-            ), 400);
+            ), 200);
         }
 
         $command = $this->commands[$command];
-        $payload = $request->payload();
+        $payload = $request->text();
 
         // Request was for help with a command; return that
         if (preg_match('/^help\s/i', $payload)) {
             return $this->responseFactory->createResponse($command->help(), 200);
         }
 
-        $response = $command->validate($payload, $this->authorizedUsers);
+        $response = $command->validate($request, $this->authorizedUsers);
+
         // Was the payload malformed? Inform the user.
         if ($response !== null) {
             return $response;
         }
 
-        // Dispatch the command with the payload
-        return $command->dispatch($payload);
+        // Dispatch the command with the request
+        return $command->dispatch($request);
     }
 
     private function help(): string
     {
-        $help = array_reduce($this->commands, function ($help, SlashCommandInterface $command) {
-            return sprintf("%s\n- /%s: %s", $help, $command->command(), $command->help());
-        }, '- /laminas: list commands this bot provides');
-        return trim($help);
+        $help = array_merge(
+            ['- */laminas:* list commands this bot provides'],
+            array_map(function (SlashCommandInterface $command) {
+                $usage = $command->usage();
+                return sprintf(
+                    '- */%s%s:* %s',
+                    $command->command(),
+                    empty($usage) ? '' : ' ' . $usage,
+                    $command->help()
+                );
+            }, $this->commands)
+        );
+        return implode("\n", $help);
     }
 }

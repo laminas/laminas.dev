@@ -10,9 +10,14 @@ class SlashCommandsFactory
 {
     public function __invoke(ContainerInterface $container): SlashCommands
     {
-        return new SlashCommands(
+        $commands = new SlashCommands(
             $container->get(SlashCommandResponseFactory::class),
             $container->get(AuthorizedUserList::class)
         );
+
+        // Attach commands
+        $commands->attach($container->get(BuildDocsCommand::class));
+
+        return $commands;
     }
 }

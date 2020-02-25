@@ -40,6 +40,9 @@ class ConfigProvider
             'getlaminas' => [
                 'token' => '',
             ],
+            'github' => [
+                'token' => '',
+            ],
             'monolog' => [
                 'handlers' => [
                     [
@@ -95,6 +98,7 @@ class ConfigProvider
                     Discourse\ListenerProviderDelegatorFactory::class,
                 ],
                 Discourse\Listener\DiscoursePostListener::class           => [DeferredListenerDelegator::class],
+                GitHub\Listener\DocsBuildActionListener::class            => [DeferredListenerDelegator::class],
                 GitHub\Listener\GitHubIssueListener::class                => [DeferredListenerDelegator::class],
                 GitHub\Listener\GitHubIssueCommentListener::class         => [DeferredListenerDelegator::class],
                 GitHub\Listener\GitHubPullRequestListener::class          => [DeferredListenerDelegator::class],
@@ -109,6 +113,7 @@ class ConfigProvider
                 Discourse\Middleware\DiscourseHandler::class              => Discourse\Middleware\DiscourseHandlerFactory::class,
                 Discourse\Middleware\VerificationMiddleware::class        => Discourse\Middleware\VerificationMiddlewareFactory::class,
                 ErrorHandler::class                                       => Factory\ErrorHandlerFactory::class,
+                GitHub\Listener\DocsBuildActionListener::class            => GitHub\Listener\DocsBuildActionListenerFactory::class,
                 GitHub\Listener\GitHubIssueListener::class                => GitHub\Listener\GitHubIssueListenerFactory::class,
                 GitHub\Listener\GitHubIssueCommentListener::class         => GitHub\Listener\GitHubIssueCommentListenerFactory::class,
                 GitHub\Listener\GitHubPullRequestListener::class          => GitHub\Listener\GitHubPullRequestListenerFactory::class,
@@ -127,6 +132,7 @@ class ConfigProvider
                 Slack\Middleware\SlashCommandHandler::class               => Slack\Middleware\SlashCommandHandlerFactory::class,
                 Slack\SlackClientInterface::class                         => Slack\SlackClientFactory::class,
                 Slack\SlashCommand\AuthorizedUserList::class              => Slack\SlashCommand\AuthorizedUserListFactory::class,
+                Slack\SlashCommand\BuildDocsCommand::class                => Slack\SlashCommand\BuildDocsCommandFactory::class,
                 Slack\SlashCommand\SlashCommandResponseFactory::class     => Slack\SlashCommand\SlashCommandResponseFactoryFactory::class,
                 Slack\SlashCommand\SlashCommands::class                   => Slack\SlashCommand\SlashCommandsFactory::class,
                 StreamFactory::class                                      => InvokableFactory::class,

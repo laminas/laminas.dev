@@ -24,7 +24,7 @@ class SlashCommandRequest
         }
 
         $this->command = ltrim($payload['command'], '/');
-        $this->payload = $payload['text'] ?? '';
+        $this->payload = $payload;
     }
 
     public function command(): string
@@ -32,8 +32,13 @@ class SlashCommandRequest
         return $this->command;
     }
 
-    public function payload(): string
+    public function text(): string
     {
-        return $this->payload;
+        return $this->payload['text'] ?? '';
+    }
+
+    public function userId(): string
+    {
+        return $this->payload['userId'] ?? '';
     }
 }

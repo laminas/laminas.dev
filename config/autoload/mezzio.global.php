@@ -20,6 +20,7 @@ return [
 
     'github' => [
         'secret' => getenv('GITHUB_SECRET'),
+        'token'  => getenv('GITHUB_TOKEN'),
     ],
 
     'mezzio' => [

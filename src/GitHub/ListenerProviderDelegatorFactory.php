@@ -13,6 +13,7 @@ class ListenerProviderDelegatorFactory
     {
         $provider = $factory();
 
+        $provider->listen(Event\DocsBuildAction::class, $container->get(Listener\DocsBuildActionListener::class));
         $provider->listen(Event\GitHubIssue::class, $container->get(Listener\GitHubIssueListener::class));
         $provider->listen(Event\GitHubIssueComment::class, $container->get(Listener\GitHubIssueCommentListener::class));
         $provider->listen(Event\GitHubPullRequest::class, $container->get(Listener\GitHubPullRequestListener::class));
