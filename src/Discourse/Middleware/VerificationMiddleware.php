@@ -31,7 +31,7 @@ class VerificationMiddleware implements MiddlewareInterface
             return $this->responseFactory->createResponse(400);
         }
 
-        if (preg_match('/^sha256\=/', $signature)) {
+        if (strpos($signature, 'sha256=') === 0) {
             $signature = substr($signature, 7);
         }
 

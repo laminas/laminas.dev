@@ -10,8 +10,6 @@ use Psr\Http\Message\RequestInterface;
 
 interface SlackClientInterface
 {
-    public function getDefaultChannel(): string;
-
     public function send(RequestInterface $request): SlackResponseInterface;
 
     public function sendApiRequest(ApiRequestInterface $method): SlackResponseInterface;

@@ -34,9 +34,6 @@ class SlackClient implements SlackClientInterface
     /** @var HttpClient */
     private $httpClient;
 
-    /** @var string */
-    private $defaultChannel;
-
     /** @var null|LoggerInterface */
     private $logger;
 
@@ -44,18 +41,11 @@ class SlackClient implements SlackClientInterface
     public function __construct(
         HttpClient $httpClient,
         string $token,
-        string $defaultChannel,
         ?LoggerInterface $logger = null
     ) {
         $this->httpClient     = $httpClient;
         $this->token          = $token;
-        $this->defaultChannel = sprintf('#%s', ltrim($defaultChannel, '#'));
         $this->logger         = $logger;
-    }
-
-    public function getDefaultChannel(): string
-    {
-        return $this->defaultChannel;
     }
 
     public function send(RequestInterface $request): SlackResponseInterface
