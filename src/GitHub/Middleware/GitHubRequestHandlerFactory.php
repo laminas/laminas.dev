@@ -7,11 +7,11 @@ namespace App\GitHub\Middleware;
 use Psr\Container\ContainerInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
 
-class GithubRequestHandlerFactory
+class GitHubRequestHandlerFactory
 {
-    public function __invoke(ContainerInterface $container): GithubRequestHandler
+    public function __invoke(ContainerInterface $container): GitHubRequestHandler
     {
-        return new GithubRequestHandler(
+        return new GitHubRequestHandler(
             $container->get(EventDispatcherInterface::class)
         );
     }

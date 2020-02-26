@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Slack\Domain;
 
 use Assert\Assert;
-use Assert\AssertionFailedException;
+use Assert\InvalidArgumentException;
 
 class SectionBlock implements BlockInterface
 {
@@ -31,8 +31,11 @@ class SectionBlock implements BlockInterface
         if (! isset($this->payload['text'])
             && ! isset($this->payload['fields'])
         ) {
-            throw new AssertionFailedException(
-                'Section block requires one or both of the "text" and "blocks" keys; neither provided'
+            throw new InvalidArgumentException(
+                'Section block requires one or both of the "text" and "blocks" keys; neither provided',
+                0,
+                'text,fields',
+                []
             );
         }
 

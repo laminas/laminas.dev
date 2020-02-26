@@ -10,7 +10,7 @@ trait TextObjectValidationTrait
 {
     private function validateTextObject(array $textObject): void
     {
-        Assert::that($textObject)->keyIsset('text');
+        Assert::that($textObject)->keyExists('text');
         Assert::that($textObject['text'])->string();
         Assert::that($textObject)->keyIsset('type');
         Assert::that($textObject['type'])->string()->inArray(['plain_text', 'mrkdwn']);

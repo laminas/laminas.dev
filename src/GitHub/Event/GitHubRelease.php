@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\GitHub\Event;
 
 use Assert\Assert;
-use DateTimeImmutable;
 
 use function in_array;
 
@@ -28,8 +27,8 @@ final class GitHubRelease extends AbstractGitHubEvent
         Assert::that($this->payload['release'])->isArray();
         Assert::that($this->payload['release'])->keyIsset('html_url');
         Assert::that($this->payload['release'])->keyIsset('tag_name');
-        Assert::that($this->payload['release'])->keyIsset('body');
-        Assert::that($this->payload['release'])->keyIsset('draft');
+        Assert::that($this->payload['release'])->keyExists('body');
+        Assert::that($this->payload['release'])->keyExists('draft');
         Assert::that($this->payload['release'])->keyIsset('published_at');
         Assert::that($this->payload['release']['author'])->isArray();
         Assert::that($this->payload['release']['author'])->keyIsset('login');
@@ -40,9 +39,10 @@ final class GitHubRelease extends AbstractGitHubEvent
 
     public function ignore(): bool
     {
-        return ! in_array($this->payload['action'], [
-            'published',
-        ], true);
+        if (! in_array($this->payload['action'], ['published'], true)) {
+            return true;
+        }
+        return ! $this->isPublished();
     }
 
     public function getAction(): string
@@ -67,7 +67,7 @@ final class GitHubRelease extends AbstractGitHubEvent
 
     public function getChangelog(): string
     {
-        return $this->payload['release']['body'];
+        return $this->payload['release']['body'] ?? '';
     }
 
     public function getPublicationDate(): string

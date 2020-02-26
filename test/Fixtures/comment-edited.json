@@ -1,24 +1,9 @@
 {
-  "action": "unassigned",
-  "assignee": {
-    "login": "Codertocat",
-    "id": 21031067,
-    "node_id": "MDQ6VXNlcjIxMDMxMDY3",
-    "avatar_url": "https://avatars1.githubusercontent.com/u/21031067?v=4",
-    "gravatar_id": "",
-    "url": "https://api.github.com/users/Codertocat",
-    "html_url": "https://github.com/Codertocat",
-    "followers_url": "https://api.github.com/users/Codertocat/followers",
-    "following_url": "https://api.github.com/users/Codertocat/following{/other_user}",
-    "gists_url": "https://api.github.com/users/Codertocat/gists{/gist_id}",
-    "starred_url": "https://api.github.com/users/Codertocat/starred{/owner}{/repo}",
-    "subscriptions_url": "https://api.github.com/users/Codertocat/subscriptions",
-    "organizations_url": "https://api.github.com/users/Codertocat/orgs",
-    "repos_url": "https://api.github.com/users/Codertocat/repos",
-    "events_url": "https://api.github.com/users/Codertocat/events{/privacy}",
-    "received_events_url": "https://api.github.com/users/Codertocat/received_events",
-    "type": "User",
-    "site_admin": false
+  "action": "edited",
+  "changes": {
+    "body": {
+      "from": "You are totally right! Somebody will fix this right away."
+    }
   },
   "issue": {
     "url": "https://api.github.com/repos/Codertocat/Hello-World/issues/1",
@@ -63,6 +48,48 @@
     ],
     "state": "open",
     "locked": false,
+    "assignee": {
+      "login": "Codertocat",
+      "id": 21031067,
+      "node_id": "MDQ6VXNlcjIxMDMxMDY3",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/21031067?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/Codertocat",
+      "html_url": "https://github.com/Codertocat",
+      "followers_url": "https://api.github.com/users/Codertocat/followers",
+      "following_url": "https://api.github.com/users/Codertocat/following{/other_user}",
+      "gists_url": "https://api.github.com/users/Codertocat/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/Codertocat/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/Codertocat/subscriptions",
+      "organizations_url": "https://api.github.com/users/Codertocat/orgs",
+      "repos_url": "https://api.github.com/users/Codertocat/repos",
+      "events_url": "https://api.github.com/users/Codertocat/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/Codertocat/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "assignees": [
+      {
+        "login": "Codertocat",
+        "id": 21031067,
+        "node_id": "MDQ6VXNlcjIxMDMxMDY3",
+        "avatar_url": "https://avatars1.githubusercontent.com/u/21031067?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/Codertocat",
+        "html_url": "https://github.com/Codertocat",
+        "followers_url": "https://api.github.com/users/Codertocat/followers",
+        "following_url": "https://api.github.com/users/Codertocat/following{/other_user}",
+        "gists_url": "https://api.github.com/users/Codertocat/gists{/gist_id}",
+        "starred_url": "https://api.github.com/users/Codertocat/starred{/owner}{/repo}",
+        "subscriptions_url": "https://api.github.com/users/Codertocat/subscriptions",
+        "organizations_url": "https://api.github.com/users/Codertocat/orgs",
+        "repos_url": "https://api.github.com/users/Codertocat/repos",
+        "events_url": "https://api.github.com/users/Codertocat/events{/privacy}",
+        "received_events_url": "https://api.github.com/users/Codertocat/received_events",
+        "type": "User",
+        "site_admin": false
+      }
+    ],
     "milestone": {
       "url": "https://api.github.com/repos/Codertocat/Hello-World/milestones/1",
       "html_url": "https://github.com/Codertocat/Hello-World/milestone/1",
@@ -102,10 +129,41 @@
     },
     "comments": 0,
     "created_at": "2019-05-15T15:20:18Z",
-    "updated_at": "2019-06-15T15:20:18Z",
+    "updated_at": "2019-05-15T15:20:21Z",
     "closed_at": null,
     "author_association": "OWNER",
     "body": "It looks like you accidently spelled 'commit' with two 't's."
+  },
+  "comment": {
+    "url": "https://api.github.com/repos/Codertocat/Hello-World/issues/comments/492700400",
+    "html_url": "https://github.com/Codertocat/Hello-World/issues/1#issuecomment-492700400",
+    "issue_url": "https://api.github.com/repos/Codertocat/Hello-World/issues/1",
+    "id": 492700400,
+    "node_id": "MDEyOklzc3VlQ29tbWVudDQ5MjcwMDQwMA==",
+    "user": {
+      "login": "Codertocat",
+      "id": 21031067,
+      "node_id": "MDQ6VXNlcjIxMDMxMDY3",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/21031067?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/Codertocat",
+      "html_url": "https://github.com/Codertocat",
+      "followers_url": "https://api.github.com/users/Codertocat/followers",
+      "following_url": "https://api.github.com/users/Codertocat/following{/other_user}",
+      "gists_url": "https://api.github.com/users/Codertocat/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/Codertocat/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/Codertocat/subscriptions",
+      "organizations_url": "https://api.github.com/users/Codertocat/orgs",
+      "repos_url": "https://api.github.com/users/Codertocat/repos",
+      "events_url": "https://api.github.com/users/Codertocat/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/Codertocat/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "created_at": "2019-05-15T15:20:21Z",
+    "updated_at": "2019-05-16T15:20:21Z",
+    "author_association": "OWNER",
+    "body": "You are totally right! Somebody will fix this right away."
   },
   "repository": {
     "id": 186853002,

@@ -11,11 +11,12 @@ use Psr\Http\Server\RequestHandlerInterface;
 use Laminas\Diactoros\Response\EmptyResponse;
 use Laminas\Diactoros\Response\JsonResponse;
 use Psr\EventDispatcher\EventDispatcherInterface;
+use Throwable;
 
 /**
  * @see https://developer.github.com/webhooks/
  */
-class GithubRequestHandler implements RequestHandlerInterface
+class GitHubRequestHandler implements RequestHandlerInterface
 {
     /** @var EventDispatcherInterface */
     private $dispatcher;
@@ -66,7 +67,7 @@ class GithubRequestHandler implements RequestHandlerInterface
 
         try {
             $message->validate();
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             return new JsonResponse(['error' => $e->getMessage()], 400, ['X-Status-Reason' => 'Validation failed']);
         }
 

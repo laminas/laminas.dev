@@ -146,7 +146,7 @@ final class GitHubStatus extends AbstractGitHubEvent
         $commit  = $payload['commit'];
 
         return [
-            $this->createContextBlock(),
+            $this->createContextBlock(''),
             [
                 'type' => 'section',
                 'text' => [
@@ -202,7 +202,7 @@ final class GitHubStatus extends AbstractGitHubEvent
         ];
     }
 
-    private function createContextBlock(): array
+    protected function createContextBlock(string $url): array
     {
         return [
             'type'     => 'context',

@@ -29,7 +29,7 @@ final class GitHubIssue extends AbstractGitHubEvent
         Assert::that($this->payload['issue'])->keyIsset('html_url');
         Assert::that($this->payload['issue'])->keyIsset('number');
         Assert::that($this->payload['issue'])->keyIsset('title');
-        Assert::that($this->payload['issue'])->keyIsset('body');
+        Assert::that($this->payload['issue'])->keyExists('body');
         Assert::that($this->payload['repository'])->isArray();
         Assert::that($this->payload['repository'])->keyIsset('full_name');
         Assert::that($this->payload['repository'])->keyIsset('html_url');

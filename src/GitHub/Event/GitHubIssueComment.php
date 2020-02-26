@@ -29,7 +29,7 @@ class GitHubIssueComment extends AbstractGitHubEvent
     {
         Assert::that($this->payload['action'])->notEmpty()->string();
         Assert::that($this->payload['comment'])->isArray();
-        Assert::that($this->payload['comment'])->keyIsset('body');
+        Assert::that($this->payload['comment'])->keyExists('body');
         Assert::that($this->payload['comment'])->keyIsset('created_at');
         Assert::that($this->payload['comment'])->keyIsset('html_url');
         Assert::that($this->payload['comment'])->keyIsset('user');
@@ -39,7 +39,7 @@ class GitHubIssueComment extends AbstractGitHubEvent
         Assert::that($this->payload['issue'])->isArray();
         Assert::that($this->payload['issue'])->keyIsset('html_url');
         Assert::that($this->payload['issue'])->keyIsset('number');
-        Assert::that($this->payload['issue'])->keyIsset('title');
+        Assert::that($this->payload['issue'])->keyExists('title');
         Assert::that($this->payload['repository'])->isArray();
         Assert::that($this->payload['repository'])->keyIsset('full_name');
         Assert::that($this->payload['repository'])->keyIsset('html_url');

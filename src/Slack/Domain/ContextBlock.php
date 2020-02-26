@@ -28,7 +28,7 @@ class ContextBlock implements BlockInterface
 
     public function validate(): void
     {
-        Assert::that($this->payload)->keyIsset('elements');
+        Assert::that($this->payload)->keyExists()('elements');
         Assert::that($this->payload['elements'])->isArray();
         foreach ($this->payload['elements'] as $element) {
             Assert::that($element)->isArray();
