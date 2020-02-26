@@ -31,6 +31,14 @@ class GithubRequestHandler implements RequestHandlerInterface
         $payload   = (array) $request->getParsedBody();
 
         switch ($eventName) {
+            case 'issues':
+                $message = new Event\GitHubIssue($payload);
+                break;
+
+            case 'issue_comment':
+                $message = new Event\GitHubIssueComment($payload);
+                break;
+
             case 'pull_request':
                 $message = new Event\GitHubPullRequest($payload);
                 break;
@@ -43,12 +51,6 @@ class GithubRequestHandler implements RequestHandlerInterface
                 $message = new Event\GitHubStatus($payload);
                 break;
 
-            case 'issues':
-                $message = new Event\GitHubIssue($payload);
-                break;
-
-            case 'deployment':          // TODO: GitHub deployment event
-            case 'deployment_status':   // TODO: GitHub deployment_status event
             default:
                 $message = null;
                 break;
