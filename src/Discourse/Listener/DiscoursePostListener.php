@@ -27,7 +27,6 @@ class DiscoursePostListener
 
         $message = new ChatPostMessage($post->getChannel());
         $message->setText($post->getFallbackMessage());
-        $message->addAttachment(new Attachment($post->getMessagePayload()));
         foreach ($post->getMessageBlocks() as $blockData) {
             $message->addBlock(Block::create($blockData));
         }
