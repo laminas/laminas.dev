@@ -13,7 +13,31 @@ class AuthorizedUserList
     /** string[] */
     private $allowed;
 
+    /** @var RequestFactoryInterface */
+    private $requestFactory;
+
+    /** @var SlackClient */
+    private $slack;
+
     public function __construct(SlackClient $slack, RequestFactoryInterface $requestFactory)
+    {
+        $this->slack          = $slack;
+        $this->requestFactory = $requestFactory;
+        $this->build();
+    }
+
+    public function isAuthorized(string $userId): bool
+    {
+        return in_array($userId, $this->allowed, true);
+    }
+
+    /**
+     * @throws DomainException if unable to fetch channel list
+     * @throws DomainException if unable to match #technical-steering-committee
+     *     channel in channel list
+     * @throws DomainException if unable to fetch list of channel members
+     */
+    public function build(): void
     {
         $baseUri = 'https://slack.com/api';
         $listUri = sprintf(
@@ -25,8 +49,8 @@ class AuthorizedUserList
             ])
         );
 
-        $response = $slack->send(
-            $requestFactory->createRequest('GET', $listUri)
+        $response = $this->slack->send(
+            $this->requestFactory->createRequest('GET', $listUri)
                 ->withHeader('Accept', 'application/json')
         );
 
@@ -74,10 +98,5 @@ class AuthorizedUserList
         }
 
         $this->allowed = $response->getPayload()['members'];
-    }
-
-    public function isAuthorized(string $userId): bool
-    {
-        return in_array($userId, $this->allowed, true);
     }
 }

@@ -17,6 +17,7 @@ class SlashCommandsFactory
 
         // Attach commands
         $commands->attach($container->get(BuildDocsCommand::class));
+        $commands->attach($container->get(RegenerateAuthorizedUserListCommand::class));
         $commands->attach($container->get(RegisterRepoCommand::class));
 
         return $commands;
