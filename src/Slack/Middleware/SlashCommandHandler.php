@@ -6,7 +6,7 @@ namespace App\Slack\Middleware;
 
 use App\Slack\SlashCommand\SlashCommandRequest;
 use App\Slack\SlashCommand\SlashCommands;
-use Laminas\Stdlib\ResponseInterface;
+use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 

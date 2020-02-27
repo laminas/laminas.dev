@@ -39,7 +39,7 @@ class SlashCommandRequest
 
     public function userId(): string
     {
-        return $this->payload['userId'] ?? '';
+        return $this->payload['user_id'] ?? '';
     }
 
     public function responseUrl(): string

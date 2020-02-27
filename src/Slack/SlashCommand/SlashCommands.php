@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace App\Slack\SlashCommand;
 
-use App\Slack\Middleware\SlashCommandHandler;
-use Laminas\Feed\Reader\Http\ResponseInterface;
+use Psr\Http\Message\ResponseInterface;
 
 class SlashCommands
 {
