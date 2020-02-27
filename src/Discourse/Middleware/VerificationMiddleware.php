@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Discourse\Middleware;
 
-use Laminas\Stdlib\ResponseInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
+use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
@@ -37,7 +37,7 @@ class VerificationMiddleware implements MiddlewareInterface
 
         $body = (string) $request->getBody();
         if (hash_hmac('sha256', $body, $this->secret) !== $signature) {
-            return $this->responseFactory->create(203, 'Invalid or missing signature');
+            return $this->responseFactory->createResponse(203, 'Invalid or missing signature');
         }
 
         return $handler->handle($request);
