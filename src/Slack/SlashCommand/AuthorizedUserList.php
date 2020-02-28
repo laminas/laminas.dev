@@ -8,7 +8,7 @@ use App\Slack\SlackClient;
 use DomainException;
 use Psr\Http\Message\RequestFactoryInterface;
 
-class AuthorizedUserList
+class AuthorizedUserList implements AuthorizedUserListInterface
 {
     /** string[] */
     private $allowed;

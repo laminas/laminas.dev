@@ -9,8 +9,10 @@ trait ValidateRepoArgumentTrait
     /** SlashCommandResponseFactory */
     private $responseFactory;
 
-    public function validate(SlashCommandRequest $request, AuthorizedUserList $authorizedUsers): ?ResponseInterface
-    {
+    public function validate(
+        SlashCommandRequest $request,
+        AuthorizedUserListInterface $authorizedUsers
+    ): ?ResponseInterface {
         if (! $authorizedUsers->isAuthorized($request->userId())) {
             return $this->responseFactory->createUnauthorizedResponse();
         }

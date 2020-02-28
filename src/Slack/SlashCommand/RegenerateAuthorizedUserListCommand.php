@@ -40,8 +40,10 @@ class RegenerateAuthorizedUserListCommand implements SlashCommandInterface
            . ' the set of current members of the #technical-steering-committee channel.';
     }
 
-    public function validate(SlashCommandRequest $request, AuthorizedUserList $authorizedUsers): ?ResponseInterface
-    {
+    public function validate(
+        SlashCommandRequest $request,
+        AuthorizedUserListInterface $authorizedUsers
+    ): ?ResponseInterface {
         if (! $authorizedUsers->isAuthorized($request->userId())) {
             return $this->responseFactory->createUnauthorizedResponse();
         }

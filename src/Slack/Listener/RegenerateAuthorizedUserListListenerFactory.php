@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Slack\Listener;
 
 use App\Slack\SlackClientInterface;
-use App\Slack\SlashCommand\AuthorizedUserList;
+use App\Slack\SlashCommand\AuthorizedUserListInterface;
 use Psr\Container\ContainerInterface;
 
 class RegenerateAuthorizedUserListListenerFactory
@@ -13,7 +13,7 @@ class RegenerateAuthorizedUserListListenerFactory
     public function __invoke(ContainerInterface $container): RegenerateAuthorizedUserListListener
     {
         return new RegenerateAuthorizedUserListListener(
-            $container->get(AuthorizedUserList::class),
+            $container->get(AuthorizedUserListInterface::class),
             $container->get(SlackClientInterface::class)
         );
     }

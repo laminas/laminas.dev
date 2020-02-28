@@ -12,7 +12,7 @@ class ApplicationDelegator
     public function __invoke(ContainerInterface $container, string $name, callable $factory): Application
     {
         // Initialize the authorized user list
-        $container->get(SlashCommand\AuthorizedUserList::class);
+        $container->get(SlashCommand\AuthorizedUserListInterface::class);
 
         return $factory();
     }

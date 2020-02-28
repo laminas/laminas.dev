@@ -8,7 +8,7 @@ use Psr\Http\Message\ResponseInterface;
 
 class SlashCommands
 {
-    /** AuthorizedUserList */
+    /** AuthorizedUserListInterface */
     private $authorizedUsers;
 
     /** @var SlashCommandInterface[] array<string, SlashCommandInterface> */
@@ -17,8 +17,10 @@ class SlashCommands
     /** @var SlashCommandResponseFactory */
     private $responseFactory;
 
-    public function __construct(SlashCommandResponseFactory $responseFactory, AuthorizedUserList $authorizedUsers)
-    {
+    public function __construct(
+        SlashCommandResponseFactory $responseFactory,
+        AuthorizedUserListInterface $authorizedUsers
+    ) {
         $this->responseFactory = $responseFactory;
         $this->authorizedUsers = $authorizedUsers;
     }

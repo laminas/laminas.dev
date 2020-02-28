@@ -6,19 +6,19 @@ namespace App\Slack\Listener;
 
 use App\Slack\Event\RegenerateAuthorizedUserList;
 use App\Slack\SlackClientInterface;
-use App\Slack\SlashCommand\AuthorizedUserList;
+use App\Slack\SlashCommand\AuthorizedUserListInterface;
 use DomainException;
 
 class RegenerateAuthorizedUserListListener
 {
-    /** @var AuthorizedUserList */
+    /** @var AuthorizedUserListInterface */
     private $authorizedUserList;
 
     /** @var SlackClientInterface */
     private $slack;
 
     public function __construct(
-        AuthorizedUserList $authorizedUserList,
+        AuthorizedUserListInterface $authorizedUserList,
         SlackClientInterface $slack
     ) {
         $this->authorizedUserList = $authorizedUserList;

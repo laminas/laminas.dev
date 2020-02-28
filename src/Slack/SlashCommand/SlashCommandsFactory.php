@@ -12,7 +12,7 @@ class SlashCommandsFactory
     {
         $commands = new SlashCommands(
             $container->get(SlashCommandResponseFactory::class),
-            $container->get(AuthorizedUserList::class)
+            $container->get(AuthorizedUserListInterface::class)
         );
 
         // Attach commands

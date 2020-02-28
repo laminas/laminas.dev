@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Slack\SlashCommand;
 
-use App\Slack\Middleware\SlashCommandHandler;
 use Psr\Http\Message\ResponseInterface;
 
 interface SlashCommandInterface
@@ -28,7 +27,10 @@ interface SlashCommandInterface
      * @return null|ResponseInterface Returns null if valid, and a response
      *     describing the validation error otherwise.
      */
-    public function validate(SlashCommandRequest $request, AuthorizedUserList $authorizedUsers): ?ResponseInterface;
+    public function validate(
+        SlashCommandRequest $request,
+        AuthorizedUserListInterface $authorizedUsers
+    ): ?ResponseInterface;
 
     public function dispatch(SlashCommandRequest $request): ResponseInterface;
 }

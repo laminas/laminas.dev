@@ -85,6 +85,7 @@ class ConfigProvider
     {
         return [
             'aliases' => [
+                Slack\SlashCommand\AuthorizedUserListInterface::class => Slack\SlashCommand\AuthorizedUserList::class,
                 EventDispatcherInterface::class  => EventDispatcher::class,
                 ListenerProviderInterface::class => AttachableListenerProvider::class,
                 RequestFactoryInterface::class   => RequestFactory::class,
