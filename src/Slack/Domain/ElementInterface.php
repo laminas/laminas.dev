@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Slack\Domain;
 
-interface BlockInterface extends
+interface ElementInterface extends
     RenderableInterface,
     ValidatableInterface
 {

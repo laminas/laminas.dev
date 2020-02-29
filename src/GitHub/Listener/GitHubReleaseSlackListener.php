@@ -6,7 +6,7 @@ namespace App\GitHub\Listener;
 
 use App\GitHub\Event\GitHubRelease;
 use App\Slack\Domain\Block;
-use App\Slack\Method\ChatPostMessage;
+use App\Slack\Domain\WebAPIMessage;
 use App\Slack\SlackClient;
 
 class GitHubReleaseSlackListener
@@ -25,11 +25,12 @@ class GitHubReleaseSlackListener
 
     public function __invoke(GitHubRelease $release) : void
     {
-        $notification = new ChatPostMessage($this->channel);
+        $notification = new WebAPIMessage();
+        $notification->setChannel($this->channel);
         $notification->setText($release->getFallbackMessage());
         foreach ($release->getMessageBlocks() as $block) {
             $notification->addBlock(Block::create($block));
         }
-        $this->slackClient->sendApiRequest($notification);
+        $this->slackClient->sendWebAPIMessage($notification);
     }
 }

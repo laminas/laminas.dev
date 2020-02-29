@@ -4,6 +4,11 @@ declare(strict_types=1);
 
 namespace App\Slack\SlashCommand;
 
+use App\Slack\Domain\ContextBlock;
+use App\Slack\Domain\ImageElement;
+use App\Slack\Domain\SectionBlock;
+use App\Slack\Domain\SlashResponseMessage;
+use App\Slack\Domain\TextObject;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 
@@ -23,33 +28,22 @@ class SlashCommandResponseFactory
 
     public function createResponse(string $text, int $status = 200): ResponseInterface
     {
+        $context = new ContextBlock();
+        $context->addElement(new ImageElement(
+            'https://getlaminas.org/images/logo/trademark-laminas-144x144.png',
+            'Laminas Bot'
+        ));
+        $context->addElement(new TextObject('Laminas Bot'));
+
+        $textSection = new SectionBlock();
+        $textSection->setText(new TextObject($text));
+
+        $message = new SlashResponseMessage();
+        $message->addBlock($context);
+        $message->addBlock($textSection);
+
         $body = $this->streamFactory->createStream(json_encode(
-            [
-                'response_type' => 'ephemeral',
-                'blocks'        => [
-                    [
-                        'type'     => 'context',
-                        'elements' => [
-                            [
-                                'type'      => 'image',
-                                'image_url' => 'https://getlaminas.org/images/logo/trademark-laminas-144x144.png',
-                                'alt_text'  => 'Laminas Bot',
-                            ],
-                            [
-                                'type' => 'mrkdwn',
-                                'text' => 'Laminas Bot',
-                            ],
-                        ],
-                    ],
-                    [
-                        'type' => 'section',
-                        'text' => [
-                            'type' => 'mrkdwn',
-                            'text' => $text,
-                        ],
-                    ],
-                ],
-            ],
+            $message->toArray(),
             JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES
         ));
 

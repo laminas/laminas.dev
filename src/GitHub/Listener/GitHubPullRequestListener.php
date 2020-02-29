@@ -6,7 +6,7 @@ namespace App\GitHub\Listener;
 
 use App\GitHub\Event\GitHubPullRequest;
 use App\Slack\Domain\Block;
-use App\Slack\Method\ChatPostMessage;
+use App\Slack\Domain\WebAPIMessage;
 use App\Slack\SlackClient;
 
 class GitHubPullRequestListener
@@ -25,11 +25,12 @@ class GitHubPullRequestListener
 
     public function __invoke(GitHubPullRequest $pullRequest) : void
     {
-        $notification = new ChatPostMessage($this->channel);
+        $notification = new WebAPIMessage();
+        $notification->setChannel($this->channel);
         $notification->setText($pullRequest->getFallbackMessage());
         foreach ($pullRequest->getMessageBlocks() as $block) {
             $notification->addBlock(Block::create($block));
         }
-        $this->slackClient->sendApiRequest($notification);
+        $this->slackClient->sendWebAPIMessage($notification);
     }
 }

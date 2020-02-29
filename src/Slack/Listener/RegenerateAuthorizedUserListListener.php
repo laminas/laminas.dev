@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Slack\Listener;
 
+use App\Slack\Domain\SlashResponseMessage;
 use App\Slack\Event\RegenerateAuthorizedUserList;
 use App\Slack\SlackClientInterface;
 use App\Slack\SlashCommand\AuthorizedUserListInterface;
@@ -34,23 +35,20 @@ class RegenerateAuthorizedUserListListener
             return;
         }
 
-        $this->slack->sendWebhookMessage($request->responseUrl(), [
-            'response_type' => 'ephemeral',
-            'mrkdwn'        => true,
-            'text'          => '*Queueing request to rebuild authorized user list*',
-        ]);
+        $message = new SlashResponseMessage();
+        $message->setText('*Queueing request to rebuild authorized user list*');
+
+        $this->slack->sendWebhookMessage($request->responseUrl(), $message);
     }
 
     private function reportError(DomainException $e, RegenerateAuthorizedUserList $request): void
     {
-        $this->slack->sendWebhookMessage($request->responseUrl(), [
-            'response_type' => 'ephemeral',
-            'mrkdwn'        => true,
-            'text'          => sprintf(
-                '*Error rebuilding authorized user list with message "%s";'
-                . ' ask Matthew to check the error logs for details',
-                $e->getMessage()
-            ),
-        ]);
+        $message = new SlashResponseMessage();
+        $message->setText(sprintf(
+            '*Error rebuilding authorized user list with message "%s";'
+            . ' ask Matthew to check the error logs for details',
+            $e->getMessage()
+        ));
+        $this->slack->sendWebhookMessage($request->responseUrl(), $message);
     }
 }

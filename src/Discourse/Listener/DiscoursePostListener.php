@@ -6,7 +6,7 @@ namespace App\Discourse\Listener;
 
 use App\Discourse\Event\DiscoursePost;
 use App\Slack\Domain\Block;
-use App\Slack\Method\ChatPostMessage;
+use App\Slack\Domain\WebAPIMessage;
 use App\Slack\SlackClient;
 
 class DiscoursePostListener
@@ -25,12 +25,14 @@ class DiscoursePostListener
             return;
         }
 
-        $message = new ChatPostMessage($post->getChannel());
-        $message->setText($post->getFallbackMessage());
+
+        $message = new WebAPIMessage();
+        $message->setChannel($post->getChannel());
+        $post->setText($post->getFallbackMessage());
         foreach ($post->getMessageBlocks() as $blockData) {
             $message->addBlock(Block::create($blockData));
         }
 
-        $this->slack->sendApiRequest($message);
+        $this->slack->sendWebAPIMessage($message);
     }
 }

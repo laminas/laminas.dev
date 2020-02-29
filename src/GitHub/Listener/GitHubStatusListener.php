@@ -6,7 +6,7 @@ namespace App\GitHub\Listener;
 
 use App\GitHub\Event\GitHubStatus;
 use App\Slack\Domain\Block;
-use App\Slack\Method\ChatPostMessage;
+use App\Slack\Domain\WebAPIMessage;
 use App\Slack\SlackClientInterface;
 use Assert\AssertionFailedException;
 use GuzzleHttp\Client as HttpClient;
@@ -54,13 +54,14 @@ class GitHubStatusListener
             ? $this->fetchPullRequestData($message)
             : null;
 
-        $notification = new ChatPostMessage($this->channel);
+        $notification = new WebAPIMessage();
+        $notification->setChannel($this->channel);
         $notification->setText($message->getFallbackMessage($pullRequest));
         foreach ($message->getMessageBlocks($pullRequest) as $block) {
             $notification->addBlock(Block::create($block));
         }
 
-        $this->slackClient->sendApiRequest($notification);
+        $this->slackClient->sendWebAPIMessage($notification);
     }
 
     private function fetchPullRequestData(GitHubStatus $status): ?PullRequest

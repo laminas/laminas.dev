@@ -6,6 +6,7 @@ namespace App\GitHub\Listener;
 
 use App\GitHub\Event\RegisterWebhook;
 use App\GitHub\GitHubClient;
+use App\Slack\Domain\SlashResponseMessage;
 use App\Slack\SlackClientInterface;
 use App\UrlHelper;
 use Psr\Http\Message\ResponseInterface;
@@ -73,14 +74,13 @@ class RegisterWebhookListener
             $this->reportError($response, $webhookRegistration);
         }
 
-        $this->slack->sendWebhookMessage($webhookRegistration->responseUrl(), [
-            'response_type' => 'ephemeral',
-            'mrkdwn'        => true,
-            'text'          => sprintf(
-                'laminas-bot webhook for %s registered',
-                $webhookRegistration->repo()
-            ),
-        ]);
+        $message = new SlashResponseMessage();
+        $message->setText(sprintf(
+            'laminas-bot webhook for %s registered',
+            $webhookRegistration->repo()
+        ));
+
+        $this->slack->sendWebhookMessage($webhookRegistration->responseUrl(), $message);
     }
 
     private function reportError(ResponseInterface $response, RegisterWebhook $webhookRegistration): void
@@ -91,13 +91,12 @@ class RegisterWebhookListener
             (string) $response->getBody()
         ));
 
-        $this->slack->sendWebhookMessage($webhookRegistration->responseUrl(), [
-            'response_type' => 'ephemeral',
-            'mrkdwn'        => true,
-            'text'          => sprintf(
-                '*Error registering laminas-bot webhook for %s*; ask Matthew to check the error logs for details',
-                $webhookRegistration->repo()
-            ),
-        ]);
+        $message = new SlashResponseMessage();
+        $message->setText(sprintf(
+            '*Error registering laminas-bot webhook for %s*; ask Matthew to check the error logs for details',
+            $webhookRegistration->repo()
+        ));
+
+        $this->slack->sendWebhookMessage($webhookRegistration->responseUrl(), $message);
     }
 }

@@ -6,6 +6,7 @@ namespace App\Slack;
 
 use GuzzleHttp\Client as HttpClient;
 use Psr\Container\ContainerInterface;
+use Psr\Http\Message\RequestFactoryInterface;
 use Psr\Log\LoggerInterface;
 use RuntimeException;
 
@@ -21,6 +22,7 @@ class SlackClientFactory
         return new SlackClient(
             new HttpClient(['base_uri' => 'https://slack.com/api/']),
             $config['slack']['token'],
+            $container->get(RequestFactoryInterface::class),
             $container->get(LoggerInterface::class)
         );
     }

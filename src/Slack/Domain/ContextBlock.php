@@ -4,46 +4,58 @@ declare(strict_types=1);
 
 namespace App\Slack\Domain;
 
-use Assert\Assert;
+use InvalidArgumentException;
 
 class ContextBlock implements BlockInterface
 {
-    use ImageElementValidationTrait;
-    use TextObjectValidationTrait;
-
     /** @var array */
-    private $payload;
+    private $elements = [];
 
-    public function __construct(array $payload) 
+    public static function fromArray($data): self
     {
-        $this->payload = $payload;
+        $context = new self();
+
+        foreach ($data['elements'] as $elementData) {
+            switch ($elementData['type']) {
+                case 'image':
+                    $context->addElement(ImageElement::fromArray($elementData));
+                    break;
+                case TextObject::TYPE_MARKDOWN:
+                case TextObject::TYPE_PLAIN_TEXT:
+                    $context->addElement(TextObject::fromArray($elementData));
+                    break;
+            }
+        }
+
+        return $context;
     }
 
-    public function toArray(): array
+    public function addElement(ElementInterface $element): void
     {
-        return array_merge($this->payload, [
-            'type' => 'context',
-        ]);
+        $this->elements[] = $element;
     }
 
     public function validate(): void
     {
-        Assert::that($this->payload)->keyExists()('elements');
-        Assert::that($this->payload['elements'])->isArray();
-        foreach ($this->payload['elements'] as $element) {
-            Assert::that($element)->isArray();
-            Assert::that($element)->keyIsset('type');
-            Assert::that($element['type'])->string()->inArray(['plain_text', 'mrkdown', 'image']);
-            switch ($element['type']) {
-                case 'image':
-                    $this->validateImageElement($element);
-                    break;
-                case 'mrkdown':
-                case 'plain_text':
-                default:
-                    $this->validateTextObject($element);
-                    break;
-            }
+        $count = count($this->elements);
+        if ($count === 0 || $count > 10) {
+            throw new InvalidArgumentException(sprintf(
+                'Context requires at least 1 and no more than 10 elements; contains %d',
+                $count
+            ));
         }
+        array_walk($this->elements, function (ValidatableInterface $element) {
+            $element->validate();
+        });
+    }
+
+    public function toArray(): array
+    {
+        return [
+            'type' => 'context',
+            'elements' => array_map(function (RenderableInterface $element) {
+                return $element->toArray();
+            }, $this->elements),
+        ];
     }
 }

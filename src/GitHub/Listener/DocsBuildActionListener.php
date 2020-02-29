@@ -6,6 +6,7 @@ namespace App\GitHub\Listener;
 
 use App\GitHub\GitHubClient;
 use App\GitHub\Event\DocsBuildAction;
+use App\Slack\Domain\SlashResponseMessage;
 use App\Slack\SlackClientInterface;
 use Psr\Log\LoggerInterface;
 
@@ -56,13 +57,12 @@ class DocsBuildActionListener
             (string) $response->getBody()
         ));
 
-        $this->slack->sendWebhookMessage($docsAction->responseUrl(), [
-            'response_type' => 'ephemeral',
-            'mrkdwn'        => true,
-            'text'          => sprintf(
-                '*Error queueing documentation build for %s*; ask Matthew to check the error logs for details',
-                $docsAction->repo()
-            ),
-        ]);
+        $message = new SlashResponseMessage();
+        $message->setText(sprintf(
+            '*Error queueing documentation build for %s*; ask Matthew to check the error logs for details',
+            $docsAction->repo()
+        ));
+
+        $this->slack->sendWebhookMessage($docsAction->responseUrl(), $message);
     }
 }

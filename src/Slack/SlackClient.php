@@ -4,19 +4,23 @@ declare(strict_types=1);
 
 namespace App\Slack;
 
-use App\Slack\Method\ApiRequestInterface;
+use App\Slack\Domain\MessageInterface;
+use App\Slack\Domain\SlashResponseMessage;
+use App\Slack\Domain\WebAPIMessage;
 use App\Slack\Response\SlackResponse;
 use App\Slack\Response\SlackResponseInterface;
+use Exception;
 use GuzzleHttp\Client as HttpClient;
-use GuzzleHttp\Psr7\Request;
+use Psr\Http\Message\RequestFactoryInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Log\LoggerInterface;
 
 use function json_encode;
-use function sprintf;
 
 class SlackClient implements SlackClientInterface
 {
+    const ENDPOINT_CHAT = 'https://slack.com/api/chat.postMessage';
+
     /**
      * Default flags for json_encode; value of:
      *
@@ -37,14 +41,19 @@ class SlackClient implements SlackClientInterface
     /** @var null|LoggerInterface */
     private $logger;
 
+    /** RequestFactoryInterface */
+    private $requestFactory;
+
     /** @see @web = new WebClient options.token */
     public function __construct(
         HttpClient $httpClient,
         string $token,
+        RequestFactoryInterface $requestFactory,
         ?LoggerInterface $logger = null
     ) {
         $this->httpClient     = $httpClient;
         $this->token          = $token;
+        $this->requestFactory = $requestFactory;
         $this->logger         = $logger;
     }
 
@@ -56,39 +65,77 @@ class SlackClient implements SlackClientInterface
         );
 
         $slackResponse = SlackResponse::createFromResponse($response);
-        if ($this->logger && $slackResponse->isOk() !== true) {
-            $this->logger->error('SlackClient: error sending message', [
-                'code'  => $slackResponse->getStatusCode(),
-                'error' => $slackResponse->getError() ?? 'unknown',
-            ]);
+        if ($slackResponse->isOk() !== true) {
+            $this->logErrorResponse($slackResponse);
         }
 
         return $slackResponse;
     }
 
-    public function sendApiRequest(ApiRequestInterface $apiRequest): SlackResponseInterface
+    public function sendWebAPIMessage(WebAPIMessage $message): ?SlackResponseInterface
     {
-        $endpoint = sprintf('https://slack.com/api/%s', $apiRequest->getEndpoint());
+        try {
+            $message->validate();
+        } catch (Exception $e) {
+            $this->logInvalidMessage($message, $e);
+            return null;
+        }
 
-        /** @var RequestInterface $request */
-        $request = new Request(
-            $apiRequest->getMethod(),
-            $endpoint,
-            ['Content-Type' => 'application/json; charset=utf-8'],
-            json_encode($apiRequest->toArray() ?? [])
-        );
+        $request = $this->requestFactory->createRequest('POST', self::ENDPOINT_CHAT)
+            ->withHeader('Content-Type', 'application/json; charset=utf-8')
+            ->withHeader('Accept', 'application/json');
+
+        $request->getBody()->write(json_encode(
+            $message->toArray(),
+            JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE
+        ));
 
         return $this->send($request);
     }
 
-    public function sendWebhookMessage(string $url, array $message): SlackResponseInterface
+    public function sendWebhookMessage(string $url, SlashResponseMessage $message): ?SlackResponseInterface
     {
-        $request = new Request(
-            'POST',
-            $url,
-            ['Content-Type' => 'application/json; charset=utf-8'],
-            json_encode($message, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE)
-        );
+        try {
+            $message->validate();
+        } catch (Exception $e) {
+            $this->logInvalidMessage($message, $e);
+            return null;
+        }
+
+        $request = $this->requestFactory->createRequest('POST', $url)
+            ->withHeader('Content-Type', 'application/json; charset=utf-8')
+            ->withHeader('Accept', 'application/json');
+
+        $request->getBody()->write(json_encode(
+            $message->toArray(),
+            JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE
+        ));
+
         return $this->send($request);
+    }
+
+    private function log(string $message, array $context = []): void
+    {
+        if (! $this->logger) {
+            return;
+        }
+
+        $this->logger->error($message, $context);
+    }
+
+    private function logInvalidMessage(MessageInterface $message, Exception $e): void
+    {
+        $this->log('SlackClient: invalid message provided', [
+            'message' => $message->toArray(),
+            'error'   => $e->getMessage()
+        ]);
+    }
+
+    private function logErrorResponse(SlackResponseInterface $response): void
+    {
+        $this->log('SlackClient: error sending message', [
+            'code'  => $response->getStatusCode(),
+            'error' => $response->getError() ?? 'unknown',
+        ]);
     }
 }

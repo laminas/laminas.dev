@@ -19,11 +19,11 @@ class Block
         Assert::that($payload['type'])->string()->inArray(['section'], ['context']);
         switch ($payload['type']) {
             case 'context':
-                $block = new ContextBlock($payload);
+                $block = ContextBlock::fromArray($payload);
                 break;
             case 'section':
             default:
-                $block = new SectionBlock($payload);
+                $block = SectionBlock::fromArray($payload);
                 break;
         }
         $block->validate();
