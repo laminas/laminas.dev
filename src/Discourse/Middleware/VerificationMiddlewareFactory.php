@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Discourse\Middleware;
 
-use App\Slack\Middleware\VerificationMiddleware;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
 
