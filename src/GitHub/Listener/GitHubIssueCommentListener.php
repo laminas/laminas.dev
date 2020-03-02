@@ -7,17 +7,17 @@ namespace App\GitHub\Listener;
 use App\GitHub\Event\GitHubIssueComment;
 use App\Slack\Domain\Block;
 use App\Slack\Domain\WebAPIMessage;
-use App\Slack\SlackClient;
+use App\Slack\SlackClientInterface;
 
 class GitHubIssueCommentListener
 {
     /** @var string */
     private $channel;
 
-    /** @var SlackClient */
+    /** @var SlackClientInterface */
     private $slackClient;
 
-    public function __construct(string $channel, SlackClient $slackClient)
+    public function __construct(string $channel, SlackClientInterface $slackClient)
     {
         $this->channel     = $channel;
         $this->slackClient = $slackClient;
