@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Slack\SlashCommand;
 
+use Psr\Http\Message\ResponseInterface;
+
 trait ValidateRepoArgumentTrait
 {
     /** SlashCommandResponseFactory */
