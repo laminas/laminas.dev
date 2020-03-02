@@ -48,7 +48,8 @@ class SlashCommandResponseFactory
         ));
 
         return $this->responseFactory->createResponse($status)
-            ->withHeader('Content-Type', 'application/json')
+            ->withHeader('Accept', 'application/json')
+            ->withHeader('Content-Type', 'application/json; charset=utf-8')
             ->withBody($body);
     }
 
