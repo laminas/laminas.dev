@@ -8,6 +8,7 @@ use App\GitHub\GitHubClient;
 use App\GitHub\Event\DocsBuildAction;
 use App\Slack\Domain\SlashResponseMessage;
 use App\Slack\SlackClientInterface;
+use Psr\Http\Message\ResponseInterface;
 use Psr\Log\LoggerInterface;
 
 class DocsBuildActionListener
