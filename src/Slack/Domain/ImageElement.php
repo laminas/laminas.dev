@@ -17,7 +17,7 @@ class ImageElement implements ElementInterface
     public static function fromArray(array $data): self
     {
         return new self(
-            $data['url'] ?? '',
+            $data['image_url'] ?? '',
             $data['alt_text'] ?? ''
         );
     }
@@ -37,9 +37,9 @@ class ImageElement implements ElementInterface
     public function toArray(): array
     {
         return [
-            'type'     => 'image',
-            'url'      => $this->url,
-            'alt_text' => $this->altText,
+            'type'      => 'image',
+            'image_url' => $this->url,
+            'alt_text'  => $this->altText,
         ];
     }
 }

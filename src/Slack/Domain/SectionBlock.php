@@ -27,7 +27,7 @@ class SectionBlock implements BlockInterface
 
         if (isset($data['fields']) && is_array($data['fields'])) {
             foreach ($data['fields'] as $textData) {
-                $block->addField(TextData::fromArray($textData));
+                $block->addField(TextObject::fromArray($textData));
             }
         }
 
@@ -84,7 +84,7 @@ class SectionBlock implements BlockInterface
         $payload = ['type' => 'section'];
 
         if ($this->text) {
-            $payload['text'] = $text->toArray();
+            $payload['text'] = $this->text->toArray();
         }
 
         if (! empty($this->fields)) {

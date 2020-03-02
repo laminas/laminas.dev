@@ -7,14 +7,14 @@ namespace App\Discourse\Listener;
 use App\Discourse\Event\DiscoursePost;
 use App\Slack\Domain\Block;
 use App\Slack\Domain\WebAPIMessage;
-use App\Slack\SlackClient;
+use App\Slack\SlackClientInterface;
 
 class DiscoursePostListener
 {
-    /** @var SlackClient */
+    /** @var SlackClientInterface */
     private $slack;
 
-    public function __construct(SlackClient $slack)
+    public function __construct(SlackClientInterface $slack)
     {
         $this->slack = $slack;
     }
@@ -25,10 +25,9 @@ class DiscoursePostListener
             return;
         }
 
-
         $message = new WebAPIMessage();
         $message->setChannel($post->getChannel());
-        $post->setText($post->getFallbackMessage());
+        $message->setText($post->getFallbackMessage());
         foreach ($post->getMessageBlocks() as $blockData) {
             $message->addBlock(Block::create($blockData));
         }

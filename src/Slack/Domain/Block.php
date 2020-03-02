@@ -16,7 +16,7 @@ class Block
     public static function create(array $payload): BlockInterface
     {
         Assert::that($payload)->keyIsset('type');
-        Assert::that($payload['type'])->string()->inArray(['section'], ['context']);
+        Assert::that($payload['type'])->string()->inArray(['section', 'context']);
         switch ($payload['type']) {
             case 'context':
                 $block = ContextBlock::fromArray($payload);

@@ -46,7 +46,7 @@ class DiscoursePost
             return false;
         }
 
-        // Uncomment to allow broadcast of edit events
+        // Comment to allow broadcast of edit events
         if ($post['created_at'] !== $post['updated_at']) {
             return false;
         }
@@ -67,7 +67,7 @@ class DiscoursePost
             $this->discourseUrl,
             $post['topic_slug'],
             $post['topic_id'],
-            $post['id']
+            $post['id'] ?? 1
         );
     }
 
@@ -82,7 +82,7 @@ class DiscoursePost
 
     public function getMessageBlocks(): array
     {
-        $post      = $this->payload['post'];
+        $post = $this->payload['post'];
 
         return [
             $this->createContextBlock(),
