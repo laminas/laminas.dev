@@ -4,26 +4,25 @@ declare(strict_types=1);
 
 namespace App\Slack\SlashCommand;
 
-use App\Slack\SlackClient;
+use App\Slack\SlackClientInterface;
 use DomainException;
 use Psr\Http\Message\RequestFactoryInterface;
 
 class AuthorizedUserList implements AuthorizedUserListInterface
 {
     /** string[] */
-    private $allowed;
+    private $allowed = [];
 
     /** @var RequestFactoryInterface */
     private $requestFactory;
 
-    /** @var SlackClient */
+    /** @var SlackClientInterface */
     private $slack;
 
-    public function __construct(SlackClient $slack, RequestFactoryInterface $requestFactory)
+    public function __construct(SlackClientInterface $slack, RequestFactoryInterface $requestFactory)
     {
         $this->slack          = $slack;
         $this->requestFactory = $requestFactory;
-        $this->build();
     }
 
     public function isAuthorized(string $userId): bool
@@ -51,7 +50,7 @@ class AuthorizedUserList implements AuthorizedUserListInterface
 
         $response = $this->slack->send(
             $this->requestFactory->createRequest('GET', $listUri)
-                ->withHeader('Accept', 'application/json')
+                ->withHeader('Accept', 'application/json; charset=utf-8')
         );
 
         if (! $response->isOk()) {
@@ -85,9 +84,9 @@ class AuthorizedUserList implements AuthorizedUserListInterface
             ])
         );
 
-        $response = $slack->send(
-            $requestFactory->createRequest('GET', $listUri)
-                ->withHeader('Accept', 'application/json')
+        $response = $this->slack->send(
+            $this->requestFactory->createRequest('GET', $membersUri)
+                ->withHeader('Accept', 'application/json; charset=utf-8')
         );
 
         if (! $response->isOk()) {
