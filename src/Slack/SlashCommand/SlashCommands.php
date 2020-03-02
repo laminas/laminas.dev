@@ -60,8 +60,16 @@ class SlashCommands
         $payload = $request->text();
 
         // Request was for help with a command; return that
-        if (preg_match('/^help\s/i', $payload)) {
-            return $this->responseFactory->createResponse($command->help(), 200);
+        if (preg_match('/^help(\s|$)/i', $payload)) {
+            return $this->responseFactory->createResponse(
+                sprintf(
+                    '- */%s%s:* %s',
+                    $command->command(),
+                    $command->usage(),
+                    $command->help()
+                ),
+                200
+            );
         }
 
         $response = $command->validate($request, $this->authorizedUsers);
