@@ -10,6 +10,7 @@ use App\Slack\Domain\SlashResponseMessage;
 use App\Slack\SlackClientInterface;
 use App\UrlHelper;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Log\LoggerInterface;
 
 class RegisterWebhookListener
 {
@@ -72,6 +73,7 @@ class RegisterWebhookListener
 
         if ($response->getStatusCode() !== 201) {
             $this->reportError($response, $webhookRegistration);
+            return;
         }
 
         $message = new SlashResponseMessage();
@@ -86,7 +88,7 @@ class RegisterWebhookListener
     private function reportError(ResponseInterface $response, RegisterWebhook $webhookRegistration): void
     {
         $this->logger->error(sprintf(
-            'Error attempting to register laminas-bot webook for %s: %s',
+            'Error registering laminas-bot webhook for %s: %s',
             $webhookRegistration->repo(),
             (string) $response->getBody()
         ));
