@@ -6,6 +6,9 @@ namespace AppTest\GitHub\Listener;
 
 use App\GitHub\Event\GitHubIssueComment;
 use App\GitHub\Listener\GitHubIssueCommentListener;
+use App\Slack\Domain\ContextBlock;
+use App\Slack\Domain\SectionBlock;
+use App\Slack\Domain\TextObject;
 use App\Slack\Domain\WebAPIMessage;
 use App\Slack\Response\SlackResponseInterface;
 use App\Slack\SlackClientInterface;
@@ -28,19 +31,35 @@ class GitHubIssueCommentListenerTest extends TestCase
             ->sendWebAPIMessage(Argument::that(function ($message) use ($payload) {
                 TestCase::assertInstanceOf(WebAPIMessage::class, $message);
 
-                $contents = $message->toArray();
+                TestCase::assertSame('#github', $message->getChannel());
 
-                TestCase::assertArrayHasKey('channel', $contents);
-                TestCase::assertSame('#github', $contents['channel']);
+                $text = $message->getText();
+                TestCase::assertStringContainsString($payload['repository']['full_name'], $text);
+                TestCase::assertStringContainsString($payload['sender']['login'], $text);
+                TestCase::assertStringContainsString($payload['issue']['title'], $text);
+                TestCase::assertStringContainsString($payload['comment']['html_url'], $text);
 
-                TestCase::assertArrayHasKey('text', $contents);
-                TestCase::assertStringContainsString($payload['repository']['full_name'], $contents['text']);
-                TestCase::assertStringContainsString($payload['sender']['login'], $contents['text']);
-                TestCase::assertStringContainsString($payload['issue']['title'], $contents['text']);
-                TestCase::assertStringContainsString($payload['comment']['html_url'], $contents['text']);
+                $blocks = $message->getBlocks();
+                TestCase::assertCount(4, $blocks);
 
-                TestCase::assertArrayHasKey('blocks', $contents);
-                TestCase::assertCount(4, $contents['blocks']);
+                $context = $blocks[0];
+                TestCase::assertInstanceOf(ContextBlock::class, $context);
+                TestCase::assertCount(2, $context->getElements());
+
+                $summary = $blocks[1];
+                TestCase::assertInstanceOf(SectionBlock::class, $summary);
+                $text = $summary->getText();
+                TestCase::assertInstanceOf(TextObject::class, $text);
+                TestCase::assertSame(TextObject::TYPE_MARKDOWN, $text->toArray()['type']);
+
+                $body = $blocks[2];
+                TestCase::assertInstanceOf(SectionBlock::class, $body);
+                $text = $body->getText();
+                TestCase::assertSame($payload['comment']['body'], $text->toArray()['text']);
+
+                $fields = $blocks[3];
+                TestCase::assertInstanceOf(SectionBlock::class, $fields);
+                TestCase::assertCount(6, $fields->getFields());
 
                 return $message;
             }))

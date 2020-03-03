@@ -9,11 +9,16 @@ use Assert\Assert;
 class WebAPIMessage extends Message
 {
     /** @var string */
-    private $channel;
+    private $channel = '';
 
     public function setChannel(string $channel): void
     {
         $this->channel = sprintf('#%s', ltrim($channel, '#'));
+    }
+
+    public function getChannel(): string
+    {
+        return $this->channel;
     }
 
     public function validate(): void

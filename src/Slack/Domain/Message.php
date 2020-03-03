@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Slack\Domain;
 
-use Assert\Assert;
 use InvalidArgumentException;
 
 class Message implements MessageInterface
@@ -23,6 +22,12 @@ class Message implements MessageInterface
         $this->blocks[] = $block;
     }
 
+    /** @return BlockInterface[] */
+    public function getBlocks(): array
+    {
+        return $this->blocks;
+    }
+
     public function disableTextMarkdown(): void
     {
         $this->renderTextAsMarkdown = false;
@@ -36,6 +41,11 @@ class Message implements MessageInterface
     public function setText(string $text): void
     {
         $this->text = $text;
+    }
+
+    public function getText(): ?string
+    {
+        return $this->text;
     }
 
     public function validate(): void

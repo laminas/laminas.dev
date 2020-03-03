@@ -35,6 +35,12 @@ class ContextBlock implements BlockInterface
         $this->elements[] = $element;
     }
 
+    /** @return ElementInterface[] */
+    public function getElements(): array
+    {
+        return $this->elements;
+    }
+
     public function validate(): void
     {
         $count = count($this->elements);

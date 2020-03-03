@@ -25,6 +25,11 @@ class SlashResponseMessage extends Message
         $this->responseType = $type;
     }
 
+    public function getResponseType(): string
+    {
+        return $this->responseType;
+    }
+
     public function validate(): void
     {
         Assert::that($this->responseType)->inArray(self::ALLOWED_TYPES);

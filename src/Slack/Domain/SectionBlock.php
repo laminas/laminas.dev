@@ -43,14 +43,30 @@ class SectionBlock implements BlockInterface
         $this->text = $text;
     }
 
+    public function getText(): ?TextObject
+    {
+        return $this->text;
+    }
+
     public function setAccessory(ElementInterface $accessory): void
     {
         $this->accessory = $accessory;
     }
 
+    public function getAccessory(): ?ElementInterface
+    {
+        return $this->accessory;
+    }
+
     public function addField(TextObject $field): void
     {
         $this->fields[] = $field;
+    }
+
+    /** @return TextObject[] */
+    public function getFields(): array
+    {
+        return $this->fields;
     }
 
     public function validate(): void
