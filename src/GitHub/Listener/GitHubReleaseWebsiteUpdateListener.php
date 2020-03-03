@@ -5,14 +5,16 @@ declare(strict_types=1);
 namespace App\GitHub\Listener;
 
 use App\GitHub\Event\GitHubRelease;
-use GuzzleHttp\Client;
-use GuzzleHttp\Psr7\Request;
-use GuzzleHttp\Psr7\Stream;
+use GuzzleHttp\Client as HttpClient;
+use Psr\Http\Message\RequestFactoryInterface;
 use Psr\Log\LoggerInterface;
 
 class GitHubReleaseWebsiteUpdateListener
 {
     private const DEFAULT_RELEASE_API_URL = 'https://getlaminas.org/api/release';
+
+    /** @var HttpClient */
+    private $httpClient;
 
     /** @var LoggerInterface */
     private $logger;
@@ -20,17 +22,24 @@ class GitHubReleaseWebsiteUpdateListener
     /** @var string */
     private $releaseApiUrl;
 
+    /** @var RequestFactoryInterface */
+    private $requestFactory;
+
     /** @var string */
     private $token;
 
     public function __construct(
+        HttpClient $client,
+        RequestFactoryInterface $requestFactory,
         LoggerInterface $logger,
         string $token,
         string $releaseApiUrl = self::DEFAULT_RELEASE_API_URL
     ) {
-        $this->logger        = $logger;
-        $this->token         = $token;
-        $this->releaseApiUrl = $releaseApiUrl;
+        $this->httpClient     = $client;
+        $this->requestFactory = $requestFactory;
+        $this->logger         = $logger;
+        $this->token          = $token;
+        $this->releaseApiUrl  = $releaseApiUrl;
     }
 
     public function __invoke(GitHubRelease $message): void
@@ -49,18 +58,13 @@ class GitHubReleaseWebsiteUpdateListener
             'author_url'       => $message->getAuthorUrl(),
         ];
 
-        $client = new Client();
-
-        $body    = new Stream(fopen('php://temp', 'rw'));
-        $body->write(json_encode($payload, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES));
-
-        $request = new Request('POST', $this->releaseApiUrl);
-        $request = $request
+        $request = $this->requestFactory->createRequest('POST', $this->releaseApiUrl)
             ->withHeader('Content-Type', 'application/json')
-            ->withHeader('Accept', 'application/json')
-            ->withBody($body);
+            ->withHeader('Accept', 'application/json');
+        $request->getBody()
+            ->write(json_encode($payload, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES));
 
-        $response = $client->send($request);
+        $response = $this->httpClient->send($request);
 
         if ($response->getStatusCode() >= 400) {
             $this->logger->error(sprintf(
