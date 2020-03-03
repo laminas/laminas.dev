@@ -19,7 +19,7 @@ use function json_encode;
 
 class SlackClient implements SlackClientInterface
 {
-    const ENDPOINT_CHAT = 'https://slack.com/api/chat.postMessage';
+    public const ENDPOINT_CHAT = 'https://slack.com/api/chat.postMessage';
 
     /**
      * Default flags for json_encode; value of:
