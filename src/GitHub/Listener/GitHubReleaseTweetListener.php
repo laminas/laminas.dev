@@ -41,13 +41,13 @@ class GitHubReleaseTweetListener
             return;
         }
 
-        $message = str_replace(
+        $tweet = str_replace(
             ['{package}',             '{version}',             '{url}'],
             [$message->getPackage(),  $message->getVersion(),  $message->getUrl()],
             self::TWEET_TEMPLATE
         );
 
-        $response = $this->twitter->statusesUpdate($message);
+        $response = $this->twitter->statusesUpdate($tweet);
         if ($response->isError()) {
             $this->logger->error(sprintf(
                 'Error tweeting release %s %s: %s',
