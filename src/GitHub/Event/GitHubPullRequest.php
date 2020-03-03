@@ -97,7 +97,7 @@ final class GitHubPullRequest extends AbstractGitHubEvent
             ],
         ];
 
-        if ($action === 'created') {
+        if ($action === 'opened') {
             $blocks[] = [
                 'type' => 'section',
                 'text' => [
