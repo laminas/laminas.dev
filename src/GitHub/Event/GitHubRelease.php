@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\GitHub\Event;
 
+use App\Slack\Domain\TextObject;
 use Assert\Assert;
 
 use function in_array;
@@ -85,7 +86,7 @@ final class GitHubRelease extends AbstractGitHubEvent
         $payload = $this->payload;
         $repo    = $payload['repository'];
         $release = $payload['release'];
-        return $payload['release_name'] ?: sprintf('%s %s', $repo['full_name'], $release['tag_name']);
+        return $payload['release_name'] ?? sprintf('%s %s', $repo['full_name'], $release['tag_name']);
     }
 
     public function getAuthorName(): string
@@ -120,25 +121,31 @@ final class GitHubRelease extends AbstractGitHubEvent
         $repo    = $payload['repository'];
         $release = $payload['release'];
         $author  = $release['author'];
-        $name    = $payload['release_name'] ?: sprintf('%s %s', $repo['full_name'], $release['tag_name']);
+        $name    = $payload['release_name'] ?? sprintf('%s %s', $repo['full_name'], $release['tag_name']);
 
         return [
             $this->createContextBlock($repo['html_url']),
             [
                 'type' => 'section',
-                'text' => sprintf(
-                    '[<%s|%s>] New release <%s|%s> created by <%s|%s>',
-                    $repo['html_url'],
-                    $repo['full_name'],
-                    $release['html_url'],
-                    $name,
-                    $author['html_url'],
-                    $author['login']
-                ),
+                'text' => [
+                    'type' => TextObject::TYPE_MARKDOWN,
+                    'text' => sprintf(
+                        '[<%s|%s>] New release <%s|%s> created by <%s|%s>',
+                        $repo['html_url'],
+                        $repo['full_name'],
+                        $release['html_url'],
+                        $name,
+                        $author['html_url'],
+                        $author['login']
+                    ),
+                ],
             ],
             [
                 'type' => 'section',
-                'text' => $release['body'],
+                'text' => [
+                    'type' => TextObject::TYPE_MARKDOWN,
+                    'text' => $release['body'],
+                ],
             ],
             $this->createFieldsBlock($repo, $author),
         ];
