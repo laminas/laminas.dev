@@ -127,7 +127,7 @@ final class GitHubStatus extends AbstractGitHubEvent
             $this->getBuildStatus(),
             $pullRequest->getNumber(),
             $pullRequest->getTitle(),
-            $payload['target_url']
+            $pullRequest->getUrl()
         );
     }
 
@@ -146,7 +146,7 @@ final class GitHubStatus extends AbstractGitHubEvent
         $commit  = $payload['commit'];
 
         return [
-            $this->createContextBlock(''),
+            $this->createContextBlock($payload['target_url']),
             [
                 'type' => 'section',
                 'text' => [
@@ -177,7 +177,7 @@ final class GitHubStatus extends AbstractGitHubEvent
         $repo    = $payload['repository'];
 
         return [
-            $this->createContextBlock(),
+            $this->createContextBlock($pullRequest->getUrl()),
             [
                 'type' => 'section',
                 'text' => [

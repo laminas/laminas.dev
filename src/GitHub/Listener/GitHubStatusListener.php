@@ -12,6 +12,7 @@ use Assert\AssertionFailedException;
 use GuzzleHttp\Client as HttpClient;
 use Psr\Http\Message\RequestFactoryInterface;
 use Psr\Log\LoggerInterface;
+use Throwable;
 
 use function sprintf;
 
@@ -67,7 +68,7 @@ class GitHubStatusListener
     private function fetchPullRequestData(GitHubStatus $status): ?PullRequest
     {
         $url = sprintf(
-            '%?repo:%s+%s',
+            '%s?repo:%s+%s',
             self::GITHUB_ISSUE_SEARCH_URI,
             $status->getRepository(),
             $status->getCommitIdentifier()
@@ -91,10 +92,12 @@ class GitHubStatusListener
 
         try {
             $pullRequest = new PullRequest(
-                json_decode((string) $response->getBody(), true)
+                json_decode((string) $response->getBody(), true, 512, JSON_THROW_ON_ERROR)
             );
             $pullRequest->validate();
         } catch (AssertionFailedException $e) {
+            return null;
+        } catch (Throwable $e) {
             return null;
         }
 

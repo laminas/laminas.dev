@@ -21,7 +21,9 @@ class PullRequest
 
     public function validate(): void
     {
-        Assert::that($this->payload['incomplete_results'])->false();
+        if (array_key_exists('incomplete_results', $this->payload)) {
+            Assert::that($this->payload['incomplete_results'])->false();
+        }
         Assert::that($this->payload['items'])->isArray()->notEmpty();
     }
 
