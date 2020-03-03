@@ -125,7 +125,7 @@ final class GitHubIssue extends AbstractGitHubEvent
                 ],
                 [
                     'type' => 'mrkdwn',
-                    'text' => $payload['action'],
+                    'text' => $action,
                 ],
             ],
         ];
