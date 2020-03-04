@@ -13,7 +13,6 @@ class ApplicationDelegator
     {
         // Initialize the authorized user list
         $container->get(SlashCommand\AuthorizedUserListInterface::class);
-
         return $factory();
     }
 }
