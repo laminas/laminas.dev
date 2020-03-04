@@ -57,7 +57,7 @@ class TextObject implements ElementInterface
         if (! in_array($this->type, self::ALLOWED_TYPES, true)) {
             throw new DomainException(sprintf(
                 'Text objects must have a type of either "plain_text" or "mrkdwn"; received "%s"',
-                $type
+                $this->type
             ));
         }
     }

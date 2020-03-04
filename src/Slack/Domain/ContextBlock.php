@@ -16,6 +16,15 @@ class ContextBlock implements BlockInterface
         $context = new self();
 
         foreach ($data['elements'] as $elementData) {
+            if ($elementData instanceof ElementInterface) {
+                $context->addElement($elementData);
+                continue;
+            }
+
+            if (! is_array($elementData)) {
+                continue;
+            }
+
             switch ($elementData['type']) {
                 case 'image':
                     $context->addElement(ImageElement::fromArray($elementData));
