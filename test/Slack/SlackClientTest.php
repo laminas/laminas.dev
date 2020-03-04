@@ -4,15 +4,14 @@ declare(strict_types=1);
 
 namespace AppTest\Slack;
 
+use App\HttpClientInterface;
 use App\Slack\Domain\SlashResponseMessage;
 use App\Slack\Domain\WebAPIMessage;
 use App\Slack\Response\SlackResponse;
 use App\Slack\SlackClient;
-use GuzzleHttp\Client as HttpClient;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\Prophecy\ObjectProphecy;
-use Psr\Http\Message\RequestFactoryInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
@@ -25,28 +24,23 @@ use const JSON_UNESCAPED_UNICODE;
 
 class SlackClientTest extends TestCase
 {
-    /** @var HttpClient|ObjectProphecy */
+    /** @var HttpClientInterface|ObjectProphecy */
     private $httpClient;
 
     /** @var LoggerInterface|ObjectProphecy */
     private $logger;
-
-    /** @var RequestFactoryInterface|ObjectProphecy */
-    private $requestFactory;
 
     /** @var SlackClient */
     private $slack;
 
     public function setUp(): void
     {
-        $this->httpClient     = $this->prophesize(HttpClient::class);
-        $this->requestFactory = $this->prophesize(RequestFactoryInterface::class);
-        $this->logger         = $this->prophesize(LoggerInterface::class);
+        $this->httpClient = $this->prophesize(HttpClientInterface::class);
+        $this->logger     = $this->prophesize(LoggerInterface::class);
 
         $this->slack = new SlackClient(
             $this->httpClient->reveal(),
             'slack-api-token',
-            $this->requestFactory->reveal(),
             $this->logger->reveal()
         );
     }
@@ -72,7 +66,7 @@ class SlackClientTest extends TestCase
             ->will([$response, 'reveal'])
             ->shouldBeCalled();
 
-        $this->requestFactory->createRequest(Argument::any())->shouldNotBeCalled();
+        $this->httpClient->createRequest(Argument::any())->shouldNotBeCalled();
         $this->logger->error(Argument::any())->shouldNotBeCalled();
 
         $slackResponse = $this->slack->send($request->reveal());
@@ -103,7 +97,7 @@ class SlackClientTest extends TestCase
             ->will([$response, 'reveal'])
             ->shouldBeCalled();
 
-        $this->requestFactory->createRequest(Argument::any())->shouldNotBeCalled();
+        $this->httpClient->createRequest(Argument::any())->shouldNotBeCalled();
         $this->logger
             ->error(
                 Argument::containingString('SlackClient: error sending message'),
@@ -139,7 +133,7 @@ class SlackClientTest extends TestCase
             )
             ->shouldBeCalled();
 
-        $this->requestFactory->createRequest(Argument::any())->shouldNotBeCalled();
+        $this->httpClient->createRequest(Argument::any())->shouldNotBeCalled();
         $this->httpClient->send(Argument::any())->shouldNotBeCalled();
 
         $this->assertNull($this->slack->sendWebAPIMessage($message));
@@ -175,7 +169,7 @@ class SlackClientTest extends TestCase
             ->shouldBeCalledTimes(3);
         $request->getBody()->will([$body, 'reveal'])->shouldBeCalled();
 
-        $this->requestFactory
+        $this->httpClient
             ->createRequest('POST', $responseUrl)
             ->will([$request, 'reveal'])
             ->shouldBeCalled();
@@ -216,7 +210,7 @@ class SlackClientTest extends TestCase
             )
             ->shouldBeCalled();
 
-        $this->requestFactory->createRequest(Argument::any())->shouldNotBeCalled();
+        $this->httpClient->createRequest(Argument::any())->shouldNotBeCalled();
         $this->httpClient->send(Argument::any())->shouldNotBeCalled();
 
         $this->assertNull($this->slack->sendWebhookMessage('some-url', $message));
@@ -252,7 +246,7 @@ class SlackClientTest extends TestCase
             ->shouldBeCalledTimes(3);
         $request->getBody()->will([$body, 'reveal'])->shouldBeCalled();
 
-        $this->requestFactory
+        $this->httpClient
             ->createRequest('POST', SlackClient::ENDPOINT_CHAT)
             ->will([$request, 'reveal'])
             ->shouldBeCalled();

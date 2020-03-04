@@ -5,8 +5,7 @@ declare(strict_types=1);
 namespace App\GitHub\Listener;
 
 use App\GitHub\Event\GitHubRelease;
-use GuzzleHttp\Client as HttpClient;
-use Psr\Http\Message\RequestFactoryInterface;
+use App\HttpClientInterface;
 use Psr\Log\LoggerInterface;
 
 use function json_encode;
@@ -19,7 +18,7 @@ class GitHubReleaseWebsiteUpdateListener
 {
     private const DEFAULT_RELEASE_API_URL = 'https://getlaminas.org/api/release';
 
-    /** @var HttpClient */
+    /** @var HttpClientInterface */
     private $httpClient;
 
     /** @var LoggerInterface */
@@ -28,24 +27,19 @@ class GitHubReleaseWebsiteUpdateListener
     /** @var string */
     private $releaseApiUrl;
 
-    /** @var RequestFactoryInterface */
-    private $requestFactory;
-
     /** @var string */
     private $token;
 
     public function __construct(
-        HttpClient $client,
-        RequestFactoryInterface $requestFactory,
+        HttpClientInterface $client,
         LoggerInterface $logger,
         string $token,
         string $releaseApiUrl = self::DEFAULT_RELEASE_API_URL
     ) {
-        $this->httpClient     = $client;
-        $this->requestFactory = $requestFactory;
-        $this->logger         = $logger;
-        $this->token          = $token;
-        $this->releaseApiUrl  = $releaseApiUrl;
+        $this->httpClient    = $client;
+        $this->logger        = $logger;
+        $this->token         = $token;
+        $this->releaseApiUrl = $releaseApiUrl;
     }
 
     public function __invoke(GitHubRelease $message): void
@@ -64,7 +58,7 @@ class GitHubReleaseWebsiteUpdateListener
             'author_url'       => $message->getAuthorUrl(),
         ];
 
-        $request = $this->requestFactory->createRequest('POST', $this->releaseApiUrl)
+        $request = $this->httpClient->createRequest('POST', $this->releaseApiUrl)
             ->withHeader('Authorization', sprintf('token %s', $this->token))
             ->withHeader('Content-Type', 'application/json')
             ->withHeader('Accept', 'application/json');

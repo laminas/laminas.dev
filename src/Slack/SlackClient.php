@@ -4,14 +4,13 @@ declare(strict_types=1);
 
 namespace App\Slack;
 
+use App\HttpClientInterface;
 use App\Slack\Domain\MessageInterface;
 use App\Slack\Domain\SlashResponseMessage;
 use App\Slack\Domain\WebAPIMessage;
 use App\Slack\Response\SlackResponse;
 use App\Slack\Response\SlackResponseInterface;
 use Exception;
-use GuzzleHttp\Client as HttpClient;
-use Psr\Http\Message\RequestFactoryInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Log\LoggerInterface;
 
@@ -38,26 +37,21 @@ class SlackClient implements SlackClientInterface
     /** @var string */
     private $token;
 
-    /** @var HttpClient */
+    /** @var HttpClientInterface */
     private $httpClient;
 
     /** @var null|LoggerInterface */
     private $logger;
 
-    /** RequestFactoryInterface */
-    private $requestFactory;
-
     /** @see @web = new WebClient options.token */
     public function __construct(
-        HttpClient $httpClient,
+        HttpClientInterface $httpClient,
         string $token,
-        RequestFactoryInterface $requestFactory,
         ?LoggerInterface $logger = null
     ) {
-        $this->httpClient     = $httpClient;
-        $this->token          = $token;
-        $this->requestFactory = $requestFactory;
-        $this->logger         = $logger;
+        $this->httpClient = $httpClient;
+        $this->token      = $token;
+        $this->logger     = $logger;
     }
 
     public function send(RequestInterface $request): SlackResponseInterface
@@ -84,7 +78,7 @@ class SlackClient implements SlackClientInterface
             return null;
         }
 
-        $request = $this->requestFactory->createRequest('POST', self::ENDPOINT_CHAT)
+        $request = $this->httpClient->createRequest('POST', self::ENDPOINT_CHAT)
             ->withHeader('Content-Type', 'application/json; charset=utf-8')
             ->withHeader('Accept', 'application/json');
 
@@ -105,7 +99,7 @@ class SlackClient implements SlackClientInterface
             return null;
         }
 
-        $request = $this->requestFactory->createRequest('POST', $url)
+        $request = $this->httpClient->createRequest('POST', $url)
             ->withHeader('Content-Type', 'application/json; charset=utf-8')
             ->withHeader('Accept', 'application/json');
 

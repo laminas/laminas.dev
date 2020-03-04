@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App;
 
-use GuzzleHttp\Client as HttpClient;
 use Laminas\Diactoros\RequestFactory;
 use Laminas\Diactoros\ResponseFactory;
 use Laminas\Diactoros\StreamFactory;
@@ -91,6 +90,7 @@ class ConfigProvider
             'aliases'             => [
                 Slack\SlashCommand\AuthorizedUserListInterface::class => Slack\SlashCommand\AuthorizedUserList::class,
                 EventDispatcherInterface::class                       => EventDispatcher::class,
+                HttpClientInterface::class                            => HttpClient::class,
                 ListenerProviderInterface::class                      => AttachableListenerProvider::class,
                 RequestFactoryInterface::class                        => RequestFactory::class,
                 ResponseFactoryInterface::class                       => ResponseFactory::class,

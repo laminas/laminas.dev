@@ -6,11 +6,10 @@ namespace AppTest\GitHub\Listener;
 
 use App\GitHub\Event\GitHubRelease;
 use App\GitHub\Listener\GitHubReleaseWebsiteUpdateListener;
-use GuzzleHttp\Client as HttpClient;
+use App\HttpClientInterface;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\Prophecy\ObjectProphecy;
-use Psr\Http\Message\RequestFactoryInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
@@ -21,7 +20,7 @@ use function json_decode;
 
 class GitHubReleaseWebsiteUpdateListenerTest extends TestCase
 {
-    /** @var HttpClient|ObjectProphecy */
+    /** @var HttpClientInterface|ObjectProphecy */
     private $httpClient;
 
     /** @var GitHubReleaseWebsiteUpdateListener */
@@ -33,23 +32,18 @@ class GitHubReleaseWebsiteUpdateListenerTest extends TestCase
     /** @var string */
     private $releaseApiUrl;
 
-    /** @var RequestFactoryInterface|ObjectProphecy */
-    private $requestFactory;
-
     /** @var string */
     private $token;
 
     public function setUp(): void
     {
-        $this->httpClient     = $this->prophesize(HttpClient::class);
-        $this->requestFactory = $this->prophesize(RequestFactoryInterface::class);
-        $this->logger         = $this->prophesize(LoggerInterface::class);
-        $this->token          = 'the-token';
-        $this->releaseApiUrl  = 'injected-release-api-url';
+        $this->httpClient    = $this->prophesize(HttpClientInterface::class);
+        $this->logger        = $this->prophesize(LoggerInterface::class);
+        $this->token         = 'the-token';
+        $this->releaseApiUrl = 'injected-release-api-url';
 
         $this->listener = new GitHubReleaseWebsiteUpdateListener(
             $this->httpClient->reveal(),
-            $this->requestFactory->reveal(),
             $this->logger->reveal(),
             $this->token,
             $this->releaseApiUrl
@@ -64,7 +58,7 @@ class GitHubReleaseWebsiteUpdateListenerTest extends TestCase
             ],
         ]);
 
-        $this->requestFactory->createRequest(Argument::any(), Argument::any())->shouldNotBeCalled();
+        $this->httpClient->createRequest(Argument::any(), Argument::any())->shouldNotBeCalled();
         $this->httpClient->send(Argument::any())->shouldNotBeCalled();
 
         $this->assertNull($this->listener->__invoke($release));
@@ -124,7 +118,7 @@ class GitHubReleaseWebsiteUpdateListenerTest extends TestCase
             ->shouldBeCalledTimes(3);
         $request->getBody()->will([$body, 'reveal'])->shouldBeCalled();
 
-        $this->requestFactory
+        $this->httpClient
             ->createRequest('POST', $this->releaseApiUrl)
             ->will([$request, 'reveal'])
             ->shouldBeCalled();
@@ -196,7 +190,7 @@ class GitHubReleaseWebsiteUpdateListenerTest extends TestCase
             ->shouldBeCalledTimes(3);
         $request->getBody()->will([$body, 'reveal'])->shouldBeCalled();
 
-        $this->requestFactory
+        $this->httpClient
             ->createRequest('POST', $this->releaseApiUrl)
             ->will([$request, 'reveal'])
             ->shouldBeCalled();

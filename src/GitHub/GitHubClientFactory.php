@@ -4,9 +4,8 @@ declare(strict_types=1);
 
 namespace App\GitHub;
 
-use GuzzleHttp\Client as HttpClient;
+use App\HttpClientInterface;
 use Psr\Container\ContainerInterface;
-use Psr\Http\Message\RequestFactoryInterface;
 
 class GitHubClientFactory
 {
@@ -14,8 +13,7 @@ class GitHubClientFactory
     {
         return new GitHubClient(
             $container->get('config')['github']['token'],
-            $container->get(RequestFactoryInterface::class),
-            $container->get(HttpClient::class)
+            $container->get(HttpClientInterface::class)
         );
     }
 }
