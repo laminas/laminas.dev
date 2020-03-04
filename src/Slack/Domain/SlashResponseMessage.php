@@ -37,10 +37,8 @@ class SlashResponseMessage extends Message
 
     public function toArray(): array
     {
-        $payload = parent::toArray();
-        if ($this->responseType === self::TYPE_IN_CHANNEL) {
-            $payload['response_type'] = $this->responseType;
-        }
-        return $payload;
+        return array_merge(parent::toArray(), [
+            'response_type' => $this->responseType,
+        ]);
     }
 }

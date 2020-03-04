@@ -28,13 +28,14 @@ class SlashResponseMessageTest extends TestCase
         $message->validate();
     }
 
-    public function testRepresentationDoesNotIncludeResponseTypeIfEphemeral(): void
+    public function testRepresentationIncludesEphemeralResponseTypeByDefault(): void
     {
         $message = new SlashResponseMessage();
         $message->setText('message text');
 
         $this->assertSame([
-            'text' => 'message text',
+            'text'          => 'message text',
+            'response_type' => SlashResponseMessage::TYPE_EPHEMERAL,
         ], $message->toArray());
     }
 
