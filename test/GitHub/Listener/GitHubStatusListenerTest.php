@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace AppTest\GitHub\Listener;
 
 use App\GitHub\Event\GitHubStatus;
+use App\GitHub\GitHubClient;
 use App\GitHub\Listener\GitHubStatusListener;
 use App\Slack\Domain\ContextBlock;
 use App\Slack\Domain\SectionBlock;
@@ -12,11 +13,9 @@ use App\Slack\Domain\TextObject;
 use App\Slack\Domain\WebAPIMessage;
 use App\Slack\Response\SlackResponseInterface;
 use App\Slack\SlackClientInterface;
-use GuzzleHttp\Client as HttpClient;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\Prophecy\ObjectProphecy;
-use Psr\Http\Message\RequestFactoryInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Log\LoggerInterface;
@@ -26,7 +25,7 @@ class GitHubStatusListenerTest extends TestCase
     /** @var string */
     private $channel;
 
-    /** @var HttpClient|ObjectProphecy */
+    /** @var GitHubClient|ObjectProphecy */
     private $httpClient;
 
     /** @var GitHubStatusListener */
@@ -35,9 +34,6 @@ class GitHubStatusListenerTest extends TestCase
     /** @var LoggerInterface|ObjectProphecy */
     private $logger;
 
-    /** @var RequestFactoryInterface|ObjectProphecy */
-    private $requestFactory;
-
     /** @var SlackClientInterface|ObjectProphecy */
     private $slack;
 
@@ -45,15 +41,13 @@ class GitHubStatusListenerTest extends TestCase
     {
         $this->channel        = 'github';
         $this->slack          = $this->prophesize(SlackClientInterface::class);
-        $this->httpClient     = $this->prophesize(HttpClient::class);
-        $this->requestFactory = $this->prophesize(RequestFactoryInterface::class);
+        $this->githubClient   = $this->prophesize(GitHubClient::class);
         $this->logger         = $this->prophesize(LoggerInterface::class);
 
         $this->listener = new GitHubStatusListener(
             $this->channel,
             $this->slack->reveal(),
-            $this->httpClient->reveal(),
-            $this->requestFactory->reveal(),
+            $this->githubClient->reveal(),
             $this->logger->reveal()
         );
     }
@@ -95,8 +89,8 @@ class GitHubStatusListenerTest extends TestCase
             ->willReturn($response)
             ->shouldBeCalled();
 
-        $this->requestFactory->createRequest(Argument::any())->shouldNotBeCalled();
-        $this->httpClient->send(Argument::any())->shouldNotBeCalled();
+        $this->githubClient->createRequest(Argument::any())->shouldNotBeCalled();
+        $this->githubClient->send(Argument::any())->shouldNotBeCalled();
 
         $this->assertNull($this->listener->__invoke($status));
     }
@@ -138,17 +132,12 @@ class GitHubStatusListenerTest extends TestCase
             ->willReturn($response)
             ->shouldBeCalled();
 
-        $ghRequest = $this->prophesize(RequestInterface::class);
-        $ghRequest
-            ->withHeader('Accept', 'application/json')
-            ->will([$ghRequest, 'reveal'])
-            ->shouldBeCalled();
-
+        $ghRequest  = $this->prophesize(RequestInterface::class);
         $ghResponse = $this->prophesize(ResponseInterface::class);
         $ghResponse->getStatusCode()->willReturn(400)->shouldBeCalled();
         $ghResponse->getBody()->willReturn('')->shouldBeCalled();
 
-        $this->requestFactory
+        $this->githubClient
             ->createRequest(
                 'GET',
                 Argument::that(function ($url) {
@@ -161,7 +150,7 @@ class GitHubStatusListenerTest extends TestCase
             ->will([$ghRequest, 'reveal'])
             ->shouldBeCalled();
 
-        $this->httpClient
+        $this->githubClient
             ->send(Argument::that([$ghRequest, 'reveal']))
             ->will([$ghResponse, 'reveal'])
             ->shouldBeCalled();
@@ -220,17 +209,12 @@ class GitHubStatusListenerTest extends TestCase
             ->willReturn($response)
             ->shouldBeCalled();
 
-        $ghRequest = $this->prophesize(RequestInterface::class);
-        $ghRequest
-            ->withHeader('Accept', 'application/json')
-            ->will([$ghRequest, 'reveal'])
-            ->shouldBeCalled();
-
+        $ghRequest  = $this->prophesize(RequestInterface::class);
         $ghResponse = $this->prophesize(ResponseInterface::class);
         $ghResponse->getStatusCode()->willReturn(200)->shouldBeCalled();
         $ghResponse->getBody()->willReturn($payload)->shouldBeCalled();
 
-        $this->requestFactory
+        $this->githubClient
             ->createRequest(
                 'GET',
                 Argument::that(function ($url) {
@@ -243,7 +227,7 @@ class GitHubStatusListenerTest extends TestCase
             ->will([$ghRequest, 'reveal'])
             ->shouldBeCalled();
 
-        $this->httpClient
+        $this->githubClient
             ->send(Argument::that([$ghRequest, 'reveal']))
             ->will([$ghResponse, 'reveal'])
             ->shouldBeCalled();
@@ -293,10 +277,6 @@ class GitHubStatusListenerTest extends TestCase
             ->shouldBeCalled();
 
         $ghRequest = $this->prophesize(RequestInterface::class);
-        $ghRequest
-            ->withHeader('Accept', 'application/json')
-            ->will([$ghRequest, 'reveal'])
-            ->shouldBeCalled();
 
         $ghResponsePayload = json_encode([
             'incomplete_results' => false,
@@ -313,7 +293,7 @@ class GitHubStatusListenerTest extends TestCase
         $ghResponse->getStatusCode()->willReturn(200)->shouldBeCalled();
         $ghResponse->getBody()->willReturn($ghResponsePayload)->shouldBeCalled();
 
-        $this->requestFactory
+        $this->githubClient
             ->createRequest(
                 'GET',
                 Argument::that(function ($url) {
@@ -326,7 +306,7 @@ class GitHubStatusListenerTest extends TestCase
             ->will([$ghRequest, 'reveal'])
             ->shouldBeCalled();
 
-        $this->httpClient
+        $this->githubClient
             ->send(Argument::that([$ghRequest, 'reveal']))
             ->will([$ghResponse, 'reveal'])
             ->shouldBeCalled();

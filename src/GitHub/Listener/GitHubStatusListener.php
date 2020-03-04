@@ -5,12 +5,11 @@ declare(strict_types=1);
 namespace App\GitHub\Listener;
 
 use App\GitHub\Event\GitHubStatus;
+use App\GitHub\GitHubClient;
 use App\Slack\Domain\Block;
 use App\Slack\Domain\WebAPIMessage;
 use App\Slack\SlackClientInterface;
 use Assert\AssertionFailedException;
-use GuzzleHttp\Client as HttpClient;
-use Psr\Http\Message\RequestFactoryInterface;
 use Psr\Log\LoggerInterface;
 use Throwable;
 
@@ -23,14 +22,11 @@ class GitHubStatusListener
     /** @var string */
     private $channel;
 
-    /** @var HttpClient */
-    private $httpClient;
+    /** @var GitHubClient */
+    private $githubClient;
 
     /** @var LoggerInterface */
     private $logger;
-
-    /** @var RequestFactoryInterface */
-    private $requestFactory;
 
     /** @var SlackClientInterface */
     private $slackClient;
@@ -38,14 +34,12 @@ class GitHubStatusListener
     public function __construct(
         string $channel,
         SlackClientInterface $slackClient,
-        HttpClient $httpClient,
-        RequestFactoryInterface $requestFactory,
+        GitHubClient $githubClient,
         LoggerInterface $logger
     ) {
         $this->channel        = $channel;
         $this->slackClient    = $slackClient;
-        $this->httpClient     = $httpClient;
-        $this->requestFactory = $requestFactory;
+        $this->githubClient   = $githubClient;
         $this->logger         = $logger;
     }
 
@@ -74,9 +68,8 @@ class GitHubStatusListener
             $status->getCommitIdentifier()
         );
 
-        $response = $this->httpClient->send(
-            $this->requestFactory->createRequest('GET', $url)
-                ->withHeader('Accept', 'application/json')
+        $response = $this->githubClient->send(
+            $this->githubClient->createRequest('GET', $url)
         );
 
         if ($response->getStatusCode() !== 200) {
