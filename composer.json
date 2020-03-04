@@ -3,12 +3,6 @@
     "type": "project",
     "description": "Bot providing webhooks and chat integration to the Laminas Project",
     "keywords": [
-        "skeleton",
-        "middleware",
-        "psr",
-        "psr-7",
-        "psr-11",
-        "psr-15",
         "laminas",
         "mezzio"
     ],
