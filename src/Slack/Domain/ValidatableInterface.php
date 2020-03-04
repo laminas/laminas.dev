@@ -4,13 +4,12 @@ declare(strict_types=1);
 
 namespace App\Slack\Domain;
 
-use DomainException;
-use InvalidArgumentException;
+use Assert\AssertionFailedException;
 
 interface ValidatableInterface
 {
     /**
-     * @throws DomainException|InvalidArgumentException if invalid
+     * @throws AssertionFailedException If invalid.
      */
     public function validate(): void;
 }

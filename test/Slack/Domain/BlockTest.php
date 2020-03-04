@@ -31,7 +31,7 @@ class BlockTest extends TestCase
         $this->expectException(InvalidArgumentException::class);
         // No text or fields == invalid
         Block::create([
-            'type' => 'section',
+            'type'      => 'section',
             'accessory' => [
                 'image_url' => 'https://getlaminas.org/images/logo/laminas-foundation-rgb.svg',
                 'alt_text'  => 'the alt text',
@@ -42,7 +42,7 @@ class BlockTest extends TestCase
     public function testCanReturnContextBlock(): void
     {
         $block = Block::create([
-            'type' => 'context',
+            'type'     => 'context',
             'elements' => [
                 [
                     'type' => TextObject::TYPE_MARKDOWN,
@@ -53,9 +53,9 @@ class BlockTest extends TestCase
                     'text' => 'Some text',
                 ],
                 [
-                    'type' => 'image',
+                    'type'      => 'image',
                     'image_url' => 'https://getlaminas.org/images/logo/laminas-foundation-rgb.svg',
-                    'alt_text' => 'the alt text',
+                    'alt_text'  => 'the alt text',
                 ],
             ],
         ]);
@@ -63,7 +63,7 @@ class BlockTest extends TestCase
         $this->assertInstanceOf(ContextBlock::class, $block);
 
         $this->assertSame([
-            'type' => 'context',
+            'type'     => 'context',
             'elements' => [
                 [
                     'type' => TextObject::TYPE_MARKDOWN,
@@ -74,9 +74,9 @@ class BlockTest extends TestCase
                     'text' => 'Some text',
                 ],
                 [
-                    'type' => 'image',
+                    'type'      => 'image',
                     'image_url' => 'https://getlaminas.org/images/logo/laminas-foundation-rgb.svg',
-                    'alt_text' => 'the alt text',
+                    'alt_text'  => 'the alt text',
                 ],
             ],
         ], $block->toArray());
@@ -98,12 +98,12 @@ class BlockTest extends TestCase
                     'type' => TextObject::TYPE_MARKDOWN,
                     'text' => 'The section text',
                 ],
-            ]
+            ],
         ];
 
         yield 'fields-only' => [
             [
-                'type' => 'section',
+                'type'   => 'section',
                 'fields' => [
                     [
                         'type' => TextObject::TYPE_MARKDOWN,
@@ -116,7 +116,7 @@ class BlockTest extends TestCase
                 ],
             ],
             [
-                'type' => 'section',
+                'type'   => 'section',
                 'fields' => [
                     [
                         'type' => TextObject::TYPE_MARKDOWN,
@@ -127,17 +127,17 @@ class BlockTest extends TestCase
                         'text' => 'Value',
                     ],
                 ],
-            ]
+            ],
         ];
 
         yield 'kitchen-sink' => [
             [
-                'type' => 'section',
-                'text' => [
+                'type'      => 'section',
+                'text'      => [
                     'type' => TextObject::TYPE_MARKDOWN,
                     'text' => 'The section text',
                 ],
-                'fields' => [
+                'fields'    => [
                     [
                         'type' => TextObject::TYPE_MARKDOWN,
                         'text' => '*Label*',
@@ -153,12 +153,12 @@ class BlockTest extends TestCase
                 ],
             ],
             [
-                'type' => 'section',
-                'text' => [
+                'type'      => 'section',
+                'text'      => [
                     'type' => TextObject::TYPE_MARKDOWN,
                     'text' => 'The section text',
                 ],
-                'fields' => [
+                'fields'    => [
                     [
                         'type' => TextObject::TYPE_MARKDOWN,
                         'text' => '*Label*',
@@ -173,7 +173,7 @@ class BlockTest extends TestCase
                     'image_url' => 'https://getlaminas.org/images/logo/laminas-foundation-rgb.svg',
                     'alt_text'  => 'the alt text',
                 ],
-            ]
+            ],
         ];
     }
 

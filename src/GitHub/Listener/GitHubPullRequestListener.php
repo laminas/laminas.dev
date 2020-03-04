@@ -23,7 +23,7 @@ class GitHubPullRequestListener
         $this->slackClient = $slackClient;
     }
 
-    public function __invoke(GitHubPullRequest $pullRequest) : void
+    public function __invoke(GitHubPullRequest $pullRequest): void
     {
         $notification = new WebAPIMessage();
         $notification->setChannel($this->channel);

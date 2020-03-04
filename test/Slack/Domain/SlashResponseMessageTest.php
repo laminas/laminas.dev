@@ -45,7 +45,7 @@ class SlashResponseMessageTest extends TestCase
         $message->setResponseType(SlashResponseMessage::TYPE_IN_CHANNEL);
 
         $this->assertSame([
-            'text' => 'message text',
+            'text'          => 'message text',
             'response_type' => SlashResponseMessage::TYPE_IN_CHANNEL,
         ], $message->toArray());
     }

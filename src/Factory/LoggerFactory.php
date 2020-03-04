@@ -11,8 +11,9 @@ use Monolog\Processor\PsrLogMessageProcessor;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
-use function gmdate;
-use function str_replace;
+use function array_key_exists;
+use function ltrim;
+use function sprintf;
 
 class LoggerFactory
 {

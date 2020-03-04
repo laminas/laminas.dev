@@ -13,15 +13,17 @@ class ListenerProviderDelegatorFactory
     {
         $provider = $factory();
 
-        $provider->listen(Event\DocsBuildAction::class, $container->get(Listener\DocsBuildActionListener::class));
-        $provider->listen(Event\GitHubIssue::class, $container->get(Listener\GitHubIssueListener::class));
-        $provider->listen(Event\GitHubIssueComment::class, $container->get(Listener\GitHubIssueCommentListener::class));
-        $provider->listen(Event\GitHubPullRequest::class, $container->get(Listener\GitHubPullRequestListener::class));
-        $provider->listen(Event\GitHubRelease::class, $container->get(Listener\GitHubReleaseSlackListener::class));
-        $provider->listen(Event\GitHubRelease::class, $container->get(Listener\GitHubReleaseWebsiteUpdateListener::class));
-        $provider->listen(Event\GitHubRelease::class, $container->get(Listener\GitHubReleaseTweetListener::class));
-        $provider->listen(Event\GitHubStatus::class, $container->get(Listener\GitHubStatusListener::class));
-        $provider->listen(Event\RegisterWebhook::class, $container->get(Listener\RegisterWebhookListener::class));
+        // phpcs:disable
+        $provider->listen(Event\DocsBuildAction::class,     $container->get(Listener\DocsBuildActionListener::class));
+        $provider->listen(Event\GitHubIssue::class,         $container->get(Listener\GitHubIssueListener::class));
+        $provider->listen(Event\GitHubIssueComment::class,  $container->get(Listener\GitHubIssueCommentListener::class));
+        $provider->listen(Event\GitHubPullRequest::class,   $container->get(Listener\GitHubPullRequestListener::class));
+        $provider->listen(Event\GitHubRelease::class,       $container->get(Listener\GitHubReleaseSlackListener::class));
+        $provider->listen(Event\GitHubRelease::class,       $container->get(Listener\GitHubReleaseWebsiteUpdateListener::class));
+        $provider->listen(Event\GitHubRelease::class,       $container->get(Listener\GitHubReleaseTweetListener::class));
+        $provider->listen(Event\GitHubStatus::class,        $container->get(Listener\GitHubStatusListener::class));
+        $provider->listen(Event\RegisterWebhook::class,     $container->get(Listener\RegisterWebhookListener::class));
+        // phpcs:enable
 
         return $provider;
     }

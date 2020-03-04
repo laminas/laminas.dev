@@ -13,19 +13,19 @@ $cacheConfig = [
 ];
 
 $aggregator = new ConfigAggregator([
-    \Laminas\I18n\ConfigProvider::class,
-    \Laminas\Validator\ConfigProvider::class,
-    \Phly\EventDispatcher\ConfigProvider::class,
-    \Phly\Swoole\TaskWorker\ConfigProvider::class,
-    \Mezzio\ConfigProvider::class,
-    \Mezzio\Helper\ConfigProvider::class,
-    \Mezzio\Router\ConfigProvider::class,
-    \Mezzio\Router\FastRouteRouter\ConfigProvider::class,
-    \Mezzio\Twig\ConfigProvider::class,
-    \Laminas\HttpHandlerRunner\ConfigProvider::class,
-    \Mezzio\ProblemDetails\ConfigProvider::class,
-    \Mezzio\Swoole\ConfigProvider::class,
-    \App\ConfigProvider::class,
+    Laminas\I18n\ConfigProvider::class,
+    Laminas\Validator\ConfigProvider::class,
+    Phly\EventDispatcher\ConfigProvider::class,
+    Phly\Swoole\TaskWorker\ConfigProvider::class,
+    Mezzio\ConfigProvider::class,
+    Mezzio\Helper\ConfigProvider::class,
+    Mezzio\Router\ConfigProvider::class,
+    Mezzio\Router\FastRouteRouter\ConfigProvider::class,
+    Mezzio\Twig\ConfigProvider::class,
+    Laminas\HttpHandlerRunner\ConfigProvider::class,
+    Mezzio\ProblemDetails\ConfigProvider::class,
+    Mezzio\Swoole\ConfigProvider::class,
+    App\ConfigProvider::class,
 
     // Include cache configuration
     new ArrayProvider($cacheConfig),
@@ -39,6 +39,6 @@ $aggregator = new ConfigAggregator([
     new PhpFileProvider(realpath(__DIR__) . '/autoload/{{,*.}global,{,*.}local}.php'),
     // Load development config if it exists
     new PhpFileProvider(realpath(__DIR__) . '/development.config.php'),
-], $cacheConfig['config_cache_path'], [\Laminas\ZendFrameworkBridge\ConfigPostProcessor::class]);
+], $cacheConfig['config_cache_path'], [Laminas\ZendFrameworkBridge\ConfigPostProcessor::class]);
 
 return $aggregator->getMergedConfig();

@@ -79,7 +79,7 @@ class GitHubIssueComment extends AbstractGitHubEvent
         );
     }
 
-    public function getMessageBlocks():  array
+    public function getMessageBlocks(): array
     {
         $payload = $this->payload;
         $comment = $payload['comment'];

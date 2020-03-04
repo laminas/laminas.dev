@@ -6,6 +6,10 @@ namespace App\Slack\Domain;
 
 use Assert\InvalidArgumentException;
 
+use function array_map;
+use function array_walk;
+use function is_array;
+
 class SectionBlock implements BlockInterface
 {
     /** @var null|ElementInterface */
@@ -85,7 +89,8 @@ class SectionBlock implements BlockInterface
 
     public function validate(): void
     {
-        if ($this->text === null
+        if (
+            $this->text === null
             && empty($this->fields)
         ) {
             throw new InvalidArgumentException(
@@ -130,7 +135,7 @@ class SectionBlock implements BlockInterface
 
     private function renderFields(): array
     {
-        return array_map(function (TextObject $field) : array {
+        return array_map(function (TextObject $field): array {
             return $field->toArray();
         }, $this->fields);
     }

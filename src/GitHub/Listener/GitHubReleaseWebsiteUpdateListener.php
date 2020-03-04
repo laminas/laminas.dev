@@ -9,6 +9,12 @@ use GuzzleHttp\Client as HttpClient;
 use Psr\Http\Message\RequestFactoryInterface;
 use Psr\Log\LoggerInterface;
 
+use function json_encode;
+use function sprintf;
+
+use const JSON_UNESCAPED_SLASHES;
+use const JSON_UNESCAPED_UNICODE;
+
 class GitHubReleaseWebsiteUpdateListener
 {
     private const DEFAULT_RELEASE_API_URL = 'https://getlaminas.org/api/release';
@@ -59,6 +65,7 @@ class GitHubReleaseWebsiteUpdateListener
         ];
 
         $request = $this->requestFactory->createRequest('POST', $this->releaseApiUrl)
+            ->withHeader('Authorization', sprintf('token %s', $this->token))
             ->withHeader('Content-Type', 'application/json')
             ->withHeader('Accept', 'application/json');
         $request->getBody()

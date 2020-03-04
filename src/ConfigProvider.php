@@ -27,23 +27,26 @@ use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\StreamFactoryInterface;
 use Psr\Log\LoggerInterface;
 
+use const CURLOPT_SSL_VERIFYHOST;
+use const CURLOPT_SSL_VERIFYPEER;
+
 class ConfigProvider
 {
     public function __invoke(): array
     {
         return [
             'dependencies' => $this->getDependencies(),
-            'discourse' => [
+            'discourse'    => [
                 'url'    => 'https://discourse.laminas.dev',
                 'secret' => 'NOT-A-SECRET',
             ],
-            'getlaminas' => [
+            'getlaminas'   => [
                 'token' => '',
             ],
-            'github' => [
+            'github'       => [
                 'token' => '',
             ],
-            'monolog' => [
+            'monolog'      => [
                 'handlers' => [
                     [
                         'type'           => StreamHandler::class,
@@ -54,24 +57,24 @@ class ConfigProvider
                     ],
                 ],
             ],
-            'slack' => [
+            'slack'        => [
                 'channels'        => [
                     'github' => '',
                 ],
                 'token'           => '',
                 'default_channel' => 'github',
             ],
-            'twitter' => [
-                'access_token' => [
+            'twitter'      => [
+                'access_token'        => [
                     'token'  => '',
                     'secret' => '',
                 ],
-                'oauth_options' => [
+                'oauth_options'       => [
                     'consumerKey'    => '',
                     'consumerSecret' => '',
                 ],
                 'http_client_options' => [
-                    'adapter' => Curl::class,
+                    'adapter'     => Curl::class,
                     'curloptions' => [
                         CURLOPT_SSL_VERIFYHOST => false,
                         CURLOPT_SSL_VERIFYPEER => false,
@@ -83,71 +86,75 @@ class ConfigProvider
 
     public function getDependencies(): array
     {
+        // phpcs:disable
         return [
-            'aliases' => [
+            'aliases'             => [
                 Slack\SlashCommand\AuthorizedUserListInterface::class => Slack\SlashCommand\AuthorizedUserList::class,
-                EventDispatcherInterface::class  => EventDispatcher::class,
-                ListenerProviderInterface::class => AttachableListenerProvider::class,
-                RequestFactoryInterface::class   => RequestFactory::class,
-                ResponseFactoryInterface::class  => ResponseFactory::class,
-                StreamFactoryInterface::class    => StreamFactory::class,
+                EventDispatcherInterface::class                       => EventDispatcher::class,
+                ListenerProviderInterface::class                      => AttachableListenerProvider::class,
+                RequestFactoryInterface::class                        => RequestFactory::class,
+                ResponseFactoryInterface::class                       => ResponseFactory::class,
+                StreamFactoryInterface::class                         => StreamFactory::class,
             ],
+
             'delegator_factories' => [
-                Application::class                => [Slack\ApplicationDelegator::class],
-                AttachableListenerProvider::class => [
+                Application::class                                         => [Slack\ApplicationDelegatorFactory::class],
+                AttachableListenerProvider::class                          => [
                     GitHub\ListenerProviderDelegatorFactory::class,
                     Discourse\ListenerProviderDelegatorFactory::class,
                 ],
-                Discourse\Listener\DiscoursePostListener::class           => [DeferredListenerDelegator::class],
-                GitHub\Listener\DocsBuildActionListener::class            => [DeferredListenerDelegator::class],
-                GitHub\Listener\GitHubIssueListener::class                => [DeferredListenerDelegator::class],
-                GitHub\Listener\GitHubIssueCommentListener::class         => [DeferredListenerDelegator::class],
-                GitHub\Listener\GitHubPullRequestListener::class          => [DeferredListenerDelegator::class],
-                GitHub\Listener\GitHubReleaseSlackListener::class         => [DeferredListenerDelegator::class],
-                GitHub\Listener\GitHubReleaseTweetListener::class         => [DeferredListenerDelegator::class],
-                GitHub\Listener\GitHubReleaseWebsiteUpdateListener::class => [DeferredListenerDelegator::class],
-                GitHub\Listener\GitHubStatusListener::class               => [DeferredListenerDelegator::class],
-                GitHub\Listener\RegisterWebhookListener::class            => [DeferredListenerDelegator::class],
+                Discourse\Listener\DiscoursePostListener::class            => [DeferredListenerDelegator::class],
+                GitHub\Listener\DocsBuildActionListener::class             => [DeferredListenerDelegator::class],
+                GitHub\Listener\GitHubIssueListener::class                 => [DeferredListenerDelegator::class],
+                GitHub\Listener\GitHubIssueCommentListener::class          => [DeferredListenerDelegator::class],
+                GitHub\Listener\GitHubPullRequestListener::class           => [DeferredListenerDelegator::class],
+                GitHub\Listener\GitHubReleaseSlackListener::class          => [DeferredListenerDelegator::class],
+                GitHub\Listener\GitHubReleaseTweetListener::class          => [DeferredListenerDelegator::class],
+                GitHub\Listener\GitHubReleaseWebsiteUpdateListener::class  => [DeferredListenerDelegator::class],
+                GitHub\Listener\GitHubStatusListener::class                => [DeferredListenerDelegator::class],
+                GitHub\Listener\RegisterWebhookListener::class             => [DeferredListenerDelegator::class],
                 Slack\Listener\RegenerateAuthorizedUserListListener::class => [DeferredListenerDelegator::class],
-                Slack\Message\DeployMessageHandler::class                 => [DeferredListenerDelegator::class],
+                Slack\Message\DeployMessageHandler::class                  => [DeferredListenerDelegator::class],
             ],
+
             'factories' => [
-                Discourse\Listener\DiscoursePostListener::class           => Discourse\Listener\DiscoursePostListenerFactory::class,
-                Discourse\Middleware\DiscourseHandler::class              => Discourse\Middleware\DiscourseHandlerFactory::class,
-                Discourse\Middleware\VerificationMiddleware::class        => Discourse\Middleware\VerificationMiddlewareFactory::class,
-                ErrorHandler::class                                       => Factory\ErrorHandlerFactory::class,
-                GitHub\GitHubClient::class                                => GitHub\GitHubClientFactory::class,
-                GitHub\Listener\DocsBuildActionListener::class            => GitHub\Listener\DocsBuildActionListenerFactory::class,
-                GitHub\Listener\GitHubIssueListener::class                => GitHub\Listener\GitHubIssueListenerFactory::class,
-                GitHub\Listener\GitHubIssueCommentListener::class         => GitHub\Listener\GitHubIssueCommentListenerFactory::class,
-                GitHub\Listener\GitHubPullRequestListener::class          => GitHub\Listener\GitHubPullRequestListenerFactory::class,
-                GitHub\Listener\GitHubReleaseSlackListener::class         => GitHub\Listener\GitHubReleaseSlackListenerFactory::class,
-                GitHub\Listener\GitHubReleaseTweetListener::class         => GitHub\Listener\GitHubReleaseTweetListenerFactory::class,
-                GitHub\Listener\GitHubReleaseWebsiteUpdateListener::class => GitHub\Listener\GitHubReleaseWebsiteUpdateListenerFactory::class,
-                GitHub\Listener\GitHubStatusListener::class               => GitHub\Listener\GitHubStatusListenerFactory::class,
-                GitHub\Listener\RegisterWebhookListener::class            => GitHub\Listener\RegisterWebhookListenerFactory::class,
-                GitHub\Middleware\GitHubRequestHandler::class             => GitHub\Middleware\GitHubRequestHandlerFactory::class,
-                GitHub\Middleware\VerificationMiddleware::class           => GitHub\Middleware\VerificationMiddlewareFactory::class,
-                Handler\HomePageHandler::class                            => Handler\HomePageHandlerFactory::class,
-                HttpClient::class                                         => Factory\HttpClientFactory::class,
-                LoggerInterface::class                                    => Factory\LoggerFactory::class,
-                ProblemDetailsMiddleware::class                           => Factory\ProblemDetailsMiddlewareFactory::class,
-                ResponseFactory::class                                    => InvokableFactory::class,
-                Slack\Listener\RegenerateAuthorizedUserListListener::class => Slack\Listener\RegenerateAuthorizedUserListListenerFactory::class,
-                Slack\Middleware\VerificationMiddleware::class            => Slack\Middleware\VerificationMiddlewareFactory::class,
-                Slack\Middleware\SlashCommandHandler::class               => Slack\Middleware\SlashCommandHandlerFactory::class,
-                Slack\SlackClientInterface::class                         => Slack\SlackClientFactory::class,
-                Slack\SlashCommand\AuthorizedUserList::class              => Slack\SlashCommand\AuthorizedUserListFactory::class,
-                Slack\SlashCommand\BuildDocsCommand::class                => Slack\SlashCommand\BuildDocsCommandFactory::class,
+                Discourse\Listener\DiscoursePostListener::class               => Discourse\Listener\DiscoursePostListenerFactory::class,
+                Discourse\Middleware\DiscourseHandler::class                  => Discourse\Middleware\DiscourseHandlerFactory::class,
+                Discourse\Middleware\VerificationMiddleware::class            => Discourse\Middleware\VerificationMiddlewareFactory::class,
+                ErrorHandler::class                                           => Factory\ErrorHandlerFactory::class,
+                GitHub\GitHubClient::class                                    => GitHub\GitHubClientFactory::class,
+                GitHub\Listener\DocsBuildActionListener::class                => GitHub\Listener\DocsBuildActionListenerFactory::class,
+                GitHub\Listener\GitHubIssueListener::class                    => GitHub\Listener\GitHubIssueListenerFactory::class,
+                GitHub\Listener\GitHubIssueCommentListener::class             => GitHub\Listener\GitHubIssueCommentListenerFactory::class,
+                GitHub\Listener\GitHubPullRequestListener::class              => GitHub\Listener\GitHubPullRequestListenerFactory::class,
+                GitHub\Listener\GitHubReleaseSlackListener::class             => GitHub\Listener\GitHubReleaseSlackListenerFactory::class,
+                GitHub\Listener\GitHubReleaseTweetListener::class             => GitHub\Listener\GitHubReleaseTweetListenerFactory::class,
+                GitHub\Listener\GitHubReleaseWebsiteUpdateListener::class     => GitHub\Listener\GitHubReleaseWebsiteUpdateListenerFactory::class,
+                GitHub\Listener\GitHubStatusListener::class                   => GitHub\Listener\GitHubStatusListenerFactory::class,
+                GitHub\Listener\RegisterWebhookListener::class                => GitHub\Listener\RegisterWebhookListenerFactory::class,
+                GitHub\Middleware\GitHubRequestHandler::class                 => GitHub\Middleware\GitHubRequestHandlerFactory::class,
+                GitHub\Middleware\VerificationMiddleware::class               => GitHub\Middleware\VerificationMiddlewareFactory::class,
+                Handler\HomePageHandler::class                                => Handler\HomePageHandlerFactory::class,
+                HttpClient::class                                             => Factory\HttpClientFactory::class,
+                LoggerInterface::class                                        => Factory\LoggerFactory::class,
+                ProblemDetailsMiddleware::class                               => Factory\ProblemDetailsMiddlewareFactory::class,
+                ResponseFactory::class                                        => InvokableFactory::class,
+                Slack\Listener\RegenerateAuthorizedUserListListener::class    => Slack\Listener\RegenerateAuthorizedUserListListenerFactory::class,
+                Slack\Middleware\VerificationMiddleware::class                => Slack\Middleware\VerificationMiddlewareFactory::class,
+                Slack\Middleware\SlashCommandHandler::class                   => Slack\Middleware\SlashCommandHandlerFactory::class,
+                Slack\SlackClientInterface::class                             => Slack\SlackClientFactory::class,
+                Slack\SlashCommand\AuthorizedUserList::class                  => Slack\SlashCommand\AuthorizedUserListFactory::class,
+                Slack\SlashCommand\BuildDocsCommand::class                    => Slack\SlashCommand\BuildDocsCommandFactory::class,
                 Slack\SlashCommand\RegenerateAuthorizedUserListCommand::class => Slack\SlashCommand\RegenerateAuthorizedUserListCommandFactory::class,
-                Slack\SlashCommand\RegisterRepoCommand::class             => Slack\SlashCommand\RegisterRepoCommandFactory::class,
-                Slack\SlashCommand\SlashCommandResponseFactory::class     => Slack\SlashCommand\SlashCommandResponseFactoryFactory::class,
-                Slack\SlashCommand\SlashCommands::class                   => Slack\SlashCommand\SlashCommandsFactory::class,
-                StreamFactory::class                                      => InvokableFactory::class,
-                TwitterClient::class                                      => Factory\TwitterClientFactory::class,
-                UrlHelper::class                                          => Factory\UrlHelperFactory::class,
+                Slack\SlashCommand\RegisterRepoCommand::class                 => Slack\SlashCommand\RegisterRepoCommandFactory::class,
+                Slack\SlashCommand\SlashCommandResponseFactory::class         => Slack\SlashCommand\SlashCommandResponseFactoryFactory::class,
+                Slack\SlashCommand\SlashCommands::class                       => Slack\SlashCommand\SlashCommandsFactory::class,
+                StreamFactory::class                                          => InvokableFactory::class,
+                TwitterClient::class                                          => Factory\TwitterClientFactory::class,
+                UrlHelper::class                                              => Factory\UrlHelperFactory::class,
             ],
         ];
+        // phpcs:enable
     }
 
     public function registerRoutes(Application $app, string $basePath = '/'): void

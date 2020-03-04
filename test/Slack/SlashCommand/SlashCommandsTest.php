@@ -92,7 +92,7 @@ class SlashCommandsTest extends TestCase
         $request->command()->willReturn('requested-command')->shouldBeCalled();
         $request->text()->willReturn('')->shouldBeCalled();
 
-        /** @var $command SlashCommandInterface */
+        /** @var SlashCommandInterface $command */
         $command = $this->prophesize(SlashCommandInterface::class);
         $command->command()->willReturn('requested-command')->shouldBeCalled();
         $command
@@ -122,7 +122,7 @@ class SlashCommandsTest extends TestCase
         $request->command()->willReturn('requested-command')->shouldBeCalled();
         $request->text()->willReturn('')->shouldBeCalled();
 
-        /** @var $command SlashCommandInterface */
+        /** @var SlashCommandInterface $command */
         $command = $this->prophesize(SlashCommandInterface::class);
         $command->command()->willReturn('requested-command')->shouldBeCalled();
         $command
@@ -151,14 +151,14 @@ class SlashCommandsTest extends TestCase
 
     public function testHandleReturnsCommandHelpWhenRequested(): void
     {
-        $helpMessage = 'this is the help message';
+        $helpMessage  = 'this is the help message';
         $usageMessage = '';
 
         $request = $this->prophesize(SlashCommandRequest::class);
         $request->command()->willReturn('requested-command')->shouldBeCalled();
         $request->text()->willReturn('help')->shouldBeCalled();
 
-        /** @var $command SlashCommandInterface */
+        /** @var SlashCommandInterface $command */
         $command = $this->prophesize(SlashCommandInterface::class);
         $command->command()->willReturn('requested-command')->shouldBeCalled();
         $command->usage()->willReturn($usageMessage)->shouldBeCalled();
@@ -204,7 +204,7 @@ class SlashCommandsTest extends TestCase
         $request = $this->prophesize(SlashCommandRequest::class);
         $request->command()->willReturn('laminas')->shouldBeCalled();
 
-        /** @var $command SlashCommandInterface */
+        /** @var SlashCommandInterface $command */
         $command1 = $this->prophesize(SlashCommandInterface::class);
         $command1->command()->willReturn('command1')->shouldBeCalled();
         $command1->help()->willReturn($helpMessage1);

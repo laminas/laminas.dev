@@ -8,6 +8,9 @@ use App\GitHub\Event\RegisterWebhook;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Psr\Http\Message\ResponseInterface;
 
+use function sprintf;
+use function trim;
+
 class RegisterRepoCommand implements SlashCommandInterface
 {
     use ValidateRepoArgumentTrait;

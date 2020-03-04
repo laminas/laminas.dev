@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace AppTest\GitHub\Listener ;
+namespace AppTest\GitHub\Listener;
 
 use App\GitHub\Event\GitHubRelease;
 use App\GitHub\Listener\GitHubReleaseWebsiteUpdateListener;
@@ -15,6 +15,9 @@ use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
 use Psr\Log\LoggerInterface;
+
+use function date;
+use function json_decode;
 
 class GitHubReleaseWebsiteUpdateListenerTest extends TestCase
 {
@@ -70,7 +73,7 @@ class GitHubReleaseWebsiteUpdateListenerTest extends TestCase
     public function testLogsErrorUpdatingWebsite(): void
     {
         $payload = [
-            'release' => [
+            'release'    => [
                 'draft'        => false,
                 'tag_name'     => '2.3.4p8',
                 'html_url'     => 'release-url',
@@ -109,13 +112,16 @@ class GitHubReleaseWebsiteUpdateListenerTest extends TestCase
         $request
             ->withHeader(
                 Argument::that(function ($header) {
-                    TestCase::assertRegExp('/^(Accept|Content-Type)$/', $header);
+                    TestCase::assertRegExp('/^(Accept|Content-Type|Authorization)$/', $header);
                     return $header;
                 }),
-                'application/json'
+                Argument::that(function ($value) {
+                    TestCase::assertRegExp('#^(application/json|token the-token)#', $value);
+                    return $value;
+                })
             )
             ->will([$request, 'reveal'])
-            ->shouldBeCalledTimes(2);
+            ->shouldBeCalledTimes(3);
         $request->getBody()->will([$body, 'reveal'])->shouldBeCalled();
 
         $this->requestFactory
@@ -139,7 +145,7 @@ class GitHubReleaseWebsiteUpdateListenerTest extends TestCase
     public function testDoesNotLogWhenWebsiteUpdatedSuccessfully(): void
     {
         $payload = [
-            'release' => [
+            'release'    => [
                 'draft'        => false,
                 'tag_name'     => '2.3.4p8',
                 'html_url'     => 'release-url',
@@ -178,13 +184,16 @@ class GitHubReleaseWebsiteUpdateListenerTest extends TestCase
         $request
             ->withHeader(
                 Argument::that(function ($header) {
-                    TestCase::assertRegExp('/^(Accept|Content-Type)$/', $header);
+                    TestCase::assertRegExp('/^(Accept|Content-Type|Authorization)$/', $header);
                     return $header;
                 }),
-                'application/json'
+                Argument::that(function ($value) {
+                    TestCase::assertRegExp('#^(application/json|token the-token)#', $value);
+                    return $value;
+                })
             )
             ->will([$request, 'reveal'])
-            ->shouldBeCalledTimes(2);
+            ->shouldBeCalledTimes(3);
         $request->getBody()->will([$body, 'reveal'])->shouldBeCalled();
 
         $this->requestFactory

@@ -17,6 +17,9 @@ use Psr\Log\LoggerInterface;
 
 use function json_encode;
 
+use const JSON_UNESCAPED_SLASHES;
+use const JSON_UNESCAPED_UNICODE;
+
 class SlackClient implements SlackClientInterface
 {
     public const ENDPOINT_CHAT = 'https://slack.com/api/chat.postMessage';
@@ -127,7 +130,7 @@ class SlackClient implements SlackClientInterface
     {
         $this->log('SlackClient: invalid message provided', [
             'message' => $message->toArray(),
-            'error'   => $e->getMessage()
+            'error'   => $e->getMessage(),
         ]);
     }
 

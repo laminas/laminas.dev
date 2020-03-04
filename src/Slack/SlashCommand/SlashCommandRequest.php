@@ -6,6 +6,8 @@ namespace App\Slack\SlashCommand;
 
 use RuntimeException;
 
+use function ltrim;
+
 class SlashCommandRequest
 {
     /** @var string */

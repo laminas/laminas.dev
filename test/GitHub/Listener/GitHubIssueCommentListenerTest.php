@@ -12,9 +12,11 @@ use App\Slack\Domain\TextObject;
 use App\Slack\Domain\WebAPIMessage;
 use App\Slack\Response\SlackResponseInterface;
 use App\Slack\SlackClientInterface;
-use ArgumentCountError;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
+
+use function file_get_contents;
+use function json_decode;
 
 class GitHubIssueCommentListenerTest extends TestCase
 {

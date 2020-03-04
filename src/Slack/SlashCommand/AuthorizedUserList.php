@@ -8,6 +8,12 @@ use App\Slack\SlackClientInterface;
 use DomainException;
 use Psr\Http\Message\RequestFactoryInterface;
 
+use function array_column;
+use function http_build_query;
+use function implode;
+use function in_array;
+use function sprintf;
+
 class AuthorizedUserList implements AuthorizedUserListInterface
 {
     /** string[] */
@@ -31,10 +37,10 @@ class AuthorizedUserList implements AuthorizedUserListInterface
     }
 
     /**
-     * @throws DomainException if unable to fetch channel list
-     * @throws DomainException if unable to match #technical-steering-committee
-     *     channel in channel list
-     * @throws DomainException if unable to fetch list of channel members
+     * @throws DomainException If unable to fetch channel list.
+     * @throws DomainException If unable to match #technical-steering-committee
+     *     channel in channel list.
+     * @throws DomainException If unable to fetch list of channel members.
      */
     public function build(): void
     {

@@ -6,6 +6,11 @@ namespace App\Slack\SlashCommand;
 
 use Psr\Http\Message\ResponseInterface;
 
+use function explode;
+use function in_array;
+use function preg_match;
+use function trim;
+
 trait ValidateRepoArgumentTrait
 {
     /** SlashCommandResponseFactory */
@@ -27,7 +32,7 @@ trait ValidateRepoArgumentTrait
             );
         }
 
-        list($org, $repo) = explode('/', $argument, 2);
+        [$org, $repo] = explode('/', $argument, 2);
 
         if (! in_array($org, ['laminas', 'laminas-api-tools', 'mezzio'], true)) {
             return $this->responseFactory->createResponse(

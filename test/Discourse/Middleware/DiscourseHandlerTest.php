@@ -14,11 +14,13 @@ use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
+use function date;
+
 class DiscourseHandlerTest extends TestCase
 {
     public function testDispatchesDiscoursePostAndReturnsEmpty202Response(): void
     {
-        /** @var ServerRequestInterface|ObjectProphecy */
+        /** @var ServerRequestInterface|ObjectProphecy $request */
         $request = $this->prophesize(ServerRequestInterface::class);
         $request->getAttribute('channel')->willReturn('qanda')->shouldBeCalled();
 

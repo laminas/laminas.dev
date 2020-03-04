@@ -40,8 +40,8 @@
         "psr/log": "^1.0"
     },
     "require-dev": {
-        "doctrine/coding-standard": "^4.0",
         "filp/whoops": "^2.1",
+        "laminas/laminas-coding-standard": "~2.0.0rc1 || ~2.0.0",
         "phpstan/phpstan": "^0.10",
         "phpunit/phpunit": "^7.0",
         "roave/security-advisories": "dev-master",

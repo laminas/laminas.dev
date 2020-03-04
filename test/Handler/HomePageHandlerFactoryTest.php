@@ -6,22 +6,22 @@ namespace AppTest\Handler;
 
 use App\Handler\HomePageHandler;
 use App\Handler\HomePageHandlerFactory;
+use Mezzio\Template\TemplateRendererInterface;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Prophecy\ObjectProphecy;
 use Psr\Container\ContainerInterface;
-use Mezzio\Template\TemplateRendererInterface;
 
 class HomePageHandlerFactoryTest extends TestCase
 {
     /** @var ContainerInterface|ObjectProphecy */
     protected $container;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->container = $this->prophesize(ContainerInterface::class);
     }
 
-    public function testFactoryWithTemplate() : void
+    public function testFactoryWithTemplate(): void
     {
         $this->container->has(TemplateRendererInterface::class)->willReturn(true);
         $this->container

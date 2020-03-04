@@ -13,7 +13,10 @@ use Assert\AssertionFailedException;
 use Psr\Log\LoggerInterface;
 use Throwable;
 
+use function json_decode;
 use function sprintf;
+
+use const JSON_THROW_ON_ERROR;
 
 class GitHubStatusListener
 {
@@ -37,13 +40,13 @@ class GitHubStatusListener
         GitHubClient $githubClient,
         LoggerInterface $logger
     ) {
-        $this->channel        = $channel;
-        $this->slackClient    = $slackClient;
-        $this->githubClient   = $githubClient;
-        $this->logger         = $logger;
+        $this->channel      = $channel;
+        $this->slackClient  = $slackClient;
+        $this->githubClient = $githubClient;
+        $this->logger       = $logger;
     }
 
-    public function __invoke(GitHubStatus $message) : void
+    public function __invoke(GitHubStatus $message): void
     {
         $pullRequest = $message->isForPullRequest()
             ? $this->fetchPullRequestData($message)

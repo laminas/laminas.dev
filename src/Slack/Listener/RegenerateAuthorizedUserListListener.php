@@ -10,6 +10,8 @@ use App\Slack\SlackClientInterface;
 use App\Slack\SlashCommand\AuthorizedUserListInterface;
 use DomainException;
 
+use function sprintf;
+
 class RegenerateAuthorizedUserListListener
 {
     /** @var AuthorizedUserListInterface */

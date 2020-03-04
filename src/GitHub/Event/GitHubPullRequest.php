@@ -22,7 +22,7 @@ final class GitHubPullRequest extends AbstractGitHubEvent
         $this->payload = $payload;
     }
 
-    public function validate() : void
+    public function validate(): void
     {
         Assert::that($this->payload)->keyIsset('action');
         Assert::that($this->payload)->keyIsset('repository');
@@ -38,7 +38,7 @@ final class GitHubPullRequest extends AbstractGitHubEvent
         Assert::that($this->payload['sender'])->keyIsset('html_url');
     }
 
-    public function ignore() : bool
+    public function ignore(): bool
     {
         return ! in_array($this->payload['action'], [
             'opened',
@@ -125,7 +125,7 @@ final class GitHubPullRequest extends AbstractGitHubEvent
                     'text' => '*Reporter*',
                 ],
                 [
-                    'type'  => 'mrkdwn',
+                    'type' => 'mrkdwn',
                     'text' => '*Status*',
                 ],
                 [

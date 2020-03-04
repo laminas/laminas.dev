@@ -28,7 +28,7 @@ class VerificationMiddleware implements MiddlewareInterface
         $this->responseFactory = $responseFactory;
     }
 
-    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler) : ResponseInterface
+    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         $payload = (array) $request->getParsedBody();
         if (! isset($payload['token'])) {
@@ -50,8 +50,11 @@ class VerificationMiddleware implements MiddlewareInterface
         return $handler->handle($request);
     }
 
-    private function createErrorResponse(int $status, string $message, ServerRequestInterface $request): ResponseInterface
-    {
+    private function createErrorResponse(
+        int $status,
+        string $message,
+        ServerRequestInterface $request
+    ): ResponseInterface {
         return $this->responseFactory->createResponse(
             $request,
             $status,

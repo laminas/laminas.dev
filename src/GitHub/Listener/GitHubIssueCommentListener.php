@@ -23,7 +23,7 @@ class GitHubIssueCommentListener
         $this->slackClient = $slackClient;
     }
 
-    public function __invoke(GitHubIssueComment $comment) : void
+    public function __invoke(GitHubIssueComment $comment): void
     {
         $notification = new WebAPIMessage();
         $notification->setChannel($this->channel);

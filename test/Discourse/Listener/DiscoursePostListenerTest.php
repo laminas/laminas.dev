@@ -12,6 +12,8 @@ use App\Slack\SlackClientInterface;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 
+use function time;
+
 class DiscoursePostListenerTest extends TestCase
 {
     public function invalidPosts(): iterable

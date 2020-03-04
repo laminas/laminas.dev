@@ -12,6 +12,11 @@ use App\Slack\Domain\TextObject;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 
+use function json_encode;
+
+use const JSON_UNESCAPED_SLASHES;
+use const JSON_UNESCAPED_UNICODE;
+
 class SlashCommandResponseFactory
 {
     /** @var ResponseFactoryInterface */

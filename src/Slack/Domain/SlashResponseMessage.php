@@ -19,7 +19,6 @@ class SlashResponseMessage extends Message
     /** @var string */
     private $responseType = self::TYPE_EPHEMERAL;
 
-
     public function setResponseType(string $type): void
     {
         $this->responseType = $type;

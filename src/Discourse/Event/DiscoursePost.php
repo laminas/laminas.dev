@@ -4,6 +4,10 @@ declare(strict_types=1);
 
 namespace App\Discourse\Event;
 
+use function array_key_exists;
+use function ltrim;
+use function sprintf;
+
 class DiscoursePost
 {
     // phpcs:disable
@@ -115,9 +119,9 @@ class DiscoursePost
             'type'     => 'context',
             'elements' => [
                 [
-                    'type' => 'image',
+                    'type'      => 'image',
                     'image_url' => self::AUTHOR_ICON,
-                    'alt_text' => 'Discourse',
+                    'alt_text'  => 'Discourse',
                 ],
                 [
                     'type' => 'mrkdwn',

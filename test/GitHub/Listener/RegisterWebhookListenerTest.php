@@ -19,6 +19,8 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
 use Psr\Log\LoggerInterface;
 
+use function json_decode;
+
 class RegisterWebhookListenerTest extends TestCase
 {
     /** @var GitHubClient|ObjectProphecy */
@@ -180,6 +182,5 @@ class RegisterWebhookListenerTest extends TestCase
             ->shouldBeCalled();
 
         $this->assertNull($this->listener->__invoke($event));
-        
     }
 }

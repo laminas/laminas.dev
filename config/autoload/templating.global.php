@@ -11,9 +11,9 @@ return [
 
     'templates' => [
         'paths' => [
-            'app'     => ['templates/app'],
-            'error'   => ['templates/error'],
-            'layout'  => ['templates/layout'],
+            'app'    => ['templates/app'],
+            'error'  => ['templates/error'],
+            'layout' => ['templates/layout'],
         ],
     ],
 ];

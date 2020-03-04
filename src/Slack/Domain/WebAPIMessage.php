@@ -6,6 +6,10 @@ namespace App\Slack\Domain;
 
 use Assert\Assert;
 
+use function array_merge;
+use function ltrim;
+use function sprintf;
+
 class WebAPIMessage extends Message
 {
     /** @var string */

@@ -15,6 +15,12 @@ use Psr\Http\Message\RequestFactoryInterface;
 use Psr\Http\Message\RequestInterface;
 use RuntimeException;
 
+use function implode;
+use function in_array;
+use function sprintf;
+use function strpos;
+use function var_export;
+
 class AuthorizedUserListTest extends TestCase
 {
     /** @var AuthorizedUserList */
@@ -28,7 +34,7 @@ class AuthorizedUserListTest extends TestCase
 
     public function setUp(): void
     {
-        $this->slack = $this->prophesize(SlackClientInterface::class);
+        $this->slack          = $this->prophesize(SlackClientInterface::class);
         $this->requestFactory = $this->prophesize(RequestFactoryInterface::class);
 
         $this->list = new AuthorizedUserList(
@@ -44,8 +50,8 @@ class AuthorizedUserListTest extends TestCase
 
     public function testBuildRaisesExceptionIfNonOkResponseReturned(): void
     {
-        $error    = 'some error reason';
-        $request  = $this->prophesize(RequestInterface::class);
+        $error   = 'some error reason';
+        $request = $this->prophesize(RequestInterface::class);
         $request->withHeader('Accept', 'application/json; charset=utf-8')->will([$request, 'reveal'])->shouldBeCalled();
 
         $response = $this->prophesize(SlackResponseInterface::class);
@@ -56,7 +62,7 @@ class AuthorizedUserListTest extends TestCase
         $this->requestFactory
             ->createRequest(
                 'GET',
-                Argument::that(function (string $url) : string {
+                Argument::that(function (string $url): string {
                     TestCase::assertStringContainsString('https://slack.com', $url);
                     TestCase::assertStringContainsString('/api/conversations.list?', $url);
                     TestCase::assertStringContainsString('exclude_archived=true', $url);
@@ -80,11 +86,11 @@ class AuthorizedUserListTest extends TestCase
         $channelListPayload = [
             'channels' => [
                 [
-                    'id' => 'id-1',
+                    'id'   => 'id-1',
                     'name' => 'not-tsc',
                 ],
                 [
-                    'id' => 'id-2',
+                    'id'   => 'id-2',
                     'name' => 'also-not-tsc',
                 ],
             ],
@@ -95,7 +101,7 @@ class AuthorizedUserListTest extends TestCase
             'also-not-tsc',
         ];
 
-        $request  = $this->prophesize(RequestInterface::class);
+        $request = $this->prophesize(RequestInterface::class);
         $request->withHeader('Accept', 'application/json; charset=utf-8')->will([$request, 'reveal'])->shouldBeCalled();
 
         $response = $this->prophesize(SlackResponseInterface::class);
@@ -106,7 +112,7 @@ class AuthorizedUserListTest extends TestCase
         $this->requestFactory
             ->createRequest(
                 'GET',
-                Argument::that(function (string $url) : string {
+                Argument::that(function (string $url): string {
                     TestCase::assertStringContainsString('https://slack.com', $url);
                     TestCase::assertStringContainsString('/api/conversations.list?', $url);
                     TestCase::assertStringContainsString('exclude_archived=true', $url);
@@ -135,27 +141,27 @@ class AuthorizedUserListTest extends TestCase
         $channelListPayload = [
             'channels' => [
                 [
-                    'id' => 'id-1',
+                    'id'   => 'id-1',
                     'name' => 'not-tsc',
                 ],
                 [
-                    'id' => $tscChannelId,
+                    'id'   => $tscChannelId,
                     'name' => 'technical-steering-committee',
                 ],
                 [
-                    'id' => 'id-2',
+                    'id'   => 'id-2',
                     'name' => 'also-not-tsc',
                 ],
             ],
         ];
 
-        $listRequest  = $this->prophesize(RequestInterface::class);
+        $listRequest = $this->prophesize(RequestInterface::class);
         $listRequest
             ->withHeader('Accept', 'application/json; charset=utf-8')
             ->will([$listRequest, 'reveal'])
             ->shouldBeCalled();
 
-        $memberRequest  = $this->prophesize(RequestInterface::class);
+        $memberRequest = $this->prophesize(RequestInterface::class);
         $memberRequest
             ->withHeader('Accept', 'application/json; charset=utf-8')
             ->will([$memberRequest, 'reveal'])
@@ -164,7 +170,7 @@ class AuthorizedUserListTest extends TestCase
         $this->requestFactory
             ->createRequest(
                 'GET',
-                Argument::that(function (string $url) use ($tscChannelId) : string {
+                Argument::that(function (string $url) use ($tscChannelId): string {
                     TestCase::assertStringContainsString('https://slack.com', $url);
 
                     if (strpos($url, '/api/conversations.list?') !== false) {
@@ -235,7 +241,7 @@ class AuthorizedUserListTest extends TestCase
     public function testBuildMemoizesListOfAllowedUsersWhenAllApiCallsSucceed(): void
     {
         $tscChannelId = 'the-tsc-channel-id';
-        $memberIds = [
+        $memberIds    = [
             'member-id-1',
             'member-id-2',
             'member-id-3',
@@ -248,27 +254,27 @@ class AuthorizedUserListTest extends TestCase
         $channelListPayload = [
             'channels' => [
                 [
-                    'id' => 'id-1',
+                    'id'   => 'id-1',
                     'name' => 'not-tsc',
                 ],
                 [
-                    'id' => $tscChannelId,
+                    'id'   => $tscChannelId,
                     'name' => 'technical-steering-committee',
                 ],
                 [
-                    'id' => 'id-2',
+                    'id'   => 'id-2',
                     'name' => 'also-not-tsc',
                 ],
             ],
         ];
 
-        $listRequest  = $this->prophesize(RequestInterface::class);
+        $listRequest = $this->prophesize(RequestInterface::class);
         $listRequest
             ->withHeader('Accept', 'application/json; charset=utf-8')
             ->will([$listRequest, 'reveal'])
             ->shouldBeCalled();
 
-        $memberRequest  = $this->prophesize(RequestInterface::class);
+        $memberRequest = $this->prophesize(RequestInterface::class);
         $memberRequest
             ->withHeader('Accept', 'application/json; charset=utf-8')
             ->will([$memberRequest, 'reveal'])
@@ -277,7 +283,7 @@ class AuthorizedUserListTest extends TestCase
         $this->requestFactory
             ->createRequest(
                 'GET',
-                Argument::that(function (string $url) use ($tscChannelId) : string {
+                Argument::that(function (string $url) use ($tscChannelId): string {
                     TestCase::assertStringContainsString('https://slack.com', $url);
 
                     if (strpos($url, '/api/conversations.list?') !== false) {

@@ -9,6 +9,8 @@ use Psr\Http\Message\RequestFactoryInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
+use function sprintf;
+
 class GitHubClient
 {
     /** @var HttpClient */
@@ -24,8 +26,7 @@ class GitHubClient
         string $token,
         RequestFactoryInterface $requestFactory,
         HttpClient $httpClient
-    )
-    {
+    ) {
         $this->token          = $token;
         $this->requestFactory = $requestFactory;
         $this->httpClient     = $httpClient;

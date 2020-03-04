@@ -23,7 +23,7 @@ class GitHubIssueListener
         $this->slackClient = $slackClient;
     }
 
-    public function __invoke(GitHubIssue $issue) : void
+    public function __invoke(GitHubIssue $issue): void
     {
         $notification = new WebAPIMessage();
         $notification->setChannel($this->channel);

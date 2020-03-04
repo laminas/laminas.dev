@@ -36,51 +36,60 @@ class MessageTest extends TestCase
     {
         $message = new Message();
         $message->setText('this is the text');
-        yield 'text-only' => [$message, [
-            'text' => $message->getText(),
-        ]];
+        yield 'text-only' => [
+            $message,
+            [
+                'text' => $message->getText(),
+            ],
+        ];
 
         $message = new Message();
         $message->setText('this is the text');
         $message->disableTextMarkdown();
-        yield 'text-only-not-markdown' => [$message, [
-            'text'   => $message->getText(),
-            'mrkdwn' => false,
-        ]];
+        yield 'text-only-not-markdown' => [
+            $message,
+            [
+                'text'   => $message->getText(),
+                'mrkdwn' => false,
+            ],
+        ];
 
         $message = new Message();
         $message->addBlock(ContextBlock::fromArray([
             'elements' => [
                 ['type' => TextObject::TYPE_MARKDOWN, 'text' => 'context text'],
                 [
-                    'type' => 'image',
+                    'type'      => 'image',
                     'image_url' => 'https://getlaminas.org/images/logo/laminas-foundation-rgb.svg',
-                    'alt_text' => 'Laminas icon',
+                    'alt_text'  => 'Laminas icon',
                 ],
             ],
         ]));
         $message->addBlock(SectionBlock::fromArray([
-            'text' => ['type' => TextObject::TYPE_MARKDOWN, 'text' => 'section text']
+            'text' => ['type' => TextObject::TYPE_MARKDOWN, 'text' => 'section text'],
         ]));
-        yield 'blocks-only' => [$message, [
-            'blocks' => [
-                [
-                    'type'     => 'context',
-                    'elements' => [
-                        ['type' => TextObject::TYPE_MARKDOWN, 'text' => 'context text'],
-                        [
-                            'type' => 'image',
-                            'image_url' => 'https://getlaminas.org/images/logo/laminas-foundation-rgb.svg',
-                            'alt_text' => 'Laminas icon',
+        yield 'blocks-only' => [
+            $message,
+            [
+                'blocks' => [
+                    [
+                        'type'     => 'context',
+                        'elements' => [
+                            ['type' => TextObject::TYPE_MARKDOWN, 'text' => 'context text'],
+                            [
+                                'type'      => 'image',
+                                'image_url' => 'https://getlaminas.org/images/logo/laminas-foundation-rgb.svg',
+                                'alt_text'  => 'Laminas icon',
+                            ],
                         ],
                     ],
-                ],
-                [
-                    'type' => 'section',
-                    'text' => ['type' => TextObject::TYPE_MARKDOWN, 'text' => 'section text']
+                    [
+                        'type' => 'section',
+                        'text' => ['type' => TextObject::TYPE_MARKDOWN, 'text' => 'section text'],
+                    ],
                 ],
             ],
-        ]];
+        ];
 
         $message = new Message();
         $message->setText('this is the text');
@@ -89,36 +98,39 @@ class MessageTest extends TestCase
             'elements' => [
                 ['type' => TextObject::TYPE_MARKDOWN, 'text' => 'context text'],
                 [
-                    'type' => 'image',
+                    'type'      => 'image',
                     'image_url' => 'https://getlaminas.org/images/logo/laminas-foundation-rgb.svg',
-                    'alt_text' => 'Laminas icon',
+                    'alt_text'  => 'Laminas icon',
                 ],
             ],
         ]));
         $message->addBlock(SectionBlock::fromArray([
-            'text' => ['type' => TextObject::TYPE_MARKDOWN, 'text' => 'section text']
+            'text' => ['type' => TextObject::TYPE_MARKDOWN, 'text' => 'section text'],
         ]));
-        yield 'kitchen-sink' => [$message, [
-            'text'   => $message->getText(),
-            'mrkdwn' => false,
-            'blocks' => [
-                [
-                    'type'     => 'context',
-                    'elements' => [
-                        ['type' => TextObject::TYPE_MARKDOWN, 'text' => 'context text'],
-                        [
-                            'type' => 'image',
-                            'image_url' => 'https://getlaminas.org/images/logo/laminas-foundation-rgb.svg',
-                            'alt_text' => 'Laminas icon',
+        yield 'kitchen-sink' => [
+            $message,
+            [
+                'text'   => $message->getText(),
+                'mrkdwn' => false,
+                'blocks' => [
+                    [
+                        'type'     => 'context',
+                        'elements' => [
+                            ['type' => TextObject::TYPE_MARKDOWN, 'text' => 'context text'],
+                            [
+                                'type'      => 'image',
+                                'image_url' => 'https://getlaminas.org/images/logo/laminas-foundation-rgb.svg',
+                                'alt_text'  => 'Laminas icon',
+                            ],
                         ],
                     ],
-                ],
-                [
-                    'type' => 'section',
-                    'text' => ['type' => TextObject::TYPE_MARKDOWN, 'text' => 'section text']
+                    [
+                        'type' => 'section',
+                        'text' => ['type' => TextObject::TYPE_MARKDOWN, 'text' => 'section text'],
+                    ],
                 ],
             ],
-        ]];
+        ];
     }
 
     /** @dataProvider expectedRepresentations */

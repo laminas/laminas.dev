@@ -8,6 +8,9 @@ use App\GitHub\Event\DocsBuildAction;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Psr\Http\Message\ResponseInterface;
 
+use function sprintf;
+use function trim;
+
 class BuildDocsCommand implements SlashCommandInterface
 {
     use ValidateRepoArgumentTrait;

@@ -15,6 +15,9 @@ use App\Slack\SlackClientInterface;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 
+use function file_get_contents;
+use function json_decode;
+
 class GitHubReleaseSlackListenerTest extends TestCase
 {
     public function testSendsNotificationToSlackBasedOnCommentProvided(): void

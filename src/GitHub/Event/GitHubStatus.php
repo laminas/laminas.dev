@@ -8,7 +8,9 @@ use App\GitHub\Listener\PullRequest;
 use Assert\Assert;
 
 use function in_array;
+use function preg_match;
 use function sprintf;
+use function strpos;
 use function substr;
 
 /**
@@ -24,7 +26,7 @@ final class GitHubStatus extends AbstractGitHubEvent
         $this->payload = $payload;
     }
 
-    public function validate() : void
+    public function validate(): void
     {
         Assert::that($this->payload['sha'])->notEmpty()->string();
         Assert::that($this->payload['state'])->notEmpty()->string();
@@ -39,7 +41,7 @@ final class GitHubStatus extends AbstractGitHubEvent
         Assert::that($this->payload['updated_at'])->notEmpty()->string();
     }
 
-    public function ignore() : bool
+    public function ignore(): bool
     {
         return ! in_array($this->payload['state'], [
             'success',

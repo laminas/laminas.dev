@@ -6,12 +6,18 @@ namespace App\Slack\Domain;
 
 use Assert\InvalidArgumentException;
 
+use function array_map;
+use function array_walk;
+use function count;
+use function is_array;
+use function sprintf;
+
 class ContextBlock implements BlockInterface
 {
     /** @var array */
     private $elements = [];
 
-    public static function fromArray($data): self
+    public static function fromArray(array $data): self
     {
         $context = new self();
 
@@ -67,7 +73,7 @@ class ContextBlock implements BlockInterface
     public function toArray(): array
     {
         return [
-            'type' => 'context',
+            'type'     => 'context',
             'elements' => array_map(function (RenderableInterface $element) {
                 return $element->toArray();
             }, $this->elements),

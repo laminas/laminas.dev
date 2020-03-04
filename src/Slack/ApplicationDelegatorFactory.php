@@ -7,7 +7,7 @@ namespace App\Slack;
 use Mezzio\Application;
 use Psr\Container\ContainerInterface;
 
-class ApplicationDelegator
+class ApplicationDelegatorFactory
 {
     public function __invoke(ContainerInterface $container, string $name, callable $factory): Application
     {

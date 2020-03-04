@@ -9,6 +9,9 @@ use App\Slack\Domain\TextObject;
 use Assert\AssertionFailedException;
 use PHPUnit\Framework\TestCase;
 
+use function array_fill;
+use function array_walk;
+
 class ContextBlockTest extends TestCase
 {
     public function invalidAmountsOfElements(): iterable
@@ -54,7 +57,7 @@ class ContextBlockTest extends TestCase
         $block->addElement($value);
 
         $this->assertSame([
-            'type' => 'context',
+            'type'     => 'context',
             'elements' => [
                 [
                     'type' => TextObject::TYPE_MARKDOWN,

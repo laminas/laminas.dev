@@ -66,7 +66,7 @@ class SectionBlockTest extends TestCase
                     'type' => TextObject::TYPE_MARKDOWN,
                     'text' => 'The section text',
                 ],
-            ]
+            ],
         ];
 
         yield 'fields-only' => [
@@ -83,7 +83,7 @@ class SectionBlockTest extends TestCase
                 ],
             ],
             [
-                'type' => 'section',
+                'type'   => 'section',
                 'fields' => [
                     [
                         'type' => TextObject::TYPE_MARKDOWN,
@@ -94,16 +94,16 @@ class SectionBlockTest extends TestCase
                         'text' => 'Value',
                     ],
                 ],
-            ]
+            ],
         ];
 
         yield 'kitchen-sink' => [
             [
-                'text' => [
+                'text'      => [
                     'type' => TextObject::TYPE_MARKDOWN,
                     'text' => 'The section text',
                 ],
-                'fields' => [
+                'fields'    => [
                     [
                         'type' => TextObject::TYPE_MARKDOWN,
                         'text' => '*Label*',
@@ -119,12 +119,12 @@ class SectionBlockTest extends TestCase
                 ],
             ],
             [
-                'type' => 'section',
-                'text' => [
+                'type'      => 'section',
+                'text'      => [
                     'type' => TextObject::TYPE_MARKDOWN,
                     'text' => 'The section text',
                 ],
-                'fields' => [
+                'fields'    => [
                     [
                         'type' => TextObject::TYPE_MARKDOWN,
                         'text' => '*Label*',
@@ -139,7 +139,7 @@ class SectionBlockTest extends TestCase
                     'image_url' => 'https://getlaminas.org/images/logo/laminas-foundation-rgb.svg',
                     'alt_text'  => 'the alt text',
                 ],
-            ]
+            ],
         ];
     }
 

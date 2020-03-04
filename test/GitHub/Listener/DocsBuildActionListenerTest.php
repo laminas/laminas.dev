@@ -25,7 +25,7 @@ class DocsBuildActionListenerTest extends TestCase
         $this->logger       = $this->prophesize(LoggerInterface::class);
         $this->slack        = $this->prophesize(SlackClientInterface::class);
 
-        $this->listener     = new DocsBuildActionListener(
+        $this->listener = new DocsBuildActionListener(
             $this->githubClient->reveal(),
             $this->logger->reveal(),
             $this->slack->reveal()
@@ -44,7 +44,7 @@ class DocsBuildActionListenerTest extends TestCase
     }
 
     /** @dataProvider httpErrorStatuses */
-    public function testLogsErrorAndReportsViaSlackIfGitHubRequestFails($httpStatus): void
+    public function testLogsErrorAndReportsViaSlackIfGitHubRequestFails(int $httpStatus): void
     {
         $repo        = 'laminas/some-repo';
         $responseUrl = 'https://hooks.slack.com/t/XXXX/YYYY/ZZZZZ';

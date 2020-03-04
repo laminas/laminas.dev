@@ -10,7 +10,7 @@ use Psr\Http\Message\StreamFactoryInterface;
 
 class SlashCommandResponseFactoryFactory
 {
-    public function __invoke(ContainerInterface $container):  SlashCommandResponseFactory
+    public function __invoke(ContainerInterface $container): SlashCommandResponseFactory
     {
         return new SlashCommandResponseFactory(
             $container->get(ResponseFactoryInterface::class),

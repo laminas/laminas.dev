@@ -23,14 +23,14 @@ class VerificationMiddlewareTest extends TestCase
     /** @var RequestHandlerInterface|ObjectProphecy */
     private $handler;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->request         = $this->prophesize(ServerRequestInterface::class);
         $this->handler         = $this->prophesize(RequestHandlerInterface::class);
         $this->responseFactory = $this->prophesize(ProblemDetailsResponseFactory::class);
     }
 
-    public function testMissingPayloadSignatureThrowsException() : void
+    public function testMissingPayloadSignatureThrowsException(): void
     {
         $this->request->getHeaderLine('X-Hub-Signature')->willReturn('');
 
@@ -45,7 +45,7 @@ class VerificationMiddlewareTest extends TestCase
         $this->assertSame($response, $middleware->process($this->request->reveal(), $this->handler->reveal()));
     }
 
-    public function testInvalidSignatureException() : void
+    public function testInvalidSignatureException(): void
     {
         $this->request->getHeaderLine('X-Hub-Signature')->willReturn('md5');
 
@@ -60,7 +60,7 @@ class VerificationMiddlewareTest extends TestCase
         $this->assertSame($response, $middleware->process($this->request->reveal(), $this->handler->reveal()));
     }
 
-    public function testInvalidSignatureAlgorithmThrowsException() : void
+    public function testInvalidSignatureAlgorithmThrowsException(): void
     {
         $this->request->getHeaderLine('X-Hub-Signature')->willReturn('md5=foo');
 
@@ -75,7 +75,7 @@ class VerificationMiddlewareTest extends TestCase
         $this->assertSame($response, $middleware->process($this->request->reveal(), $this->handler->reveal()));
     }
 
-    public function testInvalidSignatureMatchThrowsException() : void
+    public function testInvalidSignatureMatchThrowsException(): void
     {
         $stream = $this->prophesize(StreamInterface::class);
         $stream->__toString()->willReturn('{"foo":"bar"}');
@@ -96,7 +96,7 @@ class VerificationMiddlewareTest extends TestCase
         $this->assertSame($response, $middleware->process($this->request->reveal(), $this->handler->reveal()));
     }
 
-    public function testCallsHandlerWhenVerified() : void
+    public function testCallsHandlerWhenVerified(): void
     {
         $secret  = 'bar';
         $algo    = 'sha1';

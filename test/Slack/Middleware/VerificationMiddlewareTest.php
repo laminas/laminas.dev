@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace AppTest\Slack\Middleware;
 
 use App\Slack\Middleware\VerificationMiddleware;
+use Laminas\Diactoros\ServerRequest;
+use Mezzio\ProblemDetails\ProblemDetailsResponseFactory;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Laminas\Diactoros\ServerRequest;
-use Mezzio\ProblemDetails\ProblemDetailsResponseFactory;
 
 class VerificationMiddlewareTest extends TestCase
 {
@@ -18,7 +18,7 @@ class VerificationMiddlewareTest extends TestCase
         $this->responseFactory = $this->prophesize(ProblemDetailsResponseFactory::class);
     }
 
-    public function testVerificationIsSuccessful() : void
+    public function testVerificationIsSuccessful(): void
     {
         $request = (new ServerRequest())
             ->withMethod('POST')
@@ -43,7 +43,7 @@ class VerificationMiddlewareTest extends TestCase
         self::assertInstanceOf(ResponseInterface::class, $response);
     }
 
-    public function testVerificationTokenIsMissing() : void
+    public function testVerificationTokenIsMissing(): void
     {
         $handler = $this->prophesize(RequestHandlerInterface::class);
         $request = (new ServerRequest())
@@ -68,7 +68,7 @@ class VerificationMiddlewareTest extends TestCase
         $this->assertSame($response, $middleware->process($request, $handler->reveal()));
     }
 
-    public function testInvalidToken() : void
+    public function testInvalidToken(): void
     {
         $handler = $this->prophesize(RequestHandlerInterface::class);
         $request = (new ServerRequest())
@@ -93,7 +93,7 @@ class VerificationMiddlewareTest extends TestCase
         $this->assertSame($response, $middleware->process($request, $handler->reveal()));
     }
 
-    public function testTeamIdIsMissing() : void
+    public function testTeamIdIsMissing(): void
     {
         $handler = $this->prophesize(RequestHandlerInterface::class);
         $request = (new ServerRequest())
@@ -118,7 +118,7 @@ class VerificationMiddlewareTest extends TestCase
         $this->assertSame($response, $middleware->process($request, $handler->reveal()));
     }
 
-    public function testInvalidTeamId() : void
+    public function testInvalidTeamId(): void
     {
         $handler = $this->prophesize(RequestHandlerInterface::class);
         $request = (new ServerRequest())

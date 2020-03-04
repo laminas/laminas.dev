@@ -10,6 +10,10 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
+use function hash_hmac;
+use function strpos;
+use function substr;
+
 class VerificationMiddleware implements MiddlewareInterface
 {
     /** @var ProblemDetailsResponseFactory */
@@ -43,8 +47,11 @@ class VerificationMiddleware implements MiddlewareInterface
         return $handler->handle($request);
     }
 
-    private function createErrorResponse(int $status, string $message, ServerRequestInterface $request): ResponseInterface
-    {
+    private function createErrorResponse(
+        int $status,
+        string $message,
+        ServerRequestInterface $request
+    ): ResponseInterface {
         return $this->responseFactory->createResponse(
             $request,
             $status,

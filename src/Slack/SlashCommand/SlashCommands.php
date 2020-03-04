@@ -6,6 +6,13 @@ namespace App\Slack\SlashCommand;
 
 use Psr\Http\Message\ResponseInterface;
 
+use function array_map;
+use function array_merge;
+use function implode;
+use function preg_match;
+use function sprintf;
+use function strtolower;
+
 class SlashCommands
 {
     /** AuthorizedUserListInterface */
@@ -27,14 +34,10 @@ class SlashCommands
 
     public function attach(SlashCommandInterface $command): void
     {
-        $name = strtolower($command->command());
+        $name                  = strtolower($command->command());
         $this->commands[$name] = $command;
     }
 
-    /**
-     * @return null|string Returns null on success, and a string indicating the
-     *     error message on failure.
-     */
     public function handle(SlashCommandRequest $request): ResponseInterface
     {
         $command = strtolower($request->command());

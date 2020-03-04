@@ -18,6 +18,11 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
 use Psr\Log\LoggerInterface;
 
+use function json_encode;
+
+use const JSON_UNESCAPED_SLASHES;
+use const JSON_UNESCAPED_UNICODE;
+
 class SlackClientTest extends TestCase
 {
     /** @var HttpClient|ObjectProphecy */
@@ -143,7 +148,7 @@ class SlackClientTest extends TestCase
     public function testSendWebhookMessageMarshalsRequestFromMessageAndSendsIt(): void
     {
         $responseUrl = 'webhook-response-url';
-        $message = new SlashResponseMessage();
+        $message     = new SlashResponseMessage();
         $message->setText('This is the message to send');
 
         $body = $this->prophesize(StreamInterface::class);

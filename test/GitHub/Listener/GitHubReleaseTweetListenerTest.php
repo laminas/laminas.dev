@@ -53,7 +53,7 @@ class GitHubReleaseTweetListenerTest extends TestCase
     public function testLogsErrorWithoutTweetingIfUnableToVerifyTwitterClient(): void
     {
         $release = new GitHubRelease([
-            'release' => [
+            'release'    => [
                 'draft'    => false,
                 'tag_name' => '2.3.4p8',
             ],
@@ -77,7 +77,7 @@ class GitHubReleaseTweetListenerTest extends TestCase
     public function testLogsTwitterUpdateError(): void
     {
         $release = new GitHubRelease([
-            'release' => [
+            'release'    => [
                 'draft'    => false,
                 'tag_name' => '2.3.4p8',
                 'html_url' => 'release-url',
@@ -109,7 +109,7 @@ class GitHubReleaseTweetListenerTest extends TestCase
     public function testDoesNotLogWhenTwitterUpdateIsSuccessful(): void
     {
         $release = new GitHubRelease([
-            'release' => [
+            'release'    => [
                 'draft'    => false,
                 'tag_name' => '2.3.4p8',
                 'html_url' => 'release-url',

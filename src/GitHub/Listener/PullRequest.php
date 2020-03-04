@@ -6,12 +6,15 @@ namespace App\GitHub\Listener;
 
 use Assert\Assert;
 
+use function array_key_exists;
+use function array_shift;
+
 class PullRequest
 {
     /** @var array */
     private $payload;
 
-    /** @var array */
+    /** @var null|array */
     private $pullRequest;
 
     public function __construct(array $payload)
@@ -44,7 +47,12 @@ class PullRequest
 
     private function getPullRequest(): array
     {
-        $items = $this->payload['items'];
-        return array_shift($items);
+        if ($this->pullRequest) {
+            return $this->pullRequest;
+        }
+
+        $items             = $this->payload['items'];
+        $this->pullRequest = array_shift($items);
+        return $this->pullRequest;
     }
 }

@@ -5,7 +5,10 @@ declare(strict_types=1);
 namespace App\Slack\Domain;
 
 use Assert\InvalidArgumentException;
-use DomainException;
+
+use function array_key_exists;
+use function in_array;
+use function sprintf;
 
 class TextObject implements ElementInterface
 {

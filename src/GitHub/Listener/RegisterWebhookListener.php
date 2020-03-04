@@ -12,6 +12,12 @@ use App\UrlHelper;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Log\LoggerInterface;
 
+use function json_encode;
+use function sprintf;
+
+use const JSON_UNESCAPED_SLASHES;
+use const JSON_UNESCAPED_UNICODE;
+
 class RegisterWebhookListener
 {
     /** @var Client */
@@ -36,11 +42,11 @@ class RegisterWebhookListener
         LoggerInterface $logger,
         SlackClientInterface $slack
     ) {
-        $this->secret         = $secret;
-        $this->githubClient   = $githubClient;
-        $this->url            = $urlHelper;
-        $this->logger         = $logger;
-        $this->slack          = $slack;
+        $this->secret       = $secret;
+        $this->githubClient = $githubClient;
+        $this->url          = $urlHelper;
+        $this->logger       = $logger;
+        $this->slack        = $slack;
     }
 
     public function __invoke(RegisterWebhook $webhookRegistration)

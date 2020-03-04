@@ -6,7 +6,6 @@ namespace App\Slack;
 
 use App\Slack\Domain\SlashResponseMessage;
 use App\Slack\Domain\WebAPIMessage;
-use App\Slack\Method\ApiRequestInterface;
 use App\Slack\Response\SlackResponseInterface;
 use Psr\Http\Message\RequestInterface;
 

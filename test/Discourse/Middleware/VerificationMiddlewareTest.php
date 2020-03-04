@@ -14,6 +14,8 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\StreamInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
+use function hash_hmac;
+
 class VerificationMiddlewareTest extends TestCase
 {
     /** StreamInterface|ObjectProphecy */

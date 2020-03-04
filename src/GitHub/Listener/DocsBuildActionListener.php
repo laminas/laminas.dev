@@ -4,12 +4,18 @@ declare(strict_types=1);
 
 namespace App\GitHub\Listener;
 
-use App\GitHub\GitHubClient;
 use App\GitHub\Event\DocsBuildAction;
+use App\GitHub\GitHubClient;
 use App\Slack\Domain\SlashResponseMessage;
 use App\Slack\SlackClientInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Log\LoggerInterface;
+
+use function json_encode;
+use function sprintf;
+
+use const JSON_UNESCAPED_SLASHES;
+use const JSON_UNESCAPED_UNICODE;
 
 class DocsBuildActionListener
 {

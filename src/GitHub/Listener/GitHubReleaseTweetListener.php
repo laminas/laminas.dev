@@ -8,6 +8,10 @@ use App\GitHub\Event\GitHubRelease;
 use Laminas\Twitter\Twitter;
 use Psr\Log\LoggerInterface;
 
+use function implode;
+use function sprintf;
+use function str_replace;
+
 class GitHubReleaseTweetListener
 {
     private const TWEET_TEMPLATE = "Released: {package} {version}\n\n{url}";

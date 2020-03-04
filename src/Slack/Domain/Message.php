@@ -6,6 +6,9 @@ namespace App\Slack\Domain;
 
 use Assert\InvalidArgumentException;
 
+use function array_map;
+use function array_walk;
+
 class Message implements MessageInterface
 {
     /** @var BlockInterface[] */

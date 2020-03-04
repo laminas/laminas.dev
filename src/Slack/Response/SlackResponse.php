@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Slack\Response;
 
 use Psr\Http\Message\ResponseInterface;
+
 use function json_decode;
 
 class SlackResponse implements SlackResponseInterface
@@ -15,7 +16,7 @@ class SlackResponse implements SlackResponseInterface
     /** @var array */
     private $payload;
 
-    public static function createFromResponse(ResponseInterface $response) : self
+    public static function createFromResponse(ResponseInterface $response): self
     {
         $slackResponse = new self();
 
@@ -25,27 +26,27 @@ class SlackResponse implements SlackResponseInterface
         return $slackResponse;
     }
 
-    public function isOk() : bool
+    public function isOk(): bool
     {
         return (bool) ($this->payload['ok'] ?? false);
     }
 
-    public function getPayload() : array
+    public function getPayload(): array
     {
         return $this->payload;
     }
 
-    public function getError() : ?string
+    public function getError(): ?string
     {
         return $this->payload['error'] ?? null;
     }
 
-    public function getStatusCode() : int
+    public function getStatusCode(): int
     {
         return $this->response->getStatusCode();
     }
 
-    public function getResponse() : ResponseInterface
+    public function getResponse(): ResponseInterface
     {
         return $this->response;
     }

@@ -10,8 +10,8 @@ use Assert\AssertionFailedException;
 class Block
 {
     /**
-     * @throws AssertionFailedException for invalid block types or malformed
-     *     blocks
+     * @throws AssertionFailedException For invalid block types or malformed
+     *     blocks.
      */
     public static function create(array $payload): BlockInterface
     {

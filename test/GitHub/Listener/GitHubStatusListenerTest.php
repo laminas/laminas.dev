@@ -20,13 +20,21 @@ use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Log\LoggerInterface;
 
+use function file_get_contents;
+use function json_decode;
+use function json_encode;
+use function substr;
+
+use const JSON_UNESCAPED_SLASHES;
+use const JSON_UNESCAPED_UNICODE;
+
 class GitHubStatusListenerTest extends TestCase
 {
     /** @var string */
     private $channel;
 
     /** @var GitHubClient|ObjectProphecy */
-    private $httpClient;
+    private $githubClient;
 
     /** @var GitHubStatusListener */
     private $listener;
@@ -39,10 +47,10 @@ class GitHubStatusListenerTest extends TestCase
 
     public function setUp(): void
     {
-        $this->channel        = 'github';
-        $this->slack          = $this->prophesize(SlackClientInterface::class);
-        $this->githubClient   = $this->prophesize(GitHubClient::class);
-        $this->logger         = $this->prophesize(LoggerInterface::class);
+        $this->channel      = 'github';
+        $this->slack        = $this->prophesize(SlackClientInterface::class);
+        $this->githubClient = $this->prophesize(GitHubClient::class);
+        $this->logger       = $this->prophesize(LoggerInterface::class);
 
         $this->listener = new GitHubStatusListener(
             $this->channel,
@@ -97,7 +105,7 @@ class GitHubStatusListenerTest extends TestCase
 
     public function testLogsErrorAndNotifiesSlackWithGenericMessageForPullRequestWhereSearchFails(): void
     {
-        $json = file_get_contents(__DIR__ . '/../../Fixtures/status-success-for-pr.json');
+        $json    = file_get_contents(__DIR__ . '/../../Fixtures/status-success-for-pr.json');
         $payload = json_decode($json, true);
         $status  = new GitHubStatus($payload);
 
@@ -174,7 +182,7 @@ class GitHubStatusListenerTest extends TestCase
     public function testNotifiesSlackWithGenericMessageForPullRequestWhereSearchResultsInconclusive(
         string $payload
     ): void {
-        $json = file_get_contents(__DIR__ . '/../../Fixtures/status-success-for-pr.json');
+        $json    = file_get_contents(__DIR__ . '/../../Fixtures/status-success-for-pr.json');
         $payload = json_decode($json, true);
         $status  = new GitHubStatus($payload);
 
@@ -239,7 +247,7 @@ class GitHubStatusListenerTest extends TestCase
 
     public function testNotifesSlackWithPullRequestBuildStatusWhenSearchHasAtLeastOneMatchingResult(): void
     {
-        $json = file_get_contents(__DIR__ . '/../../Fixtures/status-success-for-pr.json');
+        $json    = file_get_contents(__DIR__ . '/../../Fixtures/status-success-for-pr.json');
         $payload = json_decode($json, true);
         $status  = new GitHubStatus($payload);
 
@@ -280,7 +288,7 @@ class GitHubStatusListenerTest extends TestCase
 
         $ghResponsePayload = json_encode([
             'incomplete_results' => false,
-            'items' => [
+            'items'              => [
                 [
                     'number'   => 1234,
                     'title'    => 'Pull request title',

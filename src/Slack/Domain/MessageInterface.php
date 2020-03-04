@@ -9,7 +9,10 @@ interface MessageInterface extends
     ValidatableInterface
 {
     public function addBlock(BlockInterface $block): void;
+
     public function disableTextMarkdown(): void;
+
     public function enableTextMarkdown(): void;
+
     public function setText(string $text): void;
 }

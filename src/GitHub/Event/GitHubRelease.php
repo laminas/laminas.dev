@@ -8,6 +8,7 @@ use App\Slack\Domain\TextObject;
 use Assert\Assert;
 
 use function in_array;
+use function sprintf;
 
 /**
  * @see https://developer.github.com/v3/repos/releases/#get-a-single-release

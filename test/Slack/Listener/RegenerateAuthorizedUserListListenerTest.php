@@ -28,7 +28,7 @@ class RegenerateAuthorizedUserListListenerTest extends TestCase
 
     public function setUp(): void
     {
-        $this->acl = $this->prophesize(AuthorizedUserListInterface::class);
+        $this->acl   = $this->prophesize(AuthorizedUserListInterface::class);
         $this->slack = $this->prophesize(SlackClientInterface::class);
 
         $this->listener = new RegenerateAuthorizedUserListListener(

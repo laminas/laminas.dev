@@ -10,7 +10,7 @@ use RuntimeException;
 
 class VerificationMiddlewareFactory
 {
-    public function __invoke(ContainerInterface $container) : VerificationMiddleware
+    public function __invoke(ContainerInterface $container): VerificationMiddleware
     {
         $config = $container->has('config') ? $container->get('config') : [];
         if (! isset($config['slack']['verification_token'])) {

@@ -64,7 +64,7 @@ final class GitHubIssue extends AbstractGitHubEvent
         );
     }
 
-    public function getMessageBlocks():  array
+    public function getMessageBlocks(): array
     {
         $payload = $this->payload;
         $issue   = $payload['issue'];
@@ -101,7 +101,7 @@ final class GitHubIssue extends AbstractGitHubEvent
     private function createFieldsBlock(string $action, array $repo, array $author): array
     {
         return [
-            'type' => 'section',
+            'type'   => 'section',
             'fields' => [
                 [
                     'type' => 'mrkdwn',

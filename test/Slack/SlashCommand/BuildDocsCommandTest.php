@@ -13,6 +13,8 @@ use Prophecy\Argument;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Psr\Http\Message\ResponseInterface;
 
+use function sprintf;
+
 class BuildDocsCommandTest extends TestCase
 {
     public function testDispatchesDocsBuildActionWithRequestDataAndReturnsResponse(): void
