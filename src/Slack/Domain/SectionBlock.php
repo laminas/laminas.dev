@@ -75,7 +75,7 @@ class SectionBlock implements BlockInterface
             && empty($this->fields)
         ) {
             throw new InvalidArgumentException(
-                'Section block requires one or both of the "text" and "blocks" keys; neither provided',
+                'Section block requires one or both of the "text" and "fields" keys; neither provided',
                 0,
                 'text,fields',
                 []
