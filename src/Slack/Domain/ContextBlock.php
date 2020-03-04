@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Slack\Domain;
 
-use InvalidArgumentException;
+use Assert\InvalidArgumentException;
 
 class ContextBlock implements BlockInterface
 {
@@ -57,7 +57,7 @@ class ContextBlock implements BlockInterface
             throw new InvalidArgumentException(sprintf(
                 'Context requires at least 1 and no more than 10 elements; contains %d',
                 $count
-            ));
+            ), 0, 'elements', []);
         }
         array_walk($this->elements, function (ValidatableInterface $element) {
             $element->validate();

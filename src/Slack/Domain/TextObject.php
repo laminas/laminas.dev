@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Slack\Domain;
 
+use Assert\InvalidArgumentException;
 use DomainException;
 
 class TextObject implements ElementInterface
@@ -55,10 +56,10 @@ class TextObject implements ElementInterface
     public function validate(): void
     {
         if (! in_array($this->type, self::ALLOWED_TYPES, true)) {
-            throw new DomainException(sprintf(
+            throw new InvalidArgumentException(sprintf(
                 'Text objects must have a type of either "plain_text" or "mrkdwn"; received "%s"',
                 $this->type
-            ));
+            ), 0, 'type', []);
         }
     }
 

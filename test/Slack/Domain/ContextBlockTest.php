@@ -6,8 +6,7 @@ namespace AppTest\Slack\Domain;
 
 use App\Slack\Domain\ContextBlock;
 use App\Slack\Domain\TextObject;
-use DomainException;
-use InvalidArgumentException;
+use Assert\AssertionFailedException;
 use PHPUnit\Framework\TestCase;
 
 class ContextBlockTest extends TestCase
@@ -28,7 +27,7 @@ class ContextBlockTest extends TestCase
             $block->addElement($element);
         });
 
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(AssertionFailedException::class);
         $this->expectExceptionMessage('requires at least 1 and no more than 10 elements');
         $block->validate();
     }
@@ -41,7 +40,7 @@ class ContextBlockTest extends TestCase
         $block->addElement($label);
         $block->addElement($value);
 
-        $this->expectException(DomainException::class);
+        $this->expectException(AssertionFailedException::class);
         $this->expectExceptionMessage('received "invalid-text-type"');
         $block->validate();
     }

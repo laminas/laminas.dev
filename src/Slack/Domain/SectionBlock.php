@@ -27,12 +27,26 @@ class SectionBlock implements BlockInterface
 
         if (isset($data['fields']) && is_array($data['fields'])) {
             foreach ($data['fields'] as $textData) {
+                if ($textData instanceof TextObject) {
+                    $block->addField($textData);
+                    continue;
+                }
+
+                if (! is_array($textData)) {
+                    continue;
+                }
+
                 $block->addField(TextObject::fromArray($textData));
             }
         }
 
         if (isset($data['accessory'])) {
-            $block->setAccessory(ImageElement::fromArray($data['accessory']));
+            if ($data['accessory'] instanceof ImageElement) {
+                $block->setAccessory($data['accessory']);
+            }
+            if (is_array($data['accessory'])) {
+                $block->setAccessory(ImageElement::fromArray($data['accessory']));
+            }
         }
 
         return $block;
