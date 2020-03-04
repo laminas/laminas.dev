@@ -12,9 +12,10 @@ class ListenerProviderDelegatorFactory
     public function __invoke(ContainerInterface $container, string $name, callable $factory): AttachableListenerProvider
     {
         $provider = $factory();
-
-        $provider->listen(Message\DeployMessage::class, $container->get(Message\DeployMessageHandler::class));
-
+        $provider->listen(
+            Event\RegenerateAuthorizedUserList::class,
+            $container->get(Listener\RegenerateAuthorizedUserListListener::class)
+        );
         return $provider;
     }
 }

@@ -20,7 +20,7 @@ class SlackClientFactory
         }
 
         return new SlackClient(
-            new HttpClient(['base_uri' => 'https://slack.com/api/']),
+            $config->get(HttpClient::class),
             $config['slack']['token'],
             $container->get(RequestFactoryInterface::class),
             $container->get(LoggerInterface::class)
