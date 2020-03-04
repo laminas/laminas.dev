@@ -158,19 +158,19 @@ final class GitHubRelease extends AbstractGitHubEvent
             'type'   => 'section',
             'fields' => [
                 [
-                    'type' => 'mrkdwn',
+                    'type' => TextObject::TYPE_MARKDOWN,
                     'text' => '*Repository*',
                 ],
                 [
-                    'type' => 'mrkdwn',
+                    'type' => TextObject::TYPE_MARKDOWN,
                     'text' => '*Released By*',
                 ],
                 [
-                    'type' => 'mrkdwn',
+                    'type' => TextObject::TYPE_MARKDOWN,
                     'text' => sprintf('<%s|%s>', $repo['html_url'], $repo['full_name']),
                 ],
                 [
-                    'type' => 'mrkdwn',
+                    'type' => TextObject::TYPE_MARKDOWN,
                     'text' => sprintf('<%s|%s>', $author['html_url'], $author['login']),
                 ],
             ],

@@ -73,7 +73,7 @@ class Message implements MessageInterface
         if (! empty($this->text)) {
             $payload['text'] = $this->text;
             if (! $this->renderTextAsMarkdown) {
-                $payload['mrkdwn'] = false;
+                $payload[TextObject::TYPE_MARKDOWN] = false;
             }
         }
 

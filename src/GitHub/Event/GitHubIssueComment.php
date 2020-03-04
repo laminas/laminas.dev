@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\GitHub\Event;
 
+use App\Slack\Domain\TextObject;
 use Assert\Assert;
 
 use function in_array;
@@ -97,7 +98,7 @@ class GitHubIssueComment extends AbstractGitHubEvent
             [
                 'type' => 'section',
                 'text' => [
-                    'type' => 'mrkdwn',
+                    'type' => TextObject::TYPE_MARKDOWN,
                     'text' => sprintf(
                         '<%s|*New comment on %s#%s %s*>',
                         $comment['html_url'],
@@ -110,7 +111,7 @@ class GitHubIssueComment extends AbstractGitHubEvent
             [
                 'type' => 'section',
                 'text' => [
-                    'type' => 'mrkdwn',
+                    'type' => TextObject::TYPE_MARKDOWN,
                     'text' => $comment['body'],
                 ],
             ],
@@ -124,27 +125,27 @@ class GitHubIssueComment extends AbstractGitHubEvent
             'type'   => 'section',
             'fields' => [
                 [
-                    'type' => 'mrkdwn',
+                    'type' => TextObject::TYPE_MARKDOWN,
                     'text' => '*Repository*',
                 ],
                 [
-                    'type' => 'mrkdwn',
+                    'type' => TextObject::TYPE_MARKDOWN,
                     'text' => sprintf('*%s*', $this->getIssueType()),
                 ],
                 [
-                    'type' => 'mrkdwn',
+                    'type' => TextObject::TYPE_MARKDOWN,
                     'text' => '*Commenter*',
                 ],
                 [
-                    'type' => 'mrkdwn',
+                    'type' => TextObject::TYPE_MARKDOWN,
                     'text' => sprintf('<%s|%s>', $repo['html_url'], $repo['full_name']),
                 ],
                 [
-                    'type' => 'mrkdwn',
+                    'type' => TextObject::TYPE_MARKDOWN,
                     'text' => sprintf('<%s|#%s>', $issueUrl, $issueNumber),
                 ],
                 [
-                    'type' => 'mrkdwn',
+                    'type' => TextObject::TYPE_MARKDOWN,
                     'text' => sprintf('<%s|%s>', $author['login'], $author['html_url']),
                 ],
             ],

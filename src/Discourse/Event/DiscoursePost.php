@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Discourse\Event;
 
+use App\Slack\Domain\TextObject;
+
 use function array_key_exists;
 use function ltrim;
 use function sprintf;
@@ -93,7 +95,7 @@ class DiscoursePost
             [
                 'type' => 'section',
                 'text' => [
-                    'type' => 'mrkdwn',
+                    'type' => TextObject::TYPE_MARKDOWN,
                     'text' => sprintf(
                         "<%s|*Comment created for %s by %s*>",
                         $this->getPostUrl(),
@@ -105,7 +107,7 @@ class DiscoursePost
             [
                 'type' => 'section',
                 'text' => [
-                    'type' => 'mrkdwn',
+                    'type' => TextObject::TYPE_MARKDOWN,
                     'text' => $post['raw'],
                 ],
             ],
@@ -124,7 +126,7 @@ class DiscoursePost
                     'alt_text'  => 'Discourse',
                 ],
                 [
-                    'type' => 'mrkdwn',
+                    'type' => TextObject::TYPE_MARKDOWN,
                     'text' => sprintf('<%s|*Discourse*>', $this->discourseUrl),
                 ],
             ],
@@ -137,15 +139,15 @@ class DiscoursePost
             'type'   => 'section',
             'fields' => [
                 [
-                    'type' => 'mrkdwn',
+                    'type' => TextObject::TYPE_MARKDOWN,
                     'text' => '*In reply to*',
                 ],
                 [
-                    'type' => 'mrkdwn',
+                    'type' => TextObject::TYPE_MARKDOWN,
                     'text' => '*Posted by*',
                 ],
                 [
-                    'type' => 'mrkdwn',
+                    'type' => TextObject::TYPE_MARKDOWN,
                     'text' => sprintf(
                         '<%s/t/%s/%s|%s>',
                         $this->discourseUrl,
@@ -155,7 +157,7 @@ class DiscoursePost
                     ),
                 ],
                 [
-                    'type' => 'mrkdwn',
+                    'type' => TextObject::TYPE_MARKDOWN,
                     'text' => sprintf(
                         '<%s/u/%s|%s>',
                         $this->discourseUrl,

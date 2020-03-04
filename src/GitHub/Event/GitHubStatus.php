@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\GitHub\Event;
 
 use App\GitHub\Listener\PullRequest;
+use App\Slack\Domain\TextObject;
 use Assert\Assert;
 
 use function in_array;
@@ -152,7 +153,7 @@ final class GitHubStatus extends AbstractGitHubEvent
             [
                 'type' => 'section',
                 'text' => [
-                    'type' => 'mrkdwn',
+                    'type' => TextObject::TYPE_MARKDOWN,
                     'text' => sprintf(
                         '<%s|Build %s> for <%s|%s>@%s (<%s|%s>)',
                         $payload['target_url'],
@@ -183,7 +184,7 @@ final class GitHubStatus extends AbstractGitHubEvent
             [
                 'type' => 'section',
                 'text' => [
-                    'type' => 'mrkdwn',
+                    'type' => TextObject::TYPE_MARKDOWN,
                     'text' => sprintf(
                         '<%s|Build %s> for pull request <%s|%s#%s %s>',
                         $payload['target_url'],
@@ -215,7 +216,7 @@ final class GitHubStatus extends AbstractGitHubEvent
                     'alt_text'  => 'GitHub',
                 ],
                 [
-                    'type' => 'mrkdwn',
+                    'type' => TextObject::TYPE_MARKDOWN,
                     'text' => sprintf(
                         '<%s|*GitHub*>',
                         $this->payload['target_url'],
@@ -232,27 +233,27 @@ final class GitHubStatus extends AbstractGitHubEvent
             'type'   => 'section',
             'fields' => [
                 [
-                    'type' => 'mrkdwn',
+                    'type' => TextObject::TYPE_MARKDOWN,
                     'text' => '*Repository*',
                 ],
                 [
-                    'type' => 'mrkdwn',
+                    'type' => TextObject::TYPE_MARKDOWN,
                     'text' => '*Status*',
                 ],
                 [
-                    'type' => 'mrkdwn',
+                    'type' => TextObject::TYPE_MARKDOWN,
                     'text' => sprintf('*%s*', $extraLabel),
                 ],
                 [
-                    'type' => 'mrkdwn',
+                    'type' => TextObject::TYPE_MARKDOWN,
                     'text' => sprintf('<%s|%s>', $repo['html_url'], $repo['full_name']),
                 ],
                 [
-                    'type' => 'mrkdwn',
+                    'type' => TextObject::TYPE_MARKDOWN,
                     'text' => $this->getBuildStatus(),
                 ],
                 [
-                    'type' => 'mrkdwn',
+                    'type' => TextObject::TYPE_MARKDOWN,
                     'text' => $extraValue,
                 ],
             ],

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\GitHub\Event;
 
+use App\Slack\Domain\TextObject;
+
 use function sprintf;
 
 abstract class AbstractGitHubEvent implements GitHubMessageInterface
@@ -23,7 +25,7 @@ abstract class AbstractGitHubEvent implements GitHubMessageInterface
                     'alt_text'  => 'GitHub',
                 ],
                 [
-                    'type' => 'mrkdwn',
+                    'type' => TextObject::TYPE_MARKDOWN,
                     'text' => sprintf(
                         '<%s|*GitHub*>',
                         $url

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\GitHub\Event;
 
+use App\Slack\Domain\TextObject;
 use Assert\Assert;
 
 use function in_array;
@@ -76,7 +77,7 @@ final class GitHubIssue extends AbstractGitHubEvent
             [
                 'type' => 'section',
                 'text' => [
-                    'type' => 'mrkdwn',
+                    'type' => TextObject::TYPE_MARKDOWN,
                     'text' => sprintf(
                         '<%s|*[%s] Issue %s#%s %s*>',
                         $issue['html_url'],
@@ -90,7 +91,7 @@ final class GitHubIssue extends AbstractGitHubEvent
             [
                 'type' => 'section',
                 'text' => [
-                    'type' => 'mrkdwn',
+                    'type' => TextObject::TYPE_MARKDOWN,
                     'text' => $issue['body'],
                 ],
             ],
@@ -104,27 +105,27 @@ final class GitHubIssue extends AbstractGitHubEvent
             'type'   => 'section',
             'fields' => [
                 [
-                    'type' => 'mrkdwn',
+                    'type' => TextObject::TYPE_MARKDOWN,
                     'text' => '*Repository*',
                 ],
                 [
-                    'type' => 'mrkdwn',
+                    'type' => TextObject::TYPE_MARKDOWN,
                     'text' => '*Reporter*',
                 ],
                 [
-                    'type' => 'mrkdwn',
+                    'type' => TextObject::TYPE_MARKDOWN,
                     'text' => '*Status*',
                 ],
                 [
-                    'type' => 'mrkdwn',
+                    'type' => TextObject::TYPE_MARKDOWN,
                     'text' => sprintf('<%s>', $repo['html_url']),
                 ],
                 [
-                    'type' => 'mrkdwn',
+                    'type' => TextObject::TYPE_MARKDOWN,
                     'text' => sprintf('<%s|%s>', $author['html_url'], $author['login']),
                 ],
                 [
-                    'type' => 'mrkdwn',
+                    'type' => TextObject::TYPE_MARKDOWN,
                     'text' => $action,
                 ],
             ],
