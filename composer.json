@@ -29,7 +29,7 @@
         "mezzio/mezzio": "^3.0",
         "mezzio/mezzio-fastroute": "^3.0",
         "mezzio/mezzio-helpers": "^5.0",
-        "mezzio/mezzio-problem-details": "^1.0",
+        "mezzio/mezzio-problem-details": "^1.1",
         "mezzio/mezzio-swoole": "^2.6",
         "mezzio/mezzio-twigrenderer": "^2.0",
         "monolog/monolog": "^1.23",

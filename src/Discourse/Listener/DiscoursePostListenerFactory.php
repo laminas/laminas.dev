@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Discourse\Listener;
 
-use App\Slack\SlackClient;
+use App\Slack\SlackClientInterface;
 use Psr\Container\ContainerInterface;
 
 class DiscoursePostListenerFactory
@@ -12,7 +12,7 @@ class DiscoursePostListenerFactory
     public function __invoke(ContainerInterface $container): DiscoursePostListener
     {
         return new DiscoursePostListener(
-            $container->get(SlackClient::class)
+            $container->get(SlackClientInterface::class)
         );
     }
 }

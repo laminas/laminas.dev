@@ -12,9 +12,7 @@ class ListenerProviderDelegatorFactory
     public function __invoke(ContainerInterface $container, string $name, callable $factory): AttachableListenerProvider
     {
         $provider = $factory();
-
         $provider->listen(Event\DiscoursePost::class, $container->get(Listener\DiscoursePostListener::class));
-
         return $provider;
     }
 }

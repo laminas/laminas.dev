@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Discourse\Middleware;
 
-use App\Discourse\Event\DiscoursePost;
 use Psr\Container\ContainerInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Psr\Http\Message\ResponseFactoryInterface;

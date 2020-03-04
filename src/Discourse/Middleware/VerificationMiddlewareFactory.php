@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Discourse\Middleware;
 
+use Mezzio\ProblemDetails\ProblemDetailsResponseFactory;
 use Psr\Container\ContainerInterface;
-use Psr\Http\Message\ResponseFactoryInterface;
 
 class VerificationMiddlewareFactory
 {
@@ -13,7 +13,7 @@ class VerificationMiddlewareFactory
     {
         return new VerificationMiddleware(
             $container->get('config')['discourse']['secret'],
-            $container->get(ResponseFactoryInterface::class)
+            $container->get(ProblemDetailsResponseFactory::class)
         );
     }
 }

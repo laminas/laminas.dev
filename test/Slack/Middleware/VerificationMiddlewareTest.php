@@ -5,14 +5,19 @@ declare(strict_types=1);
 namespace AppTest\Slack\Middleware;
 
 use App\Slack\Middleware\VerificationMiddleware;
-use DomainException;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Laminas\Diactoros\ServerRequest;
+use Mezzio\ProblemDetails\ProblemDetailsResponseFactory;
 
 class VerificationMiddlewareTest extends TestCase
 {
+    public function setUp(): void
+    {
+        $this->responseFactory = $this->prophesize(ProblemDetailsResponseFactory::class);
+    }
+
     public function testVerificationIsSuccessful() : void
     {
         $request = (new ServerRequest())
@@ -32,7 +37,7 @@ class VerificationMiddlewareTest extends TestCase
             ->shouldBeCalled()
             ->willReturn($this->prophesize(ResponseInterface::class));
 
-        $middleware = new VerificationMiddleware('gIkuvaNzQIHg97ATvDxqgjtO', 'T0001');
+        $middleware = new VerificationMiddleware('gIkuvaNzQIHg97ATvDxqgjtO', 'T0001', $this->responseFactory->reveal());
         $response   = $middleware->process($request, $handler->reveal());
 
         self::assertInstanceOf(ResponseInterface::class, $response);
@@ -53,11 +58,14 @@ class VerificationMiddlewareTest extends TestCase
 
         $handler->handle($request)->shouldNotBeCalled();
 
-        $this->expectException(DomainException::class);
-        $this->expectExceptionMessage('Missing token');
+        $response = $this->prophesize(ResponseInterface::class)->reveal();
+        $this->responseFactory
+            ->createResponse($request, 400, 'Missing token')
+            ->willReturn($response)
+            ->shouldBeCalled();
 
-        $middleware = new VerificationMiddleware('foo', 'bar');
-        $middleware->process($request, $handler->reveal());
+        $middleware = new VerificationMiddleware('foo', 'bar', $this->responseFactory->reveal());
+        $this->assertSame($response, $middleware->process($request, $handler->reveal()));
     }
 
     public function testInvalidToken() : void
@@ -76,11 +84,13 @@ class VerificationMiddlewareTest extends TestCase
 
         $handler->handle($request)->shouldNotBeCalled();
 
-        $this->expectException(DomainException::class);
-        $this->expectExceptionMessage('Invalid token');
-
-        $middleware = new VerificationMiddleware('foo', 'bar');
-        $middleware->process($request, $handler->reveal());
+        $response = $this->prophesize(ResponseInterface::class)->reveal();
+        $this->responseFactory
+            ->createResponse($request, 400, 'Invalid token')
+            ->willReturn($response)
+            ->shouldBeCalled();
+        $middleware = new VerificationMiddleware('foo', 'bar', $this->responseFactory->reveal());
+        $this->assertSame($response, $middleware->process($request, $handler->reveal()));
     }
 
     public function testTeamIdIsMissing() : void
@@ -98,11 +108,14 @@ class VerificationMiddlewareTest extends TestCase
 
         $handler->handle($request)->shouldNotBeCalled();
 
-        $this->expectException(DomainException::class);
-        $this->expectExceptionMessage('Missing team id');
+        $response = $this->prophesize(ResponseInterface::class)->reveal();
+        $this->responseFactory
+            ->createResponse($request, 400, 'Missing team id')
+            ->willReturn($response)
+            ->shouldBeCalled();
 
-        $middleware = new VerificationMiddleware('gIkuvaNzQIHg97ATvDxqgjtO', 'bar');
-        $middleware->process($request, $handler->reveal());
+        $middleware = new VerificationMiddleware('gIkuvaNzQIHg97ATvDxqgjtO', 'bar', $this->responseFactory->reveal());
+        $this->assertSame($response, $middleware->process($request, $handler->reveal()));
     }
 
     public function testInvalidTeamId() : void
@@ -121,10 +134,13 @@ class VerificationMiddlewareTest extends TestCase
 
         $handler->handle($request)->shouldNotBeCalled();
 
-        $this->expectException(DomainException::class);
-        $this->expectExceptionMessage('Invalid team id');
+        $response = $this->prophesize(ResponseInterface::class)->reveal();
+        $this->responseFactory
+            ->createResponse($request, 400, 'Invalid team id')
+            ->willReturn($response)
+            ->shouldBeCalled();
 
-        $middleware = new VerificationMiddleware('gIkuvaNzQIHg97ATvDxqgjtO', 'bar');
-        $middleware->process($request, $handler->reveal());
+        $middleware = new VerificationMiddleware('gIkuvaNzQIHg97ATvDxqgjtO', 'bar', $this->responseFactory->reveal());
+        $this->assertSame($response, $middleware->process($request, $handler->reveal()));
     }
 }

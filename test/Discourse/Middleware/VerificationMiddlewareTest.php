@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace AppTest\Discourse\Middleware;
 
 use App\Discourse\Middleware\VerificationMiddleware;
+use Mezzio\ProblemDetails\ProblemDetailsResponseFactory;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\Prophecy\ObjectProphecy;
-use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\StreamInterface;
@@ -31,7 +31,7 @@ class VerificationMiddlewareTest extends TestCase
     /** ResponseInterface|ObjectProphecy */
     private $response;
 
-    /** ResponseFactoryInterface|ObjectProphecy */
+    /** ProblemDetailsResponseFactory|ObjectProphecy */
     private $responseFactory;
 
     /** @var string */
@@ -42,7 +42,7 @@ class VerificationMiddlewareTest extends TestCase
         $this->secret          = 'mysecret';
         $this->request         = $this->prophesize(ServerRequestInterface::class);
         $this->response        = $this->prophesize(ResponseInterface::class)->reveal();
-        $this->responseFactory = $this->prophesize(ResponseFactoryInterface::class);
+        $this->responseFactory = $this->prophesize(ProblemDetailsResponseFactory::class);
         $this->handler         = $this->prophesize(RequestHandlerInterface::class);
         $this->body            = $this->prophesize(StreamInterface::class);
         $this->middleware      = new VerificationMiddleware(
@@ -55,7 +55,10 @@ class VerificationMiddlewareTest extends TestCase
     {
         $this->request->getHeaderLine('X-Discourse-Event-Signature')->willReturn('')->shouldBeCalled();
         $this->request->getBody()->shouldNotBeCalled();
-        $this->responseFactory->createResponse(400)->willReturn($this->response)->shouldBeCalled();
+        $this->responseFactory
+             ->createResponse($this->request->reveal(), 400, 'No Discourse payload signature headers present')
+             ->willReturn($this->response)
+             ->shouldBeCalled();
         $this->handler->handle(Argument::any())->shouldNotBeCalled();
 
         $this->assertSame(
@@ -71,7 +74,10 @@ class VerificationMiddlewareTest extends TestCase
 
         $this->request->getHeaderLine('X-Discourse-Event-Signature')->willReturn($signature)->shouldBeCalled();
         $this->request->getBody()->will([$this->body, 'reveal'])->shouldBeCalled();
-        $this->responseFactory->createResponse(203, 'Invalid or missing signature')->willReturn($this->response)->shouldBeCalled();
+        $this->responseFactory
+            ->createResponse($this->request->reveal(), 203, 'Invalid or missing signature')
+            ->willReturn($this->response)
+            ->shouldBeCalled();
         $this->handler->handle(Argument::any())->shouldNotBeCalled();
 
         $this->assertSame(

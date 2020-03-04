@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Slack\Middleware;
 
+use Mezzio\ProblemDetails\ProblemDetailsResponseFactory;
 use Psr\Container\ContainerInterface;
 use RuntimeException;
 
@@ -22,7 +23,8 @@ class VerificationMiddlewareFactory
 
         return new VerificationMiddleware(
             $config['slack']['verification_token'],
-            $config['slack']['team_id']
+            $config['slack']['team_id'],
+            $container->get(ProblemDetailsResponseFactory::class)
         );
     }
 }
