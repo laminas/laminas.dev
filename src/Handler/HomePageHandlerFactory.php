@@ -6,6 +6,7 @@ namespace App\Handler;
 
 use Mezzio\Template\TemplateRendererInterface;
 use Psr\Container\ContainerInterface;
+use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
 class HomePageHandlerFactory
@@ -13,7 +14,8 @@ class HomePageHandlerFactory
     public function __invoke(ContainerInterface $container): RequestHandlerInterface
     {
         return new HomePageHandler(
-            $container->get(TemplateRendererInterface::class)
+            $container->get(TemplateRendererInterface::class),
+            $container->get(ResponseFactoryInterface::class)
         );
     }
 }

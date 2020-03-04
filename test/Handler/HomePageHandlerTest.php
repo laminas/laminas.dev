@@ -5,37 +5,39 @@ declare(strict_types=1);
 namespace AppTest\Handler;
 
 use App\Handler\HomePageHandler;
-use Laminas\Diactoros\Response\HtmlResponse;
 use Mezzio\Template\TemplateRendererInterface;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
-use Prophecy\Prophecy\ObjectProphecy;
-use Psr\Container\ContainerInterface;
+use Psr\Http\Message\ResponseFactoryInterface;
+use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\StreamInterface;
 
 class HomePageHandlerTest extends TestCase
 {
-    /** @var ContainerInterface|ObjectProphecy */
-    protected $container;
-
-    protected function setUp(): void
-    {
-        $this->container = $this->prophesize(ContainerInterface::class);
-    }
-
     public function testReturnsHtmlResponse(): void
     {
+        $contents = '<strong>Contents</strong>';
+
         $renderer = $this->prophesize(TemplateRendererInterface::class);
         $renderer
             ->render('app::home-page', Argument::type('array'))
-            ->willReturn('');
+            ->willReturn($contents);
 
-        $homePage = new HomePageHandler($renderer->reveal());
+        $body = $this->prophesize(StreamInterface::class);
+        $body->write($contents)->shouldBeCalled();
 
-        $response = $homePage->handle(
+        $response = $this->prophesize(ResponseInterface::class);
+        $response->withHeader('Content-Type', 'text/html')->will([$response, 'reveal']);
+        $response->getBody()->will([$body, 'reveal']);
+
+        $responseFactory = $this->prophesize(ResponseFactoryInterface::class);
+        $responseFactory->createResponse(200)->will([$response, 'reveal']);
+
+        $homePage = new HomePageHandler($renderer->reveal(), $responseFactory->reveal());
+
+        $this->assertSame($response->reveal(), $homePage->handle(
             $this->prophesize(ServerRequestInterface::class)->reveal()
-        );
-
-        self::assertInstanceOf(HtmlResponse::class, $response);
+        ));
     }
 }
