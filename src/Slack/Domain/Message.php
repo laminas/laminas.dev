@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Slack\Domain;
 
-use InvalidArgumentException;
+use Assert\InvalidArgumentException;
 
 class Message implements MessageInterface
 {
@@ -52,7 +52,10 @@ class Message implements MessageInterface
     {
         if (null === $this->text && empty($this->blocks)) {
             throw new InvalidArgumentException(
-                'Text must be non-empty and/or one or more blocks must be present in message.'
+                'Text must be non-empty and/or one or more blocks must be present in message.',
+                0,
+                'text,blocks',
+                []
             );
         }
 
