@@ -6,6 +6,7 @@ namespace App;
 
 use Laminas\Diactoros\RequestFactory;
 use Laminas\Diactoros\ResponseFactory;
+use Laminas\Diactoros\ServerRequestFactory;
 use Laminas\Diactoros\StreamFactory;
 use Laminas\Http\Client\Adapter\Curl;
 use Laminas\ServiceManager\Factory\InvokableFactory;
@@ -22,6 +23,7 @@ use Phly\Swoole\TaskWorker\DeferredListenerDelegator;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Psr\EventDispatcher\ListenerProviderInterface;
 use Psr\Http\Message\RequestFactoryInterface;
+use Psr\Http\Message\ServerRequestFactoryInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\StreamFactoryInterface;
 use Psr\Log\LoggerInterface;
@@ -94,6 +96,7 @@ class ConfigProvider
                 ListenerProviderInterface::class                      => AttachableListenerProvider::class,
                 RequestFactoryInterface::class                        => RequestFactory::class,
                 ResponseFactoryInterface::class                       => ResponseFactory::class,
+                ServerRequestFactoryInterface::class                  => ServerRequestFactory::class,
                 StreamFactoryInterface::class                         => StreamFactory::class,
             ],
 
@@ -134,11 +137,14 @@ class ConfigProvider
                 GitHub\Listener\RegisterWebhookListener::class                => GitHub\Listener\RegisterWebhookListenerFactory::class,
                 GitHub\Middleware\GitHubRequestHandler::class                 => GitHub\Middleware\GitHubRequestHandlerFactory::class,
                 GitHub\Middleware\VerificationMiddleware::class               => GitHub\Middleware\VerificationMiddlewareFactory::class,
+                Handler\ChatHandler::class                                    => Handler\ChatHandlerFactory::class,
                 Handler\HomePageHandler::class                                => Handler\HomePageHandlerFactory::class,
                 HttpClient::class                                             => Factory\HttpClientFactory::class,
                 LoggerInterface::class                                        => Factory\LoggerFactory::class,
                 ProblemDetailsMiddleware::class                               => Factory\ProblemDetailsMiddlewareFactory::class,
+                RequestFactory::class                                         => InvokableFactory::class,
                 ResponseFactory::class                                        => InvokableFactory::class,
+                ServerRequestFactory::class                                   => InvokableFactory::class,
                 Slack\Listener\RegenerateAuthorizedUserListListener::class    => Slack\Listener\RegenerateAuthorizedUserListListenerFactory::class,
                 Slack\Middleware\VerificationMiddleware::class                => Slack\Middleware\VerificationMiddlewareFactory::class,
                 Slack\Middleware\SlashCommandHandler::class                   => Slack\Middleware\SlashCommandHandlerFactory::class,
@@ -160,6 +166,7 @@ class ConfigProvider
     public function registerRoutes(Application $app, string $basePath = '/'): void
     {
         $app->get('/', Handler\HomePageHandler::class, 'home');
+        $app->get('/chat[/]', Handler\ChatHandler::class, 'chat');
 
         $app->post('/api/discourse/{channel:[A-Z0-9]+}/{event:post|topic}', [
             ProblemDetailsMiddleware::class,
