@@ -33,6 +33,7 @@ return [
     ],
 
     'slack' => [
+        'acl_channel'     => getenv('SLACK_CHANNEL_ACL'),
         'channels'        => [
             'github' => getenv('SLACK_CHANNEL_GITHUB'),
         ],

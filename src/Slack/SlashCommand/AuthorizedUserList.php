@@ -16,6 +16,11 @@ use function sprintf;
 
 class AuthorizedUserList implements AuthorizedUserListInterface
 {
+    public const DEFAULT_ACL_CHANNEL = 'technical-steering-committee';
+
+    /** @var string */
+    private $aclChannel;
+
     /** string[] */
     private $allowed = [];
 
@@ -25,10 +30,14 @@ class AuthorizedUserList implements AuthorizedUserListInterface
     /** @var SlackClientInterface */
     private $slack;
 
-    public function __construct(SlackClientInterface $slack, RequestFactoryInterface $requestFactory)
-    {
+    public function __construct(
+        SlackClientInterface $slack,
+        RequestFactoryInterface $requestFactory,
+        string $aclChannel = self::DEFAULT_ACL_CHANNEL
+    ) {
         $this->slack          = $slack;
         $this->requestFactory = $requestFactory;
+        $this->aclChannel     = $aclChannel;
     }
 
     public function isAuthorized(string $userId): bool
@@ -67,17 +76,18 @@ class AuthorizedUserList implements AuthorizedUserListInterface
         }
 
         $channels   = $response->getPayload()['channels'];
-        $tscChannel = null;
+        $aclChannel = null;
         foreach ($channels as $channel) {
-            if ($channel['name'] === 'technical-steering-committee') {
-                $tscChannel = $channel['id'];
+            if ($channel['name'] === $this->aclChannel) {
+                $aclChannel = $channel['id'];
                 break;
             }
         }
 
-        if ($tscChannel === null) {
+        if ($aclChannel === null) {
             throw new DomainException(sprintf(
-                'Did not find #technical-steering-committee channel in list: %s',
+                'Did not find #%s channel in list: %s',
+                $this->aclChannel,
                 implode(', ', array_column($channels, 'name'))
             ));
         }
@@ -86,7 +96,7 @@ class AuthorizedUserList implements AuthorizedUserListInterface
             '%s/conversations.members?%s',
             $baseUri,
             http_build_query([
-                'channel' => $tscChannel,
+                'channel' => $aclChannel,
             ])
         );
 

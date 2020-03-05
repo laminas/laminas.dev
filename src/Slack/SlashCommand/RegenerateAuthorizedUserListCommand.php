@@ -10,6 +10,9 @@ use Psr\Http\Message\ResponseInterface;
 
 class RegenerateAuthorizedUserListCommand implements SlashCommandInterface
 {
+    /** @var string */
+    private $aclChannel;
+
     /** @var EventDispatcherInterface */
     private $dispatcher;
 
@@ -18,10 +21,12 @@ class RegenerateAuthorizedUserListCommand implements SlashCommandInterface
 
     public function __construct(
         SlashCommandResponseFactory $responseFactory,
-        EventDispatcherInterface $dispatcher
+        EventDispatcherInterface $dispatcher,
+        string $aclChannel = AuthorizedUserList::DEFAULT_ACL_CHANNEL
     ) {
         $this->responseFactory = $responseFactory;
         $this->dispatcher      = $dispatcher;
+        $this->aclChannel      = $aclChannel;
     }
 
     public function command(): string
@@ -36,8 +41,10 @@ class RegenerateAuthorizedUserListCommand implements SlashCommandInterface
 
     public function help(): string
     {
-        return 'Issue this command to regenerate the authorized users list from'
-           . ' the set of current members of the #technical-steering-committee channel.';
+        return sprintf('Issue this command to regenerate the authorized users list from'
+            . ' the set of current members of the #%s channel.',
+            $this->aclChannel
+        );
     }
 
     public function validate(

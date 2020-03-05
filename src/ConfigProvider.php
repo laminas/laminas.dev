@@ -64,6 +64,7 @@ class ConfigProvider
                 ],
                 'token'           => '',
                 'default_channel' => 'github',
+                'acl_channel'     => '',
             ],
             'twitter'      => [
                 'access_token'        => [

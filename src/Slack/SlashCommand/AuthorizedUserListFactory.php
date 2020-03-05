@@ -14,7 +14,8 @@ class AuthorizedUserListFactory
     {
         $acl = new AuthorizedUserList(
             $container->get(SlackClientInterface::class),
-            $container->get(RequestFactoryInterface::class)
+            $container->get(RequestFactoryInterface::class),
+            $container->get('config')['slack']['acl_channel'] ?? AuthorizedUserList::DEFAULT_ACL_CHANNEL
         );
         $acl->build();
         return $acl;
