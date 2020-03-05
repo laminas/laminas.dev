@@ -49,7 +49,7 @@ return [
         'swoole-http-server' => [
             'process-name' => 'laminasdev',
             'host'         => '0.0.0.0',
-            'port'         => 9000,
+            'port'         => (int) getenv('PORT') ?? 8888,
             'mode'         => SWOOLE_PROCESS,
             'options'      => [
                 // For some reason, inside a docker container, ulimit -n, which is what
