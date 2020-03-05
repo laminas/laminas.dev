@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Laminas\ConfigAggregator\ConfigAggregator;
+use Mezzio\Swoole\StaticResourceHandler\ContentTypeFilterMiddleware;
 
 return [
     // Toggle the configuration cache. Set this to boolean false, or remove the
@@ -41,5 +42,47 @@ return [
         'default_channel' => 'github',
         'team_id'         => getenv('SLACK_TEAM_ID'),
         'secret'          => getenv('SLACK_SECRET'),
+    ],
+
+    'mezzio-swoole' => [
+        'enable_coroutine'   => true,
+        'swoole-http-server' => [
+            'process-name' => 'laminasdev',
+            'host'         => '0.0.0.0',
+            'port'         => 9000,
+            'mode'         => SWOOLE_PROCESS,
+            'options'      => [
+                // For some reason, inside a docker container, ulimit -n, which is what
+                // Swoole uses to determine this value by default, reports a ridiculously
+                // high number. The value presented here is the value reported by the
+                // docker host.
+                'max_conn' => 1024,
+
+                // Enable task workers.
+                'task_worker_num' => 4,
+            ],
+            'static-files' => [
+                'type-map'   => array_merge(ContentTypeFilterMiddleware::TYPE_MAP_DEFAULT, [
+                    'asc' => 'application/octet-stream',
+                ]),
+                'gzip'       => [
+                    'level' => 6,
+                ],
+                'directives' => [
+                    // Images and fonts
+                    '/\.(?:ico|png|gif|jpg|jpeg|svg|otf|eot|ttf|woff2?)$/' => [
+                        'cache-control' => ['public', 'max-age=' . 60 * 60 * 24 * 365],
+                        'last-modified' => true,
+                        'etag'          => true,
+                    ],
+                    // Styles and scripts
+                    '/\.(?:css|js)$/'               => [
+                        'cache-control' => ['public', 'max-age=' . 60 * 60 * 24 * 30],
+                        'last-modified' => true,
+                        'etag'          => true,
+                    ],
+                ],
+            ],
+        ],
     ],
 ];
