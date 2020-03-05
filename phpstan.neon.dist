@@ -1,0 +1,7 @@
+parameters:
+    level: 1
+    paths:
+        - %currentWorkingDirectory%/config
+        - %currentWorkingDirectory%/src
+    includes:
+        - vendor/phpstan/phpstan-doctrine/extension.neon

@@ -1,6 +1,6 @@
 name: laminas_dev
 
-type: php:7.2
+type: php:7.3
 
 size: S
 
@@ -9,11 +9,27 @@ disk: 256
 build:
   flavor: none
 
+dependencies:
+  php:
+    "hirak/prestissimo": "^0.3.9"
+
+mounts:
+  'data/cache':
+    source: local
+    source_path: data/cache
+
 hooks:
   build: |
     set -e
     echo "Installing platform.sh CLI"
     curl -sS https://platform.sh/cli/installer | php
+    echo "- Setting up configuration"
+    rm -f config/development.config.php config/autoload/*.local.php
+    mv config/autoload/local.php.dist config/autoload/local.php
+    echo "- Installing application dependencies"
+    composer install --no-ansi --no-dev --no-interaction --no-scripts --no-plugins --optimize-autoloader
+  deploy: |
+    rm -f data/cache/config-cache.php
 
 crons:
     snapshot:
@@ -32,15 +48,19 @@ crons:
             fi
 
 web:
+  commands:
+    start: 'php vendor/bin/mezzio-swoole start'
+  upstream:
+    socket_family: tcp
+    protocol: http
   locations:
     '/':
       root: 'public'
+      passthru: '/index.php'
       index:
         - index.html
-      expires: -1
       scripts: true
-      allow: false
-      rules:
-        \.(css|js|gif|jpe?g|png|ttf|eot|woff2?|otf|cast|mp4|json|html|ico|svg)$:
-          allow: true
-          expires: 300s
+      allow: true
+      request_buffering:
+        enabled: true
+        max_request_size: 25m

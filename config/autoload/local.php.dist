@@ -1,0 +1,26 @@
+<?php
+/**
+ * Local configuration.
+ *
+ * Copy this file to `local.php` and change its settings as required.
+ * `local.php` is ignored by git and safe to use for local and sensitive data like usernames and passwords.
+ */
+
+declare(strict_types=1);
+
+use Monolog\Handler\SlackHandler;
+use Monolog\Logger;
+
+return [
+    'monolog' => [
+        'handlers' => [
+            'slack' => [
+                'type'    => SlackHandler::class,
+                'token'   => getenv('SLACK_TOKEN'),
+                'channel' => getenv('SLACK_CHANNEL_ERROR'),
+                'name'    => getenv('SLACK_BOT_NAME'),
+                'level'   => Logger::ERROR,
+            ],
+        ],
+    ],
+];

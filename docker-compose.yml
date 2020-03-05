@@ -1,0 +1,11 @@
+version: "3"
+services:
+
+  web:
+    image: mwop/phly-docker-php-swoole:7.3-alpine
+    env_file:
+      - .env
+    ports:
+      - "9000:9000"
+    volumes:
+      - ./:/var/www
