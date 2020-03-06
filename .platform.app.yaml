@@ -21,13 +21,15 @@ mounts:
 hooks:
   build: |
     set -e
+    echo "Installing Swoole extension"
+    bash install-swoole.sh v4.4.16
     echo "Installing platform.sh CLI"
     curl -sS https://platform.sh/cli/installer | php
     echo "- Setting up configuration"
     rm -f config/development.config.php config/autoload/*.local.php
     mv config/autoload/local.php.dist config/autoload/local.php
     echo "- Installing application dependencies"
-    composer install --no-ansi --no-dev --no-interaction --no-scripts --no-plugins --optimize-autoloader
+    composer install --ignore-platform-reqs --no-ansi --no-dev --no-interaction --no-scripts --no-plugins --optimize-autoloader
   deploy: |
     rm -f data/cache/config-cache.php
 
@@ -55,12 +57,4 @@ web:
     protocol: http
   locations:
     '/':
-      root: 'public'
-      passthru: '/index.php'
-      index:
-        - index.html
-      scripts: true
-      allow: true
-      request_buffering:
-        enabled: true
-        max_request_size: 25m
+      passthru: true
