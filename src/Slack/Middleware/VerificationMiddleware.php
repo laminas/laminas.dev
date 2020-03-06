@@ -16,35 +16,34 @@ class VerificationMiddleware implements MiddlewareInterface
     private $responseFactory;
 
     /** @var string */
-    private $token;
+    private $secret;
 
-    /** @var string */
-    private $teamId;
-
-    public function __construct(string $token, string $teamId, ProblemDetailsResponseFactory $responseFactory)
+    public function __construct(string $secret, ProblemDetailsResponseFactory $responseFactory)
     {
-        $this->token           = $token;
-        $this->teamId          = $teamId;
+        $this->secret          = $secret;
         $this->responseFactory = $responseFactory;
     }
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
-        $payload = (array) $request->getParsedBody();
-        if (! isset($payload['token'])) {
-            return $this->createErrorResponse(400, 'Missing token', $request);
+        $signature = $request->getHeaderLine('X-Slack-Signature');
+        if (empty($signature)) {
+            return $this->createErrorResponse(400, 'Missing signature', $request);
         }
 
-        if ($this->token !== $payload['token']) {
-            return $this->createErrorResponse(400, 'Invalid token', $request);
+        $ts = $request->getHeaderLine('X-Slack-Request-Timestamp');
+        if (empty($ts)) {
+            return $this->createErrorResponse(400, 'Missing timestamp', $request);
+        }
+        $ts = (int) $ts;
+
+        if (time() - $ts > 300) {
+            return $this->createErrorResponse(400, 'Invalid timestamp', $request);
         }
 
-        if (! isset($payload['team_id'])) {
-            return $this->createErrorResponse(400, 'Missing team id', $request);
-        }
-
-        if ($this->teamId !== $payload['team_id']) {
-            return $this->createErrorResponse(400, 'Invalid team id', $request);
+        $token = sprintf('v0:%d:%s', $ts, (string) $request->getBody());
+        if (hash_hmac('sha256', $token, $this->secret) !== $signature) {
+            return $this->createErrorResponse(400, 'Invalid signature', $request);
         }
 
         return $handler->handle($request);

@@ -38,10 +38,9 @@ return [
         'channels'        => [
             'github' => getenv('SLACK_CHANNEL_GITHUB'),
         ],
-        'token'           => getenv('SLACK_TOKEN'),
         'default_channel' => 'github',
-        'team_id'         => getenv('SLACK_TEAM_ID'),
-        'secret'          => getenv('SLACK_SECRET'),
+        'signing_secret'  => getenv('SLACK_SIGNING_SECRET'),
+        'token'           => getenv('SLACK_TOKEN'),
     ],
 
     'mezzio-swoole' => [

@@ -59,12 +59,13 @@ class ConfigProvider
                 ],
             ],
             'slack'        => [
+                'acl_channel'     => '',
                 'channels'        => [
                     'github' => '',
                 ],
-                'token'           => '',
                 'default_channel' => 'github',
-                'acl_channel'     => '',
+                'signing_secret'  => '',
+                'token'           => '',
             ],
             'twitter'      => [
                 'access_token'        => [

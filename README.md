@@ -127,9 +127,12 @@ All of these objects support:
   to create a request signature, and then by the bot to verify the signature on
   receipt of a webhook payload.
 
-- Slack sends a shared token and a team identifier in its payload. The bot
-  checks both for the presence of these, as well as to ensure they match what it
-  knows, on receipt of a webhook payload.
+- Slack provides a [signed secrets](https://api.slack.com/docs/verifying-requests-from-slack) 
+  verification method that webhooks can used to validate a request originates
+  from Slack. The functionality includes both a request timestamp and the
+  signature. Stale timestamps can indicate a replay attack, so we can reject any
+  older than a set amount of time. The combination of the timestamp and body are
+  used along with a shared secret to determine if the signature is valid.
 
 - Slack slash commands require that the user initiating them is in the list of
   technical steering committee members. If not, an error message is returned to

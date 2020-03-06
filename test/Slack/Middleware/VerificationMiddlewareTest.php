@@ -5,142 +5,164 @@ declare(strict_types=1);
 namespace AppTest\Slack\Middleware;
 
 use App\Slack\Middleware\VerificationMiddleware;
-use Laminas\Diactoros\ServerRequest;
 use Mezzio\ProblemDetails\ProblemDetailsResponseFactory;
 use PHPUnit\Framework\TestCase;
+use Prophecy\Argument;
+use Prophecy\Prophecy\ObjectProphecy;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\StreamInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
 class VerificationMiddlewareTest extends TestCase
 {
+    /** @var RequestHandlerInterface|ObjectProphecy */
+    private $handler;
+
+    /** @var ProblemDetailsResponseFactory|ObjectProphecy */
+    private $responseFactory;
+
+    /** @var string */
+    private $secret;
+
     public function setUp(): void
     {
+        $this->handler         = $this->prophesize(RequestHandlerInterface::class);
         $this->responseFactory = $this->prophesize(ProblemDetailsResponseFactory::class);
+        $this->secret          = 'xoxb-some-secret';
+        $this->middleware      = new VerificationMiddleware(
+            $this->secret,
+            $this->responseFactory->reveal()
+        );
     }
 
     public function testVerificationIsSuccessful(): void
     {
-        $request = (new ServerRequest())
-            ->withMethod('POST')
-            ->withHeader('Content-Type', 'application/x-www-form-urlencoded')
-            ->withParsedBody([
-                'token'       => 'gIkuvaNzQIHg97ATvDxqgjtO',
-                'team_id'     => 'T0001',
-                'team_domain' => 'example',
-                'command'     => '/deploy',
-                'text'        => '94070',
-            ]);
+        $timestamp = time();
+        $data      = [
+            'command' => '/deploy',
+            'text'    => '94070',
+        ];
+        $body      = http_build_query($data, '', ini_get('arg_separator.input'), PHP_QUERY_RFC3986);
+        $sig       = hash_hmac('sha256', sprintf('v0:%d:%s', $timestamp, $body), $this->secret);
+
+        $reqBody   = $this->prophesize(StreamInterface::class);
+        $reqBody->__toString()->willReturn($body)->shouldBeCalled();
+
+        $request = $this->prophesize(ServerRequestInterface::class);
+        $request->getHeaderLine('X-Slack-Request-Timestamp')->willReturn((string) $timestamp)->shouldBeCalled();
+        $request->getHeaderLine('X-Slack-Signature')->willReturn($sig)->shouldBeCalled();
+        $request->getBody()->will([$reqBody, 'reveal']);
+
+        $this->responseFactory->createResponse(Argument::any())->shouldNotBeCalled();
 
         $handler = $this->prophesize(RequestHandlerInterface::class);
         $handler
-            ->handle($request)
+            ->handle($request->reveal())
             ->shouldBeCalled()
             ->willReturn($this->prophesize(ResponseInterface::class));
 
-        $middleware = new VerificationMiddleware('gIkuvaNzQIHg97ATvDxqgjtO', 'T0001', $this->responseFactory->reveal());
-        $response   = $middleware->process($request, $handler->reveal());
+        $response = $this->middleware->process($request->reveal(), $handler->reveal());
 
         self::assertInstanceOf(ResponseInterface::class, $response);
     }
 
-    public function testVerificationTokenIsMissing(): void
+    public function testReturnsErrorResponseWhenSignatureHeaderMissing(): void
     {
-        $handler = $this->prophesize(RequestHandlerInterface::class);
-        $request = (new ServerRequest())
-            ->withMethod('POST')
-            ->withHeader('Content-Type', 'application/x-www-form-urlencoded')
-            ->withParsedBody([
-                'team_id'     => 'T0001',
-                'team_domain' => 'example',
-                'command'     => '/deploy',
-                'text'        => '94070',
-            ]);
-
-        $handler->handle($request)->shouldNotBeCalled();
-
         $response = $this->prophesize(ResponseInterface::class)->reveal();
+        $request  = $this->prophesize(ServerRequestInterface::class);
+        $request->getHeaderLine('X-Slack-Signature')->willReturn('')->shouldBeCalled();
         $this->responseFactory
-            ->createResponse($request, 400, 'Missing token')
+            ->createResponse(
+                Argument::that([$request, 'reveal']),
+                400,
+                'Missing signature'
+            )
             ->willReturn($response)
             ->shouldBeCalled();
 
-        $middleware = new VerificationMiddleware('foo', 'bar', $this->responseFactory->reveal());
-        $this->assertSame($response, $middleware->process($request, $handler->reveal()));
+        $this->handler->handle(Argument::any())->shouldNotBeCalled();
+
+        $this->assertSame(
+            $response,
+            $this->middleware->process($request->reveal(), $this->handler->reveal())
+        );
     }
 
-    public function testInvalidToken(): void
+    public function testReturnsErrorResponseWhenTimestampHeaderMissing(): void
     {
-        $handler = $this->prophesize(RequestHandlerInterface::class);
-        $request = (new ServerRequest())
-            ->withMethod('POST')
-            ->withHeader('Content-Type', 'application/x-www-form-urlencoded')
-            ->withParsedBody([
-                'token'       => 'gIkuvaNzQIHg97ATvDxqgjtO',
-                'team_id'     => 'T0001',
-                'team_domain' => 'example',
-                'command'     => '/deploy',
-                'text'        => '94070',
-            ]);
-
-        $handler->handle($request)->shouldNotBeCalled();
-
         $response = $this->prophesize(ResponseInterface::class)->reveal();
+        $request  = $this->prophesize(ServerRequestInterface::class);
+        $request->getHeaderLine('X-Slack-Signature')->willReturn('signature')->shouldBeCalled();
+        $request->getHeaderLine('X-Slack-Request-Timestamp')->willReturn('')->shouldBeCalled();
         $this->responseFactory
-            ->createResponse($request, 400, 'Invalid token')
+            ->createResponse(
+                Argument::that([$request, 'reveal']),
+                400,
+                'Missing timestamp'
+            )
             ->willReturn($response)
             ->shouldBeCalled();
-        $middleware = new VerificationMiddleware('foo', 'bar', $this->responseFactory->reveal());
-        $this->assertSame($response, $middleware->process($request, $handler->reveal()));
+
+        $this->handler->handle(Argument::any())->shouldNotBeCalled();
+
+        $this->assertSame(
+            $response,
+            $this->middleware->process($request->reveal(), $this->handler->reveal())
+        );
     }
 
-    public function testTeamIdIsMissing(): void
+    public function testReturnsErrorResponseWhenTimestampIsStale(): void
     {
-        $handler = $this->prophesize(RequestHandlerInterface::class);
-        $request = (new ServerRequest())
-            ->withMethod('POST')
-            ->withHeader('Content-Type', 'application/x-www-form-urlencoded')
-            ->withParsedBody([
-                'token'       => 'gIkuvaNzQIHg97ATvDxqgjtO',
-                'team_domain' => 'example',
-                'command'     => '/deploy',
-                'text'        => '94070',
-            ]);
-
-        $handler->handle($request)->shouldNotBeCalled();
-
-        $response = $this->prophesize(ResponseInterface::class)->reveal();
+        $timestamp = time() - 600;
+        $response  = $this->prophesize(ResponseInterface::class)->reveal();
+        $request   = $this->prophesize(ServerRequestInterface::class);
+        $request->getHeaderLine('X-Slack-Signature')->willReturn('signature')->shouldBeCalled();
+        $request->getHeaderLine('X-Slack-Request-Timestamp')->willReturn((string) $timestamp)->shouldBeCalled();
         $this->responseFactory
-            ->createResponse($request, 400, 'Missing team id')
+            ->createResponse(
+                Argument::that([$request, 'reveal']),
+                400,
+                'Invalid timestamp'
+            )
             ->willReturn($response)
             ->shouldBeCalled();
 
-        $middleware = new VerificationMiddleware('gIkuvaNzQIHg97ATvDxqgjtO', 'bar', $this->responseFactory->reveal());
-        $this->assertSame($response, $middleware->process($request, $handler->reveal()));
+        $this->handler->handle(Argument::any())->shouldNotBeCalled();
+
+        $this->assertSame(
+            $response,
+            $this->middleware->process($request->reveal(), $this->handler->reveal())
+        );
     }
 
-    public function testInvalidTeamId(): void
+    public function testReturnsErrorResponseWhenSignatureIsInvalid(): void
     {
-        $handler = $this->prophesize(RequestHandlerInterface::class);
-        $request = (new ServerRequest())
-            ->withMethod('POST')
-            ->withHeader('Content-Type', 'application/x-www-form-urlencoded')
-            ->withParsedBody([
-                'token'       => 'gIkuvaNzQIHg97ATvDxqgjtO',
-                'team_id'     => 'T0001',
-                'team_domain' => 'example',
-                'command'     => '/deploy',
-                'text'        => '94070',
-            ]);
+        $timestamp = time();
+        $response  = $this->prophesize(ResponseInterface::class)->reveal();
+        $request   = $this->prophesize(ServerRequestInterface::class);
+        $body      = $this->prophesize(StreamInterface::class);
 
-        $handler->handle($request)->shouldNotBeCalled();
+        $request->getHeaderLine('X-Slack-Signature')->willReturn('signature')->shouldBeCalled();
+        $request->getHeaderLine('X-Slack-Request-Timestamp')->willReturn((string) $timestamp)->shouldBeCalled();
+        $request->getBody()->will([$body, 'reveal'])->shouldBeCalled();
 
-        $response = $this->prophesize(ResponseInterface::class)->reveal();
+        $body->__toString()->willReturn('content')->shouldBeCalled();
+
         $this->responseFactory
-            ->createResponse($request, 400, 'Invalid team id')
+            ->createResponse(
+                Argument::that([$request, 'reveal']),
+                400,
+                'Invalid signature'
+            )
             ->willReturn($response)
             ->shouldBeCalled();
 
-        $middleware = new VerificationMiddleware('gIkuvaNzQIHg97ATvDxqgjtO', 'bar', $this->responseFactory->reveal());
-        $this->assertSame($response, $middleware->process($request, $handler->reveal()));
+        $this->handler->handle(Argument::any())->shouldNotBeCalled();
+
+        $this->assertSame(
+            $response,
+            $this->middleware->process($request->reveal(), $this->handler->reveal())
+        );
     }
 }

@@ -13,17 +13,12 @@ class VerificationMiddlewareFactory
     public function __invoke(ContainerInterface $container): VerificationMiddleware
     {
         $config = $container->has('config') ? $container->get('config') : [];
-        if (! isset($config['slack']['verification_token'])) {
-            throw new RuntimeException('Missing Slack verification token configuration');
-        }
-
-        if (! isset($config['slack']['team_id'])) {
-            throw new RuntimeException('Missing Slack team id configuration');
+        if (! isset($config['slack']['signing_secret'])) {
+            throw new RuntimeException('Missing Slack signing_secret configuration');
         }
 
         return new VerificationMiddleware(
-            $config['slack']['verification_token'],
-            $config['slack']['team_id'],
+            $config['slack']['signing_secret'],
             $container->get(ProblemDetailsResponseFactory::class)
         );
     }
