@@ -14,7 +14,7 @@ class RegenerateAuthorizedUserListCommandFactory
         return new RegenerateAuthorizedUserListCommand(
             $container->get(SlashCommandResponseFactory::class),
             $container->get(EventDispatcherInterface::class),
-            $container->get('config')['slack']['acl_channel'] ?? AuthorizedUserList::DEFAULT_ACL_CHANNEL
+            $container->get('config')['slack']['channels']['acl'] ?? AuthorizedUserList::DEFAULT_ACL_CHANNEL
         );
     }
 }

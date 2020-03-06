@@ -34,11 +34,10 @@ return [
     ],
 
     'slack' => [
-        'acl_channel'     => getenv('SLACK_CHANNEL_ACL'),
         'channels'        => [
+            'acl'    => getenv('SLACK_CHANNEL_ACL'),
             'github' => getenv('SLACK_CHANNEL_GITHUB'),
         ],
-        'default_channel' => 'github',
         'signing_secret'  => getenv('SLACK_SIGNING_SECRET'),
         'token'           => getenv('SLACK_TOKEN'),
     ],
