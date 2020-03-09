@@ -1,12 +1,17 @@
 {
-    "name": "laminas/laminas-bot",
+    "name": "laminas/laminas.dev",
     "type": "project",
-    "description": "Bot providing webhooks and chat integration to the Laminas Project",
+    "description": "laminas.dev website, including Laminas Bot, providing webhooks and chat integration for the Laminas Project",
     "keywords": [
         "laminas",
         "mezzio"
     ],
     "license": "BSD-3-Clause",
+    "support": {
+        "issues": "https://github.com/laminas/laminas.dev/issues",
+        "source": "https://github.com/laminas/laminas.dev",
+        "rss": "https://github.com/laminas/laminas.dev/releases.atom"
+    },
     "require": {
         "php": "^7.3",
         "ext-json": "*",
@@ -36,7 +41,6 @@
     "require-dev": {
         "filp/whoops": "^2.1",
         "laminas/laminas-coding-standard": "~2.0.0rc1 || ~2.0.0",
-        "phpstan/phpstan": "^0.10",
         "phpunit/phpunit": "^7.0",
         "roave/security-advisories": "dev-master",
         "squizlabs/php_codesniffer": "^3.0",
@@ -70,31 +74,19 @@
         }
     },
     "scripts": {
-        "analyze": "phpstan analyze",
         "check": [
             "@cs-check",
-            "@test",
-            "@analyze"
+            "@test"
         ],
         "clear-config-cache": "php bin/clear-config-cache.php",
-        "coverage": [
-            "@test-coverage",
-            "@test-infection"
-        ],
         "cs-check": "phpcs",
         "cs-fix": "phpcbf",
         "development-disable": "laminas-development-mode disable",
         "development-enable": "laminas-development-mode enable",
         "development-status": "laminas-development-mode status",
         "expressive": "expressive --ansi",
-        "serve": "php -S 0.0.0.0:8080 -t public/",
         "test": "phpunit --colors=always",
-        "test-coverage": "phpunit --coverage-xml=data/coverage/coverage-xml --log-junit=data/coverage/phpunit.junit.xml --coverage-clover=data/coverage/clover.xml",
+        "test-coverage": "phpunit --colors=always --coverage-clover=data/coverage/clover.xml",
         "test-infection": "infection --threads=4 --coverage=data/coverage"
-    },
-    "support": {
-        "issues": "https://github.com/laminas/laminas-bot/issues",
-        "source": "https://github.com/laminas/laminas-bot",
-        "rss": "https://github.com/laminas/laminas-bot/releases.atom"
     }
 }
