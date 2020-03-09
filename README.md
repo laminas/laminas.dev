@@ -1,6 +1,11 @@
-# Laminas-BOT
+# laminas.dev
 
-This repository contains code for Laminas-BOT, which acts as:
+This repository contains the code for serving https://laminas.dev, including the
+Laminas Project Bot.
+
+## Laminas Bot
+
+The Laminas Bot acts as:
 
 - A GitHub webhook handler:
   - Report new issues and pull requests to the Laminas Slack #github channel.
@@ -22,9 +27,9 @@ This repository contains code for Laminas-BOT, which acts as:
   - /regenerate-tsc-list triggers rebuilding the list of TSC members (the only
     ones authorized to initiate slash commands).
 
-## Architecture
+### Architecture
 
-### Handlers
+#### Handlers
 
 There are three primary endpoints:
 
@@ -46,7 +51,7 @@ There are three primary endpoints:
   implementation and dispatch. Individual implementations marshal appropriate
   events to dispatch via the event dispatcher.
 
-### Events
+#### Events
 
 The repository provides the following event types, with the listed handlers.
 
@@ -67,7 +72,7 @@ phly/phly-swoole-taskworker package. This means that they will be executed via
 Swoole task workers at a later time, allowing the various webhooks to return
 immediately.
 
-### Helper classes
+#### Helper classes
 
 The package provides the following helper classes to allow performing common
 tasks:
@@ -81,7 +86,7 @@ Class | Purpose
 `App\Slack\SlackClient` | Decorates a `HttpClientInterface` instance in order to create requests to send to Slack, and marshal the response correctly. Includes methods for sending to a Slack webhook, as well as directly to its Web API.
 `App\Slack\SlashCommand\AuthorizedUserList` | Memoizes a list of users authorized to execute slash commands from Slack, based on current membership in the #technical-steering-committee channel.
 
-### Slack messages
+#### Slack messages
 
 The project provides an API for creating Slack messages using Slack's Blocks
 API, and the classes providing the support are under the `App\Slack\Domain`
@@ -115,7 +120,7 @@ All of these objects support:
 - Validation to ensure they have correct structure.
 - Casting to the structure required by Slack.
 
-### Security
+#### Security
 
 - GitHub webhooks are expected to have a secret associated that matches the one
   in the production deployment environment of the bot. The secret is used by
