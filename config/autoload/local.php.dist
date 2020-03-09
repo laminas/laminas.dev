@@ -12,6 +12,10 @@ use Monolog\Handler\SlackHandler;
 use Monolog\Logger;
 
 return [
+    'debug' => (bool) getenv('DEBUG'),
+    /*
+     * Disabling monolog for now, until we can determine if we're receiving
+     * commands
     'monolog' => [
         'handlers' => [
             'slack' => [
@@ -23,4 +27,5 @@ return [
             ],
         ],
     ],
+     */
 ];

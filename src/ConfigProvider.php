@@ -14,12 +14,14 @@ use Laminas\Stratigility\Middleware\ErrorHandler;
 use Laminas\Twitter\Twitter as TwitterClient;
 use Mezzio\Application;
 use Mezzio\Helper\BodyParams\BodyParamsMiddleware;
+use Mezzio\MiddlewareFactory;
 use Mezzio\ProblemDetails\ProblemDetailsMiddleware;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 use Phly\EventDispatcher\EventDispatcher;
 use Phly\EventDispatcher\ListenerProvider\AttachableListenerProvider;
 use Phly\Swoole\TaskWorker\DeferredListenerDelegator;
+use Psr\Container\ContainerInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Psr\EventDispatcher\ListenerProviderInterface;
 use Psr\Http\Message\RequestFactoryInterface;
@@ -142,6 +144,8 @@ class ConfigProvider
                 Handler\HomePageHandler::class                                => Handler\HomePageHandlerFactory::class,
                 HttpClient::class                                             => Factory\HttpClientFactory::class,
                 LoggerInterface::class                                        => Factory\LoggerFactory::class,
+                LogMiddleware::class                                          => Factory\LogMiddlewareFactory::class,
+                NoopMiddleware::class                                         => InvokableFactory::class,
                 ProblemDetailsMiddleware::class                               => Factory\ProblemDetailsMiddlewareFactory::class,
                 RequestFactory::class                                         => InvokableFactory::class,
                 ResponseFactory::class                                        => InvokableFactory::class,
@@ -164,12 +168,22 @@ class ConfigProvider
         // phpcs:enable
     }
 
-    public function registerRoutes(Application $app, string $basePath = '/'): void
-    {
+    public function registerRoutes(
+        Application $app,
+        MiddlewareFactory $factory,
+        ContainerInterface $container,
+        string $basePath = '/'
+    ): void {
         $app->get('/', Handler\HomePageHandler::class, 'home');
         $app->get('/chat[/]', Handler\ChatHandler::class, 'chat');
 
+        $debug = $container->get('config')['debug'] ?? false;
+        $initialMiddleware = $debug
+            ? $factory->lazy(NoopMiddleware::class)
+            : $factory->lazy(LogMiddleware::class);
+
         $app->post('/api/discourse/{channel:[A-Z0-9]+}/{event:post|topic}', [
+            $initialMiddleware,
             ProblemDetailsMiddleware::class,
             Discourse\Middleware\VerificationMiddleware::class,
             BodyParamsMiddleware::class,
@@ -177,6 +191,7 @@ class ConfigProvider
         ], 'api.discourse');
 
         $app->post('/api/github', [
+            $initialMiddleware,
             ProblemDetailsMiddleware::class,
             GitHub\Middleware\VerificationMiddleware::class,
             BodyParamsMiddleware::class,
@@ -184,6 +199,7 @@ class ConfigProvider
         ], 'api.github');
 
         $app->post('/api/slack', [
+            $initialMiddleware,
             ProblemDetailsMiddleware::class,
             BodyParamsMiddleware::class,
             Slack\Middleware\VerificationMiddleware::class,
