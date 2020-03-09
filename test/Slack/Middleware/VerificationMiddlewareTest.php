@@ -14,6 +14,14 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\StreamInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
+use function hash_hmac;
+use function http_build_query;
+use function ini_get;
+use function sprintf;
+use function time;
+
+use const PHP_QUERY_RFC3986;
+
 class VerificationMiddlewareTest extends TestCase
 {
     /** @var RequestHandlerInterface|ObjectProphecy */
@@ -46,12 +54,12 @@ class VerificationMiddlewareTest extends TestCase
         $body      = http_build_query($data, '', ini_get('arg_separator.input'), PHP_QUERY_RFC3986);
         $sig       = hash_hmac('sha256', sprintf('v0:%d:%s', $timestamp, $body), $this->secret);
 
-        $reqBody   = $this->prophesize(StreamInterface::class);
+        $reqBody = $this->prophesize(StreamInterface::class);
         $reqBody->__toString()->willReturn($body)->shouldBeCalled();
 
         $request = $this->prophesize(ServerRequestInterface::class);
         $request->getHeaderLine('X-Slack-Request-Timestamp')->willReturn((string) $timestamp)->shouldBeCalled();
-        $request->getHeaderLine('X-Slack-Signature')->willReturn($sig)->shouldBeCalled();
+        $request->getHeaderLine('X-Slack-Signature')->willReturn(sprintf('v0=%s', $sig))->shouldBeCalled();
         $request->getBody()->will([$reqBody, 'reveal']);
 
         $this->responseFactory->createResponse(Argument::any())->shouldNotBeCalled();
@@ -89,11 +97,33 @@ class VerificationMiddlewareTest extends TestCase
         );
     }
 
+    public function testReturnsErrorResponseWhenSignatureHeaderMalformed(): void
+    {
+        $response = $this->prophesize(ResponseInterface::class)->reveal();
+        $request  = $this->prophesize(ServerRequestInterface::class);
+        $request->getHeaderLine('X-Slack-Signature')->willReturn('some-value')->shouldBeCalled();
+        $this->responseFactory
+            ->createResponse(
+                Argument::that([$request, 'reveal']),
+                400,
+                'Malformed signature'
+            )
+            ->willReturn($response)
+            ->shouldBeCalled();
+
+        $this->handler->handle(Argument::any())->shouldNotBeCalled();
+
+        $this->assertSame(
+            $response,
+            $this->middleware->process($request->reveal(), $this->handler->reveal())
+        );
+    }
+
     public function testReturnsErrorResponseWhenTimestampHeaderMissing(): void
     {
         $response = $this->prophesize(ResponseInterface::class)->reveal();
         $request  = $this->prophesize(ServerRequestInterface::class);
-        $request->getHeaderLine('X-Slack-Signature')->willReturn('signature')->shouldBeCalled();
+        $request->getHeaderLine('X-Slack-Signature')->willReturn('v0=signature')->shouldBeCalled();
         $request->getHeaderLine('X-Slack-Request-Timestamp')->willReturn('')->shouldBeCalled();
         $this->responseFactory
             ->createResponse(
@@ -117,7 +147,7 @@ class VerificationMiddlewareTest extends TestCase
         $timestamp = time() - 600;
         $response  = $this->prophesize(ResponseInterface::class)->reveal();
         $request   = $this->prophesize(ServerRequestInterface::class);
-        $request->getHeaderLine('X-Slack-Signature')->willReturn('signature')->shouldBeCalled();
+        $request->getHeaderLine('X-Slack-Signature')->willReturn('v0=signature')->shouldBeCalled();
         $request->getHeaderLine('X-Slack-Request-Timestamp')->willReturn((string) $timestamp)->shouldBeCalled();
         $this->responseFactory
             ->createResponse(
@@ -143,7 +173,7 @@ class VerificationMiddlewareTest extends TestCase
         $request   = $this->prophesize(ServerRequestInterface::class);
         $body      = $this->prophesize(StreamInterface::class);
 
-        $request->getHeaderLine('X-Slack-Signature')->willReturn('signature')->shouldBeCalled();
+        $request->getHeaderLine('X-Slack-Signature')->willReturn('v0=signature')->shouldBeCalled();
         $request->getHeaderLine('X-Slack-Request-Timestamp')->willReturn((string) $timestamp)->shouldBeCalled();
         $request->getBody()->will([$body, 'reveal'])->shouldBeCalled();
 

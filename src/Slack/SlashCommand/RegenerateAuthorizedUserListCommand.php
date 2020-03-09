@@ -8,6 +8,8 @@ use App\Slack\Event\RegenerateAuthorizedUserList;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Psr\Http\Message\ResponseInterface;
 
+use function sprintf;
+
 class RegenerateAuthorizedUserListCommand implements SlashCommandInterface
 {
     /** @var string */
@@ -41,7 +43,8 @@ class RegenerateAuthorizedUserListCommand implements SlashCommandInterface
 
     public function help(): string
     {
-        return sprintf('Issue this command to regenerate the authorized users list from'
+        return sprintf(
+            'Issue this command to regenerate the authorized users list from'
             . ' the set of current members of the #%s channel.',
             $this->aclChannel
         );

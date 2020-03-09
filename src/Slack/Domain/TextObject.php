@@ -61,8 +61,8 @@ class TextObject implements ElementInterface
         if (! in_array($this->type, self::ALLOWED_TYPES, true)) {
             throw new InvalidArgumentException(sprintf(
                 'Text objects must have a type of either "%s" or "%s"; received "%s"',
-                TextObject::TYPE_PLAIN_TEXT,
-                TextObject::TYPE_MARKDOWN,
+                self::TYPE_PLAIN_TEXT,
+                self::TYPE_MARKDOWN,
                 $this->type
             ), 0, 'type', []);
         }

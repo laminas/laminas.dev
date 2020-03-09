@@ -34,12 +34,12 @@ return [
     ],
 
     'slack' => [
-        'channels'        => [
+        'channels'       => [
             'acl'    => getenv('SLACK_CHANNEL_ACL'),
             'github' => getenv('SLACK_CHANNEL_GITHUB'),
         ],
-        'signing_secret'  => getenv('SLACK_SIGNING_SECRET'),
-        'token'           => getenv('SLACK_TOKEN'),
+        'signing_secret' => getenv('SLACK_SIGNING_SECRET'),
+        'token'          => getenv('SLACK_TOKEN'),
     ],
 
     'mezzio-swoole' => [
@@ -74,7 +74,7 @@ return [
                         'etag'          => true,
                     ],
                     // Styles and scripts
-                    '/\.(?:css|js)$/'               => [
+                    '/\.(?:css|js)$/' => [
                         'cache-control' => ['public', 'max-age=' . 60 * 60 * 24 * 30],
                         'last-modified' => true,
                         'etag'          => true,

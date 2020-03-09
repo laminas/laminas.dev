@@ -25,8 +25,8 @@ use Psr\Container\ContainerInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Psr\EventDispatcher\ListenerProviderInterface;
 use Psr\Http\Message\RequestFactoryInterface;
-use Psr\Http\Message\ServerRequestFactoryInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
+use Psr\Http\Message\ServerRequestFactoryInterface;
 use Psr\Http\Message\StreamFactoryInterface;
 use Psr\Log\LoggerInterface;
 
@@ -61,12 +61,12 @@ class ConfigProvider
                 ],
             ],
             'slack'        => [
-                'channels'        => [
+                'channels'       => [
                     'acl'    => '',
                     'github' => '',
                 ],
-                'signing_secret'  => '',
-                'token'           => '',
+                'signing_secret' => '',
+                'token'          => '',
             ],
             'twitter'      => [
                 'access_token'        => [
@@ -177,7 +177,7 @@ class ConfigProvider
         $app->get('/', Handler\HomePageHandler::class, 'home');
         $app->get('/chat[/]', Handler\ChatHandler::class, 'chat');
 
-        $debug = $container->get('config')['debug'] ?? false;
+        $debug             = $container->get('config')['debug'] ?? false;
         $initialMiddleware = $debug
             ? $factory->lazy(NoopMiddleware::class)
             : $factory->lazy(LogMiddleware::class);

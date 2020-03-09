@@ -6,6 +6,8 @@ namespace App\Slack\Domain;
 
 use Assert\Assert;
 
+use function array_merge;
+
 class SlashResponseMessage extends Message
 {
     public const TYPE_EPHEMERAL  = 'ephemeral';

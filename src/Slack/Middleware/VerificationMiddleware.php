@@ -10,6 +10,11 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
+use function hash_hmac;
+use function sprintf;
+use function substr;
+use function time;
+
 class VerificationMiddleware implements MiddlewareInterface
 {
     /** @var ProblemDetailsResponseFactory */
@@ -30,6 +35,11 @@ class VerificationMiddleware implements MiddlewareInterface
         if (empty($signature)) {
             return $this->createErrorResponse(400, 'Missing signature', $request);
         }
+
+        if (substr($signature, 0, 3) !== 'v0=') {
+            return $this->createErrorResponse(400, 'Malformed signature', $request);
+        }
+        $signature = substr($signature, 3);
 
         $ts = $request->getHeaderLine('X-Slack-Request-Timestamp');
         if (empty($ts)) {
