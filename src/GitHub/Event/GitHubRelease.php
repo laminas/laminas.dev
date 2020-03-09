@@ -125,22 +125,15 @@ final class GitHubRelease extends AbstractGitHubEvent
         $name    = $payload['release_name'] ?? sprintf('%s %s', $repo['full_name'], $release['tag_name']);
 
         return [
-            $this->createContextBlock($repo['html_url']),
-            [
-                'type' => 'section',
-                'text' => [
-                    'type' => TextObject::TYPE_MARKDOWN,
-                    'text' => sprintf(
-                        '[<%s|%s>] New release <%s|%s> created by <%s|%s>',
-                        $repo['html_url'],
-                        $repo['full_name'],
-                        $release['html_url'],
-                        $name,
-                        $author['html_url'],
-                        $author['login']
-                    ),
-                ],
-            ],
+            $this->createContextBlock($repo['html_url'], sprintf(
+                '[<%s|%s>] New release <%s|%s> created by <%s|%s>',
+                $repo['html_url'],
+                $repo['full_name'],
+                $release['html_url'],
+                $name,
+                $author['html_url'],
+                $author['login']
+            )),
             [
                 'type' => 'section',
                 'text' => [

@@ -11,6 +11,7 @@ use App\Slack\Domain\SlashResponseMessage;
 use App\Slack\Domain\TextObject;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\StreamFactoryInterface;
 
 use function json_encode;
 

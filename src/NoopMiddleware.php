@@ -13,6 +13,6 @@ class NoopMiddleware implements MiddlewareInterface
 {
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
-        return $handler->process($request);
+        return $handler->handle($request);
     }
 }

@@ -46,22 +46,23 @@ class GitHubIssueCommentListenerTest extends TestCase
 
                 $context = $blocks[0];
                 TestCase::assertInstanceOf(ContextBlock::class, $context);
-                TestCase::assertCount(2, $context->getElements());
+                TestCase::assertCount(3, $context->getElements());
+                $summary = $context->getElements()[2];
+                TestCase::assertInstanceOf(TextObject::class, $summary);
+                TestCase::assertSame(TextObject::TYPE_MARKDOWN, $summary->toArray()['type']);
 
-                $summary = $blocks[1];
-                TestCase::assertInstanceOf(SectionBlock::class, $summary);
-                $text = $summary->getText();
-                TestCase::assertInstanceOf(TextObject::class, $text);
-                TestCase::assertSame(TextObject::TYPE_MARKDOWN, $text->toArray()['type']);
-
-                $body = $blocks[2];
+                $body = $blocks[1];
                 TestCase::assertInstanceOf(SectionBlock::class, $body);
                 $text = $body->getText();
                 TestCase::assertSame($payload['comment']['body'], $text->toArray()['text']);
 
+                $fields = $blocks[2];
+                TestCase::assertInstanceOf(SectionBlock::class, $fields);
+                TestCase::assertCount(4, $fields->getFields());
+
                 $fields = $blocks[3];
                 TestCase::assertInstanceOf(SectionBlock::class, $fields);
-                TestCase::assertCount(6, $fields->getFields());
+                TestCase::assertCount(3, $fields->getFields());
 
                 return $message;
             }))

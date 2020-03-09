@@ -92,6 +92,11 @@ class SlackClient implements SlackClientInterface
 
     public function sendWebhookMessage(string $url, SlashResponseMessage $message): ?SlackResponseInterface
     {
+        if ($url === '') {
+            $this->log('Unable to send webhook message; no URL provided', ['message' => $message->toArray()]);
+            return null;
+        }
+
         try {
             $message->validate();
         } catch (Exception $e) {

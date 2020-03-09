@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Factory;
 
-use Monolog\Handler\SlackHandler;
 use Monolog\Handler\SlackWebhookHandler;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
@@ -13,8 +12,6 @@ use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
 use function array_key_exists;
-use function ltrim;
-use function sprintf;
 
 class LoggerFactory
 {
@@ -52,13 +49,15 @@ class LoggerFactory
                 $logger->pushHandler(
                     new SlackWebhookHandler(
                         $config['webhook'],
-                        null,  // channel; part of webhook registration
-                        null,  // Bot name; part of webhook registration
-                        true,  // Use attachments?
-                        null,  // Emoji icon
+                        null, // channel; part of webhook registration
+                        null, // Bot name; part of webhook registration
+                        true, // Use attachments?
+                        null, // Emoji icon
                         false, // Use short attachments?
-                        true,  // Include context and extra data?
-                        $config['level'] ?? Logger::ERROR // Log level
+                        true, // Include context and extra data?
+                        $config['level'] ?? Logger::ERROR, // Log level
+                        array_key_exists('bubble', $config) ? $config['bubble'] : true,
+                        $config['excludeFields'] ?? [] // Fields to exclude
                     )
                 );
                 break;

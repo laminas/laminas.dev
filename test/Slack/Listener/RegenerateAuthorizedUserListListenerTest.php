@@ -72,7 +72,7 @@ class RegenerateAuthorizedUserListListenerTest extends TestCase
                 'webhook-response-url',
                 Argument::that(function ($message) {
                     TestCase::assertInstanceOf(SlashResponseMessage::class, $message);
-                    TestCase::assertStringContainsString('Queueing request', $message->getText());
+                    TestCase::assertStringContainsString('Rebuilt authorized user list', $message->getText());
 
                     return $message;
                 })

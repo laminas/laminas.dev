@@ -82,15 +82,18 @@ class GitHubStatusListenerTest extends TestCase
 
                 $context = $blocks[0];
                 TestCase::assertInstanceOf(ContextBlock::class, $context);
+                $summary = $context->getElements()[2];
+                TestCase::assertInstanceOf(TextObject::class, $summary);
+                TestCase::assertSame(TextObject::TYPE_MARKDOWN, $summary->toArray()['type']);
+                TestCase::assertStringContainsString($payload['target_url'], $summary->toArray()['text']);
 
-                $details = $blocks[1];
-                TestCase::assertInstanceOf(SectionBlock::class, $details);
-                TestCase::assertSame(TextObject::TYPE_MARKDOWN, $details->getText()->toArray()['type']);
-                TestCase::assertStringContainsString($payload['target_url'], $details->getText()->toArray()['text']);
+                $fields = $blocks[1];
+                TestCase::assertInstanceOf(SectionBlock::class, $fields);
+                TestCase::assertCount(4, $fields->getFields());
 
                 $fields = $blocks[2];
                 TestCase::assertInstanceOf(SectionBlock::class, $fields);
-                TestCase::assertCount(6, $fields->getFields());
+                TestCase::assertCount(3, $fields->getFields());
 
                 return $message;
             }))
@@ -125,15 +128,19 @@ class GitHubStatusListenerTest extends TestCase
 
                 $context = $blocks[0];
                 TestCase::assertInstanceOf(ContextBlock::class, $context);
+                TestCase::assertCount(3, $context->getElements());
+                $summary = $context->getElements()[2];
+                TestCase::assertInstanceOf(TextObject::class, $summary);
+                TestCase::assertSame(TextObject::TYPE_MARKDOWN, $summary->toArray()['type']);
+                TestCase::assertStringContainsString($payload['target_url'], $summary->toArray()['text']);
 
-                $details = $blocks[1];
-                TestCase::assertInstanceOf(SectionBlock::class, $details);
-                TestCase::assertSame(TextObject::TYPE_MARKDOWN, $details->getText()->toArray()['type']);
-                TestCase::assertStringContainsString($payload['target_url'], $details->getText()->toArray()['text']);
+                $fields = $blocks[1];
+                TestCase::assertInstanceOf(SectionBlock::class, $fields);
+                TestCase::assertCount(4, $fields->getFields());
 
                 $fields = $blocks[2];
                 TestCase::assertInstanceOf(SectionBlock::class, $fields);
-                TestCase::assertCount(6, $fields->getFields());
+                TestCase::assertCount(3, $fields->getFields());
 
                 return $message;
             }))
@@ -202,15 +209,19 @@ class GitHubStatusListenerTest extends TestCase
 
                 $context = $blocks[0];
                 TestCase::assertInstanceOf(ContextBlock::class, $context);
+                TestCase::assertCount(3, $context->getElements());
+                $summary = $context->getElements()[2];
+                TestCase::assertInstanceOf(TextObject::class, $summary);
+                TestCase::assertSame(TextObject::TYPE_MARKDOWN, $summary->toArray()['type']);
+                TestCase::assertStringContainsString($payload['target_url'], $summary->toArray()['text']);
 
-                $details = $blocks[1];
-                TestCase::assertInstanceOf(SectionBlock::class, $details);
-                TestCase::assertSame(TextObject::TYPE_MARKDOWN, $details->getText()->toArray()['type']);
-                TestCase::assertStringContainsString($payload['target_url'], $details->getText()->toArray()['text']);
+                $fields = $blocks[1];
+                TestCase::assertInstanceOf(SectionBlock::class, $fields);
+                TestCase::assertCount(4, $fields->getFields());
 
                 $fields = $blocks[2];
                 TestCase::assertInstanceOf(SectionBlock::class, $fields);
-                TestCase::assertCount(6, $fields->getFields());
+                TestCase::assertCount(3, $fields->getFields());
 
                 return $message;
             }))
@@ -268,16 +279,20 @@ class GitHubStatusListenerTest extends TestCase
 
                 $context = $blocks[0];
                 TestCase::assertInstanceOf(ContextBlock::class, $context);
+                TestCase::assertCount(3, $context->getElements());
+                $summary = $context->getElements()[2];
+                TestCase::assertInstanceOf(TextObject::class, $summary);
+                TestCase::assertSame(TextObject::TYPE_MARKDOWN, $summary->toArray()['type']);
+                TestCase::assertStringContainsString('for pull request', $summary->toArray()['text']);
 
-                $details = $blocks[1];
-                TestCase::assertInstanceOf(SectionBlock::class, $details);
-                TestCase::assertSame(TextObject::TYPE_MARKDOWN, $details->getText()->toArray()['type']);
-                TestCase::assertStringContainsString('for pull request', $details->getText()->toArray()['text']);
+                $fields = $blocks[1];
+                TestCase::assertInstanceOf(SectionBlock::class, $fields);
+                TestCase::assertCount(4, $fields->getFields());
 
                 $fields = $blocks[2];
                 TestCase::assertInstanceOf(SectionBlock::class, $fields);
-                TestCase::assertCount(6, $fields->getFields());
-                TestCase::assertSame('*Pull Request*', $fields->getFields()[2]->toArray()['text']);
+                TestCase::assertCount(3, $fields->getFields());
+                TestCase::assertSame('*Pull Request*', $fields->getFields()[0]->toArray()['text']);
 
                 return $message;
             }))

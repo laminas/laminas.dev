@@ -41,24 +41,21 @@ class GitHubReleaseSlackListenerTest extends TestCase
                 TestCase::assertStringContainsString($payload['release']['html_url'], $text);
 
                 $blocks = $message->getBlocks();
-                TestCase::assertCount(4, $blocks);
+                TestCase::assertCount(3, $blocks);
 
                 $context = $blocks[0];
                 TestCase::assertInstanceOf(ContextBlock::class, $context);
-                TestCase::assertCount(2, $context->getElements());
-
-                $summary = $blocks[1];
-                TestCase::assertInstanceOf(SectionBlock::class, $summary);
-                $text = $summary->getText();
+                TestCase::assertCount(3, $context->getElements());
+                $text = $context->getElements()[2];
                 TestCase::assertInstanceOf(TextObject::class, $text);
                 TestCase::assertSame(TextObject::TYPE_MARKDOWN, $text->toArray()['type']);
 
-                $body = $blocks[2];
+                $body = $blocks[1];
                 TestCase::assertInstanceOf(SectionBlock::class, $body);
                 $text = $body->getText();
                 TestCase::assertSame($payload['release']['body'], $text->toArray()['text']);
 
-                $fields = $blocks[3];
+                $fields = $blocks[2];
                 TestCase::assertInstanceOf(SectionBlock::class, $fields);
                 TestCase::assertCount(4, $fields->getFields());
 

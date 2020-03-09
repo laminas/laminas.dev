@@ -4,27 +4,27 @@ declare(strict_types=1);
 
 namespace App;
 
-use Mezzio\Helper\ServerUrlHelper;
 use Mezzio\Helper\UrlHelper as MezzioUrlHelper;
+
+use function ltrim;
+use function sprintf;
 
 class UrlHelper
 {
-    /** @var ServerUrlHelper */
-    private $serverUrlHelper;
+    /** @var string */
+    private $baseUrl;
 
     /** @var MezzioUrlHelper */
     private $urlHelper;
 
-    public function __construct(MezzioUrlHelper $urlHelper, ServerUrlHelper $serverUrlHelper)
+    public function __construct(string $baseUrl, MezzioUrlHelper $urlHelper)
     {
-        $this->urlHelper       = $urlHelper;
-        $this->serverUrlHelper = $serverUrlHelper;
+        $this->baseUrl   = ltrim($baseUrl, '/');
+        $this->urlHelper = $urlHelper;
     }
 
     public function generate(string $route, array $params = []): string
     {
-        return $this->serverUrlHelper->generate(
-            $this->urlHelper->generate($route, $params)
-        );
+        return sprintf('%s%s', $this->baseUrl, $this->urlHelper->generate($route, $params));
     }
 }

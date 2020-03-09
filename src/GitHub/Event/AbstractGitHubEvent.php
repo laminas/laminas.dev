@@ -14,9 +14,9 @@ abstract class AbstractGitHubEvent implements GitHubMessageInterface
 
     abstract public function getMessageBlocks(): array;
 
-    protected function createContextBlock(string $url): array
+    protected function createContextBlock(string $url, ?string $additionalText = null): array
     {
-        return [
+        $block = [
             'type'     => 'context',
             'elements' => [
                 [
@@ -33,5 +33,14 @@ abstract class AbstractGitHubEvent implements GitHubMessageInterface
                 ],
             ],
         ];
+
+        if ($additionalText) {
+            $block['elements'][] = [
+                'type' => TextObject::TYPE_MARKDOWN,
+                'text' => $additionalText,
+            ];
+        }
+
+        return $block;
     }
 }

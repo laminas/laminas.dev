@@ -20,7 +20,7 @@ use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 use Phly\EventDispatcher\EventDispatcher;
 use Phly\EventDispatcher\ListenerProvider\AttachableListenerProvider;
-use Phly\Swoole\TaskWorker\DeferredListenerDelegator;
+use Phly\Swoole\TaskWorker\DeferredServiceListenerDelegator;
 use Psr\Container\ContainerInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Psr\EventDispatcher\ListenerProviderInterface;
@@ -38,6 +38,7 @@ class ConfigProvider
     public function __invoke(): array
     {
         return [
+            'base_url'     => 'https://laminas.dev',
             'dependencies' => $this->getDependencies(),
             'discourse'    => [
                 'url'    => 'https://discourse.laminas.dev',
@@ -103,24 +104,24 @@ class ConfigProvider
                 StreamFactoryInterface::class                         => StreamFactory::class,
             ],
 
-            'delegator_factories' => [
+            'delegators' => [
                 Application::class                                         => [Slack\ApplicationDelegatorFactory::class],
                 AttachableListenerProvider::class                          => [
-                    GitHub\ListenerProviderDelegatorFactory::class,
                     Discourse\ListenerProviderDelegatorFactory::class,
+                    GitHub\ListenerProviderDelegatorFactory::class,
+                    Slack\ListenerProviderDelegatorFactory::class,
                 ],
-                Discourse\Listener\DiscoursePostListener::class            => [DeferredListenerDelegator::class],
-                GitHub\Listener\DocsBuildActionListener::class             => [DeferredListenerDelegator::class],
-                GitHub\Listener\GitHubIssueListener::class                 => [DeferredListenerDelegator::class],
-                GitHub\Listener\GitHubIssueCommentListener::class          => [DeferredListenerDelegator::class],
-                GitHub\Listener\GitHubPullRequestListener::class           => [DeferredListenerDelegator::class],
-                GitHub\Listener\GitHubReleaseSlackListener::class          => [DeferredListenerDelegator::class],
-                GitHub\Listener\GitHubReleaseTweetListener::class          => [DeferredListenerDelegator::class],
-                GitHub\Listener\GitHubReleaseWebsiteUpdateListener::class  => [DeferredListenerDelegator::class],
-                GitHub\Listener\GitHubStatusListener::class                => [DeferredListenerDelegator::class],
-                GitHub\Listener\RegisterWebhookListener::class             => [DeferredListenerDelegator::class],
-                Slack\Listener\RegenerateAuthorizedUserListListener::class => [DeferredListenerDelegator::class],
-                Slack\Message\DeployMessageHandler::class                  => [DeferredListenerDelegator::class],
+                Discourse\Listener\DiscoursePostListener::class            => [DeferredServiceListenerDelegator::class],
+                GitHub\Listener\DocsBuildActionListener::class             => [DeferredServiceListenerDelegator::class],
+                GitHub\Listener\GitHubIssueListener::class                 => [DeferredServiceListenerDelegator::class],
+                GitHub\Listener\GitHubIssueCommentListener::class          => [DeferredServiceListenerDelegator::class],
+                GitHub\Listener\GitHubPullRequestListener::class           => [DeferredServiceListenerDelegator::class],
+                GitHub\Listener\GitHubReleaseSlackListener::class          => [DeferredServiceListenerDelegator::class],
+                GitHub\Listener\GitHubReleaseTweetListener::class          => [DeferredServiceListenerDelegator::class],
+                GitHub\Listener\GitHubReleaseWebsiteUpdateListener::class  => [DeferredServiceListenerDelegator::class],
+                GitHub\Listener\GitHubStatusListener::class                => [DeferredServiceListenerDelegator::class],
+                GitHub\Listener\RegisterWebhookListener::class             => [DeferredServiceListenerDelegator::class],
+                Slack\Listener\RegenerateAuthorizedUserListListener::class => [DeferredServiceListenerDelegator::class],
             ],
 
             'factories' => [
@@ -178,11 +179,11 @@ class ConfigProvider
         $app->get('/chat[/]', Handler\ChatHandler::class, 'chat');
 
         $debug             = $container->get('config')['debug'] ?? false;
-        $initialMiddleware = $debug
-            ? $factory->lazy(NoopMiddleware::class)
-            : $factory->lazy(LogMiddleware::class);
+        $initialMiddleware = (bool) $debug
+            ? $factory->lazy(LogMiddleware::class)
+            : $factory->lazy(NoopMiddleware::class);
 
-        $app->post('/api/discourse/{channel:[A-Z0-9]+}/{event:post|topic}', [
+        $app->post('/api/discourse/{channel:[a-zA-Z0-9_-]+}/{event:post|topic}', [
             $initialMiddleware,
             ProblemDetailsMiddleware::class,
             Discourse\Middleware\VerificationMiddleware::class,

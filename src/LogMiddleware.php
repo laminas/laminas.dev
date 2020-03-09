@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App;
 
 use Laminas\Diactoros\Request\Serializer as RequestSerializer;
+use Laminas\Diactoros\Response\Serializer as ResponseSerializer;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;

@@ -91,19 +91,12 @@ class DiscoursePost
         $post = $this->payload['post'];
 
         return [
-            $this->createContextBlock(),
-            [
-                'type' => 'section',
-                'text' => [
-                    'type' => TextObject::TYPE_MARKDOWN,
-                    'text' => sprintf(
-                        "<%s|*Comment created for %s by %s*>",
-                        $this->getPostUrl(),
-                        $post['topic_title'],
-                        $post['name']
-                    ),
-                ],
-            ],
+            $this->createContextBlock(sprintf(
+                "<%s|*Comment created for %s by %s*>",
+                $this->getPostUrl(),
+                $post['topic_title'],
+                $post['name']
+            )),
             [
                 'type' => 'section',
                 'text' => [
@@ -115,7 +108,7 @@ class DiscoursePost
         ];
     }
 
-    private function createContextBlock(): array
+    private function createContextBlock(string $subject): array
     {
         return [
             'type'     => 'context',
@@ -128,6 +121,10 @@ class DiscoursePost
                 [
                     'type' => TextObject::TYPE_MARKDOWN,
                     'text' => sprintf('<%s|*Discourse*>', $this->discourseUrl),
+                ],
+                [
+                    'type' => TextObject::TYPE_MARKDOWN,
+                    'text' => $subject,
                 ],
             ],
         ];

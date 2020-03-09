@@ -62,7 +62,7 @@ class GitHubRequestHandler implements RequestHandlerInterface
         }
 
         if ($message === null || $message->ignore()) {
-            return new JsonResponse(['message' => 'Received but not processed.'], 204);
+            return new JsonResponse(['message' => 'Received but not processed.', 'context' => $message], 204);
         }
 
         try {

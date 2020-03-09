@@ -7,12 +7,14 @@ namespace App\Slack\SlashCommand;
 use App\Slack\SlackClientInterface;
 use DomainException;
 use Psr\Http\Message\RequestFactoryInterface;
+use Psr\Log\LoggerInterface;
 
 use function array_column;
 use function http_build_query;
 use function implode;
 use function in_array;
 use function sprintf;
+use function var_export;
 
 class AuthorizedUserList implements AuthorizedUserListInterface
 {
@@ -24,6 +26,9 @@ class AuthorizedUserList implements AuthorizedUserListInterface
     /** string[] */
     private $allowed = [];
 
+    /** @var null|LoggerInterface */
+    private $logger;
+
     /** @var RequestFactoryInterface */
     private $requestFactory;
 
@@ -33,11 +38,13 @@ class AuthorizedUserList implements AuthorizedUserListInterface
     public function __construct(
         SlackClientInterface $slack,
         RequestFactoryInterface $requestFactory,
-        string $aclChannel = self::DEFAULT_ACL_CHANNEL
+        string $aclChannel = self::DEFAULT_ACL_CHANNEL,
+        ?LoggerInterface $logger = null
     ) {
         $this->slack          = $slack;
         $this->requestFactory = $requestFactory;
         $this->aclChannel     = $aclChannel;
+        $this->logger         = $logger;
     }
 
     public function isAuthorized(string $userId): bool
@@ -69,10 +76,9 @@ class AuthorizedUserList implements AuthorizedUserListInterface
         );
 
         if (! $response->isOk()) {
-            throw new DomainException(sprintf(
-                'Unable to fetch list of channels: %s',
-                $response->getError()
-            ));
+            $message = sprintf('Unable to fetch list of channels: %s', $response->getError());
+            $this->log($message);
+            throw new DomainException($message);
         }
 
         $channels   = $response->getPayload()['channels'];
@@ -85,11 +91,13 @@ class AuthorizedUserList implements AuthorizedUserListInterface
         }
 
         if ($aclChannel === null) {
-            throw new DomainException(sprintf(
+            $message = sprintf(
                 'Did not find #%s channel in list: %s',
                 $this->aclChannel,
                 implode(', ', array_column($channels, 'name'))
-            ));
+            );
+            $this->log($message);
+            throw new DomainException($message);
         }
 
         $membersUri = sprintf(
@@ -106,12 +114,25 @@ class AuthorizedUserList implements AuthorizedUserListInterface
         );
 
         if (! $response->isOk()) {
-            throw new DomainException(sprintf(
-                'Unable to fetch list of channel members: %s',
-                $response->getError()
-            ));
+            $message = sprintf('Unable to fetch list of channel members: %s', $response->getError());
+            $this->log($message);
+            throw new DomainException($message);
         }
 
+        $this->log(sprintf(
+            'Received following membership payload: %s',
+            var_export($response->getPayload(), true)
+        ));
+
         $this->allowed = $response->getPayload()['members'];
+    }
+
+    private function log(string $message): void
+    {
+        if (! $this->logger) {
+            return;
+        }
+
+        $this->logger->debug($message);
     }
 }

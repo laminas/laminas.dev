@@ -11,6 +11,7 @@ class ListenerProviderDelegatorFactory
 {
     public function __invoke(ContainerInterface $container, string $name, callable $factory): AttachableListenerProvider
     {
+        /** @var AttachableListenerProvider $provider */
         $provider = $factory();
         $provider->listen(
             Event\RegenerateAuthorizedUserList::class,

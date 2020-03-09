@@ -38,7 +38,7 @@ class RegenerateAuthorizedUserListListener
         }
 
         $message = new SlashResponseMessage();
-        $message->setText('*Queueing request to rebuild authorized user list*');
+        $message->setText('*Rebuilt authorized user list*');
 
         $this->slack->sendWebhookMessage($request->responseUrl(), $message);
     }

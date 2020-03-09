@@ -19,7 +19,7 @@ class SlackClientFactory
         }
 
         return new SlackClient(
-            $config->get(HttpClientInterface::class),
+            $container->get(HttpClientInterface::class),
             $config['slack']['token'],
             $container->get(LoggerInterface::class)
         );

@@ -7,6 +7,7 @@ namespace App\GitHub\Event;
 use App\Slack\Domain\TextObject;
 use Assert\Assert;
 
+use function array_merge;
 use function in_array;
 use function sprintf;
 
@@ -72,22 +73,15 @@ final class GitHubIssue extends AbstractGitHubEvent
         $author  = $payload['sender'];
         $repo    = $payload['repository'];
 
-        return [
-            $this->createContextBlock($repo['html_url']),
-            [
-                'type' => 'section',
-                'text' => [
-                    'type' => TextObject::TYPE_MARKDOWN,
-                    'text' => sprintf(
-                        '<%s|*[%s] Issue %s#%s %s*>',
-                        $issue['html_url'],
-                        $payload['action'],
-                        $repo['full_name'],
-                        $issue['number'],
-                        $issue['title']
-                    ),
-                ],
-            ],
+        return array_merge([
+            $this->createContextBlock($repo['html_url'], sprintf(
+                '<%s|*[%s] Issue %s#%s %s*>',
+                $issue['html_url'],
+                $payload['action'],
+                $repo['full_name'],
+                $issue['number'],
+                $issue['title']
+            )),
             [
                 'type' => 'section',
                 'text' => [
@@ -95,38 +89,48 @@ final class GitHubIssue extends AbstractGitHubEvent
                     'text' => $issue['body'],
                 ],
             ],
-            $this->createFieldsBlock($payload['action'], $repo, $author),
-        ];
+        ], $this->createFieldsBlocks($payload['action'], $repo, $author));
     }
 
-    private function createFieldsBlock(string $action, array $repo, array $author): array
+    private function createFieldsBlocks(string $action, array $repo, array $author): array
     {
         return [
-            'type'   => 'section',
-            'fields' => [
-                [
-                    'type' => TextObject::TYPE_MARKDOWN,
-                    'text' => '*Repository*',
+            [
+                'type'   => 'section',
+                'fields' => [
+                    [
+                        'type' => TextObject::TYPE_MARKDOWN,
+                        'text' => '*Repository*',
+                    ],
+                    [
+                        'type' => TextObject::TYPE_MARKDOWN,
+                        'text' => '*Reporter*',
+                    ],
+                    [
+                        'type' => TextObject::TYPE_MARKDOWN,
+                        'text' => sprintf('<%s|%s>', $repo['html_url'], $repo['full_name']),
+                    ],
+                    [
+                        'type' => TextObject::TYPE_MARKDOWN,
+                        'text' => sprintf('<%s|%s>', $author['html_url'], $author['login']),
+                    ],
                 ],
-                [
-                    'type' => TextObject::TYPE_MARKDOWN,
-                    'text' => '*Reporter*',
-                ],
-                [
-                    'type' => TextObject::TYPE_MARKDOWN,
-                    'text' => '*Status*',
-                ],
-                [
-                    'type' => TextObject::TYPE_MARKDOWN,
-                    'text' => sprintf('<%s>', $repo['html_url']),
-                ],
-                [
-                    'type' => TextObject::TYPE_MARKDOWN,
-                    'text' => sprintf('<%s|%s>', $author['html_url'], $author['login']),
-                ],
-                [
-                    'type' => TextObject::TYPE_MARKDOWN,
-                    'text' => $action,
+            ],
+            [
+                'type'   => 'section',
+                'fields' => [
+                    [
+                        'type' => TextObject::TYPE_MARKDOWN,
+                        'text' => '*Status*',
+                    ],
+                    [
+                        'type' => TextObject::TYPE_MARKDOWN,
+                        'text' => ' ',
+                    ],
+                    [
+                        'type' => TextObject::TYPE_MARKDOWN,
+                        'text' => $action,
+                    ],
                 ],
             ],
         ];

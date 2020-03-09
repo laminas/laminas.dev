@@ -12,6 +12,8 @@ return [
     // `composer clear-config-cache`.
     ConfigAggregator::ENABLE_CACHE => true,
 
+    'base_url' => getenv('BASE_URL') ?? 'https://laminas.dev',
+
     // Enable debugging; typically used to provide debugging information within templates.
     'debug' => false,
 
