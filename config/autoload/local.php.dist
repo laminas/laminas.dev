@@ -8,24 +8,18 @@
 
 declare(strict_types=1);
 
-use Monolog\Handler\SlackHandler;
+use Monolog\Handler\SlackWebhookHandler;
 use Monolog\Logger;
 
 return [
     'debug' => (bool) getenv('DEBUG'),
-    /*
-     * Disabling monolog for now, until we can determine if we're receiving
-     * commands
     'monolog' => [
         'handlers' => [
             'slack' => [
-                'type'    => SlackHandler::class,
-                'token'   => getenv('SLACK_TOKEN'),
-                'channel' => getenv('SLACK_CHANNEL_ERROR'),
-                'name'    => getenv('SLACK_BOT_NAME'),
+                'type'    => SlackWebhookHandler::class,
+                'webhook' => getenv('SLACK_WEBHOOK_LOGGING'),
                 'level'   => Logger::ERROR,
             ],
         ],
     ],
-     */
 ];

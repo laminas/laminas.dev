@@ -33,7 +33,7 @@ class LogMiddleware implements MiddlewareInterface
 
         try {
             $this->log->debug(ResponseSerializer::toString($response));
-        } catch (Throwabl $e) {
+        } catch (Throwable $e) {
         }
 
         return $response;

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Factory;
 
 use Monolog\Handler\SlackHandler;
+use Monolog\Handler\SlackWebhookHandler;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 use Monolog\Processor\PsrLogMessageProcessor;
@@ -47,15 +48,17 @@ class LoggerFactory
                 );
                 break;
 
-            case SlackHandler::class:
+            case SlackWebhookHandler::class:
                 $logger->pushHandler(
-                    new SlackHandler(
-                        $config['token'],
-                        sprintf('#%s', ltrim($config['channel'], '#')),
-                        $config['name'],
-                        true,
-                        null,
-                        $config['level']
+                    new SlackWebhookHandler(
+                        $config['webhook'],
+                        null,  // channel; part of webhook registration
+                        null,  // Bot name; part of webhook registration
+                        true,  // Use attachments?
+                        null,  // Emoji icon
+                        false, // Use short attachments?
+                        true,  // Include context and extra data?
+                        $config['level'] ?? Logger::ERROR // Log level
                     )
                 );
                 break;
