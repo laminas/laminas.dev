@@ -6,13 +6,12 @@ namespace App\Slack\Response;
 
 use Psr\Http\Message\ResponseInterface;
 
+use function is_array;
 use function json_decode;
+use function trim;
 
 class SlackResponse implements SlackResponseInterface
 {
-    /** @var string */
-    private $body;
-
     /** @var ResponseInterface */
     private $response;
 
@@ -30,7 +29,7 @@ class SlackResponse implements SlackResponseInterface
             $payload = [];
         }
 
-        $slackResponse = new self();
+        $slackResponse           = new self();
         $slackResponse->response = $response;
         $slackResponse->payload  = $payload;
 

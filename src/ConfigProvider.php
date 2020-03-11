@@ -16,8 +16,6 @@ use Mezzio\Application;
 use Mezzio\Helper\BodyParams\BodyParamsMiddleware;
 use Mezzio\MiddlewareFactory;
 use Mezzio\ProblemDetails\ProblemDetailsMiddleware;
-use Monolog\Handler\StreamHandler;
-use Monolog\Logger;
 use Phly\EventDispatcher\EventDispatcher;
 use Phly\EventDispatcher\ListenerProvider\AttachableListenerProvider;
 use Phly\Swoole\TaskWorker\DeferredServiceListenerDelegator;

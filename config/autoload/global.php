@@ -39,7 +39,7 @@ return [
         ],
     ],
 
-    'monolog'      => [
+    'monolog' => [
         'handlers' => [
             [
                 'type'           => StreamHandler::class,
