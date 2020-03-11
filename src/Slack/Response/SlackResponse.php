@@ -10,6 +10,9 @@ use function json_decode;
 
 class SlackResponse implements SlackResponseInterface
 {
+    /** @var string */
+    private $body;
+
     /** @var ResponseInterface */
     private $response;
 
@@ -18,17 +21,25 @@ class SlackResponse implements SlackResponseInterface
 
     public static function createFromResponse(ResponseInterface $response): self
     {
-        $slackResponse = new self();
+        $body    = trim((string) $response->getBody());
+        $payload = $body === 'ok'
+            ? ['ok' => true]
+            : json_decode($body, true);
 
+        if (! is_array($payload)) {
+            $payload = [];
+        }
+
+        $slackResponse = new self();
         $slackResponse->response = $response;
-        $slackResponse->payload  = json_decode((string) $response->getBody(), true);
+        $slackResponse->payload  = $payload;
 
         return $slackResponse;
     }
 
     public function isOk(): bool
     {
-        return (bool) ($this->payload['ok'] ?? false);
+        return $this->payload['ok'] ?? false;
     }
 
     public function getPayload(): array

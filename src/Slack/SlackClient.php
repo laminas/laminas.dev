@@ -136,8 +136,9 @@ class SlackClient implements SlackClientInterface
     private function logErrorResponse(SlackResponseInterface $response): void
     {
         $this->log('SlackClient: error sending message', [
-            'code'  => $response->getStatusCode(),
-            'error' => $response->getError() ?? 'unknown',
+            'code'    => $response->getStatusCode(),
+            'error'   => $response->getError() ?? 'unknown',
+            'payload' => (string) $response->getResponse()->getBody(),
         ]);
     }
 }
