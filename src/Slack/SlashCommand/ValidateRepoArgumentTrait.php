@@ -34,7 +34,7 @@ trait ValidateRepoArgumentTrait
 
         [$org, $repo] = explode('/', $argument, 2);
 
-        if (! in_array($org, ['laminas', 'laminas-api-tools', 'mezzio'], true)) {
+        if (! in_array($org, ['laminas', 'laminas-api-tools', 'mezzio', 'weierophinney'], true)) {
             return $this->responseFactory->createResponse(
                 'Organization part of repository MUST be one of laminas, '
                 . ' laminas-api-tools, or mezzio.'
