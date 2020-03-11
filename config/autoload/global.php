@@ -4,6 +4,10 @@ declare(strict_types=1);
 
 use Laminas\ConfigAggregator\ConfigAggregator;
 use Mezzio\Swoole\StaticResourceHandler\ContentTypeFilterMiddleware;
+use Monolog\Handler\StreamHandler;
+use Monolog\Logger;
+
+$debug = (bool) getenv('DEBUG');
 
 return [
     // Toggle the configuration cache. Set this to boolean false, or remove the
@@ -15,7 +19,7 @@ return [
     'base_url' => getenv('BASE_URL') ?? 'https://laminas.dev',
 
     // Enable debugging; typically used to provide debugging information within templates.
-    'debug' => false,
+    'debug' => $debug,
 
     'discourse' => [
         'secret' => getenv('DISCOURSE_SECRET'),
@@ -32,6 +36,18 @@ return [
         'error_handler' => [
             'template_404'   => 'error::404',
             'template_error' => 'error::error',
+        ],
+    ],
+
+    'monolog'      => [
+        'handlers' => [
+            [
+                'type'           => StreamHandler::class,
+                'stream'         => 'php://stderr',
+                'level'          => $debug ? Logger::DEBUG : Logger::INFO,
+                'bubble'         => true,
+                'expandNewLines' => true,
+            ],
         ],
     ],
 

@@ -51,15 +51,7 @@ class ConfigProvider
                 'token' => '',
             ],
             'monolog'      => [
-                'handlers' => [
-                    [
-                        'type'           => StreamHandler::class,
-                        'stream'         => 'php://stderr',
-                        'level'          => Logger::DEBUG,
-                        'bubble'         => true,
-                        'expandNewLines' => true,
-                    ],
-                ],
+                'handlers' => [],
             ],
             'slack'        => [
                 'channels'       => [

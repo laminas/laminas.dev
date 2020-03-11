@@ -11,16 +11,13 @@ declare(strict_types=1);
 use Monolog\Handler\SlackWebhookHandler;
 use Monolog\Logger;
 
-$debug = (bool) getenv('DEBUG');
-
 return [
-    'debug'   => $debug,
     'monolog' => [
         'handlers' => [
             'slack' => [
                 'type'    => SlackWebhookHandler::class,
                 'webhook' => getenv('SLACK_WEBHOOK_LOGGING'),
-                'level'   => $debug ? Logger::DEBUG : Logger::ERROR,
+                'level'   => getenv('DEBUG') ? Logger::DEBUG : Logger::ERROR,
             ],
         ],
     ],
