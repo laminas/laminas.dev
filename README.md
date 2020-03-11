@@ -13,15 +13,14 @@ The Laminas Bot acts as:
   - Report repository build status to the Laminas Slack #github channel.
   - Report releases to:
     - The Laminas Slack #github channel.
-    - The [@getlaminas|https://twitter.com/getlaminas] twitter account.
+    - The [@getlaminas](https://twitter.com/getlaminas) twitter account.
     - The https://getlaminas API, to allow rebuilding the release RSS feed.
 
 - A Discourse webhook handler:
-  - Report new topics to the category-appropriate channel on the Laminas Slack.
-  - Report new topic comments to the category-appropriate channel on the Laminas Slack.
+  - Report new posts to the category-appropriate channel on the Laminas Slack.
 
 - A Slack slash command handler for the Technical Steering Committee:
-  - /build-docs to trigger documentation rebuild for a given repository.
+  - /build-docs to trigger a documentation rebuild for a given repository.
   - /register-repo to register the github webhooks for Laminas-BOT with the
     given repository.
   - /regenerate-tsc-list triggers rebuilding the list of TSC members (the only
@@ -67,10 +66,10 @@ Event Type | Handler(s) | Action taken
 `App\GitHub\Event\RegisterWebhook` | `App\GitHub\Listener\RegisterWebhookListener` | Use the GitHub API to register the Laminas-BOT webhook with the given repository.
 `App\Slack\Event\RegenerateAuthorizedUserList` | `App\Slack\Listener\RegenerateAuthorizedUserListListener` | Use the Slack Web API to rebuild the list of authorized slash command users from the current #technical-steering-committee list.
 
-All listeners are decorated using the `DeferredListenerDelegator` class from the
-phly/phly-swoole-taskworker package. This means that they will be executed via
-Swoole task workers at a later time, allowing the various webhooks to return
-immediately.
+All listeners are decorated using the `DeferredServiceListenerDelegator` class
+from the phly/phly-swoole-taskworker package. This means that they will be
+executed via Swoole task workers at a later time, allowing the various webhooks
+to return immediately.
 
 #### Helper classes
 
@@ -88,7 +87,7 @@ Class | Purpose
 
 #### Slack messages
 
-The project provides an API for creating Slack messages using Slack's Blocks
+The project provides an API for creating Slack messages using Slack's Block Kit
 API, and the classes providing the support are under the `App\Slack\Domain`
 namespace. Implementations include:
 
@@ -127,13 +126,11 @@ All of these objects support:
   GitHub to create a request signature, and then by the bot to verify the
   signature on receipt of a webhook payload.
 
-- Discourse webhooks are expected to have a secret associated that matches the
-  one in the production deployment of the bot. The secret is used by Discourse
-  to create a request signature, and then by the bot to verify the signature on
-  receipt of a webhook payload.
+- Discourse webhooks are expected to use a shared secret to verify a request
+  signature provided in each payload.
 
 - Slack provides a [signed secrets](https://api.slack.com/docs/verifying-requests-from-slack) 
-  verification method that webhooks can used to validate a request originates
+  verification method that webhooks can use to validate a request originates
   from Slack. The functionality includes both a request timestamp and the
   signature. Stale timestamps can indicate a replay attack, so we can reject any
   older than a set amount of time. The combination of the timestamp and body are
