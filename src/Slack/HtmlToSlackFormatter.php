@@ -20,12 +20,17 @@ class HtmlToSlackFormatter
         $markdown = str_replace(['<code>', '</code>'], '`', $markdown);
         $markdown = str_replace(['<pre>', '</pre>'], '```', $markdown);
 
-        preg_match_all('/<a href=\"(.*?)\">(.*?)<\/a>/i', $markdown, $res);
+        preg_match_all('/<a.*?href=\"(.*?)\".*?>(.*?)<\/a>/i', $markdown, $res);
         $results = count($res[0]);
         for ($i = 0; $i < $results; $i++) {
+            $url = $res[1][$i];
+            if (! preg_match('#^https?://.*?/#', $url)) {
+                $url = sprintf('https://discourse.laminas.dev/%s', ltrim($url, '/'));
+            }
+
             $markdown = str_replace(
                 $res[0][$i],
-                sprintf('<%s|%s>', $res[1][$i], $res[2][$i]),
+                sprintf('<%s|%s>', $url, $res[2][$i]),
                 $markdown
             );
         }
