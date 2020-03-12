@@ -55,7 +55,7 @@ class DiscoursePostListenerTest extends TestCase
                 'topic_title' => 'How to do something',
                 'username'    => 'somebody',
                 'name'        => 'Some Body',
-                'raw'         => 'The raw, unrendered content',
+                'cooked'      => 'The HTML formatted content',
             ],
         ], 'https://discourse.laminas.dev');
 

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Discourse\Event;
 
 use App\Slack\Domain\TextObject;
+use App\Slack\HtmlToSlackFormatter;
 
 use function array_key_exists;
 use function ltrim;
@@ -101,7 +102,7 @@ class DiscoursePost
                 'type' => 'section',
                 'text' => [
                     'type' => TextObject::TYPE_MARKDOWN,
-                    'text' => $post['raw'],
+                    'text' => (new HtmlToSlackFormatter())->format($post['cooked']),
                 ],
             ],
             $this->createFieldsBlock($post),
