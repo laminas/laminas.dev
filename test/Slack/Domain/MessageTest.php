@@ -87,6 +87,9 @@ class MessageTest extends TestCase
                         'type' => 'section',
                         'text' => ['type' => TextObject::TYPE_MARKDOWN, 'text' => 'section text'],
                     ],
+                    [
+                        'type' => 'divider',
+                    ],
                 ],
             ],
         ];
@@ -127,6 +130,9 @@ class MessageTest extends TestCase
                     [
                         'type' => 'section',
                         'text' => ['type' => TextObject::TYPE_MARKDOWN, 'text' => 'section text'],
+                    ],
+                    [
+                        'type' => 'divider',
                     ],
                 ],
             ],
