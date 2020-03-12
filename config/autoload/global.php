@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 use Laminas\ConfigAggregator\ConfigAggregator;
 use Mezzio\Swoole\StaticResourceHandler\ContentTypeFilterMiddleware;
-use Monolog\Handler\StreamHandler;
-use Monolog\Logger;
 
 $debug = (bool) getenv('DEBUG');
 
@@ -41,13 +39,7 @@ return [
 
     'monolog' => [
         'handlers' => [
-            [
-                'type'           => StreamHandler::class,
-                'stream'         => 'php://stderr',
-                'level'          => $debug ? Logger::DEBUG : Logger::INFO,
-                'bubble'         => true,
-                'expandNewLines' => true,
-            ],
+            'default' => '%log.handler%',
         ],
     ],
 
@@ -62,6 +54,7 @@ return [
 
     'mezzio-swoole' => [
         'enable_coroutine'   => true,
+        'log_handler'        => '%log.handler%',
         'swoole-http-server' => [
             'process-name' => 'laminasdev',
             'host'         => '0.0.0.0',

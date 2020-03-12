@@ -5,6 +5,9 @@ declare(strict_types=1);
 use Laminas\ConfigAggregator\ArrayProvider;
 use Laminas\ConfigAggregator\ConfigAggregator;
 use Laminas\ConfigAggregator\PhpFileProvider;
+use Laminas\ConfigAggregatorParameters\ParameterPostProcessor;
+use Monolog\Handler\StreamHandler;
+use Monolog\Logger;
 
 // To enable or disable caching, set the `ConfigAggregator::ENABLE_CACHE` boolean in
 // `config/autoload/local.php`.
@@ -39,6 +42,19 @@ $aggregator = new ConfigAggregator([
     new PhpFileProvider(realpath(__DIR__) . '/autoload/{{,*.}global,{,*.}local}.php'),
     // Load development config if it exists
     new PhpFileProvider(realpath(__DIR__) . '/development.config.php'),
-], $cacheConfig['config_cache_path'], [Laminas\ZendFrameworkBridge\ConfigPostProcessor::class]);
+], $cacheConfig['config_cache_path'], [
+    Laminas\ZendFrameworkBridge\ConfigPostProcessor::class,
+    new ParameterPostProcessor([
+        'log' => [
+            'handler' => [
+                'type'           => StreamHandler::class,
+                'stream'         => 'php://stderr',
+                'level'          => getenv('DEBUG') ? Logger::DEBUG : Logger::INFO,
+                'bubble'         => true,
+                'expandNewLines' => true,
+            ],
+        ],
+    ]),
+]);
 
 return $aggregator->getMergedConfig();

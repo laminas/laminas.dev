@@ -16,6 +16,7 @@ use Mezzio\Application;
 use Mezzio\Helper\BodyParams\BodyParamsMiddleware;
 use Mezzio\MiddlewareFactory;
 use Mezzio\ProblemDetails\ProblemDetailsMiddleware;
+use Mezzio\Swoole\Log\SwooleLoggerFactory;
 use Phly\EventDispatcher\EventDispatcher;
 use Phly\EventDispatcher\ListenerProvider\AttachableListenerProvider;
 use Phly\Swoole\TaskWorker\DeferredServiceListenerDelegator;
@@ -152,6 +153,7 @@ class ConfigProvider
                 Slack\SlashCommand\SlashCommandResponseFactory::class         => Slack\SlashCommand\SlashCommandResponseFactoryFactory::class,
                 Slack\SlashCommand\SlashCommands::class                       => Slack\SlashCommand\SlashCommandsFactory::class,
                 StreamFactory::class                                          => InvokableFactory::class,
+                SwooleLoggerFactory::SWOOLE_LOGGER                            => Factory\AccessLogFactory::class,
                 TwitterClient::class                                          => Factory\TwitterClientFactory::class,
                 UrlHelper::class                                              => Factory\UrlHelperFactory::class,
             ],
