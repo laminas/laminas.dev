@@ -77,13 +77,14 @@ class DiscoursePostListenerTest extends TestCase
 
                 TestCase::assertArrayHasKey('blocks', $rendered);
                 TestCase::assertCount(4, $rendered['blocks']);
-                TestCase::assertSame('context', $rendered['blocks'][0]['type']);
-                TestCase::assertSame('section', $rendered['blocks'][1]['type']);
-                TestCase::assertArrayHasKey('text', $rendered['blocks'][1]);
+
+                TestCase::assertSame('divider', $rendered['blocks'][0]['type']);
+                TestCase::assertSame('context', $rendered['blocks'][1]['type']);
                 TestCase::assertSame('section', $rendered['blocks'][2]['type']);
-                TestCase::assertArrayHasKey('fields', $rendered['blocks'][2]);
-                TestCase::assertArrayNotHasKey('text', $rendered['blocks'][2]);
-                TestCase::assertSame('divider', $rendered['blocks'][3]['type']);
+                TestCase::assertArrayHasKey('text', $rendered['blocks'][2]);
+                TestCase::assertSame('section', $rendered['blocks'][3]['type']);
+                TestCase::assertArrayHasKey('fields', $rendered['blocks'][3]);
+                TestCase::assertArrayNotHasKey('text', $rendered['blocks'][3]);
 
                 return $message;
             }))

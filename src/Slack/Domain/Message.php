@@ -77,12 +77,12 @@ class Message implements MessageInterface
             }
         }
 
-        if (! empty($this->blocks)) {
-            $payload['blocks']   = array_map(function (BlockInterface $block) {
-                return $block->toArray();
-            }, $this->blocks);
-            $payload['blocks'][] = ['type' => 'divider'];
-        }
+        $blocks = $this->blocks;
+        array_unshift($blocks, new DividerBlock());
+
+        $payload['blocks'] = array_map(function (BlockInterface $block) {
+            return $block->toArray();
+        }, $blocks);
 
         return $payload;
     }

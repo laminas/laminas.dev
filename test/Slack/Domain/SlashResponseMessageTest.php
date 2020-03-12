@@ -35,6 +35,11 @@ class SlashResponseMessageTest extends TestCase
 
         $this->assertSame([
             'text'          => 'message text',
+            'blocks'        => [
+                [
+                    'type' => 'divider',
+                ],
+            ],
             'response_type' => SlashResponseMessage::TYPE_EPHEMERAL,
         ], $message->toArray());
     }
@@ -47,6 +52,11 @@ class SlashResponseMessageTest extends TestCase
 
         $this->assertSame([
             'text'          => 'message text',
+            'blocks'        => [
+                [
+                    'type' => 'divider',
+                ],
+            ],
             'response_type' => SlashResponseMessage::TYPE_IN_CHANNEL,
         ], $message->toArray());
     }

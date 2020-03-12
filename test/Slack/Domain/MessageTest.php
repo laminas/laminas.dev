@@ -40,6 +40,11 @@ class MessageTest extends TestCase
             $message,
             [
                 'text' => $message->getText(),
+                'blocks' => [
+                    [
+                        'type' => 'divider',
+                    ],
+                ],
             ],
         ];
 
@@ -51,6 +56,11 @@ class MessageTest extends TestCase
             [
                 'text'   => $message->getText(),
                 'mrkdwn' => false,
+                'blocks' => [
+                    [
+                        'type' => 'divider',
+                    ],
+                ],
             ],
         ];
 
@@ -73,6 +83,9 @@ class MessageTest extends TestCase
             [
                 'blocks' => [
                     [
+                        'type' => 'divider',
+                    ],
+                    [
                         'type'     => 'context',
                         'elements' => [
                             ['type' => TextObject::TYPE_MARKDOWN, 'text' => 'context text'],
@@ -86,9 +99,6 @@ class MessageTest extends TestCase
                     [
                         'type' => 'section',
                         'text' => ['type' => TextObject::TYPE_MARKDOWN, 'text' => 'section text'],
-                    ],
-                    [
-                        'type' => 'divider',
                     ],
                 ],
             ],
@@ -117,6 +127,9 @@ class MessageTest extends TestCase
                 'mrkdwn' => false,
                 'blocks' => [
                     [
+                        'type' => 'divider',
+                    ],
+                    [
                         'type'     => 'context',
                         'elements' => [
                             ['type' => TextObject::TYPE_MARKDOWN, 'text' => 'context text'],
@@ -130,9 +143,6 @@ class MessageTest extends TestCase
                     [
                         'type' => 'section',
                         'text' => ['type' => TextObject::TYPE_MARKDOWN, 'text' => 'section text'],
-                    ],
-                    [
-                        'type' => 'divider',
                     ],
                 ],
             ],

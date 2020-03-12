@@ -36,6 +36,11 @@ class WebAPIMessageTest extends TestCase
         $this->assertSame([
             'channel' => '#github',
             'text'    => 'message text',
+            'blocks'  => [
+                [
+                    'type' => 'divider',
+                ],
+            ],
         ], $message->toArray());
     }
 }
