@@ -12,6 +12,7 @@ use function array_merge;
 use function in_array;
 use function preg_match;
 use function sprintf;
+use function stristr;
 use function strpos;
 use function substr;
 
@@ -198,7 +199,7 @@ final class GitHubStatus extends AbstractGitHubEvent
                 [
                     'type'      => 'image',
                     'image_url' => $this->payload['avatar_url'],
-                    'alt_text'  => 'GitHub',
+                    'alt_text'  => $this->discoverContext(),
                 ],
                 [
                     'type' => TextObject::TYPE_MARKDOWN,
@@ -258,5 +259,20 @@ final class GitHubStatus extends AbstractGitHubEvent
                 ],
             ],
         ];
+    }
+
+    private function discoverContext(): string
+    {
+        $context = $this->payload['context'] ?? '';
+
+        if (stristr($context, 'travis') !== false) {
+            return 'Travis-CI';
+        }
+
+        if (stristr($context, 'coveralls') !== false) {
+            return 'Coveralls';
+        }
+
+        return 'GitHub';
     }
 }
