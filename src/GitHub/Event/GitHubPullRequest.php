@@ -101,51 +101,27 @@ final class GitHubPullRequest extends AbstractGitHubEvent
             ];
         }
 
-        foreach ($this->createFieldsBlocks($repo, $author) as $block) {
-            $blocks[] = $block;
-        }
+        $blocks[] = $this->createFieldsBlock($repo, $author);
+
         return $blocks;
     }
 
-    private function createFieldsBlocks(array $repo, array $author): array
+    private function createFieldsBlock(array $repo, array $author): array
     {
         return [
-            [
-                'type'   => 'section',
-                'fields' => [
-                    [
-                        'type' => TextObject::TYPE_MARKDOWN,
-                        'text' => '*Repository*',
-                    ],
-                    [
-                        'type' => TextObject::TYPE_MARKDOWN,
-                        'text' => '*Reporter*',
-                    ],
-                    [
-                        'type' => TextObject::TYPE_MARKDOWN,
-                        'text' => sprintf('<%s|%s>', $repo['html_url'], $repo['full_name']),
-                    ],
-                    [
-                        'type' => TextObject::TYPE_MARKDOWN,
-                        'text' => sprintf('<%s|%s>', $author['html_url'], $author['login']),
-                    ],
+            'type'   => 'section',
+            'fields' => [
+                [
+                    'type' => TextObject::TYPE_MARKDOWN,
+                    'text' => sprintf("*Repository*\n<%s|%s>", $repo['html_url'], $repo['full_name']),
                 ],
-            ],
-            [
-                'type'   => 'section',
-                'fields' => [
-                    [
-                        'type' => TextObject::TYPE_MARKDOWN,
-                        'text' => '*Status*',
-                    ],
-                    [
-                        'type' => TextObject::TYPE_MARKDOWN,
-                        'text' => ' ',
-                    ],
-                    [
-                        'type' => TextObject::TYPE_MARKDOWN,
-                        'text' => $this->getAction(),
-                    ],
+                [
+                    'type' => TextObject::TYPE_MARKDOWN,
+                    'text' => sprintf("*Reporter*\n<%s|%s>", $author['html_url'], $author['login']),
+                ],
+                [
+                    'type' => TextObject::TYPE_MARKDOWN,
+                    'text' => sprintf("*Status*\n%s", $this->getAction()),
                 ],
             ],
         ];

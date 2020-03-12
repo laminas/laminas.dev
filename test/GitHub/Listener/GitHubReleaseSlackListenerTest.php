@@ -57,7 +57,7 @@ class GitHubReleaseSlackListenerTest extends TestCase
 
                 $fields = $blocks[2];
                 TestCase::assertInstanceOf(SectionBlock::class, $fields);
-                TestCase::assertCount(4, $fields->getFields());
+                TestCase::assertCount(2, $fields->getFields());
 
                 return $message;
             }))

@@ -7,7 +7,6 @@ namespace App\GitHub\Event;
 use App\Slack\Domain\TextObject;
 use Assert\Assert;
 
-use function array_merge;
 use function in_array;
 use function sprintf;
 
@@ -73,7 +72,7 @@ final class GitHubIssue extends AbstractGitHubEvent
         $author  = $payload['sender'];
         $repo    = $payload['repository'];
 
-        return array_merge([
+        return [
             $this->createContextBlock($repo['html_url'], sprintf(
                 '<%s|*[%s] Issue %s#%s %s*>',
                 $issue['html_url'],
@@ -89,48 +88,26 @@ final class GitHubIssue extends AbstractGitHubEvent
                     'text' => $issue['body'],
                 ],
             ],
-        ], $this->createFieldsBlocks($payload['action'], $repo, $author));
+            $this->createFieldsBlock($payload['action'], $repo, $author),
+        ];
     }
 
-    private function createFieldsBlocks(string $action, array $repo, array $author): array
+    private function createFieldsBlock(string $action, array $repo, array $author): array
     {
         return [
-            [
-                'type'   => 'section',
-                'fields' => [
-                    [
-                        'type' => TextObject::TYPE_MARKDOWN,
-                        'text' => '*Repository*',
-                    ],
-                    [
-                        'type' => TextObject::TYPE_MARKDOWN,
-                        'text' => '*Reporter*',
-                    ],
-                    [
-                        'type' => TextObject::TYPE_MARKDOWN,
-                        'text' => sprintf('<%s|%s>', $repo['html_url'], $repo['full_name']),
-                    ],
-                    [
-                        'type' => TextObject::TYPE_MARKDOWN,
-                        'text' => sprintf('<%s|%s>', $author['html_url'], $author['login']),
-                    ],
+            'type'   => 'section',
+            'fields' => [
+                [
+                    'type' => TextObject::TYPE_MARKDOWN,
+                    'text' => sprintf("*Repository*\n<%s|%s>", $repo['html_url'], $repo['full_name']),
                 ],
-            ],
-            [
-                'type'   => 'section',
-                'fields' => [
-                    [
-                        'type' => TextObject::TYPE_MARKDOWN,
-                        'text' => '*Status*',
-                    ],
-                    [
-                        'type' => TextObject::TYPE_MARKDOWN,
-                        'text' => ' ',
-                    ],
-                    [
-                        'type' => TextObject::TYPE_MARKDOWN,
-                        'text' => $action,
-                    ],
+                [
+                    'type' => TextObject::TYPE_MARKDOWN,
+                    'text' => sprintf("*Reporter*\n<%s|%s>", $author['html_url'], $author['login']),
+                ],
+                [
+                    'type' => TextObject::TYPE_MARKDOWN,
+                    'text' => sprintf("*Status*\n%s", $action),
                 ],
             ],
         ];

@@ -41,7 +41,7 @@ class GitHubPullRequestListenerTest extends TestCase
                 TestCase::assertStringContainsString($payload['pull_request']['html_url'], $text);
 
                 $blocks = $message->getBlocks();
-                TestCase::assertCount(3, $blocks);
+                TestCase::assertCount(2, $blocks);
 
                 $context = $blocks[0];
                 TestCase::assertInstanceOf(ContextBlock::class, $context);
@@ -52,12 +52,8 @@ class GitHubPullRequestListenerTest extends TestCase
 
                 $fields = $blocks[1];
                 TestCase::assertInstanceOf(SectionBlock::class, $fields);
-                TestCase::assertCount(4, $fields->getFields());
-
-                $fields = $blocks[2];
-                TestCase::assertInstanceOf(SectionBlock::class, $fields);
                 TestCase::assertCount(3, $fields->getFields());
-                TestCase::assertSame('merged', $fields->getFields()[2]->toArray()['text']);
+                TestCase::assertStringContainsString('merged', $fields->getFields()[2]->toArray()['text']);
 
                 return $message;
             }))
@@ -90,7 +86,7 @@ class GitHubPullRequestListenerTest extends TestCase
                 TestCase::assertStringContainsString($payload['pull_request']['html_url'], $text);
 
                 $blocks = $message->getBlocks();
-                TestCase::assertCount(4, $blocks);
+                TestCase::assertCount(3, $blocks);
 
                 $context = $blocks[0];
                 TestCase::assertInstanceOf(ContextBlock::class, $context);
@@ -104,10 +100,6 @@ class GitHubPullRequestListenerTest extends TestCase
                 TestCase::assertSame($payload['pull_request']['body'], $body->getText()->toArray()['text']);
 
                 $fields = $blocks[2];
-                TestCase::assertInstanceOf(SectionBlock::class, $fields);
-                TestCase::assertCount(4, $fields->getFields());
-
-                $fields = $blocks[3];
                 TestCase::assertInstanceOf(SectionBlock::class, $fields);
                 TestCase::assertCount(3, $fields->getFields());
 

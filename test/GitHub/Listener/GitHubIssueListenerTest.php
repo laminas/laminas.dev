@@ -41,7 +41,7 @@ class GitHubIssueListenerTest extends TestCase
                 TestCase::assertStringContainsString($payload['issue']['html_url'], $text);
 
                 $blocks = $message->getBlocks();
-                TestCase::assertCount(4, $blocks);
+                TestCase::assertCount(3, $blocks);
 
                 $context = $blocks[0];
                 TestCase::assertInstanceOf(ContextBlock::class, $context);
@@ -56,10 +56,6 @@ class GitHubIssueListenerTest extends TestCase
                 TestCase::assertSame($payload['issue']['body'], $text->toArray()['text']);
 
                 $fields = $blocks[2];
-                TestCase::assertInstanceOf(SectionBlock::class, $fields);
-                TestCase::assertCount(4, $fields->getFields());
-
-                $fields = $blocks[3];
                 TestCase::assertInstanceOf(SectionBlock::class, $fields);
                 TestCase::assertCount(3, $fields->getFields());
 

@@ -7,7 +7,6 @@ namespace App\GitHub\Event;
 use App\Slack\Domain\TextObject;
 use Assert\Assert;
 
-use function array_merge;
 use function in_array;
 use function sprintf;
 use function ucfirst;
@@ -95,7 +94,7 @@ class GitHubIssueComment extends AbstractGitHubEvent
             ? $issue['pull_request']['html_url']
             : $issue['html_url'];
 
-        return array_merge([
+        return [
             $this->createContextBlock($repo['html_url'], sprintf(
                 '<%s|*New comment on %s#%s %s*>',
                 $comment['html_url'],
@@ -110,48 +109,26 @@ class GitHubIssueComment extends AbstractGitHubEvent
                     'text' => $comment['body'],
                 ],
             ],
-        ], $this->createFieldsBlocks($repo, $issueUrl, (string) $issue['number'], $author));
+            $this->createFieldsBlock($repo, $issueUrl, (string) $issue['number'], $author),
+        ];
     }
 
-    private function createFieldsBlocks(array $repo, string $issueUrl, string $issueNumber, array $author): array
+    private function createFieldsBlock(array $repo, string $issueUrl, string $issueNumber, array $author): array
     {
         return [
-            [
-                'type'   => 'section',
-                'fields' => [
-                    [
-                        'type' => TextObject::TYPE_MARKDOWN,
-                        'text' => '*Repository*',
-                    ],
-                    [
-                        'type' => TextObject::TYPE_MARKDOWN,
-                        'text' => sprintf('*%s*', ucfirst($this->getIssueType())),
-                    ],
-                    [
-                        'type' => TextObject::TYPE_MARKDOWN,
-                        'text' => sprintf('<%s|%s>', $repo['html_url'], $repo['full_name']),
-                    ],
-                    [
-                        'type' => TextObject::TYPE_MARKDOWN,
-                        'text' => sprintf('<%s|#%s>', $issueUrl, $issueNumber),
-                    ],
+            'type'   => 'section',
+            'fields' => [
+                [
+                    'type' => TextObject::TYPE_MARKDOWN,
+                    'text' => sprintf("*Repository*\n<%s|%s>", $repo['html_url'], $repo['full_name']),
                 ],
-            ],
-            [
-                'type'   => 'section',
-                'fields' => [
-                    [
-                        'type' => TextObject::TYPE_MARKDOWN,
-                        'text' => '*Commenter*',
-                    ],
-                    [
-                        'type' => TextObject::TYPE_MARKDOWN,
-                        'text' => ' ',
-                    ],
-                    [
-                        'type' => TextObject::TYPE_MARKDOWN,
-                        'text' => sprintf('<%s|%s>', $author['html_url'], $author['login']),
-                    ],
+                [
+                    'type' => TextObject::TYPE_MARKDOWN,
+                    'text' => sprintf("*%s*\n<%s|#%s>", ucfirst($this->getIssueType()), $issueUrl, $issueNumber),
+                ],
+                [
+                    'type' => TextObject::TYPE_MARKDOWN,
+                    'text' => sprintf("*Commenter*\n<%s|%s>", $author['html_url'], $author['login']),
                 ],
             ],
         ];

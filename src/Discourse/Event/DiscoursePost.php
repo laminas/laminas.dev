@@ -137,16 +137,8 @@ class DiscoursePost
             'fields' => [
                 [
                     'type' => TextObject::TYPE_MARKDOWN,
-                    'text' => '*In reply to*',
-                ],
-                [
-                    'type' => TextObject::TYPE_MARKDOWN,
-                    'text' => '*Posted by*',
-                ],
-                [
-                    'type' => TextObject::TYPE_MARKDOWN,
                     'text' => sprintf(
-                        '<%s/t/%s/%s|%s>',
+                        "*In reply to*\n<%s/t/%s/%s|%s>",
                         $this->discourseUrl,
                         $post['topic_slug'],
                         $post['topic_id'],
@@ -156,7 +148,7 @@ class DiscoursePost
                 [
                     'type' => TextObject::TYPE_MARKDOWN,
                     'text' => sprintf(
-                        '<%s/u/%s|%s>',
+                        "*Posted by*\n<%s/u/%s|%s>",
                         $this->discourseUrl,
                         $post['username'],
                         $post['name']

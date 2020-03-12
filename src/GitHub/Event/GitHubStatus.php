@@ -8,7 +8,6 @@ use App\GitHub\Listener\PullRequest;
 use App\Slack\Domain\TextObject;
 use Assert\Assert;
 
-use function array_merge;
 use function in_array;
 use function preg_match;
 use function sprintf;
@@ -150,7 +149,7 @@ final class GitHubStatus extends AbstractGitHubEvent
         $branch  = $this->getBranch();
         $commit  = $payload['commit'];
 
-        return array_merge([
+        return [
             $this->createContextBlock($payload['target_url'], sprintf(
                 '<%s|Build %s> for <%s|%s>@%s (<%s|%s>)',
                 $payload['target_url'],
@@ -161,11 +160,12 @@ final class GitHubStatus extends AbstractGitHubEvent
                 $commit['html_url'],
                 substr($payload['sha'], 0, 8)
             )),
-        ], $this->createFieldsBlocks($repo, 'Branch', sprintf(
-            '%s (%s)',
-            $branch,
-            substr($payload['sha'], 0, 8)
-        )));
+            $this->createFieldsBlock($repo, 'Branch', sprintf(
+                '%s (%s)',
+                $branch,
+                substr($payload['sha'], 0, 8)
+            )),
+        ];
     }
 
     private function getMessageBlocksForPullRequest(PullRequest $pullRequest): array
@@ -173,7 +173,7 @@ final class GitHubStatus extends AbstractGitHubEvent
         $payload = $this->payload;
         $repo    = $payload['repository'];
 
-        return array_merge([
+        return [
             $this->createContextBlock($pullRequest->getUrl(), sprintf(
                 '<%s|Build %s> for pull request <%s|%s#%s %s>',
                 $payload['target_url'],
@@ -183,12 +183,13 @@ final class GitHubStatus extends AbstractGitHubEvent
                 $pullRequest->getNumber(),
                 $pullRequest->getTitle(),
             )),
-        ], $this->createFieldsBlocks($repo, 'Pull Request', sprintf(
-            '<%s|#%s %s>',
-            $pullRequest->getUrl(),
-            $pullRequest->getNumber(),
-            $pullRequest->getTitle()
-        )));
+            $this->createFieldsBlock($repo, 'Pull Request', sprintf(
+                '<%s|#%s %s>',
+                $pullRequest->getUrl(),
+                $pullRequest->getNumber(),
+                $pullRequest->getTitle()
+            )),
+        ];
     }
 
     protected function createContextBlock(string $url, ?string $additionalText = null): array
@@ -217,45 +218,22 @@ final class GitHubStatus extends AbstractGitHubEvent
         ];
     }
 
-    private function createFieldsBlocks(array $repo, string $extraLabel, string $extraValue): array
+    private function createFieldsBlock(array $repo, string $extraLabel, string $extraValue): array
     {
         return [
-            [
-                'type'   => 'section',
-                'fields' => [
-                    [
-                        'type' => TextObject::TYPE_MARKDOWN,
-                        'text' => '*Repository*',
-                    ],
-                    [
-                        'type' => TextObject::TYPE_MARKDOWN,
-                        'text' => '*Status*',
-                    ],
-                    [
-                        'type' => TextObject::TYPE_MARKDOWN,
-                        'text' => sprintf('<%s|%s>', $repo['html_url'], $repo['full_name']),
-                    ],
-                    [
-                        'type' => TextObject::TYPE_MARKDOWN,
-                        'text' => $this->getBuildStatus(),
-                    ],
+            'type'   => 'section',
+            'fields' => [
+                [
+                    'type' => TextObject::TYPE_MARKDOWN,
+                    'text' => sprintf("*Repository*\n<%s|%s>", $repo['html_url'], $repo['full_name']),
                 ],
-            ],
-            [
-                'type'   => 'section',
-                'fields' => [
-                    [
-                        'type' => TextObject::TYPE_MARKDOWN,
-                        'text' => sprintf('*%s*', $extraLabel),
-                    ],
-                    [
-                        'type' => TextObject::TYPE_MARKDOWN,
-                        'text' => ' ',
-                    ],
-                    [
-                        'type' => TextObject::TYPE_MARKDOWN,
-                        'text' => $extraValue,
-                    ],
+                [
+                    'type' => TextObject::TYPE_MARKDOWN,
+                    'text' => sprintf("*Status*\n%s", $this->getBuildStatus()),
+                ],
+                [
+                    'type' => TextObject::TYPE_MARKDOWN,
+                    'text' => sprintf("*%s*\n%s", $extraLabel, $extraValue),
                 ],
             ],
         ];
