@@ -26,6 +26,43 @@ The Laminas Bot acts as:
   - /regenerate-tsc-list triggers rebuilding the list of TSC members (the only
     ones authorized to initiate slash commands).
 
+### Requirements
+
+- From Slack
+  - Create a Bot integration
+    - Add the signing secret to the SLACK_SIGNING_SECRET
+  - Setup OAuth
+    - Add the OAuth token value to SLACK_TOKEN
+    - Set the following scopes
+      - channels:read
+      - chat:write
+      - chat:write.public (to allow writing to any public channel)
+      - commands
+      - groups:read
+      - im:read
+      - links:read
+      - links:write
+      - mpim:read
+  - Setup Slash commands
+    - All commands go to https://laminas.dev/api/slack
+    - /laminas
+    - /regenerate-tsc-list
+    - /register-repo [repo]
+    - /build-docs [repo]
+  - Setup an incoming webhook
+    - Add location to SLACK_WEBHOOK_LOGGING
+  - Invite the bot to #technical-steering-committee and #laminasbot-errors
+
+- From GitHub
+  - We need a valid personal access token with "repo" permissions; add to
+    GITHUB_TOKEN
+  - We need a signing secret; this can be arbitrary, but once used, must be used
+    for ALL repositories when registering the webhook. Add to GITHUB_SECRET
+
+- From Discourse
+  - We need a signing secret; this can be arbitrary, but once used, must be used
+    when registering ALL webhooks. Add to DISCOURSE_SECRET
+
 ### Architecture
 
 #### Handlers
