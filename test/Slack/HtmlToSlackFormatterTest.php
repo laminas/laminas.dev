@@ -11,7 +11,7 @@ class HtmlToSlackFormatterTest extends TestCase
 {
     public function testFormatsDiscourseLinks(): void
     {
-        $string = 'String with <a class="mention" href="/u/someuser">@Some_User</a> link';
+        $string    = 'String with <a class="mention" href="/u/someuser">@Some_User</a> link';
         $formatter = new HtmlToSlackFormatter();
 
         $this->assertSame(

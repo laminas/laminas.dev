@@ -8,6 +8,7 @@ use App\GitHub\Listener\PullRequest;
 use App\Slack\Domain\TextObject;
 use Assert\Assert;
 
+use function array_shift;
 use function in_array;
 use function preg_match;
 use function sprintf;

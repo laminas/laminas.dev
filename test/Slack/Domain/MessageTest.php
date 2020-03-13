@@ -39,7 +39,7 @@ class MessageTest extends TestCase
         yield 'text-only' => [
             $message,
             [
-                'text' => $message->getText(),
+                'text'   => $message->getText(),
                 'blocks' => [
                     [
                         'type' => 'divider',
