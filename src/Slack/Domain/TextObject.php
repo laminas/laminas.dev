@@ -39,7 +39,7 @@ class TextObject implements ElementInterface
             $data['text'] ?? '',
             $data['type'] ?? self::TYPE_MARKDOWN,
             array_key_exists('emoji', $data) ? ! $data['emoji'] : false,
-            array_key_exists('verbatim', $data) ? $data['verbatim'] : false
+            array_key_exists('verbatim', $data) ? $data['verbatim'] : true
         );
     }
 
@@ -47,7 +47,7 @@ class TextObject implements ElementInterface
         string $text,
         string $type = self::TYPE_MARKDOWN,
         bool $escapeEmoji = false,
-        bool $renderReferencesVerbatim = false
+        bool $renderReferencesVerbatim = true
     ) {
         $this->text                     = $text;
         $this->type                     = $type;

@@ -23,7 +23,7 @@ class TextObjectTest extends TestCase
     {
         yield 'markdown' => [
             ['type' => TextObject::TYPE_MARKDOWN, 'text' => 'some text'],
-            ['type' => TextObject::TYPE_MARKDOWN, 'text' => 'some text'],
+            ['type' => TextObject::TYPE_MARKDOWN, 'text' => 'some text', 'verbatim' => true],
         ];
 
         yield 'plain-text' => [
@@ -33,7 +33,7 @@ class TextObjectTest extends TestCase
 
         yield 'markdown-escape-emoji' => [
             ['type' => TextObject::TYPE_MARKDOWN, 'text' => 'some text', 'emoji' => false],
-            ['type' => TextObject::TYPE_MARKDOWN, 'text' => 'some text'],
+            ['type' => TextObject::TYPE_MARKDOWN, 'text' => 'some text', 'verbatim' => true],
         ];
 
         yield 'plain-text-escape-emoji' => [
@@ -41,9 +41,9 @@ class TextObjectTest extends TestCase
             ['type' => TextObject::TYPE_PLAIN_TEXT, 'text' => 'some text', 'emoji' => false],
         ];
 
-        yield 'markdown-verbatim' => [
-            ['type' => TextObject::TYPE_MARKDOWN, 'text' => 'some text', 'verbatim' => true],
-            ['type' => TextObject::TYPE_MARKDOWN, 'text' => 'some text', 'verbatim' => true],
+        yield 'markdown-non-verbatim' => [
+            ['type' => TextObject::TYPE_MARKDOWN, 'text' => 'some text', 'verbatim' => false],
+            ['type' => TextObject::TYPE_MARKDOWN, 'text' => 'some text'],
         ];
 
         yield 'plain-text-verbatim' => [

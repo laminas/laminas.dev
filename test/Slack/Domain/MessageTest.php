@@ -88,7 +88,11 @@ class MessageTest extends TestCase
                     [
                         'type'     => 'context',
                         'elements' => [
-                            ['type' => TextObject::TYPE_MARKDOWN, 'text' => 'context text'],
+                            [
+                                'type'     => TextObject::TYPE_MARKDOWN,
+                                'text'     => 'context text',
+                                'verbatim' => true,
+                            ],
                             [
                                 'type'      => 'image',
                                 'image_url' => 'https://getlaminas.org/images/logo/laminas-foundation-rgb.svg',
@@ -98,7 +102,11 @@ class MessageTest extends TestCase
                     ],
                     [
                         'type' => 'section',
-                        'text' => ['type' => TextObject::TYPE_MARKDOWN, 'text' => 'section text'],
+                        'text' => [
+                            'type'     => TextObject::TYPE_MARKDOWN,
+                            'text'     => 'section text',
+                            'verbatim' => true,
+                        ],
                     ],
                 ],
             ],
@@ -132,7 +140,11 @@ class MessageTest extends TestCase
                     [
                         'type'     => 'context',
                         'elements' => [
-                            ['type' => TextObject::TYPE_MARKDOWN, 'text' => 'context text'],
+                            [
+                                'type'     => TextObject::TYPE_MARKDOWN,
+                                'text'     => 'context text',
+                                'verbatim' => true,
+                            ],
                             [
                                 'type'      => 'image',
                                 'image_url' => 'https://getlaminas.org/images/logo/laminas-foundation-rgb.svg',
@@ -142,7 +154,11 @@ class MessageTest extends TestCase
                     ],
                     [
                         'type' => 'section',
-                        'text' => ['type' => TextObject::TYPE_MARKDOWN, 'text' => 'section text'],
+                        'text' => [
+                            'type'     => TextObject::TYPE_MARKDOWN,
+                            'text'     => 'section text',
+                            'verbatim' => true,
+                        ],
                     ],
                 ],
             ],

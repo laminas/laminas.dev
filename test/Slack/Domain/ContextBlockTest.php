@@ -60,8 +60,9 @@ class ContextBlockTest extends TestCase
             'type'     => 'context',
             'elements' => [
                 [
-                    'type' => TextObject::TYPE_MARKDOWN,
-                    'text' => '*Label*',
+                    'type'     => TextObject::TYPE_MARKDOWN,
+                    'text'     => '*Label*',
+                    'verbatim' => true,
                 ],
                 [
                     'type' => TextObject::TYPE_PLAIN_TEXT,

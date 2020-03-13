@@ -66,8 +66,9 @@ class BlockTest extends TestCase
             'type'     => 'context',
             'elements' => [
                 [
-                    'type' => TextObject::TYPE_MARKDOWN,
-                    'text' => 'Some text',
+                    'type'     => TextObject::TYPE_MARKDOWN,
+                    'text'     => 'Some text',
+                    'verbatim' => true,
                 ],
                 [
                     'type' => TextObject::TYPE_PLAIN_TEXT,
@@ -95,8 +96,9 @@ class BlockTest extends TestCase
             [
                 'type' => 'section',
                 'text' => [
-                    'type' => TextObject::TYPE_MARKDOWN,
-                    'text' => 'The section text',
+                    'type'     => TextObject::TYPE_MARKDOWN,
+                    'text'     => 'The section text',
+                    'verbatim' => true,
                 ],
             ],
         ];
@@ -119,12 +121,14 @@ class BlockTest extends TestCase
                 'type'   => 'section',
                 'fields' => [
                     [
-                        'type' => TextObject::TYPE_MARKDOWN,
-                        'text' => '*Label*',
+                        'type'     => TextObject::TYPE_MARKDOWN,
+                        'text'     => '*Label*',
+                        'verbatim' => true,
                     ],
                     [
-                        'type' => TextObject::TYPE_MARKDOWN,
-                        'text' => 'Value',
+                        'type'     => TextObject::TYPE_MARKDOWN,
+                        'text'     => 'Value',
+                        'verbatim' => true,
                     ],
                 ],
             ],
@@ -155,17 +159,20 @@ class BlockTest extends TestCase
             [
                 'type'      => 'section',
                 'text'      => [
-                    'type' => TextObject::TYPE_MARKDOWN,
-                    'text' => 'The section text',
+                    'type'     => TextObject::TYPE_MARKDOWN,
+                    'text'     => 'The section text',
+                    'verbatim' => true,
                 ],
                 'fields'    => [
                     [
-                        'type' => TextObject::TYPE_MARKDOWN,
-                        'text' => '*Label*',
+                        'type'     => TextObject::TYPE_MARKDOWN,
+                        'text'     => '*Label*',
+                        'verbatim' => true,
                     ],
                     [
-                        'type' => TextObject::TYPE_MARKDOWN,
-                        'text' => 'Value',
+                        'type'     => TextObject::TYPE_MARKDOWN,
+                        'text'     => 'Value',
+                        'verbatim' => true,
                     ],
                 ],
                 'accessory' => [
