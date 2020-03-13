@@ -59,7 +59,12 @@ final class GitHubStatus extends AbstractGitHubEvent
 
     public function getBranch(): string
     {
-        return $this->payload['branches'][0]['name'];
+        $branches = $this->payload['branches'] ?? [];
+        if (empty($branches)) {
+            return 'unknown';
+        }
+        $branch = array_shift($branches);
+        return $branch['name'] ?? 'unknown';
     }
 
     public function getCommitIdentifier(): string
