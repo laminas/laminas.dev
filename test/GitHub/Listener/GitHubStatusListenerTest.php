@@ -60,48 +60,6 @@ class GitHubStatusListenerTest extends TestCase
         );
     }
 
-    public function testNotifiesSlackWithGenericMessageIfStatusIsNotForAPullRequest(): void
-    {
-        $json    = file_get_contents(__DIR__ . '/../../Fixtures/status-success.json');
-        $payload = json_decode($json, true);
-        $status  = new GitHubStatus($payload);
-
-        $response = $this->prophesize(SlackResponseInterface::class)->reveal();
-        $this->slack
-            ->sendWebAPIMessage(Argument::that(function ($message) use ($payload) {
-                TestCase::assertInstanceOf(WebAPIMessage::class, $message);
-
-                TestCase::assertSame('#github', $message->getChannel());
-                TestCase::assertStringContainsString($payload['repository']['full_name'], $message->getText());
-                TestCase::assertStringContainsString(substr($payload['sha'], 0, 8), $message->getText());
-                TestCase::assertStringContainsString($payload['target_url'], $message->getText());
-
-                $blocks = $message->getBlocks();
-
-                TestCase::assertCount(2, $blocks);
-
-                $context = $blocks[0];
-                TestCase::assertInstanceOf(ContextBlock::class, $context);
-                $summary = $context->getElements()[2];
-                TestCase::assertInstanceOf(TextObject::class, $summary);
-                TestCase::assertSame(TextObject::TYPE_MARKDOWN, $summary->toArray()['type']);
-                TestCase::assertStringContainsString($payload['target_url'], $summary->toArray()['text']);
-
-                $fields = $blocks[1];
-                TestCase::assertInstanceOf(SectionBlock::class, $fields);
-                TestCase::assertCount(3, $fields->getFields());
-
-                return $message;
-            }))
-            ->willReturn($response)
-            ->shouldBeCalled();
-
-        $this->githubClient->createRequest(Argument::any())->shouldNotBeCalled();
-        $this->githubClient->send(Argument::any())->shouldNotBeCalled();
-
-        $this->assertNull($this->listener->__invoke($status));
-    }
-
     public function testLogsErrorAndNotifiesSlackWithGenericMessageForPullRequestWhereSearchFails(): void
     {
         $json    = file_get_contents(__DIR__ . '/../../Fixtures/status-success-for-pr.json');
@@ -149,7 +107,7 @@ class GitHubStatusListenerTest extends TestCase
                 'GET',
                 Argument::that(function ($url) {
                     TestCase::assertInternalType('string', $url);
-                    TestCase::assertStringContainsString('?repo:zendframework/zend-diactoros', $url);
+                    TestCase::assertStringContainsString('?q=repo%3Azendframework%2Fzend-diactoros', $url);
 
                     return $url;
                 })
@@ -226,7 +184,7 @@ class GitHubStatusListenerTest extends TestCase
                 'GET',
                 Argument::that(function ($url) {
                     TestCase::assertInternalType('string', $url);
-                    TestCase::assertStringContainsString('?repo:zendframework/zend-diactoros', $url);
+                    TestCase::assertStringContainsString('?q=repo%3Azendframework%2Fzend-diactoros', $url);
 
                     return $url;
                 })
@@ -305,7 +263,7 @@ class GitHubStatusListenerTest extends TestCase
                 'GET',
                 Argument::that(function ($url) {
                     TestCase::assertInternalType('string', $url);
-                    TestCase::assertStringContainsString('?repo:zendframework/zend-diactoros', $url);
+                    TestCase::assertStringContainsString('?q=repo%3Azendframework%2Fzend-diactoros', $url);
 
                     return $url;
                 })

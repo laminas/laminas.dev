@@ -13,6 +13,7 @@ use Assert\AssertionFailedException;
 use Psr\Log\LoggerInterface;
 use Throwable;
 
+use function http_build_query;
 use function json_decode;
 use function sprintf;
 
@@ -48,10 +49,7 @@ class GitHubStatusListener
 
     public function __invoke(GitHubStatus $message): void
     {
-        $pullRequest = $message->isForPullRequest()
-            ? $this->fetchPullRequestData($message)
-            : null;
-
+        $pullRequest  = $this->fetchPullRequestData($message);
         $notification = new WebAPIMessage();
         $notification->setChannel($this->channel);
         $notification->setText($message->getFallbackMessage($pullRequest));
@@ -65,10 +63,15 @@ class GitHubStatusListener
     private function fetchPullRequestData(GitHubStatus $status): ?PullRequest
     {
         $url = sprintf(
-            '%s?repo:%s+%s',
+            '%s?%s',
             self::GITHUB_ISSUE_SEARCH_URI,
-            $status->getRepository(),
-            $status->getCommitIdentifier()
+            http_build_query([
+                'q' => sprintf(
+                    'repo:%s type:pr %s',
+                    $status->getRepository(),
+                    $status->getCommitIdentifier()
+                ),
+            ])
         );
 
         $response = $this->githubClient->send(

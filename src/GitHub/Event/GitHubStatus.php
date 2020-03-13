@@ -21,6 +21,18 @@ use function substr;
  */
 final class GitHubStatus extends AbstractGitHubEvent
 {
+    private const CONTEXT_PATTERNS = [
+        '#^github#',
+        '#travis-ci#',
+        '#coveralls#',
+    ];
+
+    private const STATES_ALLOWED = [
+        'success',
+        'failure',
+        'error',
+    ];
+
     /** @var array */
     private $payload;
 
@@ -46,16 +58,17 @@ final class GitHubStatus extends AbstractGitHubEvent
 
     public function ignore(): bool
     {
-        return ! in_array($this->payload['state'], [
-            'success',
-            'failure',
-            'error',
-        ], true);
-    }
+        if (! in_array($this->payload['state'], self::STATES_ALLOWED, true)) {
+            return true;
+        }
 
-    public function isForPullRequest(): bool
-    {
-        return (bool) preg_match('#/pr$#', $this->payload['context']);
+        foreach (self::CONTEXT_PATTERNS as $regex) {
+            if (preg_match($regex, (string) $this->payload['context'])) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     public function getBranch(): string
