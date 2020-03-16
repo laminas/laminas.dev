@@ -1,0 +1,63 @@
+<p>Composer is a preferred way for handling your autoloading:<br>
+<aside class="onebox githubblob">
+  <header class="source">
+      <a href="https://github.com/laminas/laminas-mvc-skeleton/blob/8beddc599ea56406abc79d06409f83fcc2cc7350/composer.json#L19-L22" target="_blank" rel="nofollow ugc noopener">github.com</a>
+  </header>
+  <article class="onebox-body">
+    <h4><a href="https://github.com/laminas/laminas-mvc-skeleton/blob/8beddc599ea56406abc79d06409f83fcc2cc7350/composer.json#L19-L22" target="_blank" rel="nofollow ugc noopener">laminas/laminas-mvc-skeleton/blob/8beddc599ea56406abc79d06409f83fcc2cc7350/composer.json#L19-L22</a></h4>
+<pre class="onebox"><code class="lang-json"><ol class="start lines" style="counter-reset: li-counter 18 ;" start="19">
+<li>"autoload": {</li>
+<li>    "psr-4": {</li>
+<li>        "Application\\": "module/Application/src/"</li>
+<li>    }</li>
+</ol></code></pre>
+
+
+  </article>
+  <div class="onebox-metadata">
+    
+    
+  </div>
+  <div style="clear: both"></div>
+</aside>
+</p>
+
+<p>If you used new skeleton application as a basis for migration, then yes, it is possible that <code>Module::getAutoloaderConfig()</code> is not used. You would need to enable loader usage in configuration as it is turned off by default:<br>
+<aside class="onebox githubblob">
+  <header class="source">
+      <a href="https://github.com/laminas/laminas-mvc-skeleton/blob/8beddc599ea56406abc79d06409f83fcc2cc7350/config/application.config.php#L16" target="_blank" rel="nofollow ugc noopener">github.com</a>
+  </header>
+  <article class="onebox-body">
+    <h4><a href="https://github.com/laminas/laminas-mvc-skeleton/blob/8beddc599ea56406abc79d06409f83fcc2cc7350/config/application.config.php#L16" target="_blank" rel="nofollow ugc noopener">laminas/laminas-mvc-skeleton/blob/8beddc599ea56406abc79d06409f83fcc2cc7350/config/application.config.php#L16</a></h4>
+<pre class="onebox"><code class="lang-php"><ol class="start lines" style="counter-reset: li-counter 5 ;" start="6">
+<li>* @see https://docs.laminas.dev/tutorials/advanced-config/#environment-specific-system-configuration</li>
+<li>* @see https://docs.laminas.dev/tutorials/advanced-config/#environment-specific-application-configuration</li>
+<li>*/</li>
+<li>return [</li>
+<li>   // Retrieve list of modules used in this application.</li>
+<li>   'modules' =&gt; require __DIR__ . '/modules.config.php',</li>
+<li>
+</li><li>   // These are various options for the listeners attached to the ModuleManager</li>
+<li>   'module_listener_options' =&gt; [</li>
+<li>       // use composer autoloader instead of laminas-loader</li>
+<li class="selected">       'use_laminas_loader' =&gt; false,</li>
+<li>       </li>
+<li>       // An array of paths from which to glob configuration files after</li>
+<li>       // modules are loaded. These effectively override configuration</li>
+<li>       // provided by modules themselves. Paths may use GLOB_BRACE notation.</li>
+<li>       'config_glob_paths' =&gt; [</li>
+<li>           realpath(__DIR__) . '/autoload/{{,*.}global,{,*.}local}.php',</li>
+<li>       ],</li>
+<li>
+</li><li>       // Whether or not to enable a configuration cache.</li>
+<li>       // If enabled, the merged configuration will be cached and used in</li>
+</ol></code></pre>
+
+
+  </article>
+  <div class="onebox-metadata">
+    
+    
+  </div>
+  <div style="clear: both"></div>
+</aside></p>
