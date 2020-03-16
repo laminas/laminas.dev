@@ -9,6 +9,7 @@ use App\Slack\HtmlToSlackFormatter;
 
 use function array_key_exists;
 use function ltrim;
+use function preg_replace;
 use function sprintf;
 
 class DiscoursePost
@@ -102,7 +103,7 @@ class DiscoursePost
                 'type' => 'section',
                 'text' => [
                     'type' => TextObject::TYPE_MARKDOWN,
-                    'text' => (new HtmlToSlackFormatter())->format($post['cooked']),
+                    'text' => $this->prepareText($post['cooked']),
                 ],
             ],
             $this->createFieldsBlock($post),
@@ -157,5 +158,22 @@ class DiscoursePost
                 ],
             ],
         ];
+    }
+
+    /**
+     * Normalize links to Discourse.
+     *
+     * For some reason, Discourse does not provide fully-qualified URLs in its
+     * API payloads, only paths, so we need to find links to such resources and
+     * prepend the base URL to them.
+     */
+    private function prepareText(string $text): string
+    {
+        $formatted = (new HtmlToSlackFormatter())->format($text);
+        return preg_replace(
+            '#<(?!https?://)([^|>]+)\|([^>]+)\>#',
+            '<' . $this->discourseUrl . '\1|\2>',
+            $formatted
+        );
     }
 }
