@@ -8,6 +8,8 @@ use App\Slack\Domain\TextObject;
 use Assert\AssertionFailedException;
 use PHPUnit\Framework\TestCase;
 
+use function str_repeat;
+
 class TextObjectTest extends TestCase
 {
     public function testInvalidatesTextObjectIfTypeIsUnknown(): void
@@ -65,6 +67,18 @@ class TextObjectTest extends TestCase
         $this->assertSame([
             'type'     => TextObject::TYPE_MARKDOWN,
             'text'     => ' ',
+            'verbatim' => true,
+        ], $text->toArray());
+    }
+
+    public function testTruncatesTextLongerThan3000Characters(): void
+    {
+        $string         = str_repeat('abcde', 601);
+        $text           = new TextObject($string);
+        $expectedString = str_repeat('abcde', 599) . 'ab...';
+        $this->assertSame([
+            'type'     => TextObject::TYPE_MARKDOWN,
+            'text'     => $expectedString,
             'verbatim' => true,
         ], $text->toArray());
     }

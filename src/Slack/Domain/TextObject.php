@@ -9,6 +9,8 @@ use Assert\InvalidArgumentException;
 use function array_key_exists;
 use function in_array;
 use function sprintf;
+use function strlen;
+use function substr;
 
 class TextObject implements ElementInterface
 {
@@ -70,7 +72,10 @@ class TextObject implements ElementInterface
 
     public function toArray(): array
     {
-        $text = empty($this->text) ? ' ' : $this->text;
+        $text           = empty($this->text) ? ' ' : $this->text;
+        $text           = strlen($text) > 3000
+            ? substr($text, 0, 2997) . '...'
+            : $text;
         $representation = [
             'type' => $this->type,
             'text' => $text,
