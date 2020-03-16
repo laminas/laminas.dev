@@ -70,9 +70,10 @@ class TextObject implements ElementInterface
 
     public function toArray(): array
     {
+        $text = empty($this->text) ? ' ' : $this->text;
         $representation = [
             'type' => $this->type,
-            'text' => $this->text,
+            'text' => $text,
         ];
 
         if ($this->type === self::TYPE_MARKDOWN && $this->renderReferencesVerbatim) {

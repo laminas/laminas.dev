@@ -58,4 +58,14 @@ class TextObjectTest extends TestCase
         $text = TextObject::fromArray($definition);
         $this->assertSame($expected, $text->toArray());
     }
+
+    public function testEmptyTextIsRenderedAsASingleSpace(): void
+    {
+        $text = new TextObject('');
+        $this->assertSame([
+            'type'     => TextObject::TYPE_MARKDOWN,
+            'text'     => ' ',
+            'verbatim' => true,
+        ], $text->toArray());
+    }
 }
