@@ -23,6 +23,10 @@ return [
         'secret' => getenv('DISCOURSE_SECRET'),
     ],
 
+    'getlaminas'   => [
+        'token' => getenv('LAMINAS_API_TOKEN'),
+    ],
+
     'github' => [
         'secret' => getenv('GITHUB_SECRET'),
         'token'  => getenv('GITHUB_TOKEN'),
@@ -50,6 +54,17 @@ return [
         ],
         'signing_secret' => getenv('SLACK_SIGNING_SECRET'),
         'token'          => getenv('SLACK_TOKEN'),
+    ],
+
+    'twitter' => [
+        'access_token'        => [
+            'token'  => getenv('TWITTER_ACCESS_TOKEN'),
+            'secret' => getenv('TWITTER_ACCESS_SECRET'),
+        ],
+        'oauth_options'       => [
+            'consumerKey'    => getenv('TWITTER_CONSUMER_KEY'),
+            'consumerSecret' => getenv('TWITTER_CONSUMER_SECRET'),
+        ],
     ],
 
     'mezzio-swoole' => [
