@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace AppTest\Discourse\Event;
 
 use App\Discourse\Event\DiscoursePost;

@@ -13,7 +13,7 @@ class DividerBlock implements BlockInterface
 
     public function validate(): void
     {
-        return;
+        // no-op
     }
 
     public function toArray(): array

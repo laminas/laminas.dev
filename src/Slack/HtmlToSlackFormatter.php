@@ -128,7 +128,7 @@ class HtmlToSlackFormatter
                     }
 
                     return $this->traverseNode($node);
-                    break;
+
                 default:
                     break;
             }
