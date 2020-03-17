@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\GitHub\Event;
 
 use App\Slack\Domain\TextObject;
+use App\Slack\MarkdownToSlackFormatter;
 use Assert\Assert;
 
 use function in_array;
@@ -96,7 +97,7 @@ final class GitHubPullRequest extends AbstractGitHubEvent
                 'type' => 'section',
                 'text' => [
                     'type' => TextObject::TYPE_MARKDOWN,
-                    'text' => $pr['body'],
+                    'text' => (new MarkdownToSlackFormatter())->format($pr['body']),
                 ],
             ];
         }

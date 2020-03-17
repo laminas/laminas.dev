@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\GitHub\Event;
 
 use App\Slack\Domain\TextObject;
+use App\Slack\MarkdownToSlackFormatter;
 use Assert\Assert;
 
 use function in_array;
@@ -85,7 +86,7 @@ final class GitHubIssue extends AbstractGitHubEvent
                 'type' => 'section',
                 'text' => [
                     'type' => TextObject::TYPE_MARKDOWN,
-                    'text' => $issue['body'],
+                    'text' => (new MarkdownToSlackFormatter())->format($issue['body']),
                 ],
             ],
             $this->createFieldsBlock($payload['action'], $repo, $author),

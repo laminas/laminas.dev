@@ -10,6 +10,7 @@ use App\Slack\Domain\ContextBlock;
 use App\Slack\Domain\SectionBlock;
 use App\Slack\Domain\TextObject;
 use App\Slack\Domain\WebAPIMessage;
+use App\Slack\MarkdownToSlackFormatter;
 use App\Slack\Response\SlackResponseInterface;
 use App\Slack\SlackClientInterface;
 use PHPUnit\Framework\TestCase;
@@ -53,7 +54,10 @@ class GitHubReleaseSlackListenerTest extends TestCase
                 $body = $blocks[1];
                 TestCase::assertInstanceOf(SectionBlock::class, $body);
                 $text = $body->getText();
-                TestCase::assertSame($payload['release']['body'], $text->toArray()['text']);
+                TestCase::assertSame(
+                    (new MarkdownToSlackFormatter())->format($payload['release']['body']),
+                    $text->toArray()['text']
+                );
 
                 $fields = $blocks[2];
                 TestCase::assertInstanceOf(SectionBlock::class, $fields);
