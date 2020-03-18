@@ -65,6 +65,7 @@ return [
             'consumerKey'    => getenv('TWITTER_CONSUMER_KEY'),
             'consumerSecret' => getenv('TWITTER_CONSUMER_SECRET'),
         ],
+        'tweet_verification_token' => getenv('TWEET_VERIFICATION_TOKEN'),
     ],
 
     'mezzio-swoole' => [

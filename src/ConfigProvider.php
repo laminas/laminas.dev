@@ -76,6 +76,7 @@ class ConfigProvider
                         CURLOPT_SSL_VERIFYPEER => false,
                     ],
                 ],
+                'tweet_verification_token' => '',
             ],
         ];
     }
@@ -158,6 +159,8 @@ class ConfigProvider
                 Slack\SlashCommand\SlashCommandResponseFactory::class         => Slack\SlashCommand\SlashCommandResponseFactoryFactory::class,
                 Slack\SlashCommand\SlashCommands::class                       => Slack\SlashCommand\SlashCommandsFactory::class,
                 Slack\SlashCommand\TweetCommand::class                        => Slack\SlashCommand\TweetCommandFactory::class,
+                Twitter\TweetHandler::class                                   => Twitter\TweetHandlerFactory::class,
+                Twitter\VerificationMiddleware::class                         => Twitter\VerificationMiddlewareFactory::class,
                 StreamFactory::class                                          => InvokableFactory::class,
                 SwooleLoggerFactory::SWOOLE_LOGGER                            => Factory\AccessLogFactory::class,
                 TwitterClient::class                                          => Factory\TwitterClientFactory::class,
@@ -204,5 +207,13 @@ class ConfigProvider
             Slack\Middleware\VerificationMiddleware::class,
             Slack\Middleware\SlashCommandHandler::class,
         ], 'api.slack');
+
+        $app->post('/api/twitter/{token:[^/]+}', [
+            $initialMiddleware,
+            ProblemDetailsMiddleware::class,
+            BodyParamsMiddleware::class,
+            Twitter\VerificationMiddleware::class,
+            Twitter\TweetHandler::class,
+        ], 'api.twitter');
     }
 }
