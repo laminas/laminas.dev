@@ -19,6 +19,7 @@ class SlashCommandsFactory
         $commands->attach($container->get(BuildDocsCommand::class));
         $commands->attach($container->get(RegenerateAuthorizedUserListCommand::class));
         $commands->attach($container->get(RegisterRepoCommand::class));
+        $commands->attach($container->get(RetweetCommand::class));
         $commands->attach($container->get(TweetCommand::class));
 
         return $commands;
