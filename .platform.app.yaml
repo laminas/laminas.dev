@@ -31,7 +31,7 @@ hooks:
     echo "- Installing application dependencies"
     composer install --ignore-platform-reqs --no-ansi --no-dev --no-interaction --no-scripts --no-plugins --optimize-autoloader
   deploy: |
-    rm -f data/cache/config-cache.php
+    rm -rf data/cache/*
 
 crons:
     snapshot:
