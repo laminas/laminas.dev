@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Slack\Listener;
 
 use App\Slack\SlackClientInterface;
+use Laminas\Twitter\Twitter;
 use Psr\Container\ContainerInterface;
 
 class RetweetListenerFactory

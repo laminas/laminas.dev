@@ -6,6 +6,7 @@ namespace App\Slack\Listener;
 
 use App\HttpClientInterface;
 use App\Slack\SlackClientInterface;
+use Laminas\Twitter\Twitter;
 use Psr\Container\ContainerInterface;
 
 class TweetListenerFactory
