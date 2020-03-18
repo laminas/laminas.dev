@@ -112,6 +112,7 @@ class ConfigProvider
                 GitHub\Listener\GitHubReleaseWebsiteUpdateListener::class  => [DeferredServiceListenerDelegator::class],
                 GitHub\Listener\GitHubStatusListener::class                => [DeferredServiceListenerDelegator::class],
                 GitHub\Listener\RegisterWebhookListener::class             => [DeferredServiceListenerDelegator::class],
+                Slack\Listener\TweetListener::class                        => [DeferredServiceListenerDelegator::class],
                 Slack\Listener\RegenerateAuthorizedUserListListener::class => [DeferredServiceListenerDelegator::class],
             ],
 
@@ -142,6 +143,7 @@ class ConfigProvider
                 RequestFactory::class                                         => InvokableFactory::class,
                 ResponseFactory::class                                        => InvokableFactory::class,
                 ServerRequestFactory::class                                   => InvokableFactory::class,
+                Slack\Listener\TweetListener::class                           => Slack\Listener\TweetListenerFactory::class,
                 Slack\Listener\RegenerateAuthorizedUserListListener::class    => Slack\Listener\RegenerateAuthorizedUserListListenerFactory::class,
                 Slack\Middleware\VerificationMiddleware::class                => Slack\Middleware\VerificationMiddlewareFactory::class,
                 Slack\Middleware\SlashCommandHandler::class                   => Slack\Middleware\SlashCommandHandlerFactory::class,
@@ -152,6 +154,7 @@ class ConfigProvider
                 Slack\SlashCommand\RegisterRepoCommand::class                 => Slack\SlashCommand\RegisterRepoCommandFactory::class,
                 Slack\SlashCommand\SlashCommandResponseFactory::class         => Slack\SlashCommand\SlashCommandResponseFactoryFactory::class,
                 Slack\SlashCommand\SlashCommands::class                       => Slack\SlashCommand\SlashCommandsFactory::class,
+                Slack\SlashCommand\TweetCommand::class                        => Slack\SlashCommand\TweetCommandFactory::class,
                 StreamFactory::class                                          => InvokableFactory::class,
                 SwooleLoggerFactory::SWOOLE_LOGGER                            => Factory\AccessLogFactory::class,
                 TwitterClient::class                                          => Factory\TwitterClientFactory::class,

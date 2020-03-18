@@ -17,6 +17,7 @@ class ListenerProviderDelegatorFactory
             Event\RegenerateAuthorizedUserList::class,
             $container->get(Listener\RegenerateAuthorizedUserListListener::class)
         );
+        $provider->listen(Event\Tweet::class, $container->get(Listener\TweetListener::class));
         return $provider;
     }
 }
