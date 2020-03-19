@@ -149,7 +149,7 @@ class TweetListener
             return null;
         }
 
-        return $response->media_id;
+        return (string) $response->media_id;
     }
 
     private function determineImageType(Tweet $tweet): ?string
