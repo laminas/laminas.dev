@@ -118,7 +118,7 @@ class TweetCommandTest extends TestCase
         $media = 'media:https://getlaminas.org/images/logo/trademark-laminas-144x144.png';
         yield 'message-only'                 => ['this is a message'];
         yield 'message-with-media-preceding' => [$media . ' this is a message'];
-        yield 'message-with-media-following' => ['this is a message ' . $message];
+        yield 'message-with-media-following' => ['this is a message ' . $media];
     }
 
     /** @dataProvider validMessages */
