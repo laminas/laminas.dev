@@ -21,7 +21,7 @@ class TweetHandlerTest extends TestCase
         $body = [
             'text'      => 'This is the message',
             'url'       => 'https://twitter.com/getlaminas/status/1240620908454326274',
-            'timestamp' => '2020-03-19T11:29:12-05:00',
+            'timestamp' => 'March 19, 2020 at 11:29AM',
         ];
 
         $dispatcher      = $this->prophesize(EventDispatcherInterface::class);
@@ -36,7 +36,7 @@ class TweetHandlerTest extends TestCase
                 /** @var Tweet $tweet */
                 TestCase::assertSame($body['text'], $tweet->message());
                 TestCase::assertSame($body['url'], $tweet->url());
-                TestCase::assertEquals(new DateTimeImmutable($body['timestamp']), $tweet->timestamp());
+                TestCase::assertEquals(new DateTimeImmutable('March 19, 2020 11:29AM'), $tweet->timestamp());
 
                 return $tweet;
             }))
