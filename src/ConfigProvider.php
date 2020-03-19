@@ -117,7 +117,7 @@ class ConfigProvider
                 Slack\Listener\RegenerateAuthorizedUserListListener::class => [DeferredServiceListenerDelegator::class],
                 Slack\Listener\RetweetListener::class                      => [DeferredServiceListenerDelegator::class],
                 Slack\Listener\TweetListener::class                        => [DeferredServiceListenerDelegator::class],
-                Slack\Listener\TwitterReplyListener::class                 => [DeferredServiceListenerDelegator],
+                Slack\Listener\TwitterReplyListener::class                 => [DeferredServiceListenerDelegator::class],
                 Twitter\TweetListener::class                               => [DeferredServiceListenerDelegator::class],
             ],
 
