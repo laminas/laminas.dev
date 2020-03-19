@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Twitter;
 
 use Psr\Container\ContainerInterface;
+use Psr\EventDispatcher\EventDispatcherInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
-use Psr\Log\LoggerInterface;
 
 class TweetHandlerFactory
 {
@@ -14,7 +14,7 @@ class TweetHandlerFactory
     {
         return new TweetHandler(
             $container->get(ResponseFactoryInterface::class),
-            $container->get(LoggerInterface::class)
+            $container->get(EventDispatcherInterface::class)
         );
     }
 }

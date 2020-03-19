@@ -61,15 +61,15 @@ class ConfigProvider
                 'token'          => '',
             ],
             'twitter'      => [
-                'access_token'        => [
+                'access_token'             => [
                     'token'  => '',
                     'secret' => '',
                 ],
-                'oauth_options'       => [
+                'oauth_options'            => [
                     'consumerKey'    => '',
                     'consumerSecret' => '',
                 ],
-                'http_client_options' => [
+                'http_client_options'      => [
                     'adapter'     => Curl::class,
                     'curloptions' => [
                         CURLOPT_SSL_VERIFYHOST => false,
@@ -102,6 +102,7 @@ class ConfigProvider
                     Discourse\ListenerProviderDelegatorFactory::class,
                     GitHub\ListenerProviderDelegatorFactory::class,
                     Slack\ListenerProviderDelegatorFactory::class,
+                    Twitter\ListenerProviderDelegatorFactory::class,
                 ],
                 Discourse\Listener\DiscoursePostListener::class            => [DeferredServiceListenerDelegator::class],
                 GitHub\Listener\DocsBuildActionListener::class             => [DeferredServiceListenerDelegator::class],
@@ -116,6 +117,7 @@ class ConfigProvider
                 Slack\Listener\RegenerateAuthorizedUserListListener::class => [DeferredServiceListenerDelegator::class],
                 Slack\Listener\RetweetListener::class                      => [DeferredServiceListenerDelegator::class],
                 Slack\Listener\TweetListener::class                        => [DeferredServiceListenerDelegator::class],
+                Twitter\TweetListener::class                               => [DeferredServiceListenerDelegator::class],
             ],
 
             'factories' => [
@@ -160,6 +162,7 @@ class ConfigProvider
                 Slack\SlashCommand\SlashCommands::class                       => Slack\SlashCommand\SlashCommandsFactory::class,
                 Slack\SlashCommand\TweetCommand::class                        => Slack\SlashCommand\TweetCommandFactory::class,
                 Twitter\TweetHandler::class                                   => Twitter\TweetHandlerFactory::class,
+                Twitter\TweetListener::class                                  => Twitter\TweetListenerFactory::class,
                 Twitter\VerificationMiddleware::class                         => Twitter\VerificationMiddlewareFactory::class,
                 StreamFactory::class                                          => InvokableFactory::class,
                 SwooleLoggerFactory::SWOOLE_LOGGER                            => Factory\AccessLogFactory::class,

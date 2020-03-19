@@ -57,11 +57,11 @@ return [
     ],
 
     'twitter' => [
-        'access_token'  => [
+        'access_token'             => [
             'token'  => getenv('TWITTER_ACCESS_TOKEN'),
             'secret' => getenv('TWITTER_ACCESS_SECRET'),
         ],
-        'oauth_options' => [
+        'oauth_options'            => [
             'consumerKey'    => getenv('TWITTER_CONSUMER_KEY'),
             'consumerSecret' => getenv('TWITTER_CONSUMER_SECRET'),
         ],
