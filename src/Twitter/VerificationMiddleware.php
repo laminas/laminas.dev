@@ -55,7 +55,7 @@ class VerificationMiddleware implements MiddlewareInterface
         Assert::that($data['text'])->string()->notEmpty();
 
         Assert::that($data)->keyIsset('url');
-        Assert::that($data['url'])->url()->regex('#^https://twitter.com#');
+        Assert::that($data['url'])->url()->regex('#^https?://twitter.com/[^/]+/status/[^/]+$#');
 
         Assert::that($data)->keyIsset('timestamp');
     }
