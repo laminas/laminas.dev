@@ -46,7 +46,7 @@ class TweetListener
             'elements' => [
                 [
                     'type'      => 'image',
-                    'image_url' => 'https://getlaminas.org/img/twitter-icon.png',
+                    'image_url' => 'https://laminas.dev/img/twitter-icon.png',
                     'alt_text'  => 'Twitter',
                 ],
                 [
