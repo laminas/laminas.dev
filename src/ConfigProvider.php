@@ -117,6 +117,7 @@ class ConfigProvider
                 Slack\Listener\RegenerateAuthorizedUserListListener::class => [DeferredServiceListenerDelegator::class],
                 Slack\Listener\RetweetListener::class                      => [DeferredServiceListenerDelegator::class],
                 Slack\Listener\TweetListener::class                        => [DeferredServiceListenerDelegator::class],
+                Slack\Listener\TwitterReplyListener::class                 => [DeferredServiceListenerDelegator],
                 Twitter\TweetListener::class                               => [DeferredServiceListenerDelegator::class],
             ],
 
@@ -150,6 +151,7 @@ class ConfigProvider
                 Slack\Listener\RegenerateAuthorizedUserListListener::class    => Slack\Listener\RegenerateAuthorizedUserListListenerFactory::class,
                 Slack\Listener\RetweetListener::class                         => Slack\Listener\RetweetListenerFactory::class,
                 Slack\Listener\TweetListener::class                           => Slack\Listener\TweetListenerFactory::class,
+                Slack\Listener\TwitterReplyListener::class                    => Slack\Listener\TwitterReplyListenerFactory::class,
                 Slack\Middleware\VerificationMiddleware::class                => Slack\Middleware\VerificationMiddlewareFactory::class,
                 Slack\Middleware\SlashCommandHandler::class                   => Slack\Middleware\SlashCommandHandlerFactory::class,
                 Slack\SlackClientInterface::class                             => Slack\SlackClientFactory::class,
@@ -161,6 +163,7 @@ class ConfigProvider
                 Slack\SlashCommand\SlashCommandResponseFactory::class         => Slack\SlashCommand\SlashCommandResponseFactoryFactory::class,
                 Slack\SlashCommand\SlashCommands::class                       => Slack\SlashCommand\SlashCommandsFactory::class,
                 Slack\SlashCommand\TweetCommand::class                        => Slack\SlashCommand\TweetCommandFactory::class,
+                Slack\SlashCommand\TwitterReplyCommand::class                 => Slack\SlashCommand\TwitterReplyCommandFactory::class,
                 Twitter\TweetHandler::class                                   => Twitter\TweetHandlerFactory::class,
                 Twitter\TweetListener::class                                  => Twitter\TweetListenerFactory::class,
                 Twitter\VerificationMiddleware::class                         => Twitter\VerificationMiddlewareFactory::class,

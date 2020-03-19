@@ -21,6 +21,7 @@ class SlashCommandsFactory
         $commands->attach($container->get(RegisterRepoCommand::class));
         $commands->attach($container->get(RetweetCommand::class));
         $commands->attach($container->get(TweetCommand::class));
+        $commands->attach($container->get(TwitterReplyCommand::class));
 
         return $commands;
     }
