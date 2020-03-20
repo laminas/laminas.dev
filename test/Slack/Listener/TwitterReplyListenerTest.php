@@ -48,7 +48,7 @@ class TwitterReplyListenerTest extends TestCase
             ->post(
                 'statuses/update',
                 [
-                    'status'                => 'This is the message',
+                    'status'                => '@getlaminas This is the message',
                     'in_reply_to_status_id' => '1239539812941651968',
                     'username'              => '@getlaminas',
                 ]
@@ -84,7 +84,7 @@ class TwitterReplyListenerTest extends TestCase
             ->post(
                 'statuses/update',
                 [
-                    'status'                => 'This is the message',
+                    'status'                => '@getlaminas This is the message',
                     'in_reply_to_status_id' => '1239539812941651968',
                     'username'              => '@getlaminas',
                 ]

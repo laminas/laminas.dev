@@ -39,7 +39,7 @@ class TwitterReplyListener
         try {
             $replyTo = $this->discoverReplyUsername($replyUrl);
             $this->twitter->post('statuses/update', [
-                'status'                => $twitterReply->message(),
+                'status'                => sprintf('@%s %s', $replyTo, $twitterReply->message()),
                 'in_reply_to_status_id' => $this->getReplyId($replyUrl),
                 'username'              => sprintf('@%s', $replyTo),
             ]);
