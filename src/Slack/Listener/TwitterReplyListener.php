@@ -8,11 +8,13 @@ use App\Slack\Domain\SlashResponseMessage;
 use App\Slack\Event\TwitterReply;
 use App\Slack\SlackClientInterface;
 use Laminas\Twitter\Twitter;
+use RuntimeException;
 use Throwable;
 
 use function array_pop;
 use function explode;
 use function parse_url;
+use function preg_match;
 use function sprintf;
 
 use const PHP_URL_PATH;
@@ -35,10 +37,12 @@ class TwitterReplyListener
     {
         $replyUrl = $twitterReply->replyUrl();
         try {
-            $this->twitter->statusesUpdate(
-                $twitterReply->message(),
-                $this->getReplyId($replyUrl)
-            );
+            $replyTo = $this->discoverReplyUsername($replyUrl);
+            $this->twitter->post('statuses/update', [
+                'status'             => $twitterReply->message(),
+                'in_reply_to_status' => $this->getReplyId($replyUrl),
+                'username'           => sprintf('@%s', $replyTo),
+            ]);
         } catch (Throwable $e) {
             $this->notifySlack(sprintf(
                 '*ERROR* Failed to send Twitter reply to %s',
@@ -51,6 +55,16 @@ class TwitterReplyListener
             'Twitter reply sent to %s',
             $replyUrl
         ), $twitterReply->responseUrl());
+    }
+
+    /** @throws RuntimeException */
+    private function discoverReplyUsername(string $url): string
+    {
+        $matches = [];
+        if (! preg_match('#^https?://twitter.com/(?P<user>[^/]+)/status/[^/]+$#', $url, $matches)) {
+            throw new RuntimeException('Invalid reply-to URL provided!');
+        }
+        return $matches['user'];
     }
 
     private function getReplyId(string $url): string

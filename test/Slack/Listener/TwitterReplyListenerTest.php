@@ -45,7 +45,14 @@ class TwitterReplyListenerTest extends TestCase
         $exception = new RuntimeException('error');
 
         $this->twitter
-            ->statusesUpdate('This is the message', '1239539812941651968')
+            ->post(
+                'statuses/update',
+                [
+                    'status'             => 'This is the message',
+                    'in_reply_to_status' => '1239539812941651968',
+                    'username'           => '@getlaminas',
+                ]
+            )
             ->willThrow($exception)
             ->shouldBeCalled();
 
@@ -74,7 +81,14 @@ class TwitterReplyListenerTest extends TestCase
         $exception = new RuntimeException('error');
 
         $this->twitter
-            ->statusesUpdate('This is the message', '1239539812941651968')
+            ->post(
+                'statuses/update',
+                [
+                    'status'             => 'This is the message',
+                    'in_reply_to_status' => '1239539812941651968',
+                    'username'           => '@getlaminas',
+                ]
+            )
             ->shouldBeCalled();
 
         $this->slack
