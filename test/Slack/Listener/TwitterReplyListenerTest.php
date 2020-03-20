@@ -48,9 +48,9 @@ class TwitterReplyListenerTest extends TestCase
             ->post(
                 'statuses/update',
                 [
-                    'status'             => 'This is the message',
-                    'in_reply_to_status' => '1239539812941651968',
-                    'username'           => '@getlaminas',
+                    'status'                => 'This is the message',
+                    'in_reply_to_status_id' => '1239539812941651968',
+                    'username'              => '@getlaminas',
                 ]
             )
             ->willThrow($exception)
@@ -84,9 +84,9 @@ class TwitterReplyListenerTest extends TestCase
             ->post(
                 'statuses/update',
                 [
-                    'status'             => 'This is the message',
-                    'in_reply_to_status' => '1239539812941651968',
-                    'username'           => '@getlaminas',
+                    'status'                => 'This is the message',
+                    'in_reply_to_status_id' => '1239539812941651968',
+                    'username'              => '@getlaminas',
                 ]
             )
             ->shouldBeCalled();

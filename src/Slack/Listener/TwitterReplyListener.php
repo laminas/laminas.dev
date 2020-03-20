@@ -39,9 +39,9 @@ class TwitterReplyListener
         try {
             $replyTo = $this->discoverReplyUsername($replyUrl);
             $this->twitter->post('statuses/update', [
-                'status'             => $twitterReply->message(),
-                'in_reply_to_status' => $this->getReplyId($replyUrl),
-                'username'           => sprintf('@%s', $replyTo),
+                'status'                => $twitterReply->message(),
+                'in_reply_to_status_id' => $this->getReplyId($replyUrl),
+                'username'              => sprintf('@%s', $replyTo),
             ]);
         } catch (Throwable $e) {
             $this->notifySlack(sprintf(
