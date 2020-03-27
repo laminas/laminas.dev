@@ -76,7 +76,7 @@ class TwitterReplyCommand implements SlashCommandInterface
         return null;
     }
 
-    public function dispatch(SlashCommandRequest $request): ResponseInterface
+    public function dispatch(SlashCommandRequest $request): ?ResponseInterface
     {
         $text = trim($request->text());
         $this->dispatcher->dispatch(new TwitterReply(
@@ -84,7 +84,7 @@ class TwitterReplyCommand implements SlashCommandInterface
             $this->parseMessageFromText($text),
             $request->responseUrl()
         ));
-        return $this->responseFactory->createResponse('Reply queued');
+        return null;
     }
 
     private function parseMessageFromText(string $text): string

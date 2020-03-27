@@ -133,11 +133,10 @@ class TwitterReplyCommandTest extends TestCase
         );
     }
 
-    public function testDispatchCreatesAndDispatchesTwitterReplyEventAndReturnsQueueResponse(): void
+    public function testDispatchCreatesAndDispatchesTwitterReplyEventAndReturnsNull(): void
     {
         $message     = 'https://twitter.com/getlaminas/status/1239539812941651968 This is the message';
         $responseUrl = 'http://localhost:9000/api/slack';
-        $response    = $this->prophesize(ResponseInterface::class)->reveal();
 
         $this->request->text()->willReturn($message)->shouldBeCalled();
         $this->request->responseUrl()->willReturn($responseUrl)->shouldBeCalled();
@@ -154,8 +153,8 @@ class TwitterReplyCommandTest extends TestCase
             }))
             ->shouldBeCalled();
 
-        $this->responseFactory->createResponse('Reply queued')->willReturn($response)->shouldBeCalled();
+        $this->responseFactory->createResponse(Argument::any())->shouldNotBeCalled();
 
-        $this->assertSame($response, $this->command->dispatch($this->request->reveal()));
+        $this->assertNull($this->command->dispatch($this->request->reveal()));
     }
 }

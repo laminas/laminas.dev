@@ -11,17 +11,13 @@ use App\Slack\SlashCommand\SlashCommandResponseFactory;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Psr\EventDispatcher\EventDispatcherInterface;
-use Psr\Http\Message\ResponseInterface;
-
-use function sprintf;
 
 class BuildDocsCommandTest extends TestCase
 {
-    public function testDispatchesDocsBuildActionWithRequestDataAndReturnsResponse(): void
+    public function testDispatchesDocsBuildActionWithRequestDataAndReturnsNull(): void
     {
         $repo        = 'laminas/laminas-repo-of-some-sort';
         $responseUrl = 'https://hooks.slack.com/services/T00000000/B00000000/XXXXXXXXXXXXXXXXXXXXXXXX';
-        $response    = $this->prophesize(ResponseInterface::class)->reveal();
 
         $request = $this->prophesize(SlashCommandRequest::class);
         $request->text()->willReturn($repo)->shouldBeCalled();
@@ -38,15 +34,14 @@ class BuildDocsCommandTest extends TestCase
 
         $responseFactory = $this->prophesize(SlashCommandResponseFactory::class);
         $responseFactory
-            ->createResponse(sprintf('Documentation build for %s queued', $repo))
-            ->willReturn($response)
-            ->shouldBeCalled();
+            ->createResponse(Argument::any())
+            ->shouldNotBeCalled();
 
         $command = new BuildDocsCommand(
             $responseFactory->reveal(),
             $dispatcher->reveal()
         );
 
-        $this->assertSame($response, $command->dispatch($request->reveal()));
+        $this->assertNull($command->dispatch($request->reveal()));
     }
 }

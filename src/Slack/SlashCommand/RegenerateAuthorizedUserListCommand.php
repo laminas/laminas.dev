@@ -60,10 +60,9 @@ class RegenerateAuthorizedUserListCommand implements SlashCommandInterface
         return null;
     }
 
-    public function dispatch(SlashCommandRequest $request): ResponseInterface
+    public function dispatch(SlashCommandRequest $request): ?ResponseInterface
     {
         $this->dispatcher->dispatch(new RegenerateAuthorizedUserList($request->responseUrl()));
-
-        return $this->responseFactory->createResponse('Triggered rebuild of authorized user list');
+        return null;
     }
 }

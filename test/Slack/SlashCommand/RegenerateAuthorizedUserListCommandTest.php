@@ -11,14 +11,12 @@ use App\Slack\SlashCommand\SlashCommandResponseFactory;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Psr\EventDispatcher\EventDispatcherInterface;
-use Psr\Http\Message\ResponseInterface;
 
 class RegenerateAuthorizedUserListCommandTest extends TestCase
 {
-    public function testDispatchesRegenerateAuthorizedUserListWithRequestDataAndReturnsResponse(): void
+    public function testDispatchesRegenerateAuthorizedUserListWithRequestDataAndReturnsNull(): void
     {
         $responseUrl = 'https://hooks.slack.com/services/T00000000/B00000000/XXXXXXXXXXXXXXXXXXXXXXXX';
-        $response    = $this->prophesize(ResponseInterface::class)->reveal();
 
         $request = $this->prophesize(SlashCommandRequest::class);
         $request->text()->shouldNotBeCalled();
@@ -36,15 +34,14 @@ class RegenerateAuthorizedUserListCommandTest extends TestCase
 
         $responseFactory = $this->prophesize(SlashCommandResponseFactory::class);
         $responseFactory
-            ->createResponse('Triggered rebuild of authorized user list')
-            ->willReturn($response)
-            ->shouldBeCalled();
+            ->createResponse(Argument::any())
+            ->shouldNotBeCalled();
 
         $command = new RegenerateAuthorizedUserListCommand(
             $responseFactory->reveal(),
             $dispatcher->reveal()
         );
 
-        $this->assertSame($response, $command->dispatch($request->reveal()));
+        $this->assertNull($command->dispatch($request->reveal()));
     }
 }

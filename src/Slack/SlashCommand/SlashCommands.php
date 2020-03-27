@@ -83,7 +83,7 @@ class SlashCommands
         }
 
         // Dispatch the command with the request
-        return $command->dispatch($request);
+        return $command->dispatch($request) ?: $this->responseFactory->createAcknowledgementResponse();
     }
 
     private function help(): string

@@ -32,5 +32,5 @@ interface SlashCommandInterface
         AuthorizedUserListInterface $authorizedUsers
     ): ?ResponseInterface;
 
-    public function dispatch(SlashCommandRequest $request): ResponseInterface;
+    public function dispatch(SlashCommandRequest $request): ?ResponseInterface;
 }

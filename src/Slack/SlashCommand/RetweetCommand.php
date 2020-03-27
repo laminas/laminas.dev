@@ -64,13 +64,13 @@ class RetweetCommand implements SlashCommandInterface
         return null;
     }
 
-    public function dispatch(SlashCommandRequest $request): ResponseInterface
+    public function dispatch(SlashCommandRequest $request): ?ResponseInterface
     {
         $text = $request->text();
         $this->dispatcher->dispatch(new Retweet(
             trim($request->text()),
             $request->responseUrl()
         ));
-        return $this->responseFactory->createResponse('Retweet queued');
+        return null;
     }
 }

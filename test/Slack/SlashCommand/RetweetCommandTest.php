@@ -119,11 +119,10 @@ class RetweetCommandTest extends TestCase
         );
     }
 
-    public function testDispatchDispatchesRetweetAndSendsConfirmationResponse(): void
+    public function testDispatchDispatchesRetweetAndReturnsNull(): void
     {
         $url         = 'https://twitter.com/getlaminas/status/1239539812941651968';
         $responseUrl = 'http://localhost:9000/api/slack';
-        $response    = $this->prophesize(ResponseInterface::class)->reveal();
 
         $this->request->text()->willReturn($url)->shouldBeCalled();
         $this->request->responseUrl()->willReturn($responseUrl)->shouldBeCalled();
@@ -138,11 +137,8 @@ class RetweetCommandTest extends TestCase
             }))
             ->shouldBeCalled();
 
-        $this->responseFactory->createResponse('Retweet queued')->willReturn($response)->shouldBeCalled();
+        $this->responseFactory->createResponse(Argument::any())->shouldNotBeCalled();
 
-        $this->assertSame(
-            $response,
-            $this->command->dispatch($this->request->reveal())
-        );
+        $this->assertNull($this->command->dispatch($this->request->reveal()));
     }
 }

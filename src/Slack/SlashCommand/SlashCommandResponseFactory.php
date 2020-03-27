@@ -32,6 +32,11 @@ class SlashCommandResponseFactory
         $this->streamFactory   = $streamFactory;
     }
 
+    public function createAcknowledgementResponse(): ResponseInterface
+    {
+        return $this->responseFactory->createResponse(200);
+    }
+
     public function createResponse(string $text, int $status = 200): ResponseInterface
     {
         $context = new ContextBlock();
@@ -54,7 +59,6 @@ class SlashCommandResponseFactory
         ));
 
         return $this->responseFactory->createResponse($status)
-            ->withHeader('Accept', 'application/json; charset=utf-8')
             ->withHeader('Content-Type', 'application/json; charset=utf-8')
             ->withBody($body);
     }

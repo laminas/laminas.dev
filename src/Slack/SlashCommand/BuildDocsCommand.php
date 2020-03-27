@@ -8,7 +8,6 @@ use App\GitHub\Event\DocsBuildAction;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Psr\Http\Message\ResponseInterface;
 
-use function sprintf;
 use function trim;
 
 class BuildDocsCommand implements SlashCommandInterface
@@ -41,10 +40,10 @@ class BuildDocsCommand implements SlashCommandInterface
         return 'Trigger a documentation build for the repository described by {repo}.';
     }
 
-    public function dispatch(SlashCommandRequest $request): ResponseInterface
+    public function dispatch(SlashCommandRequest $request): ?ResponseInterface
     {
         $repo = trim($request->text());
         $this->dispatcher->dispatch(new DocsBuildAction($repo, $request->responseUrl()));
-        return $this->responseFactory->createResponse(sprintf('Documentation build for %s queued', $repo));
+        return null;
     }
 }

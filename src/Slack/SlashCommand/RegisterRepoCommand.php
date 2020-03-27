@@ -8,7 +8,6 @@ use App\GitHub\Event\RegisterWebhook;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Psr\Http\Message\ResponseInterface;
 
-use function sprintf;
 use function trim;
 
 class RegisterRepoCommand implements SlashCommandInterface
@@ -41,13 +40,10 @@ class RegisterRepoCommand implements SlashCommandInterface
         return 'Register the laminas-bot webhook with the repository described by {repo}.';
     }
 
-    public function dispatch(SlashCommandRequest $request): ResponseInterface
+    public function dispatch(SlashCommandRequest $request): ?ResponseInterface
     {
         $repo = trim($request->text());
         $this->dispatcher->dispatch(new RegisterWebhook($repo, $request->responseUrl()));
-        return $this->responseFactory->createResponse(sprintf(
-            'Request to register laminas-bot webhook for %s queued',
-            $repo
-        ));
+        return null;
     }
 }

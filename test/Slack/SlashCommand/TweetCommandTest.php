@@ -143,12 +143,11 @@ class TweetCommandTest extends TestCase
         ));
     }
 
-    public function testDispatchCreatesAndDispatchesTweetAndReturnsResponse(): void
+    public function testDispatchCreatesAndDispatchesTweetAndReturnsNull(): void
     {
         $media       = 'https://getlaminas.org/images/logo/trademark-laminas-144x144.png';
         $message     = 'Some message to tweet';
         $responseUrl = 'https://localhost:9000/api/slack';
-        $response    = $this->prophesize(ResponseInterface::class)->reveal();
 
         $this->request->text()->willReturn(sprintf('media:%s %s', $media, $message))->shouldBeCalled();
         $this->request->responseUrl()->willReturn($responseUrl)->shouldBeCalled();
@@ -166,10 +165,9 @@ class TweetCommandTest extends TestCase
              ->shouldBeCalled();
 
         $this->responseFactory
-            ->createResponse(Argument::containingString('Tweet queued'))
-            ->willReturn($response)
-            ->shouldBeCalled();
+            ->createResponse(Argument::any())
+            ->shouldNotBeCalled();
 
-        $this->assertSame($response, $this->command->dispatch($this->request->reveal()));
+        $this->assertNull($this->command->dispatch($this->request->reveal()));
     }
 }

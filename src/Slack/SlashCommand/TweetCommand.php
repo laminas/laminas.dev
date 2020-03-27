@@ -81,7 +81,7 @@ class TweetCommand implements SlashCommandInterface
         return null;
     }
 
-    public function dispatch(SlashCommandRequest $request): ResponseInterface
+    public function dispatch(SlashCommandRequest $request): ?ResponseInterface
     {
         $text = $request->text();
         $this->dispatcher->dispatch(new Tweet(
@@ -89,7 +89,7 @@ class TweetCommand implements SlashCommandInterface
             $this->discoverMedia($text),
             $request->responseUrl()
         ));
-        return $this->responseFactory->createResponse('Tweet queued');
+        return null;
     }
 
     private function normalizeMessage(string $text): string
