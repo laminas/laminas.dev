@@ -73,6 +73,6 @@ class GitHubClient implements HttpClientInterface
         if (! $this->logger) {
             return;
         }
-        $this->log(sprintf("Sending response to GitHub:\n%s", ResponseSerializer::toString($response)));
+        $this->log(sprintf("Received response from GitHub:\n%s", ResponseSerializer::toString($response)));
     }
 }

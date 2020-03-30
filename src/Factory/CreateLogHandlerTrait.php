@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Factory;
 
 use Monolog\Handler\HandlerInterface;
+use Monolog\Handler\NullHandler;
 use Monolog\Handler\SlackWebhookHandler;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
@@ -16,6 +17,9 @@ trait CreateLogHandlerTrait
     private function createLogHandler(array $config): ?HandlerInterface
     {
         switch ($config['type']) {
+            case NullHandler::class:
+                return new NullHandler();
+
             case StreamHandler::class:
                 return new StreamHandler(
                     $config['stream'],
