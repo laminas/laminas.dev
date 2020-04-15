@@ -34,11 +34,15 @@ class DiscourseHandler implements RequestHandlerInterface
 
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
-        $this->dispatcher->dispatch(new DiscoursePost(
+        $post = new DiscoursePost(
             $request->getAttribute('channel'),
             $request->getParsedBody(),
             $this->discourseUrl
-        ));
+        );
+
+        if ($post->isValidForSlack()) {
+            $this->dispatcher->dispatch($post);
+        }
 
         return $this->responseFactory->createResponse(202);
     }

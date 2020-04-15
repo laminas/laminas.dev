@@ -46,6 +46,11 @@ class DiscoursePost
 
         $post = $this->payload['post'];
 
+        // Only report NEW topics, not comments on existing topics
+        if (isset($post['id']) && $post['id'] > 1) {
+            return false;
+        }
+
         if (array_key_exists('hidden', $post) && $post['hidden']) {
             return false;
         }

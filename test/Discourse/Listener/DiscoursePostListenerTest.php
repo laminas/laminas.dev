@@ -38,7 +38,14 @@ class DiscoursePostListenerTest extends TestCase
         $this->assertNull($listener($post));
     }
 
-    public function testSendsRequestToSlackApiUsingPostDetailsWhenPostIsValid(): void
+    public function validPostIds(): iterable
+    {
+        yield 'null' => [null];
+        yield 'first' => [1];
+    }
+
+    /** @dataProvider validPostIds */
+    public function testSendsRequestToSlackApiUsingPostDetailsWhenPostIsValid(?int $id): void
     {
         $timestamp = time();
         $response  = $this->prophesize(SlackResponseInterface::class)->reveal();
@@ -51,7 +58,7 @@ class DiscoursePostListenerTest extends TestCase
                 'deleted_at'  => null,
                 'topic_slug'  => 'how-to-do-something',
                 'topic_id'    => 11111111,
-                'id'          => 5,
+                'id'          => $id,
                 'topic_title' => 'How to do something',
                 'username'    => 'somebody',
                 'name'        => 'Some Body',
