@@ -59,6 +59,10 @@ class DiscourseHandlerTest extends TestCase
             ->dispatch(Argument::that(function ($post) use ($id) {
                 TestCase::assertInstanceOf(DiscoursePost::class, $post);
                 TestCase::assertSame('#qanda', $post->getChannel());
+                // Discourse sends either an ID of 1, or no ID at all when
+                // sending a payload indicating a new topic. For
+                // consistency, we treat "no ID" as "1", which is the topic
+                // post (versus a comment post on the topic)
                 TestCase::assertSame(
                     sprintf('https://discourse.laminas.dev/t/some-topic/42/%d', $id ?: 1),
                     $post->getPostUrl()
