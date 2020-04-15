@@ -42,9 +42,9 @@ final class GitHubIssue extends AbstractGitHubEvent
 
     public function ignore(): bool
     {
+        // Previously, also included 'closed'
         return ! in_array($this->payload['action'], [
             'opened',
-            'closed',
             'reopened',
         ], true);
     }

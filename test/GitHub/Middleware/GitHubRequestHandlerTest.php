@@ -86,6 +86,7 @@ class GitHubRequestHandlerTest extends TestCase
             'github_app_authorization'       => ['github_app_authorization'],
             'gollum'                         => ['gollum'],
             'installation'                   => ['installation'],
+            'issues-closed'                  => ['issues-closed'],
             'issue-comment-created'          => ['comment-created'],
             'label'                          => ['label'],
             'marketplace_purchase'           => ['marketplace_purchase'],
@@ -100,6 +101,8 @@ class GitHubRequestHandlerTest extends TestCase
             'project_card'                   => ['project_card'],
             'project_column'                 => ['project_column'],
             'public'                         => ['public'],
+            'pull_request-closed'            => ['pull-request-closed'],
+            'pull_request-merged'            => ['pull-request-merged'],
             'pull_request_review'            => ['pull_request_review'],
             'pull_request_review_comment'    => ['pull_request_review_comment'],
             'push'                           => ['push'],
@@ -140,11 +143,8 @@ class GitHubRequestHandlerTest extends TestCase
     public function handledRequestProvider(): array
     {
         return [
-            'issues-closed'         => ['issues-closed.json', 'issues', GitHubIssue::class],
             'issues-opened'         => ['issues-opened.json', 'issues', GitHubIssue::class],
             'issues-reopened'       => ['issues-reopened.json', 'issues', GitHubIssue::class],
-            'pull_request-closed'   => ['pull-request-closed.json', 'pull_request', GitHubPullRequest::class],
-            'pull_request-merged'   => ['pull-request-merged.json', 'pull_request', GitHubPullRequest::class],
             'pull_request-opened'   => ['pull-request-opened.json', 'pull_request', GitHubPullRequest::class],
             'pull_request-reopened' => ['pull-request-reopened.json', 'pull_request', GitHubPullRequest::class],
             'release-published'     => ['release-published.json', 'release', GitHubRelease::class],
