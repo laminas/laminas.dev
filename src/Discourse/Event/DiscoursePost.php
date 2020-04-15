@@ -16,10 +16,6 @@ class DiscoursePost
 {
     // phpcs:disable
     private const AUTHOR_ICON = 'https://slack-imgs.com/?c=1&o1=wi16.he16&url=https%3A%2F%2Fdiscourse-meta.s3-us-west-1.amazonaws.com%2Foriginal%2F3X%2Fc%2Fb%2Fcb4bec8901221d4a646e45e1fa03db3a65e17f59.png';
-
-    private const COLOR = '#295473';
-
-    private const FOOTER_ICON = 'https://slack-imgs.com/?c=1&o1=wi16.he16&url=https%3A%2F%2Fdiscourse-meta.s3-us-west-1.amazonaws.com%2Foriginal%2F3X%2Fc%2Fb%2Fcb4bec8901221d4a646e45e1fa03db3a65e17f59.png';
     // phpcs:enable
 
     /** @var string */
