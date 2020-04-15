@@ -9,6 +9,9 @@ use App\Slack\Domain\Block;
 use App\Slack\Domain\WebAPIMessage;
 use App\Slack\SlackClientInterface;
 
+/**
+ * This listener is no longer used, as we no longer handle comment events.
+ */
 class GitHubIssueCommentListener
 {
     /** @var string */

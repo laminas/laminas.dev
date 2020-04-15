@@ -13,6 +13,8 @@ use function sprintf;
 use function ucfirst;
 
 /**
+ * This event type is no longer used.
+ *
  * @see https://developer.github.com/v3/activity/events/types/#issuecommentevent
  */
 class GitHubIssueComment extends AbstractGitHubEvent

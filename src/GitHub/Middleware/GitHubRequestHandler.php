@@ -36,10 +36,6 @@ class GitHubRequestHandler implements RequestHandlerInterface
                 $message = new Event\GitHubIssue($payload);
                 break;
 
-            case 'issue_comment':
-                $message = new Event\GitHubIssueComment($payload);
-                break;
-
             case 'pull_request':
                 $message = new Event\GitHubPullRequest($payload);
                 break;

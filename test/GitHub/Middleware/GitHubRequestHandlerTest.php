@@ -86,6 +86,7 @@ class GitHubRequestHandlerTest extends TestCase
             'github_app_authorization'       => ['github_app_authorization'],
             'gollum'                         => ['gollum'],
             'installation'                   => ['installation'],
+            'issue-comment-created'          => ['comment-created'],
             'label'                          => ['label'],
             'marketplace_purchase'           => ['marketplace_purchase'],
             'member'                         => ['member'],
@@ -139,7 +140,6 @@ class GitHubRequestHandlerTest extends TestCase
     public function handledRequestProvider(): array
     {
         return [
-            'issue-comment-created' => ['comment-created.json', 'issue_comment', GitHubIssueComment::class],
             'issues-closed'         => ['issues-closed.json', 'issues', GitHubIssue::class],
             'issues-opened'         => ['issues-opened.json', 'issues', GitHubIssue::class],
             'issues-reopened'       => ['issues-reopened.json', 'issues', GitHubIssue::class],
