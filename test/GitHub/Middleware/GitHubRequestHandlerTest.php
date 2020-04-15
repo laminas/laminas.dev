@@ -109,6 +109,7 @@ class GitHubRequestHandlerTest extends TestCase
             'security_advisory'              => ['security_advisory'],
             'sponsorship_event'              => ['sponsorship_event'],
             'star'                           => ['star'],
+            'status-success'                 => ['status-success'],
             'team'                           => ['team'],
             'team_add'                       => ['team_add'],
             'watch'                          => ['watch'],
@@ -149,7 +150,6 @@ class GitHubRequestHandlerTest extends TestCase
             'release-published'     => ['release-published.json', 'release', GitHubRelease::class],
             'status-error'          => ['status-error.json', 'status', GitHubStatus::class],
             'status-failure'        => ['status-failure.json', 'status', GitHubStatus::class],
-            'status-success'        => ['status-success.json', 'status', GitHubStatus::class],
         ];
     }
 

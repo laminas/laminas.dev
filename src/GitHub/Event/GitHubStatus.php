@@ -21,14 +21,30 @@ use function substr;
  */
 final class GitHubStatus extends AbstractGitHubEvent
 {
+    /**
+     * Patterns for build contexts we're interested in.
+     *
+     * @var string[]
+     */
     private const CONTEXT_PATTERNS = [
+        '#coveralls#',
         '#^github#',
         '#travis-ci#',
-        '#coveralls#',
     ];
 
+    /**
+     * Specific states we are interested in reporting.
+     *
+     * Since the main purpose of reporting to github is to allow taking action,
+     * we only report failures and errors.
+     *
+     * Previous entries included:
+     *
+     * - 'success'
+     *
+     * @var string[]
+     */
     private const STATES_ALLOWED = [
-        'success',
         'failure',
         'error',
     ];
