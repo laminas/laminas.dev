@@ -83,7 +83,7 @@ final class GitHubPullRequest extends AbstractGitHubEvent
 
         $blocks = [
             $this->createContextBlock($repo['html_url'], sprintf(
-                '<%s|*[%s] Pull request #%s %s*>',
+                '<%s|*[%s] Pull request %s#%s: %s*>',
                 $pr['html_url'],
                 $action,
                 $repo['full_name'],
