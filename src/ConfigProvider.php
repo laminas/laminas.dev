@@ -122,6 +122,7 @@ class ConfigProvider
             ],
 
             'factories' => [
+                ContinuousIntegration\DefaultChecksHandler::class             => ContinuousIntegration\DefaultChecksHandlerFactory::class,
                 ContinuousIntegration\StableChecksVersionHandler::class       => ContinuousIntegration\StableChecksVersionHandlerFactory::class,
                 Discourse\Listener\DiscoursePostListener::class               => Discourse\Listener\DiscoursePostListenerFactory::class,
                 Discourse\Middleware\DiscourseHandler::class                  => Discourse\Middleware\DiscourseHandlerFactory::class,
@@ -190,6 +191,12 @@ class ConfigProvider
         $initialMiddleware = (bool) $debug
             ? $factory->lazy(LogMiddleware::class)
             : $factory->lazy(NoopMiddleware::class);
+
+        $app->get('/api/ci/default-checks', [
+            $initialMiddleware,
+            ProblemDetailsMiddleware::class,
+            ContinuousIntegration\DefaultChecksHandler::class,
+        ], 'api.ci.default-checks');
 
         $app->get('/api/ci/stable-checks-version', [
             $initialMiddleware,
