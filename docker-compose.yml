@@ -2,9 +2,10 @@ version: "3"
 services:
 
   web:
-    image: mwop/phly-docker-php-swoole:7.3-alpine
+    image: phpswoole/swoole:4.6-php7.4-alpine
     env_file:
       - .env
+    entrypoint: ['php', 'vendor/bin/mezzio-swoole', 'start']
     ports:
       - "9000:9000"
     volumes:

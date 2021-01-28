@@ -1,6 +1,6 @@
 name: laminas_dev
 
-type: php:7.3
+type: php:7.4
 
 size: S
 
@@ -8,10 +8,6 @@ disk: 256
 
 build:
   flavor: none
-
-dependencies:
-  php:
-    "hirak/prestissimo": "^0.3.9"
 
 mounts:
   'data/cache':
@@ -22,7 +18,7 @@ hooks:
   build: |
     set -e
     echo "Installing Swoole extension"
-    bash install-swoole.sh v4.4.16
+    bash install-swoole.sh v4.6.2
     echo "Installing platform.sh CLI"
     curl -sS https://platform.sh/cli/installer | php
     echo "- Setting up configuration"
