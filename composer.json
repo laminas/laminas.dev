@@ -7,11 +7,6 @@
         "mezzio"
     ],
     "license": "BSD-3-Clause",
-    "support": {
-        "issues": "https://github.com/laminas/laminas.dev/issues",
-        "source": "https://github.com/laminas/laminas.dev",
-        "rss": "https://github.com/laminas/laminas.dev/releases.atom"
-    },
     "require": {
         "php": "^7.3",
         "ext-curl": "*",
@@ -53,18 +48,18 @@
     "require-dev": {
         "filp/whoops": "^2.1",
         "laminas/laminas-coding-standard": "~2.0.0rc1 || ~2.0.0",
+        "laminas/laminas-development-mode": "^3.1",
+        "mezzio/mezzio-tooling": "^1.0",
         "phpunit/phpunit": "^7.0",
         "roave/security-advisories": "dev-master",
-        "squizlabs/php_codesniffer": "^3.0",
-        "mezzio/mezzio-tooling": "^1.0",
-        "laminas/laminas-development-mode": "^3.1"
+        "squizlabs/php_codesniffer": "^3.0"
     },
     "config": {
         "discard-changes": true,
-        "sort-packages": true,
         "platform": {
             "php": "7.4"
-        }
+        },
+        "sort-packages": true
     },
     "extra": {
         "laminas": {
@@ -103,5 +98,10 @@
         "test": "phpunit --colors=always",
         "test-coverage": "phpunit --colors=always --coverage-clover=data/coverage/clover.xml",
         "test-infection": "infection --threads=4 --coverage=data/coverage"
+    },
+    "support": {
+        "issues": "https://github.com/laminas/laminas.dev/issues",
+        "source": "https://github.com/laminas/laminas.dev",
+        "rss": "https://github.com/laminas/laminas.dev/releases.atom"
     }
 }
