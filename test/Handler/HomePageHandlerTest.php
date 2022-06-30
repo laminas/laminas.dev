@@ -17,27 +17,14 @@ class HomePageHandlerTest extends TestCase
 {
     public function testReturnsHtmlResponse(): void
     {
-        $contents = '<strong>Contents</strong>';
+        $response = (new HomePageHandler())->handle(
+            $this->createMock(ServerRequestInterface::class)
+        );
 
-        $renderer = $this->prophesize(TemplateRendererInterface::class);
-        $renderer
-            ->render('app::home-page', Argument::type('array'))
-            ->willReturn($contents);
-
-        $body = $this->prophesize(StreamInterface::class);
-        $body->write($contents)->shouldBeCalled();
-
-        $response = $this->prophesize(ResponseInterface::class);
-        $response->withHeader('Content-Type', 'text/html')->will([$response, 'reveal']);
-        $response->getBody()->will([$body, 'reveal']);
-
-        $responseFactory = $this->prophesize(ResponseFactoryInterface::class);
-        $responseFactory->createResponse(200)->will([$response, 'reveal']);
-
-        $homePage = new HomePageHandler($renderer->reveal(), $responseFactory->reveal());
-
-        $this->assertSame($response->reveal(), $homePage->handle(
-            $this->prophesize(ServerRequestInterface::class)->reveal()
-        ));
+        $this->assertSame(302, $response->getStatusCode());
+        $this->assertSame(
+            'https://getlaminas.org',
+            $response->getHeader('location')[0]
+        );
     }
 }
