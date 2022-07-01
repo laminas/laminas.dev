@@ -51,8 +51,11 @@ class SlashCommandsTest extends TestCase
         $this->responseFactory
             ->createResponse(
                 Argument::that(function ($message) {
-                     TestCase::assertMatchesRegularExpression('#^Available commands.*?- \*/laminas:\* list commands#s', $message);
-                     return $message;
+                    TestCase::assertMatchesRegularExpression(
+                        '#^Available commands.*?- \*/laminas:\* list commands#s',
+                        $message
+                    );
+                    return $message;
                 }),
                 200
             )
