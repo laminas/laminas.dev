@@ -141,7 +141,7 @@ class ConfigProvider
                 GitHub\Middleware\GitHubRequestHandler::class                 => GitHub\Middleware\GitHubRequestHandlerFactory::class,
                 GitHub\Middleware\VerificationMiddleware::class               => GitHub\Middleware\VerificationMiddlewareFactory::class,
                 Handler\ChatHandler::class                                    => Handler\ChatHandlerFactory::class,
-                Handler\HomePageHandler::class                                => InvokableFactory::class,
+                Handler\HomePageHandler::class                                => Handler\HomePageHandlerFactory::class,
                 HttpClient::class                                             => Factory\HttpClientFactory::class,
                 LoggerInterface::class                                        => Factory\LoggerFactory::class,
                 LogMiddleware::class                                          => Factory\LogMiddlewareFactory::class,
