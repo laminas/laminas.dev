@@ -15,6 +15,7 @@ use App\Slack\Response\SlackResponseInterface;
 use App\Slack\SlackClientInterface;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -30,6 +31,8 @@ use const JSON_UNESCAPED_UNICODE;
 
 class GitHubStatusListenerTest extends TestCase
 {
+    use ProphecyTrait;
+
     /** @var string */
     private $channel;
 
@@ -106,7 +109,7 @@ class GitHubStatusListenerTest extends TestCase
             ->createRequest(
                 'GET',
                 Argument::that(function ($url) {
-                    TestCase::assertInternalType('string', $url);
+                    TestCase::assertIsString($url);
                     TestCase::assertStringContainsString('?q=repo%3Azendframework%2Fzend-diactoros', $url);
 
                     return $url;
@@ -183,7 +186,7 @@ class GitHubStatusListenerTest extends TestCase
             ->createRequest(
                 'GET',
                 Argument::that(function ($url) {
-                    TestCase::assertInternalType('string', $url);
+                    TestCase::assertIsString($url);
                     TestCase::assertStringContainsString('?q=repo%3Azendframework%2Fzend-diactoros', $url);
 
                     return $url;
@@ -262,7 +265,7 @@ class GitHubStatusListenerTest extends TestCase
             ->createRequest(
                 'GET',
                 Argument::that(function ($url) {
-                    TestCase::assertInternalType('string', $url);
+                    TestCase::assertIsString($url);
                     TestCase::assertStringContainsString('?q=repo%3Azendframework%2Fzend-diactoros', $url);
 
                     return $url;

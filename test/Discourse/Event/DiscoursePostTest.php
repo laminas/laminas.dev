@@ -38,6 +38,6 @@ class DiscoursePostTest extends TestCase
         $contentBlock = $blocks[1];
         $text         = $contentBlock['text']['text'];
 
-        $this->assertRegExp('#\<http://localhost:9000/u/some-id/\|@A_User\>#', $text);
+        $this->assertMatchesRegularExpression('#\<http://localhost:9000/u/some-id/\|@A_User\>#', $text);
     }
 }

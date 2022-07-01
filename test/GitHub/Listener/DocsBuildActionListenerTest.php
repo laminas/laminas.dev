@@ -12,6 +12,7 @@ use App\Slack\Response\SlackResponse;
 use App\Slack\SlackClientInterface;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
@@ -19,6 +20,8 @@ use Psr\Log\LoggerInterface;
 
 class DocsBuildActionListenerTest extends TestCase
 {
+    use ProphecyTrait;
+
     public function setUp(): void
     {
         $this->githubClient = $this->prophesize(GitHubClient::class);

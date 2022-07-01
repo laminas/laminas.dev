@@ -7,6 +7,7 @@ namespace AppTest\Twitter;
 use App\Twitter\VerificationMiddleware;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -15,6 +16,8 @@ use Psr\Http\Server\RequestHandlerInterface;
 
 class VerificationMiddlewareTest extends TestCase
 {
+    use ProphecyTrait;
+
     /** @var RequestHandlerInterface|ObjectProphecy */
     private $handler;
 

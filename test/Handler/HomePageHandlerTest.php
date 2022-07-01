@@ -8,6 +8,7 @@ use App\Handler\HomePageHandler;
 use Mezzio\Template\TemplateRendererInterface;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -15,6 +16,8 @@ use Psr\Http\Message\StreamInterface;
 
 class HomePageHandlerTest extends TestCase
 {
+    use ProphecyTrait;
+
     public function testReturnsHtmlResponse(): void
     {
         $contents = '<strong>Contents</strong>';

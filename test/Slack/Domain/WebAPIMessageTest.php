@@ -23,7 +23,7 @@ class WebAPIMessageTest extends TestCase
         $message->setText('message text');
 
         $this->expectException(AssertionFailedException::class);
-        $this->expectExceptionMessageRegExp('/^(?!Text must be non-empty)/');
+        $this->expectExceptionMessageMatches('/^(?!Text must be non-empty)/');
         $message->validate();
     }
 

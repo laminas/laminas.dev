@@ -11,6 +11,7 @@ use App\Slack\SlashCommand\SlashCommandResponseFactory;
 use App\Slack\SlashCommand\TwitterReplyCommand;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -19,6 +20,8 @@ use function str_repeat;
 
 class TwitterReplyCommandTest extends TestCase
 {
+    use ProphecyTrait;
+
     /** @var AuthorizedUserListInterface|ObjectProphecy */
     private $acl;
 

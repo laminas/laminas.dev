@@ -8,11 +8,14 @@ use App\Handler\HomePageHandler;
 use App\Handler\HomePageHandlerFactory;
 use Mezzio\Template\TemplateRendererInterface;
 use PHPUnit\Framework\TestCase;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
 
 class HomePageHandlerFactoryTest extends TestCase
 {
+    use ProphecyTrait;
+
     public function testFactoryWithTemplate(): void
     {
         $container = $this->prophesize(ContainerInterface::class);

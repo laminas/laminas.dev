@@ -24,7 +24,7 @@ class SlashResponseMessageTest extends TestCase
         $message->setResponseType('unknown-response-type');
 
         $this->expectException(AssertionFailedException::class);
-        $this->expectExceptionMessageRegExp('/^(?!Text must be non-empty)/');
+        $this->expectExceptionMessageMatches('/^(?!Text must be non-empty)/');
         $message->validate();
     }
 

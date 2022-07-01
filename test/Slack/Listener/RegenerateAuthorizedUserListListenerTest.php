@@ -13,10 +13,13 @@ use App\Slack\SlashCommand\AuthorizedUserListInterface;
 use DomainException;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 
 class RegenerateAuthorizedUserListListenerTest extends TestCase
 {
+    use ProphecyTrait;
+
     /** @var AuthorizedUserListInterface|ObjectProphecy */
     private $acl;
 

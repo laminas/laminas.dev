@@ -7,6 +7,7 @@ namespace AppTest\GitHub\Middleware;
 use App\GitHub\Middleware\VerificationMiddleware;
 use Mezzio\ProblemDetails\ProblemDetailsResponseFactory;
 use PHPUnit\Framework\TestCase;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\StreamInterface;
@@ -17,6 +18,8 @@ use function sprintf;
 
 class VerificationMiddlewareTest extends TestCase
 {
+    use ProphecyTrait;
+
     /** @var ServerRequestInterface|ObjectProphecy */
     private $request;
 

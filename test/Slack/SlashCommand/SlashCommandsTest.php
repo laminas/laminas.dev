@@ -11,11 +11,14 @@ use App\Slack\SlashCommand\SlashCommandResponseFactory;
 use App\Slack\SlashCommand\SlashCommands;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 use Psr\Http\Message\ResponseInterface;
 
 class SlashCommandsTest extends TestCase
 {
+    use ProphecyTrait;
+
     /** @var AuthorizedUserListInterface|ObjectProphecy */
     private $authorizedUsers;
 
@@ -48,7 +51,7 @@ class SlashCommandsTest extends TestCase
         $this->responseFactory
             ->createResponse(
                 Argument::that(function ($message) {
-                     TestCase::assertRegExp('#^Available commands.*?- \*/laminas:\* list commands#s', $message);
+                     TestCase::assertMatchesRegularExpression('#^Available commands.*?- \*/laminas:\* list commands#s', $message);
                      return $message;
                 }),
                 200
@@ -71,7 +74,7 @@ class SlashCommandsTest extends TestCase
         $this->responseFactory
             ->createResponse(
                 Argument::that(function ($message) {
-                     TestCase::assertRegExp('#^Unknown command \'unknown-command\'; available commands:.*?- \*/laminas:\* list commands#s', $message);
+                     TestCase::assertMatchesRegularExpression('#^Unknown command \'unknown-command\'; available commands:.*?- \*/laminas:\* list commands#s', $message);
                      return $message;
                 }),
                 200
@@ -176,7 +179,7 @@ class SlashCommandsTest extends TestCase
         $this->responseFactory
              ->createResponse(
                  Argument::that(function ($message) use ($helpMessage) {
-                     TestCase::assertRegExp('#- \*/requested-command:\*#', $message);
+                     TestCase::assertMatchesRegularExpression('#- \*/requested-command:\*#', $message);
                      TestCase::assertStringContainsString($helpMessage, $message);
                      return $message;
                  }),

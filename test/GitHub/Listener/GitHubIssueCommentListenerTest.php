@@ -15,12 +15,15 @@ use App\Slack\Response\SlackResponseInterface;
 use App\Slack\SlackClientInterface;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
+use Prophecy\PhpUnit\ProphecyTrait;
 
 use function file_get_contents;
 use function json_decode;
 
 class GitHubIssueCommentListenerTest extends TestCase
 {
+    use ProphecyTrait;
+
     public function testSendsNotificationToSlackBasedOnCommentProvided(): void
     {
         $json    = file_get_contents(__DIR__ . '/../../Fixtures/comment-created.json');

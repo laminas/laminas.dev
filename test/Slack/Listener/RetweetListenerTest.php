@@ -11,6 +11,7 @@ use App\Slack\SlackClientInterface;
 use Laminas\Twitter\Twitter;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 use RuntimeException;
 
@@ -18,6 +19,8 @@ use function sprintf;
 
 class RetweetListenerTest extends TestCase
 {
+    use ProphecyTrait;
+
     /** @var RetweetListener */
     private $listener;
 

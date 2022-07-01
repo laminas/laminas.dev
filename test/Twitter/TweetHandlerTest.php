@@ -9,6 +9,7 @@ use App\Twitter\TweetHandler;
 use DateTimeImmutable;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -16,6 +17,8 @@ use Psr\Http\Message\ServerRequestInterface;
 
 class TweetHandlerTest extends TestCase
 {
+    use ProphecyTrait;
+
     public function testDispatchesTweetBasedOnBodyParamsAndReturnsEmptyResponse(): void
     {
         $body = [
