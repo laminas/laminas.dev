@@ -24,10 +24,12 @@ class StableChecksVersionHandler implements RequestHandlerInterface
     {
         $resource = new HalResource(
             ['version' => '7.4'],
-            [new Link(
-                'self',
-                $request->getUri()->__toString()
-            )]
+            [
+                new Link(
+                    'self',
+                    $request->getUri()->__toString()
+                ),
+            ]
         );
 
         return $this->responseFactory->createResponse(

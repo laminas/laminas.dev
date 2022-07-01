@@ -8,8 +8,7 @@ return [
     'dependencies' => [
         'factories' => [],
     ],
-
-    'templates' => [
+    'templates'    => [
         'paths' => [
             'app'    => ['templates/app'],
             'error'  => ['templates/error'],

@@ -30,6 +30,7 @@ class TweetHandlerTest extends TestCase
         $responseFactory = $this->prophesize(ResponseFactoryInterface::class);
 
         $request->getParsedBody()->willReturn($body)->shouldBeCalled();
+        // phpcs:disable SlevomatCodingStandard.Commenting.InlineDocCommentDeclaration.MissingVariable
         $dispatcher
             ->dispatch(Argument::that(function ($tweet) use ($body) {
                 TestCase::assertInstanceOf(Tweet::class, $tweet);
@@ -41,6 +42,8 @@ class TweetHandlerTest extends TestCase
                 return $tweet;
             }))
             ->shouldBeCalled();
+        // phpcs:enable SlevomatCodingStandard.Commenting.InlineDocCommentDeclaration.MissingVariable
+
         $responseFactory->createResponse(202)->willReturn($response)->shouldBeCalled();
 
         $handler = new TweetHandler($responseFactory->reveal(), $dispatcher->reveal());

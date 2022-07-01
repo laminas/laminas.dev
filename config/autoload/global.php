@@ -13,26 +13,21 @@ return [
     // will also disable it by default; clear the configuration cache using
     // `composer clear-config-cache`.
     ConfigAggregator::ENABLE_CACHE => true,
-
-    'base_url' => getenv('BASE_URL') ?? 'https://laminas.dev',
+    'base_url'                     => getenv('BASE_URL') ?? 'https://laminas.dev',
 
     // Enable debugging; typically used to provide debugging information within templates.
-    'debug' => $debug,
-
-    'discourse' => [
+    'debug'         => $debug,
+    'discourse'     => [
         'secret' => getenv('DISCOURSE_SECRET'),
     ],
-
-    'getlaminas' => [
+    'getlaminas'    => [
         'token' => getenv('LAMINAS_API_TOKEN'),
     ],
-
-    'github' => [
+    'github'        => [
         'secret' => getenv('GITHUB_SECRET'),
         'token'  => getenv('GITHUB_TOKEN'),
     ],
-
-    'mezzio' => [
+    'mezzio'        => [
         // Provide templates for the error handling middleware to use when
         // generating responses.
         'error_handler' => [
@@ -40,14 +35,12 @@ return [
             'template_error' => 'error::error',
         ],
     ],
-
-    'monolog' => [
+    'monolog'       => [
         'handlers' => [
             'default' => '%log.handler%',
         ],
     ],
-
-    'slack' => [
+    'slack'         => [
         'channels'       => [
             'acl'    => getenv('SLACK_CHANNEL_ACL'),
             'github' => getenv('SLACK_CHANNEL_GITHUB'),
@@ -55,8 +48,7 @@ return [
         'signing_secret' => getenv('SLACK_SIGNING_SECRET'),
         'token'          => getenv('SLACK_TOKEN'),
     ],
-
-    'twitter' => [
+    'twitter'       => [
         'access_token'             => [
             'token'  => getenv('TWITTER_ACCESS_TOKEN'),
             'secret' => getenv('TWITTER_ACCESS_SECRET'),
@@ -67,7 +59,6 @@ return [
         ],
         'tweet_verification_token' => getenv('TWEET_VERIFICATION_TOKEN'),
     ],
-
     'mezzio-swoole' => [
         'enable_coroutine'   => true,
         'log_handler'        => '%log.handler%',

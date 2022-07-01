@@ -46,6 +46,7 @@ class TweetListenerTest extends TestCase
         $date  = new DateTimeImmutable('2020-03-19T11:29:12-05:00');
         $tweet = new Tweet($text, $url, $date);
 
+        // phpcs:disable SlevomatCodingStandard.Commenting.InlineDocCommentDeclaration.MissingVariable
         $this->slack
             ->sendWebAPIMessage(Argument::that(function ($message) use ($text, $url, $date) {
                 TestCase::assertInstanceOf(WebAPIMessage::class, $message);
@@ -82,6 +83,7 @@ class TweetListenerTest extends TestCase
                 return $message;
             }))
             ->shouldBeCalled();
+        // phpcs:enable SlevomatCodingStandard.Commenting.InlineDocCommentDeclaration.MissingVariable
 
         $this->assertNull($this->listener->__invoke($tweet));
     }

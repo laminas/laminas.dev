@@ -1,5 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
+// phpcs:disable PSR12.Files.FileHeader.IncorrectOrder
+
+
+use Mezzio\Application;
+use Mezzio\MiddlewareFactory;
+use Psr\Container\ContainerInterface;
+
 /**
  * Setup routes with a single request method:
  *
@@ -26,12 +35,6 @@
  *     'contact'
  * );
  */
-
-declare(strict_types=1);
-
-use Mezzio\Application;
-use Mezzio\MiddlewareFactory;
-use Psr\Container\ContainerInterface;
 
 return function (Application $app, MiddlewareFactory $factory, ContainerInterface $container): void {
     (new App\ConfigProvider())->registerRoutes($app, $factory, $container);

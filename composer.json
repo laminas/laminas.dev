@@ -13,7 +13,7 @@
         "rss": "https://github.com/laminas/laminas.dev/releases.atom"
     },
     "require": {
-        "php": "^7.3",
+        "php": "^7.4",
         "ext-curl": "*",
         "ext-hash": "*",
         "ext-json": "*",
@@ -63,7 +63,11 @@
         "discard-changes": true,
         "sort-packages": true,
         "platform": {
-            "php": "7.4"
+            "php": "7.4.99"
+        },
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true,
+            "laminas/laminas-component-installer": true
         }
     },
     "extra": {

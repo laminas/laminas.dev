@@ -32,7 +32,7 @@ class WebAPIMessageTest extends TestCase
         $message = new WebAPIMessage();
         $message->setText('message text');
         $message->setChannel('github');
-        
+
         $this->assertSame([
             'channel' => '#github',
             'text'    => 'message text',

@@ -15,6 +15,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
 use function date;
+use function sprintf;
 
 class DiscourseHandlerTest extends TestCase
 {
