@@ -10,6 +10,7 @@ use App\Slack\SlashCommand\AuthorizedUserList;
 use DomainException;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 use Psr\Http\Message\RequestFactoryInterface;
 use Psr\Http\Message\RequestInterface;
@@ -23,6 +24,8 @@ use function var_export;
 
 class AuthorizedUserListTest extends TestCase
 {
+    use ProphecyTrait;
+
     /** @var AuthorizedUserList */
     private $list;
 

@@ -10,11 +10,14 @@ use Laminas\Twitter\Response;
 use Laminas\Twitter\Twitter;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 use Psr\Log\LoggerInterface;
 
 class GitHubReleaseTweetListenerTest extends TestCase
 {
+    use ProphecyTrait;
+
     /** @var GitHubReleaseTweetListener */
     private $listener;
 

@@ -8,6 +8,7 @@ use App\Discourse\Event\DiscoursePost;
 use App\Discourse\Middleware\DiscourseHandler;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
@@ -19,6 +20,8 @@ use function sprintf;
 
 class DiscourseHandlerTest extends TestCase
 {
+    use ProphecyTrait;
+
     public function validPostIds(): iterable
     {
         yield 'null' => [null];

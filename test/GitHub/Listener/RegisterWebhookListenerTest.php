@@ -13,6 +13,7 @@ use App\Slack\SlackClientInterface;
 use App\UrlHelper;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -23,6 +24,8 @@ use function json_decode;
 
 class RegisterWebhookListenerTest extends TestCase
 {
+    use ProphecyTrait;
+
     /** @var GitHubClient|ObjectProphecy */
     private $github;
 

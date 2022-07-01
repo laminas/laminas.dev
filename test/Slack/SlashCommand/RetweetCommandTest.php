@@ -11,12 +11,15 @@ use App\Slack\SlashCommand\SlashCommandRequest;
 use App\Slack\SlashCommand\SlashCommandResponseFactory;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Psr\Http\Message\ResponseInterface;
 
 class RetweetCommandTest extends TestCase
 {
+    use ProphecyTrait;
+
     /** @var AuthorizedUserListInterface|ObjectProphecy */
     private $acl;
 

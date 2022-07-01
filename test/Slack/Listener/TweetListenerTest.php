@@ -15,6 +15,7 @@ use Laminas\Twitter\Response as TwitterResponse;
 use Laminas\Twitter\Twitter;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -23,6 +24,8 @@ use RuntimeException;
 
 class TweetListenerTest extends TestCase
 {
+    use ProphecyTrait;
+
     /** @var HttpClientInterface|ObjectProphecy */
     private $http;
 

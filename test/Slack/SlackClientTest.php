@@ -11,6 +11,7 @@ use App\Slack\Response\SlackResponse;
 use App\Slack\SlackClient;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -24,6 +25,8 @@ use const JSON_UNESCAPED_UNICODE;
 
 class SlackClientTest extends TestCase
 {
+    use ProphecyTrait;
+
     /** @var HttpClientInterface|ObjectProphecy */
     private $httpClient;
 
@@ -157,11 +160,11 @@ class SlackClientTest extends TestCase
         $request
             ->withHeader(
                 Argument::that(function ($header) {
-                    TestCase::assertRegExp('/^(Content-Type|Accept|Authorization)$/', $header);
+                    TestCase::assertMatchesRegularExpression('/^(Content-Type|Accept|Authorization)$/', $header);
                     return $header;
                 }),
                 Argument::that(function ($value) {
-                    TestCase::assertRegExp('#^(application/json|Bearer slack-api-token)#', $value);
+                    TestCase::assertMatchesRegularExpression('#^(application/json|Bearer slack-api-token)#', $value);
                     return $value;
                 })
             )
@@ -234,11 +237,11 @@ class SlackClientTest extends TestCase
         $request
             ->withHeader(
                 Argument::that(function ($header) {
-                    TestCase::assertRegExp('/^(Content-Type|Accept|Authorization)$/', $header);
+                    TestCase::assertMatchesRegularExpression('/^(Content-Type|Accept|Authorization)$/', $header);
                     return $header;
                 }),
                 Argument::that(function ($value) {
-                    TestCase::assertRegExp('#^(application/json|Bearer slack-api-token)#', $value);
+                    TestCase::assertMatchesRegularExpression('#^(application/json|Bearer slack-api-token)#', $value);
                     return $value;
                 })
             )

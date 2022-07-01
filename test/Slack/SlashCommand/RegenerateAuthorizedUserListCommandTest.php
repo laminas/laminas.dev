@@ -10,10 +10,13 @@ use App\Slack\SlashCommand\SlashCommandRequest;
 use App\Slack\SlashCommand\SlashCommandResponseFactory;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Psr\EventDispatcher\EventDispatcherInterface;
 
 class RegenerateAuthorizedUserListCommandTest extends TestCase
 {
+    use ProphecyTrait;
+
     public function testDispatchesRegenerateAuthorizedUserListWithRequestDataAndReturnsNull(): void
     {
         $responseUrl = 'https://hooks.slack.com/services/T00000000/B00000000/XXXXXXXXXXXXXXXXXXXXXXXX';

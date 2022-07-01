@@ -11,11 +11,14 @@ use App\Slack\Response\SlackResponseInterface;
 use App\Slack\SlackClientInterface;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
+use Prophecy\PhpUnit\ProphecyTrait;
 
 use function time;
 
 class DiscoursePostListenerTest extends TestCase
 {
+    use ProphecyTrait;
+
     public function invalidPosts(): iterable
     {
         $timestamp = time();

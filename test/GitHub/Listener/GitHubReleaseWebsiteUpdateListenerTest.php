@@ -9,6 +9,7 @@ use App\GitHub\Listener\GitHubReleaseWebsiteUpdateListener;
 use App\HttpClientInterface;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -20,6 +21,8 @@ use function json_decode;
 
 class GitHubReleaseWebsiteUpdateListenerTest extends TestCase
 {
+    use ProphecyTrait;
+
     /** @var HttpClientInterface|ObjectProphecy */
     private $httpClient;
 
@@ -106,11 +109,11 @@ class GitHubReleaseWebsiteUpdateListenerTest extends TestCase
         $request
             ->withHeader(
                 Argument::that(function ($header) {
-                    TestCase::assertRegExp('/^(Accept|Content-Type|Authorization)$/', $header);
+                    TestCase::assertMatchesRegularExpression('/^(Accept|Content-Type|Authorization)$/', $header);
                     return $header;
                 }),
                 Argument::that(function ($value) {
-                    TestCase::assertRegExp('#^(application/json|token the-token)#', $value);
+                    TestCase::assertMatchesRegularExpression('#^(application/json|token the-token)#', $value);
                     return $value;
                 })
             )
@@ -178,11 +181,11 @@ class GitHubReleaseWebsiteUpdateListenerTest extends TestCase
         $request
             ->withHeader(
                 Argument::that(function ($header) {
-                    TestCase::assertRegExp('/^(Accept|Content-Type|Authorization)$/', $header);
+                    TestCase::assertMatchesRegularExpression('/^(Accept|Content-Type|Authorization)$/', $header);
                     return $header;
                 }),
                 Argument::that(function ($value) {
-                    TestCase::assertRegExp('#^(application/json|token the-token)#', $value);
+                    TestCase::assertMatchesRegularExpression('#^(application/json|token the-token)#', $value);
                     return $value;
                 })
             )

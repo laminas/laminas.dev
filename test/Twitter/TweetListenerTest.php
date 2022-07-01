@@ -14,12 +14,15 @@ use App\Twitter\TweetListener;
 use DateTimeImmutable;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 
 use function sprintf;
 
 class TweetListenerTest extends TestCase
 {
+    use ProphecyTrait;
+
     /** @var string */
     private $channel;
 

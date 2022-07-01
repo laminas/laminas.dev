@@ -8,6 +8,7 @@ use App\Slack\Middleware\VerificationMiddleware;
 use Mezzio\ProblemDetails\ProblemDetailsResponseFactory;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -24,6 +25,8 @@ use const PHP_QUERY_RFC3986;
 
 class VerificationMiddlewareTest extends TestCase
 {
+    use ProphecyTrait;
+
     /** @var RequestHandlerInterface|ObjectProphecy */
     private $handler;
 

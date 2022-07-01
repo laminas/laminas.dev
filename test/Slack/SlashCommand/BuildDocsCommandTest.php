@@ -10,10 +10,13 @@ use App\Slack\SlashCommand\SlashCommandRequest;
 use App\Slack\SlashCommand\SlashCommandResponseFactory;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Psr\EventDispatcher\EventDispatcherInterface;
 
 class BuildDocsCommandTest extends TestCase
 {
+    use ProphecyTrait;
+
     public function testDispatchesDocsBuildActionWithRequestDataAndReturnsNull(): void
     {
         $repo        = 'laminas/laminas-repo-of-some-sort';

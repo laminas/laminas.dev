@@ -8,6 +8,7 @@ use App\Discourse\Middleware\VerificationMiddleware;
 use Mezzio\ProblemDetails\ProblemDetailsResponseFactory;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -18,6 +19,8 @@ use function hash_hmac;
 
 class VerificationMiddlewareTest extends TestCase
 {
+    use ProphecyTrait;
+
     /** StreamInterface|ObjectProphecy */
     private $body;
 

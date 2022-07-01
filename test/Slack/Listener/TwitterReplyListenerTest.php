@@ -11,11 +11,14 @@ use App\Slack\SlackClientInterface;
 use Laminas\Twitter\Twitter;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 use RuntimeException;
 
 class TwitterReplyListenerTest extends TestCase
 {
+    use ProphecyTrait;
+
     /** @var TwitterReplyListener */
     private $listener;
 

@@ -9,11 +9,14 @@ use App\Slack\SlashCommand\SlashCommandRequest;
 use App\Slack\SlashCommand\SlashCommands;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
 class SlashCommandHandlerTest extends TestCase
 {
+    use ProphecyTrait;
+
     public function testProxiesToSlashCommandsHandler(): void
     {
         $payload = [

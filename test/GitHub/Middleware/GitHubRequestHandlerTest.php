@@ -13,6 +13,7 @@ use Laminas\Diactoros\Response\EmptyResponse;
 use Laminas\Diactoros\Response\JsonResponse;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -23,6 +24,8 @@ use function json_decode;
 
 class GitHubRequestHandlerTest extends TestCase
 {
+    use ProphecyTrait;
+
     /** @var EventDispatcherInterface|ObjectProphecy */
     private $dispatcher;
 
@@ -50,7 +53,7 @@ class GitHubRequestHandlerTest extends TestCase
         self::assertInstanceOf(ResponseInterface::class, $response);
         self::assertInstanceOf(JsonResponse::class, $response);
         self::assertEquals(204, $response->getStatusCode());
-        self::assertContains('Hello from ', (string) $response->getBody());
+        self::assertStringContainsString('Hello from ', (string) $response->getBody());
     }
 
     /** @dataProvider unhandledRequestProvider */
@@ -66,7 +69,7 @@ class GitHubRequestHandlerTest extends TestCase
         self::assertInstanceOf(ResponseInterface::class, $response);
         self::assertInstanceOf(JsonResponse::class, $response);
         self::assertEquals(204, $response->getStatusCode());
-        self::assertContains('Received but not processed.', (string) $response->getBody());
+        self::assertStringContainsString('Received but not processed.', (string) $response->getBody());
     }
 
     public function unhandledRequestProvider(): array
@@ -168,7 +171,7 @@ class GitHubRequestHandlerTest extends TestCase
         self::assertInstanceOf(ResponseInterface::class, $response);
         self::assertInstanceOf(JsonResponse::class, $response);
         self::assertEquals(204, $response->getStatusCode());
-        self::assertContains('Received but not processed.', (string) $response->getBody());
+        self::assertStringContainsString('Received but not processed.', (string) $response->getBody());
     }
 
     public function ignoredRequestProvider(): array
@@ -223,6 +226,6 @@ class GitHubRequestHandlerTest extends TestCase
         self::assertEquals(400, $response->getStatusCode());
 
         $header = $response->getHeaderLine('X-Status-Reason');
-        self::assertContains('Validation failed', $header);
+        self::assertStringContainsString('Validation failed', $header);
     }
 }
