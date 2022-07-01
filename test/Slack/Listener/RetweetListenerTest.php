@@ -51,6 +51,7 @@ class RetweetListenerTest extends TestCase
             ->willThrow($exception)
             ->shouldBeCalled();
 
+        // phpcs:disable SlevomatCodingStandard.Commenting.InlineDocCommentDeclaration.MissingVariable
         $this->slack
             ->sendWebhookMessage(
                 $responseUrl,
@@ -63,6 +64,7 @@ class RetweetListenerTest extends TestCase
                 })
             )
             ->shouldBeCalled();
+        // phpcs:enable SlevomatCodingStandard.Commenting.InlineDocCommentDeclaration.MissingVariable
 
         $this->assertNull($this->listener->__invoke($retweet));
     }
@@ -78,6 +80,7 @@ class RetweetListenerTest extends TestCase
             ->post(sprintf('statuses/retweet/%s', $id))
             ->shouldBeCalled();
 
+        // phpcs:disable SlevomatCodingStandard.Commenting.InlineDocCommentDeclaration.MissingVariable
         $this->slack
             ->sendWebhookMessage(
                 $responseUrl,
@@ -90,6 +93,7 @@ class RetweetListenerTest extends TestCase
                 })
             )
             ->shouldBeCalled();
+        // phpcs:enable SlevomatCodingStandard.Commenting.InlineDocCommentDeclaration.MissingVariable
 
         $this->assertNull($this->listener->__invoke($retweet));
     }

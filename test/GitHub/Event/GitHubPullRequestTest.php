@@ -9,13 +9,14 @@ use PHPUnit\Framework\TestCase;
 
 use function end;
 use function reset;
+use function sprintf;
 
 class GitHubPullRequestTest extends TestCase
 {
     public function testMessageBlocksContainsCorrectContextBlockAdditionalLine(): void
     {
         $payload = $this->createValidPayload();
-        $event = new GitHubPullRequest($payload);
+        $event   = new GitHubPullRequest($payload);
 
         $messageBlocks = $event->getMessageBlocks();
 
@@ -26,7 +27,7 @@ class GitHubPullRequestTest extends TestCase
         self::assertIsArray($contextBlock['elements']);
         self::assertCount(3, $contextBlock['elements']);
         $additionalText = end($contextBlock['elements']);
-        $expectedText = sprintf(
+        $expectedText   = sprintf(
             '<%s|*[%s] Pull request %s#%s: %s*>',
             $payload['pull_request']['html_url'],
             $payload['action'],
@@ -38,24 +39,24 @@ class GitHubPullRequestTest extends TestCase
     }
 
     /**
-     * @return array<string, string|array<string, string|int>>
+     * @psalm-return array<string, string|array<string, string|int>>
      */
     private function createValidPayload(): array
     {
         return [
-            'action' => 'opened',
-            'repository' => [
+            'action'       => 'opened',
+            'repository'   => [
                 'full_name' => 'laminas/laminas.dev',
-                'html_url' => 'https://github.com/laminas/laminas.dev',
+                'html_url'  => 'https://github.com/laminas/laminas.dev',
             ],
             'pull_request' => [
                 'html_url' => 'https://github.com/laminas/laminas.dev/pull/5',
-                'number' => 5,
-                'title' => 'fix a missing sprintf placeholder in pull request title',
-                'body' => 'This is the PR body',
+                'number'   => 5,
+                'title'    => 'fix a missing sprintf placeholder in pull request title',
+                'body'     => 'This is the PR body',
             ],
-            'sender' => [
-                'login' => 'Laminas',
+            'sender'       => [
+                'login'    => 'Laminas',
                 'html_url' => 'https://github.com/laminas',
             ],
         ];

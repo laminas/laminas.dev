@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace AppTest\GitHub\Middleware;
 
 use App\GitHub\Event\GitHubIssue;
-use App\GitHub\Event\GitHubIssueComment;
 use App\GitHub\Event\GitHubPullRequest;
 use App\GitHub\Event\GitHubRelease;
 use App\GitHub\Event\GitHubStatus;

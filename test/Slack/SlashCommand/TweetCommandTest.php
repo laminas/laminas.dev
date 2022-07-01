@@ -152,6 +152,7 @@ class TweetCommandTest extends TestCase
         $this->request->text()->willReturn(sprintf('media:%s %s', $media, $message))->shouldBeCalled();
         $this->request->responseUrl()->willReturn($responseUrl)->shouldBeCalled();
 
+        // phpcs:disable SlevomatCodingStandard.Commenting.InlineDocCommentDeclaration.MissingVariable
         $this->dispatcher
              ->dispatch(Argument::that(function ($tweet) use ($media, $message, $responseUrl) {
                  TestCase::assertInstanceOf(Tweet::class, $tweet);
@@ -163,6 +164,7 @@ class TweetCommandTest extends TestCase
                  return $tweet;
              }))
              ->shouldBeCalled();
+        // phpcs:enable SlevomatCodingStandard.Commenting.InlineDocCommentDeclaration.MissingVariable
 
         $this->responseFactory
             ->createResponse(Argument::any())

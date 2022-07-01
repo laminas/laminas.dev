@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Development-only configuration.
  *
@@ -9,8 +11,6 @@
  * Developers on your team will then automatically enable them by calling on
  * `composer development-enable`.
  */
-
-declare(strict_types=1);
 
 use Mezzio\Container;
 use Mezzio\Middleware\ErrorResponseGenerator;
@@ -23,8 +23,7 @@ return [
             'Mezzio\WhoopsPageHandler'    => Container\WhoopsPageHandlerFactory::class,
         ],
     ],
-
-    'whoops' => [
+    'whoops'       => [
         'json_exceptions' => [
             'display'    => true,
             'show_trace' => true,

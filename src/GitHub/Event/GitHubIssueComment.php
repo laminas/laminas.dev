@@ -72,7 +72,7 @@ class GitHubIssueComment extends AbstractGitHubEvent
         $author  = $comment['user'];
         $issue   = $payload['issue'];
         $repo    = $payload['repository'];
-        
+
         return sprintf(
             '[%s] New comment by %s on %s #%s %s: %s',
             $repo['full_name'],

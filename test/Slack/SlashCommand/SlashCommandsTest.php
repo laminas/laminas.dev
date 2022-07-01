@@ -204,7 +204,6 @@ class SlashCommandsTest extends TestCase
         $request = $this->prophesize(SlashCommandRequest::class);
         $request->command()->willReturn('laminas')->shouldBeCalled();
 
-        /** @var SlashCommandInterface $command */
         $command1 = $this->prophesize(SlashCommandInterface::class);
         $command1->command()->willReturn('command1')->shouldBeCalled();
         $command1->help()->willReturn($helpMessage1);

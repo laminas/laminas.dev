@@ -347,7 +347,7 @@ class AuthorizedUserListTest extends TestCase
             });
 
         $this->list->build();
-        
+
         foreach ($memberIds as $id) {
             $this->assertTrue($this->list->isAuthorized($id));
         }

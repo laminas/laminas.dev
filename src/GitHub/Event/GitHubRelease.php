@@ -107,7 +107,7 @@ final class GitHubRelease extends AbstractGitHubEvent
         $repo    = $payload['repository'];
         $release = $payload['release'];
         $author  = $release['author'];
-        
+
         return sprintf(
             '[%s] New release %s created by %s: %s',
             $repo['full_name'],

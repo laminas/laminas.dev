@@ -127,6 +127,7 @@ class RetweetCommandTest extends TestCase
         $this->request->text()->willReturn($url)->shouldBeCalled();
         $this->request->responseUrl()->willReturn($responseUrl)->shouldBeCalled();
 
+        // phpcs:disable SlevomatCodingStandard.Commenting.InlineDocCommentDeclaration.MissingVariable
         $this->dispatcher
             ->dispatch(Argument::that(function ($event) use ($url, $responseUrl) {
                 TestCase::assertInstanceOf(Retweet::class, $event);
@@ -136,6 +137,7 @@ class RetweetCommandTest extends TestCase
                 return $event;
             }))
             ->shouldBeCalled();
+        // phpcs:enable SlevomatCodingStandard.Commenting.InlineDocCommentDeclaration.MissingVariable
 
         $this->responseFactory->createResponse(Argument::any())->shouldNotBeCalled();
 

@@ -30,10 +30,12 @@ class DefaultChecksHandler implements RequestHandlerInterface
                     'test',
                 ],
             ],
-            [new Link(
-                'self',
-                $request->getUri()->__toString()
-            )]
+            [
+                new Link(
+                    'self',
+                    $request->getUri()->__toString()
+                ),
+            ]
         );
 
         return $this->responseFactory->createResponse(

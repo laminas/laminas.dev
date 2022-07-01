@@ -56,6 +56,7 @@ class TwitterReplyListenerTest extends TestCase
             ->willThrow($exception)
             ->shouldBeCalled();
 
+        // phpcs:disable SlevomatCodingStandard.Commenting.InlineDocCommentDeclaration.MissingVariable
         $this->slack
             ->sendWebhookMessage(
                 'http://localhost:9000/api/slack',
@@ -67,6 +68,7 @@ class TwitterReplyListenerTest extends TestCase
                 })
             )
             ->shouldBeCalled();
+        // phpcs:enable SlevomatCodingStandard.Commenting.InlineDocCommentDeclaration.MissingVariable
 
         $this->assertNull($this->listener->__invoke($reply));
     }
@@ -91,6 +93,7 @@ class TwitterReplyListenerTest extends TestCase
             )
             ->shouldBeCalled();
 
+        // phpcs:disable SlevomatCodingStandard.Commenting.InlineDocCommentDeclaration.MissingVariable
         $this->slack
             ->sendWebhookMessage(
                 'http://localhost:9000/api/slack',
@@ -102,6 +105,7 @@ class TwitterReplyListenerTest extends TestCase
                 })
             )
             ->shouldBeCalled();
+        // phpcs:enable SlevomatCodingStandard.Commenting.InlineDocCommentDeclaration.MissingVariable
 
         $this->assertNull($this->listener->__invoke($reply));
     }
