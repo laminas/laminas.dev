@@ -19,7 +19,7 @@
         "ext-json": "*",
         "ext-swoole": "*",
         "beberlei/assert": "^2.9.9 || ^3.0.0",
-        "guzzlehttp/guzzle": "^6.3",
+        "guzzlehttp/guzzle": "^6.3 || ^7.0",
         "laminas/laminas-component-installer": "^2.1",
         "laminas/laminas-config-aggregator": "^1.0",
         "laminas/laminas-config-aggregator-parameters": "^1.2",
