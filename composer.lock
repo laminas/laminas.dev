@@ -1611,35 +1611,35 @@
         },
         {
             "name": "laminas/laminas-oauth",
-            "version": "2.2.0",
+            "version": "2.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/laminas-oauth.git",
-                "reference": "711f518f718a7e31e1942784d6f3f7a70009ce79"
+                "reference": "8075a5c6b17523cb262ed3a6a3764b3cbf84d781"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-oauth/zipball/711f518f718a7e31e1942784d6f3f7a70009ce79",
-                "reference": "711f518f718a7e31e1942784d6f3f7a70009ce79",
+                "url": "https://api.github.com/repos/laminas/laminas-oauth/zipball/8075a5c6b17523cb262ed3a6a3764b3cbf84d781",
+                "reference": "8075a5c6b17523cb262ed3a6a3764b3cbf84d781",
                 "shasum": ""
             },
             "require": {
-                "laminas/laminas-config": "^3.0",
-                "laminas/laminas-crypt": "^3.0",
-                "laminas/laminas-http": "^2.14",
-                "laminas/laminas-i18n": "^2.11",
-                "laminas/laminas-loader": "^2.7",
-                "laminas/laminas-math": "^3.3",
-                "laminas/laminas-stdlib": "^3.2",
-                "laminas/laminas-uri": "^2.8",
-                "php": "^7.3 || ~8.0.0"
+                "laminas/laminas-config": "^3.7",
+                "laminas/laminas-crypt": "^3.6.0",
+                "laminas/laminas-http": "^2.15",
+                "laminas/laminas-i18n": "^2.13.0",
+                "laminas/laminas-loader": "^2.8",
+                "laminas/laminas-math": "^3.5",
+                "laminas/laminas-stdlib": "^3.10",
+                "laminas/laminas-uri": "^2.9",
+                "php": "^7.3 || ~8.0.0 || ~8.1.0"
             },
             "conflict": {
                 "zendframework/zendoauth": "*"
             },
             "require-dev": {
                 "laminas/laminas-coding-standard": "~1.0.0",
-                "phpunit/phpunit": "^9.3"
+                "phpunit/phpunit": "^9.5.5"
             },
             "type": "library",
             "autoload": {
@@ -1669,7 +1669,7 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2021-12-06T04:29:18+00:00"
+            "time": "2022-07-22T12:18:05+00:00"
         },
         {
             "name": "laminas/laminas-servicemanager",
@@ -1823,22 +1823,22 @@
         },
         {
             "name": "laminas/laminas-stratigility",
-            "version": "3.5.0",
+            "version": "3.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/laminas-stratigility.git",
-                "reference": "f59f3ad27a28f8f1affb6f83bdf9aebbcc418657"
+                "reference": "29461a735eb81a5f86a67852c0bedaa02be24fb9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-stratigility/zipball/f59f3ad27a28f8f1affb6f83bdf9aebbcc418657",
-                "reference": "f59f3ad27a28f8f1affb6f83bdf9aebbcc418657",
+                "url": "https://api.github.com/repos/laminas/laminas-stratigility/zipball/29461a735eb81a5f86a67852c0bedaa02be24fb9",
+                "reference": "29461a735eb81a5f86a67852c0bedaa02be24fb9",
                 "shasum": ""
             },
             "require": {
                 "fig/http-message-util": "^1.1",
-                "laminas/laminas-escaper": "^2.3",
-                "php": "^7.3 || ~8.0.0 || ~8.1.0",
+                "laminas/laminas-escaper": "^2.10.0",
+                "php": "^7.4 || ~8.0.0 || ~8.1.0",
                 "psr/http-message": "^1.0",
                 "psr/http-server-middleware": "^1.0"
             },
@@ -1848,11 +1848,10 @@
             },
             "require-dev": {
                 "laminas/laminas-coding-standard": "~2.3.0",
-                "laminas/laminas-diactoros": "^1.7.1",
-                "malukenho/docheader": "^0.1.6",
-                "phpunit/phpunit": "^9.3",
-                "psalm/plugin-phpunit": "^0.16.0",
-                "vimeo/psalm": "^4.7"
+                "laminas/laminas-diactoros": "^2.13.0",
+                "phpunit/phpunit": "^9.5.21",
+                "psalm/plugin-phpunit": "^0.17.0",
+                "vimeo/psalm": "^4.24.0"
             },
             "suggest": {
                 "psr/http-message-implementation": "Please install a psr/http-message-implementation to consume Stratigility; e.g., laminas/laminas-diactoros"
@@ -1900,7 +1899,7 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2021-09-14T04:15:39+00:00"
+            "time": "2022-07-21T23:14:27+00:00"
         },
         {
             "name": "laminas/laminas-twitter",
@@ -6802,12 +6801,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Roave/SecurityAdvisories.git",
-                "reference": "0144c1225b5e4da02cf2c27a0e2cb2705168c47c"
+                "reference": "4bc2609bf9e2c2146d25465546bb10651cce47ac"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/0144c1225b5e4da02cf2c27a0e2cb2705168c47c",
-                "reference": "0144c1225b5e4da02cf2c27a0e2cb2705168c47c",
+                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/4bc2609bf9e2c2146d25465546bb10651cce47ac",
+                "reference": "4bc2609bf9e2c2146d25465546bb10651cce47ac",
                 "shasum": ""
             },
             "conflict": {
@@ -6969,6 +6968,7 @@
                 "in2code/femanager": "<5.5.1|>=6,<6.3.1",
                 "in2code/lux": "<17.6.1|>=18,<24.0.2",
                 "intelliants/subrion": "<=4.2.1",
+                "islandora/islandora": ">=2,<2.4.1",
                 "ivankristianto/phpwhois": "<=4.3",
                 "jackalope/jackalope-doctrine-dbal": "<1.7.4",
                 "james-heinrich/getid3": "<1.9.21",
@@ -7135,7 +7135,7 @@
                 "simplito/elliptic-php": "<1.0.6",
                 "slim/slim": "<2.6",
                 "smarty/smarty": "<3.1.45|>=4,<4.1.1",
-                "snipe/snipe-it": "<5.4.4|>= 6.0.0-RC-1, <= 6.0.0-RC-5",
+                "snipe/snipe-it": "<=6.0.2|>= 6.0.0-RC-1, <= 6.0.0-RC-5",
                 "socalnick/scn-social-auth": "<1.15.2",
                 "socialiteproviders/steam": "<1.1",
                 "spipu/html2pdf": "<5.2.4",
@@ -7226,6 +7226,7 @@
                 "wikimedia/parsoid": "<0.12.2",
                 "willdurand/js-translation-bundle": "<2.1.1",
                 "wintercms/winter": "<1.0.475|>=1.1,<1.1.9",
+                "woocommerce/woocommerce": "<6.6",
                 "wp-cli/wp-cli": "<2.5",
                 "wp-graphql/wp-graphql": "<0.3.5",
                 "wpanel/wpanel4-cms": "<=4.3.1",
@@ -7304,7 +7305,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-07-15T22:04:13+00:00"
+            "time": "2022-07-21T23:04:29+00:00"
         },
         {
             "name": "sebastian/cli-parser",
