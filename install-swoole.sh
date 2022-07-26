@@ -43,7 +43,7 @@ ensure_source() {
 compile_source() {
     # Compile the extension.
     phpize
-    ./configure
+    ./configure --enable-swoole --enable-sockets --enable-swoole-json
     make
 }
 

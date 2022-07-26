@@ -1,6 +1,6 @@
 name: laminas_dev
 
-type: php:7.4
+type: php:8.1
 
 size: S
 
@@ -18,7 +18,7 @@ hooks:
   build: |
     set -e
     echo "Installing Swoole extension"
-    bash install-swoole.sh v4.6.2
+    bash install-swoole.sh v4.8.11
     echo "Installing platform.sh CLI"
     curl -sS https://platform.sh/cli/installer | php
     echo "- Setting up configuration"
