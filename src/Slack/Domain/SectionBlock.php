@@ -15,7 +15,7 @@ class SectionBlock implements BlockInterface
     /** @var null|ElementInterface */
     private $accessory;
 
-    /** TextObject[] */
+    /** @var TextObject[] */
     private $fields = [];
 
     /** @var null|TextObject */

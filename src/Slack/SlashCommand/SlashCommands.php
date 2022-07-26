@@ -15,14 +15,12 @@ use function strtolower;
 
 class SlashCommands
 {
-    /** AuthorizedUserListInterface */
-    private $authorizedUsers;
+    private AuthorizedUserListInterface $authorizedUsers;
 
     /** @var SlashCommandInterface[] array<string, SlashCommandInterface> */
     private $commands = [];
 
-    /** @var SlashCommandResponseFactory */
-    private $responseFactory;
+    private SlashCommandResponseFactory $responseFactory;
 
     public function __construct(
         SlashCommandResponseFactory $responseFactory,

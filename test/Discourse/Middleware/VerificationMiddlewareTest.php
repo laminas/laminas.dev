@@ -21,7 +21,7 @@ class VerificationMiddlewareTest extends TestCase
 {
     use ProphecyTrait;
 
-    /** StreamInterface|ObjectProphecy */
+    /** @var StreamInterface|ObjectProphecy */
     private $body;
 
     /** @var RequestHandlerInterface|ObjectProphecy */
@@ -30,13 +30,13 @@ class VerificationMiddlewareTest extends TestCase
     /** @var VerificationMiddleware */
     private $middleware;
 
-    /** ServerRequestInterface|ObjectProphecy */
+    /** @var ServerRequestInterface|ObjectProphecy */
     private $request;
 
-    /** ResponseInterface|ObjectProphecy */
+    /** @var ResponseInterface|ObjectProphecy */
     private $response;
 
-    /** ProblemDetailsResponseFactory|ObjectProphecy */
+    /** @var ProblemDetailsResponseFactory|ObjectProphecy */
     private $responseFactory;
 
     /** @var string */
