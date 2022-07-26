@@ -9,6 +9,10 @@ use Phly\EventDispatcher\ListenerProvider\AttachableListenerProvider;
 use Psr\Container\ContainerInterface;
 use Webmozart\Assert\Assert;
 
+use function is_callable;
+use function is_string;
+use function sprintf;
+
 class SwooleEventListenerDelegator
 {
     public function __invoke(
@@ -30,6 +34,7 @@ class SwooleEventListenerDelegator
             $this::class
         ));
 
+        /** @var AttachableListenerProvider $provider */
         $provider = $factory();
         Assert::isInstanceOf($provider, AttachableListenerProvider::class);
 
@@ -40,7 +45,6 @@ class SwooleEventListenerDelegator
             foreach ($listeners as $listener) {
                 Assert::true(is_string($listener) || is_callable($listener));
 
-                /** @var AttachableListenerProvider $provider */
                 $provider->listen($event, $this->prepareListener($container, $listener, $event));
             }
         }
