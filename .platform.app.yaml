@@ -24,7 +24,7 @@ hooks:
     echo "#!/bin/bash\nset -e\n" > install_swoole.sh
     curl -s 'https://raw.githubusercontent.com/platformsh/snippets/main/src/install_swoole.sh' >> install_swoole.sh
     echo "Installing Swoole extension"
-    bash install_swoole.sh openswoole 4.11.1
+    bash install_swoole.sh swoole 4.6.2
     rm install_swoole.sh
     echo "Current PHP modules:"
     php -m
