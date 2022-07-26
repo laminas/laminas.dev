@@ -73,7 +73,10 @@
     },
     "extra": {
         "laminas": {
-            "component-whitelist": [
+            "component-ignore-list": [
+                "mezzio/mezzio-tooling"
+            ],
+            "component-auto-installs": [
                 "mezzio/mezzio",
                 "mezzio/mezzio-helpers",
                 "mezzio/mezzio-router",
