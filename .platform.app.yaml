@@ -9,6 +9,10 @@ disk: 256
 build:
   flavor: none
 
+dependencies:
+  php:
+    composer/composer: "^2"
+
 mounts:
   'data/cache':
     source: local
