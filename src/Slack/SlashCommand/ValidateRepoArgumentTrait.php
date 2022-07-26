@@ -13,8 +13,7 @@ use function trim;
 
 trait ValidateRepoArgumentTrait
 {
-    /** SlashCommandResponseFactory */
-    private $responseFactory;
+    private SlashCommandResponseFactory $responseFactory;
 
     public function validate(
         SlashCommandRequest $request,

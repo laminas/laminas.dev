@@ -23,7 +23,7 @@ class AuthorizedUserList implements AuthorizedUserListInterface
     /** @var string */
     private $aclChannel;
 
-    /** string[] */
+    /** @var string[] */
     private $allowed = [];
 
     /** @var null|LoggerInterface */
