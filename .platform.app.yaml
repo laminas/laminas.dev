@@ -13,6 +13,10 @@ dependencies:
   php:
     composer/composer: "^2"
 
+variables:
+  env:
+    SWOOLE_VERSION: "v4.8.11"
+
 mounts:
   'data/cache':
     source: local
@@ -22,14 +26,16 @@ hooks:
   build: |
     set -e
     echo "Installing Swoole extension"
-    bash install-swoole.sh v4.8.11
+    bash install-swoole.sh "${SWOOLE_VERSION}"
+    echo "Current PHP modules:"
+    php -m
     echo "Installing platform.sh CLI"
     curl -sS https://platform.sh/cli/installer | php
     echo "- Setting up configuration"
     rm -f config/development.config.php config/autoload/*.local.php
     mv config/autoload/local.php.dist config/autoload/local.php
     echo "- Installing application dependencies"
-    composer install --ignore-platform-reqs --no-ansi --no-dev --no-interaction --no-scripts --no-plugins --optimize-autoloader
+    composer install --no-ansi --no-dev --no-interaction --no-scripts --no-plugins --optimize-autoloader
   deploy: |
     rm -rf data/cache/*
 

@@ -1,8 +1,16 @@
+#!/bin/bash
+
+set -e
+
 run() {
     # Run the compilation process.
-    cd $PLATFORM_CACHE_DIR || exit 1;
+    cd "$PLATFORM_CACHE_DIR" || exit 1;
 
-    if [ ! -f "${PLATFORM_CACHE_DIR}/swoole/modules/swoole.so" ]; then
+    if [[ ! -f "${PLATFORM_CACHE_DIR}/swoole/COMPILED_VERSION" ]]; then
+        ensure_source
+        checkout_version "$1"
+        compile_source
+    elif [[ "$(cat "${PLATFORM_CACHE_DIR}/swoole/COMPILED_VERSION")" != "${SWOOLE_VERSION}" ]]; then
         ensure_source
         checkout_version "$1"
         compile_source
@@ -15,18 +23,24 @@ run() {
 enable_lib() {
     # Tell PHP to enable the extension.
     echo "Enabling Swoole extension."
-    echo "extension=${PLATFORM_APP_DIR}/swoole.so" >> $PLATFORM_APP_DIR/php.ini
+    echo "extension=${PLATFORM_APP_DIR}/swoole.so" >> "${PLATFORM_APP_DIR}/php.ini"
 }
 
 copy_lib() {
     # Copy the compiled library to the application directory.
     echo "Installing Swoole extension."
-    cp $PLATFORM_CACHE_DIR/swoole/modules/swoole.so $PLATFORM_APP_DIR
+    cp "${PLATFORM_CACHE_DIR}/swoole/modules/swoole.so" "${PLATFORM_APP_DIR}"
 }
 
-checkout_version () {
+checkout_version() {
     # Check out the specific Git tag that we want to build.
     git checkout "$1"
+}
+
+gitignore_version_file() {
+    if [ ! -f "${PLATFORM_CACHE_DIR}/swoole/COMPILED_VERSION" ]; then
+        echo "COMPILED_VERSION" >> "${PLATFORM_CACHE_DIR}/swoole/.git/info/exclude"
+    fi
 }
 
 ensure_source() {
@@ -45,6 +59,7 @@ compile_source() {
     phpize
     ./configure --enable-swoole --enable-sockets --enable-swoole-json
     make
+    echo -n "${SWOOLE_VERSION}" > COMPILED_VERSION
 }
 
 ensure_environment() {
@@ -57,8 +72,8 @@ ensure_environment() {
 
 ensure_arguments() {
     # If no version was specified, don't try to guess.
-    if [ -z $1 ]; then
-        echo "No version of the PhpRedis extension specified.  You must specify a tagged version on the command line."
+    if [ -z "$1" ]; then
+        echo "No version of the Swoole extension specified.  You must specify a tagged version on the command line."
         exit 1;
     fi
 }
