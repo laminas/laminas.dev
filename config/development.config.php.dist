@@ -31,5 +31,5 @@ return [
         'debug'                        => true,
         ConfigAggregator::ENABLE_CACHE => false,
     ],
-    (new ToolingConfigProvider())(),
+    ...(new ToolingConfigProvider())(),
 ];

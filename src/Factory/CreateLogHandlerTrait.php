@@ -22,24 +22,23 @@ trait CreateLogHandlerTrait
 
             case StreamHandler::class:
                 return new StreamHandler(
-                    $config['stream'],
-                    $config['level'] ?? Logger::DEBUG,
-                    array_key_exists('bubble', $config) ? $config['bubble'] : true,
-                    array_key_exists('expandNewLines', $config) ? $config['expandNewLines'] : true
+                    stream: $config['stream'],
+                    level: $config['level'] ?? Logger::DEBUG,
+                    bubble: array_key_exists('bubble', $config) ? $config['bubble'] : true,
                 );
 
             case SlackWebhookHandler::class:
                 return new SlackWebhookHandler(
-                    $config['webhook'],
-                    null, // channel; part of webhook registration
-                    null, // Bot name; part of webhook registration
-                    true, // Use attachments?
-                    null, // Emoji icon
-                    false, // Use short attachments?
-                    true, // Include context and extra data?
-                    $config['level'] ?? Logger::ERROR, // Log level
-                    array_key_exists('bubble', $config) ? $config['bubble'] : true,
-                    $config['excludeFields'] ?? [] // Fields to exclude
+                    webhookUrl: $config['webhook'],
+                    channel: null, // channel; part of webhook registration
+                    username: null, // Bot name; part of webhook registration
+                    useAttachment: true, // Use attachments?
+                    iconEmoji: null, // Emoji icon
+                    useShortAttachment: false, // Use short attachments?
+                    includeContextAndExtra: true, // Include context and extra data?
+                    level: $config['level'] ?? Logger::ERROR, // Log level
+                    bubble: array_key_exists('bubble', $config) ? $config['bubble'] : true,
+                    excludeFields: $config['excludeFields'] ?? [] // Fields to exclude
                 );
         }
         return null;

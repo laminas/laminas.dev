@@ -16,6 +16,7 @@ use Mezzio\Application;
 use Mezzio\Helper\BodyParams\BodyParamsMiddleware;
 use Mezzio\MiddlewareFactory;
 use Mezzio\ProblemDetails\ProblemDetailsMiddleware;
+use Mezzio\Swoole\Event\EventDispatcherInterface as MezzioEventDispatcher;
 use Mezzio\Swoole\Log\SwooleLoggerFactory;
 use Mezzio\Swoole\Task\DeferredServiceListenerDelegator;
 use Phly\EventDispatcher\EventDispatcher;
@@ -90,6 +91,7 @@ class ConfigProvider
                 EventDispatcherInterface::class                       => EventDispatcher::class,
                 HttpClientInterface::class                            => HttpClient::class,
                 ListenerProviderInterface::class                      => AttachableListenerProvider::class,
+                MezzioEventDispatcher::class                          => EventDispatcherInterface::class,
                 RequestFactoryInterface::class                        => RequestFactory::class,
                 ResponseFactoryInterface::class                       => ResponseFactory::class,
                 ServerRequestFactoryInterface::class                  => ServerRequestFactory::class,
@@ -99,6 +101,7 @@ class ConfigProvider
             'delegators' => [
                 Application::class                                         => [Slack\ApplicationDelegatorFactory::class],
                 AttachableListenerProvider::class                          => [
+                    Factory\SwooleEventListenerDelegator::class,
                     Discourse\ListenerProviderDelegatorFactory::class,
                     GitHub\ListenerProviderDelegatorFactory::class,
                     Slack\ListenerProviderDelegatorFactory::class,
