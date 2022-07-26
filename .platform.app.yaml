@@ -13,10 +13,6 @@ dependencies:
   php:
     composer/composer: "^2"
 
-variables:
-  env:
-    SWOOLE_VERSION: "v4.8.11"
-
 mounts:
   'data/cache':
     source: local
@@ -26,7 +22,7 @@ hooks:
   build: |
     set -e
     echo "Installing Swoole extension"
-    bash install-swoole.sh "${SWOOLE_VERSION}"
+    sh <( curl -s 'https://raw.githubusercontent.com/platformsh/snippets/main/src/install_swoole.sh') swoole 4.8.11
     echo "Current PHP modules:"
     php -m
     echo "Installing platform.sh CLI"
