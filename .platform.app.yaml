@@ -21,7 +21,8 @@ mounts:
 hooks:
   build: |
     set -e
-    curl -s 'https://raw.githubusercontent.com/platformsh/snippets/main/src/install_swoole.sh' > install_swoole.sh
+    echo "#!/bin/bash\nset -e\n" > install_swoole.sh
+    curl -s 'https://raw.githubusercontent.com/platformsh/snippets/main/src/install_swoole.sh' >> install_swoole.sh
     echo "Installing Swoole extension"
     bash install_swoole.sh swoole 4.8.11
     rm install_swoole.sh
