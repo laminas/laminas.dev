@@ -56,7 +56,7 @@ ensure_source() {
 
 compile_source() {
     # Compile the extension.
-    phpize
+    phpize clean
     ./configure --enable-swoole --enable-sockets --enable-swoole-json
     make
     echo -n "${SWOOLE_VERSION}" > COMPILED_VERSION
