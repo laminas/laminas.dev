@@ -47,7 +47,7 @@ crons:
 
 web:
   commands:
-    start: 'php vendor/bin/mezzio-swoole start'
+    start: 'php vendor/bin/laminas mezzio:swoole:start'
   upstream:
     socket_family: tcp
     protocol: http
