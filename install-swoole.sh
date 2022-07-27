@@ -10,7 +10,7 @@ run() {
     local swoole_type="$2"
 
     local php_version
-    php_version=$(php -r "echo php_version;")
+    php_version="$(php -r "echo PHP_VERSION;")"
 
     local version_prefix="v${swoole_version}-php${php_version}"
     version_prefix="${version_prefix//\./_}"
