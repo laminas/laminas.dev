@@ -4,13 +4,9 @@ set -e
 
 run() {
     # Run the compilation process.
-    cd "$PLATFORM_CACHE_DIR" || exit 1;
+    cd "${PLATFORM_CACHE_DIR}" || exit 1;
 
-    if [[ ! -f "${PLATFORM_CACHE_DIR}/swoole/COMPILED_VERSION" ]]; then
-        ensure_source
-        checkout_version "$1"
-        compile_source
-    elif [[ "$(cat "${PLATFORM_CACHE_DIR}/swoole/COMPILED_VERSION")" != "${SWOOLE_VERSION}" ]]; then
+    if [ ! -f "${PLATFORM_CACHE_DIR}/swoole/modules/swoole.so" ]; then
         ensure_source
         checkout_version "$1"
         compile_source
@@ -32,15 +28,9 @@ copy_lib() {
     cp "${PLATFORM_CACHE_DIR}/swoole/modules/swoole.so" "${PLATFORM_APP_DIR}"
 }
 
-checkout_version() {
+checkout_version () {
     # Check out the specific Git tag that we want to build.
     git checkout "$1"
-}
-
-gitignore_version_file() {
-    if [ ! -f "${PLATFORM_CACHE_DIR}/swoole/COMPILED_VERSION" ]; then
-        echo "COMPILED_VERSION" >> "${PLATFORM_CACHE_DIR}/swoole/.git/info/exclude"
-    fi
 }
 
 ensure_source() {
@@ -52,14 +42,27 @@ ensure_source() {
         git clone https://github.com/swoole/swoole-src.git swoole
         cd swoole || exit 1;
     fi
+
+    if [ -d "valgrind" ]; then
+        cd valgrind || exit 1;
+        git fetch --all --prune
+    else
+        git clone git://sourceware.org/git/valgrind.git valgrind
+        cd valgrind || exit 1;
+    fi
 }
 
 compile_source() {
     # Compile the extension.
-    phpize clean
-    ./configure --enable-swoole --enable-sockets --enable-swoole-json
+    cd valgrind
+    ./autogen.sh
+    ./configure --prefix="${PLATFORM_CACHE_DIR}/swoole"
     make
-    echo -n "${SWOOLE_VERSION}" > COMPILED_VERSION
+    make install
+    cd ..
+    phpize
+    ./configure
+    make
 }
 
 ensure_environment() {
@@ -73,7 +76,7 @@ ensure_environment() {
 ensure_arguments() {
     # If no version was specified, don't try to guess.
     if [ -z "$1" ]; then
-        echo "No version of the Swoole extension specified.  You must specify a tagged version on the command line."
+        echo "No version of the (open)swoole extension specified.  You must specify a tagged version on the command line."
         exit 1;
     fi
 }
