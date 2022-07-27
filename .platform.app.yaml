@@ -31,7 +31,7 @@ hooks:
     rm -f config/development.config.php config/autoload/*.local.php
     mv config/autoload/local.php.dist config/autoload/local.php
     echo "- Installing application dependencies"
-    composer install --no-ansi --no-dev --no-interaction --no-scripts --no-plugins --optimize-autoloader
+    composer install --no-ansi --no-dev --no-interaction --no-scripts --no-plugins --optimize-autoloader --ignore-platform-req=ext-openswoole
   deploy: |
     rm -rf data/cache/*
 
