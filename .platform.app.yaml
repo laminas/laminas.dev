@@ -1,6 +1,6 @@
 name: laminas_dev
 
-type: php:7.4
+type: php:8.1
 
 size: S
 
@@ -8,6 +8,10 @@ disk: 256
 
 build:
   flavor: none
+
+dependencies:
+  php:
+    composer/composer: "^2"
 
 mounts:
   'data/cache':
@@ -18,14 +22,16 @@ hooks:
   build: |
     set -e
     echo "Installing Swoole extension"
-    bash install-swoole.sh v4.6.2
+    bash install-swoole.sh openswoole 4.11.1
+    echo "Current PHP modules:"
+    php -m
     echo "Installing platform.sh CLI"
     curl -sS https://platform.sh/cli/installer | php
     echo "- Setting up configuration"
     rm -f config/development.config.php config/autoload/*.local.php
     mv config/autoload/local.php.dist config/autoload/local.php
     echo "- Installing application dependencies"
-    composer install --ignore-platform-reqs --no-ansi --no-dev --no-interaction --no-scripts --no-plugins --optimize-autoloader
+    composer install --no-ansi --no-dev --no-interaction --no-scripts --no-plugins --optimize-autoloader --ignore-platform-req=ext-openswoole
   deploy: |
     rm -rf data/cache/*
 
@@ -47,7 +53,7 @@ crons:
 
 web:
   commands:
-    start: 'php vendor/bin/mezzio-swoole start'
+    start: 'php vendor/bin/laminas mezzio:swoole:start'
   upstream:
     socket_family: tcp
     protocol: http

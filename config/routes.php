@@ -5,6 +5,7 @@ declare(strict_types=1);
 // phpcs:disable PSR12.Files.FileHeader.IncorrectOrder
 
 
+use App\ConfigProvider as AppConfigProvider;
 use Mezzio\Application;
 use Mezzio\MiddlewareFactory;
 use Psr\Container\ContainerInterface;
@@ -37,5 +38,5 @@ use Psr\Container\ContainerInterface;
  */
 
 return function (Application $app, MiddlewareFactory $factory, ContainerInterface $container): void {
-    (new App\ConfigProvider())->registerRoutes($app, $factory, $container);
+    (new AppConfigProvider())->registerRoutes($app, $factory, $container);
 };

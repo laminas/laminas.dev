@@ -22,7 +22,6 @@ $aggregator = new ConfigAggregator([
     Laminas\I18n\ConfigProvider::class,
     Laminas\Validator\ConfigProvider::class,
     Phly\EventDispatcher\ConfigProvider::class,
-    Phly\Swoole\TaskWorker\ConfigProvider::class,
     Mezzio\ConfigProvider::class,
     Mezzio\Helper\ConfigProvider::class,
     Mezzio\Router\ConfigProvider::class,
@@ -45,7 +44,6 @@ $aggregator = new ConfigAggregator([
     // Load development config if it exists
     new PhpFileProvider(realpath(__DIR__) . '/development.config.php'),
 ], $cacheConfig['config_cache_path'], [
-    Laminas\ZendFrameworkBridge\ConfigPostProcessor::class,
     new ParameterPostProcessor([
         'log' => [
             'handler' => [

@@ -2,10 +2,12 @@ version: "3"
 services:
 
   web:
-    image: phpswoole/swoole:4.8-php7.4-alpine
+    build:
+      context: .
+      dockerfile: .dev/Dockerfile
     env_file:
       - .env
-    entrypoint: ['php', 'vendor/bin/mezzio-swoole', 'start']
+    entrypoint: ['php', 'vendor/bin/laminas', 'mezzio:swoole:start']
     ports:
       - "9000:9000"
     volumes:

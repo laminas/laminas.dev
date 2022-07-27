@@ -13,7 +13,9 @@
 
     <!-- Paths to check -->
     <file>./bin</file>
-    <file>./config</file>
+    <file>./config/autoload</file>
+    <file>./config/pipeline.php</file>
+    <file>./config/routes.php</file>
     <file>./src</file>
     <file>./test</file>
     <exclude-pattern>./config/development\.config\.php$</exclude-pattern>

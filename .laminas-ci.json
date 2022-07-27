@@ -3,6 +3,6 @@
         "curl",
         "hash",
         "json",
-        "swoole"
+        "openswoole"
     ]
 }
