@@ -39,6 +39,7 @@ some fenced code
 and
 
 - a list item
+
   ```
   with indented code
   ```
