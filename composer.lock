@@ -5970,23 +5970,22 @@
         },
         {
             "name": "mezzio/mezzio-tooling",
-            "version": "2.5.0",
+            "version": "2.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mezzio/mezzio-tooling.git",
-                "reference": "a7147701150711b67b78d7d49bac569e2b2d0366"
+                "reference": "2c2c1cfe58fb7c71891cf252edae3afbd1783b8e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mezzio/mezzio-tooling/zipball/a7147701150711b67b78d7d49bac569e2b2d0366",
-                "reference": "a7147701150711b67b78d7d49bac569e2b2d0366",
+                "url": "https://api.github.com/repos/mezzio/mezzio-tooling/zipball/2c2c1cfe58fb7c71891cf252edae3afbd1783b8e",
+                "reference": "2c2c1cfe58fb7c71891cf252edae3afbd1783b8e",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
                 "laminas/laminas-cli": "^1.2",
                 "laminas/laminas-code": "^4.5",
-                "laminas/laminas-component-installer": "^2.0",
                 "laminas/laminas-stdlib": "^3.1",
                 "laminas/laminas-stratigility": "^3.0",
                 "mezzio/mezzio": "^3.0",
@@ -6048,7 +6047,7 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2022-01-20T18:21:59+00:00"
+            "time": "2022-08-10T08:16:52+00:00"
         },
         {
             "name": "myclabs/deep-copy",
