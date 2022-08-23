@@ -27,7 +27,7 @@
         "laminas/laminas-diactoros": "^2.14.0",
         "laminas/laminas-http": "^2.16",
         "laminas/laminas-servicemanager": "^3.16",
-        "laminas/laminas-stdlib": "^3.11",
+        "laminas/laminas-stdlib": "^3.12",
         "laminas/laminas-stratigility": "^3.8",
         "laminas/laminas-twitter": "^3.4",
         "league/commonmark": "^2.3",
