@@ -27,7 +27,7 @@
         "laminas/laminas-diactoros": "^2.14.0",
         "laminas/laminas-http": "^2.16",
         "laminas/laminas-servicemanager": "^3.16",
-        "laminas/laminas-stdlib": "^3.12",
+        "laminas/laminas-stdlib": "^3.13",
         "laminas/laminas-stratigility": "^3.8",
         "laminas/laminas-twitter": "^3.4",
         "league/commonmark": "^2.3",
@@ -52,7 +52,7 @@
     },
     "require-dev": {
         "filp/whoops": "^2.1",
-        "laminas/laminas-coding-standard": "~2.3.0",
+        "laminas/laminas-coding-standard": "~2.4.0",
         "laminas/laminas-development-mode": "^3.1",
         "mezzio/mezzio-tooling": "^2.5",
         "phpspec/prophecy-phpunit": "^2.0",
