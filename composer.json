@@ -37,7 +37,7 @@
         "mezzio/mezzio-helpers": "^5.8",
         "mezzio/mezzio-platesrenderer": "^2.4",
         "mezzio/mezzio-problem-details": "^1.6",
-        "mezzio/mezzio-swoole": "^4.3",
+        "mezzio/mezzio-swoole": "^4.4",
         "mezzio/mezzio-template": "^2.4",
         "monolog/monolog": "^3.2",
         "phly/phly-event-dispatcher": "^1.2",

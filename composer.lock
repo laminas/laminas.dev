@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "03b16689cc7b9783c75edbe3fc561ae1",
+    "content-hash": "cbfcb88f4f171ae014bb8335358725e8",
     "packages": [
         {
             "name": "beberlei/assert",
@@ -3035,16 +3035,16 @@
         },
         {
             "name": "mezzio/mezzio-swoole",
-            "version": "4.3.0",
+            "version": "4.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mezzio/mezzio-swoole.git",
-                "reference": "0c049baca11bd65cfc83ce3d4d28a6a3b80b8e9d"
+                "reference": "12d71c14c72faf47f580ed48454896ba4c26364d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mezzio/mezzio-swoole/zipball/0c049baca11bd65cfc83ce3d4d28a6a3b80b8e9d",
-                "reference": "0c049baca11bd65cfc83ce3d4d28a6a3b80b8e9d",
+                "url": "https://api.github.com/repos/mezzio/mezzio-swoole/zipball/12d71c14c72faf47f580ed48454896ba4c26364d",
+                "reference": "12d71c14c72faf47f580ed48454896ba4c26364d",
                 "shasum": ""
             },
             "require": {
@@ -3118,7 +3118,7 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2022-07-25T19:13:22+00:00"
+            "time": "2022-09-13T09:32:35+00:00"
         },
         {
             "name": "mezzio/mezzio-template",
