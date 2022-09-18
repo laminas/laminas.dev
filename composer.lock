@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3b04897f139e2f6ecda8361f3dce8191",
+    "content-hash": "5d6389c564716aca792265ad14338cd6",
     "packages": [
         {
             "name": "beberlei/assert",
@@ -920,16 +920,16 @@
         },
         {
             "name": "laminas/laminas-config-aggregator-parameters",
-            "version": "1.9.0",
+            "version": "1.10.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/laminas-config-aggregator-parameters.git",
-                "reference": "7f23380372a5abd92625ef3d9850cd46926e5ec4"
+                "reference": "f60fa21f65ea36a468dd99888b18b8490b7fd31f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-config-aggregator-parameters/zipball/7f23380372a5abd92625ef3d9850cd46926e5ec4",
-                "reference": "7f23380372a5abd92625ef3d9850cd46926e5ec4",
+                "url": "https://api.github.com/repos/laminas/laminas-config-aggregator-parameters/zipball/f60fa21f65ea36a468dd99888b18b8490b7fd31f",
+                "reference": "f60fa21f65ea36a468dd99888b18b8490b7fd31f",
                 "shasum": ""
             },
             "require": {
@@ -942,7 +942,7 @@
                 "zendframework/zend-config-aggregator-parameters": "*"
             },
             "require-dev": {
-                "dms/phpunit-arraysubset-asserts": "^0.2.1",
+                "dms/phpunit-arraysubset-asserts": "^0.4.0",
                 "laminas/laminas-coding-standard": "^2.3",
                 "laminas/laminas-config": "^3.7.0",
                 "phpunit/phpunit": "^9.5",
@@ -975,7 +975,7 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2022-07-24T21:16:24+00:00"
+            "time": "2022-09-18T10:11:06+00:00"
         },
         {
             "name": "laminas/laminas-crypt",
