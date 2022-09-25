@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "37cf5f97a0a11c412145dc5aaabfdf9a",
+    "content-hash": "5c7cfdf11e1e14dc76437c69645e0d53",
     "packages": [
         {
             "name": "beberlei/assert",
@@ -1977,16 +1977,16 @@
         },
         {
             "name": "laminas/laminas-twitter",
-            "version": "3.4.0",
+            "version": "3.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/laminas-twitter.git",
-                "reference": "6c0efcdb37d8f2ad68ea719e72c5dbb3a6dbf5de"
+                "reference": "aef10bf0b2abfb140f01b8c9e9208f6cd5d1627f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-twitter/zipball/6c0efcdb37d8f2ad68ea719e72c5dbb3a6dbf5de",
-                "reference": "6c0efcdb37d8f2ad68ea719e72c5dbb3a6dbf5de",
+                "url": "https://api.github.com/repos/laminas/laminas-twitter/zipball/aef10bf0b2abfb140f01b8c9e9208f6cd5d1627f",
+                "reference": "aef10bf0b2abfb140f01b8c9e9208f6cd5d1627f",
                 "shasum": ""
             },
             "require": {
@@ -2039,7 +2039,7 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2022-07-25T09:56:01+00:00"
+            "time": "2022-09-25T10:17:14+00:00"
         },
         {
             "name": "laminas/laminas-uri",
