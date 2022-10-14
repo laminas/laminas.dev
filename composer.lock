@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a7f74a452e08aaf175a1b3e64f44388e",
+    "content-hash": "eddf825921fd23763c92f5616ebe593e",
     "packages": [
         {
             "name": "beberlei/assert",
@@ -2868,22 +2868,22 @@
         },
         {
             "name": "mezzio/mezzio-problem-details",
-            "version": "1.7.0",
+            "version": "1.8.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mezzio/mezzio-problem-details.git",
-                "reference": "8b5de5859383ae44ec85d0a94ad251864692a22b"
+                "reference": "ee10fe6e77952e0efbda1b008132dddbbb1f1855"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mezzio/mezzio-problem-details/zipball/8b5de5859383ae44ec85d0a94ad251864692a22b",
-                "reference": "8b5de5859383ae44ec85d0a94ad251864692a22b",
+                "url": "https://api.github.com/repos/mezzio/mezzio-problem-details/zipball/ee10fe6e77952e0efbda1b008132dddbbb1f1855",
+                "reference": "ee10fe6e77952e0efbda1b008132dddbbb1f1855",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
                 "fig/http-message-util": "^1.1.2",
-                "php": "^7.4 || ~8.0.0 || ~8.1.0",
+                "php": "~8.0.0 || ~8.1.0 || ~8.2.0",
                 "psr/container": "^1.0 || ^2.0",
                 "psr/http-factory": "^1.0",
                 "psr/http-message": "^1.0",
@@ -2897,9 +2897,9 @@
             },
             "require-dev": {
                 "laminas/laminas-coding-standard": "~2.4.0",
-                "phpunit/phpunit": "^9.5.11",
+                "phpunit/phpunit": "^9.5.25",
                 "psalm/plugin-phpunit": "^0.17.0",
-                "vimeo/psalm": "^4.17"
+                "vimeo/psalm": "^4.29"
             },
             "type": "library",
             "extra": {
@@ -2941,7 +2941,7 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2022-09-18T11:20:18+00:00"
+            "time": "2022-10-14T16:37:00+00:00"
         },
         {
             "name": "mezzio/mezzio-router",
