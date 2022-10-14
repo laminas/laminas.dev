@@ -20,7 +20,7 @@
         "ext-openswoole": "*",
         "beberlei/assert": "^2.9.9 || ^3.0.0",
         "guzzlehttp/guzzle": "^6.3 || ^7.0",
-        "laminas/laminas-cli": "^1.6",
+        "laminas/laminas-cli": "^1.7",
         "laminas/laminas-component-installer": "^3.0",
         "laminas/laminas-config-aggregator": "^1.11",
         "laminas/laminas-config-aggregator-parameters": "^1.12",
