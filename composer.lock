@@ -529,16 +529,16 @@
         },
         {
             "name": "guzzlehttp/psr7",
-            "version": "2.4.1",
+            "version": "2.4.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/psr7.git",
-                "reference": "69568e4293f4fa993f3b0e51c9723e1e17c41379"
+                "reference": "3148458748274be1546f8f2809a6c09fe66f44aa"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/psr7/zipball/69568e4293f4fa993f3b0e51c9723e1e17c41379",
-                "reference": "69568e4293f4fa993f3b0e51c9723e1e17c41379",
+                "url": "https://api.github.com/repos/guzzle/psr7/zipball/3148458748274be1546f8f2809a6c09fe66f44aa",
+                "reference": "3148458748274be1546f8f2809a6c09fe66f44aa",
                 "shasum": ""
             },
             "require": {
@@ -628,7 +628,7 @@
             ],
             "support": {
                 "issues": "https://github.com/guzzle/psr7/issues",
-                "source": "https://github.com/guzzle/psr7/tree/2.4.1"
+                "source": "https://github.com/guzzle/psr7/tree/2.4.2"
             },
             "funding": [
                 {
@@ -644,7 +644,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-08-28T14:45:39+00:00"
+            "time": "2022-10-25T13:49:28+00:00"
         },
         {
             "name": "laminas/laminas-cli",
@@ -1347,16 +1347,16 @@
         },
         {
             "name": "laminas/laminas-httphandlerrunner",
-            "version": "2.3.0",
+            "version": "2.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/laminas-httphandlerrunner.git",
-                "reference": "3c9491473b7decd8f329266a3cb6226a1f90594c"
+                "reference": "d15af53895fd581b5a448a09fd9a4baebc4ae6e5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-httphandlerrunner/zipball/3c9491473b7decd8f329266a3cb6226a1f90594c",
-                "reference": "3c9491473b7decd8f329266a3cb6226a1f90594c",
+                "url": "https://api.github.com/repos/laminas/laminas-httphandlerrunner/zipball/d15af53895fd581b5a448a09fd9a4baebc4ae6e5",
+                "reference": "d15af53895fd581b5a448a09fd9a4baebc4ae6e5",
                 "shasum": ""
             },
             "require": {
@@ -1410,7 +1410,7 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2022-10-10T19:52:02+00:00"
+            "time": "2022-10-25T13:41:39+00:00"
         },
         {
             "name": "laminas/laminas-i18n",
@@ -6974,12 +6974,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Roave/SecurityAdvisories.git",
-                "reference": "4ed057f00e70bf1a45434fbc6fe14790684ff3c5"
+                "reference": "599b9d6746e56b67b187afed175dd02fb1a288fa"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/4ed057f00e70bf1a45434fbc6fe14790684ff3c5",
-                "reference": "4ed057f00e70bf1a45434fbc6fe14790684ff3c5",
+                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/599b9d6746e56b67b187afed175dd02fb1a288fa",
+                "reference": "599b9d6746e56b67b187afed175dd02fb1a288fa",
                 "shasum": ""
             },
             "conflict": {
@@ -7225,7 +7225,7 @@
                 "october/cms": "= 1.1.1|= 1.0.471|= 1.0.469|>=1.0.319,<1.0.469",
                 "october/october": ">=1.0.319,<1.0.466|>=2.1,<2.1.12",
                 "october/rain": "<1.0.472|>=1.1,<1.1.2",
-                "october/system": "<2.2.34|>=3,<3.0.66",
+                "october/system": "<1.0.476|>=1.1,<1.1.12|>=2,<2.2.34|>=3,<3.0.66",
                 "onelogin/php-saml": "<2.10.4",
                 "oneup/uploader-bundle": "<1.9.3|>=2,<2.1.5",
                 "open-web-analytics/open-web-analytics": "<1.7.4",
@@ -7495,7 +7495,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-10-19T23:05:04+00:00"
+            "time": "2022-10-24T19:11:20+00:00"
         },
         {
             "name": "sebastian/cli-parser",
