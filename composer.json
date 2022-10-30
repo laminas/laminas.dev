@@ -13,7 +13,7 @@
         "rss": "https://github.com/laminas/laminas.dev/releases.atom"
     },
     "require": {
-        "php": "~8.1.0",
+        "php": "~8.1.12",
         "ext-curl": "*",
         "ext-hash": "*",
         "ext-json": "*",
@@ -30,7 +30,7 @@
         "laminas/laminas-stdlib": "^3.15",
         "laminas/laminas-stratigility": "^3.9",
         "laminas/laminas-twitter": "^3.5",
-        "league/commonmark": "^2.3.5",
+        "league/commonmark": "^2.3.6",
         "mezzio/mezzio": "^3.13",
         "mezzio/mezzio-fastroute": "^3.7",
         "mezzio/mezzio-hal": "^2.4",
