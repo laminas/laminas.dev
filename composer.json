@@ -13,7 +13,7 @@
         "rss": "https://github.com/laminas/laminas.dev/releases.atom"
     },
     "require": {
-        "php": "~8.1.12",
+        "php": "~8.1.0",
         "ext-curl": "*",
         "ext-hash": "*",
         "ext-json": "*",
