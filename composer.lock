@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4abb25a2a507a5b9e27661c0363ce029",
+    "content-hash": "938060d037991481e2c152ace8f2b16d",
     "packages": [
         {
             "name": "beberlei/assert",
@@ -2791,16 +2791,16 @@
         },
         {
             "name": "mezzio/mezzio-platesrenderer",
-            "version": "2.7.0",
+            "version": "2.8.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mezzio/mezzio-platesrenderer.git",
-                "reference": "d31eba77eb2431f8e657ae7d6ccb7d1d3c4283de"
+                "reference": "536433190ce55c7362e9dfa77ae8f6501ca85d1f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mezzio/mezzio-platesrenderer/zipball/d31eba77eb2431f8e657ae7d6ccb7d1d3c4283de",
-                "reference": "d31eba77eb2431f8e657ae7d6ccb7d1d3c4283de",
+                "url": "https://api.github.com/repos/mezzio/mezzio-platesrenderer/zipball/536433190ce55c7362e9dfa77ae8f6501ca85d1f",
+                "reference": "536433190ce55c7362e9dfa77ae8f6501ca85d1f",
                 "shasum": ""
             },
             "require": {
@@ -2809,7 +2809,7 @@
                 "mezzio/mezzio-helpers": "^5.2",
                 "mezzio/mezzio-router": "^3.0",
                 "mezzio/mezzio-template": "^2.0",
-                "php": "^7.4 || ~8.0.0 || ~8.1.0",
+                "php": "~8.0.0 || ~8.1.0 || ~8.2.0",
                 "psr/container": "^1.0 || ^2.0"
             },
             "conflict": {
@@ -2863,7 +2863,7 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2022-11-04T14:21:11+00:00"
+            "time": "2022-11-16T19:53:39+00:00"
         },
         {
             "name": "mezzio/mezzio-problem-details",
