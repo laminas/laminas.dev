@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "64c23c1d0786fe2df50071cff148655c",
+    "content-hash": "4abb25a2a507a5b9e27661c0363ce029",
     "packages": [
         {
             "name": "beberlei/assert",
@@ -2622,22 +2622,22 @@
         },
         {
             "name": "mezzio/mezzio-hal",
-            "version": "2.4.0",
+            "version": "2.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mezzio/mezzio-hal.git",
-                "reference": "09d1965257585e230ed304734803a3c8601a467c"
+                "reference": "1306b741501f7bc48bb6abbda29623d4890601ac"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mezzio/mezzio-hal/zipball/09d1965257585e230ed304734803a3c8601a467c",
-                "reference": "09d1965257585e230ed304734803a3c8601a467c",
+                "url": "https://api.github.com/repos/mezzio/mezzio-hal/zipball/1306b741501f7bc48bb6abbda29623d4890601ac",
+                "reference": "1306b741501f7bc48bb6abbda29623d4890601ac",
                 "shasum": ""
             },
             "require": {
                 "ext-dom": "*",
                 "ext-json": "*",
-                "php": "^7.4 || ~8.0.0 || ~8.1.0",
+                "php": "~8.0.0 || ~8.1.0 || ~8.2.0",
                 "psr/container": "^1.1.2 || ^2.0.2",
                 "psr/http-factory": "^1.0",
                 "psr/http-message": "^1.0.1",
@@ -2652,15 +2652,15 @@
                 "psr/link-implementation": "1.0"
             },
             "require-dev": {
-                "doctrine/orm": "^2.9.4",
-                "laminas/laminas-coding-standard": "~2.3.0",
+                "doctrine/orm": "^2.13.3",
+                "laminas/laminas-coding-standard": "~2.4.0",
                 "laminas/laminas-hydrator": "^4.3",
                 "laminas/laminas-paginator": "^2.11",
                 "mezzio/mezzio-helpers": "^5.7",
-                "phpspec/prophecy-phpunit": "^2.0",
-                "phpunit/phpunit": "^9.5.8",
-                "psalm/plugin-phpunit": "^0.15.0",
-                "vimeo/psalm": "^4.3"
+                "phpspec/prophecy-phpunit": "^2.0.1",
+                "phpunit/phpunit": "^9.5.26",
+                "psalm/plugin-phpunit": "^0.18.0",
+                "vimeo/psalm": "^4.29.0"
             },
             "suggest": {
                 "laminas/laminas-hydrator": "^4.3 in order to use the ResourceGenerator to create Resource instances from objects",
@@ -2711,7 +2711,7 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2022-01-12T12:51:09+00:00"
+            "time": "2022-11-16T09:14:55+00:00"
         },
         {
             "name": "mezzio/mezzio-helpers",
@@ -4816,16 +4816,16 @@
         },
         {
             "name": "symfony/polyfill-ctype",
-            "version": "v1.26.0",
+            "version": "v1.27.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-ctype.git",
-                "reference": "6fd1b9a79f6e3cf65f9e679b23af304cd9e010d4"
+                "reference": "5bbc823adecdae860bb64756d639ecfec17b050a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-ctype/zipball/6fd1b9a79f6e3cf65f9e679b23af304cd9e010d4",
-                "reference": "6fd1b9a79f6e3cf65f9e679b23af304cd9e010d4",
+                "url": "https://api.github.com/repos/symfony/polyfill-ctype/zipball/5bbc823adecdae860bb64756d639ecfec17b050a",
+                "reference": "5bbc823adecdae860bb64756d639ecfec17b050a",
                 "shasum": ""
             },
             "require": {
@@ -4840,7 +4840,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-main": "1.26-dev"
+                    "dev-main": "1.27-dev"
                 },
                 "thanks": {
                     "name": "symfony/polyfill",
@@ -4878,7 +4878,7 @@
                 "portable"
             ],
             "support": {
-                "source": "https://github.com/symfony/polyfill-ctype/tree/v1.26.0"
+                "source": "https://github.com/symfony/polyfill-ctype/tree/v1.27.0"
             },
             "funding": [
                 {
@@ -4894,7 +4894,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-05-24T11:49:31+00:00"
+            "time": "2022-11-03T14:55:06+00:00"
         },
         {
             "name": "symfony/polyfill-intl-grapheme",
