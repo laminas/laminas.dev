@@ -31,7 +31,7 @@
         "laminas/laminas-stratigility": "^3.9",
         "laminas/laminas-twitter": "^3.6.0",
         "league/commonmark": "^2.3.7",
-        "mezzio/mezzio": "^3.13",
+        "mezzio/mezzio": "^3.14.0",
         "mezzio/mezzio-fastroute": "^3.7",
         "mezzio/mezzio-hal": "^2.5.0",
         "mezzio/mezzio-helpers": "^5.11",
