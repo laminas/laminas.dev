@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d20bb0c7f25203489618b6014e9e94e3",
+    "content-hash": "be8b423f07b9b889055c7d274284c20f",
     "packages": [
         {
             "name": "beberlei/assert",
@@ -716,16 +716,16 @@
         },
         {
             "name": "laminas/laminas-component-installer",
-            "version": "3.1.0",
+            "version": "3.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/laminas-component-installer.git",
-                "reference": "8e8f8e700380a9e05a8e05a1b975682cdf8b0533"
+                "reference": "24d4da550d1894fb40df3ba09e5840a5c6653b8e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-component-installer/zipball/8e8f8e700380a9e05a8e05a1b975682cdf8b0533",
-                "reference": "8e8f8e700380a9e05a8e05a1b975682cdf8b0533",
+                "url": "https://api.github.com/repos/laminas/laminas-component-installer/zipball/24d4da550d1894fb40df3ba09e5840a5c6653b8e",
+                "reference": "24d4da550d1894fb40df3ba09e5840a5c6653b8e",
                 "shasum": ""
             },
             "require": {
@@ -741,7 +741,7 @@
                 "mikey179/vfsstream": "^1.6.11",
                 "phpunit/phpunit": "^9.5.26",
                 "psalm/plugin-phpunit": "^0.18.0",
-                "vimeo/psalm": "^4.29.0",
+                "vimeo/psalm": "^5.0.0",
                 "webmozart/assert": "^1.11.0"
             },
             "type": "composer-plugin",
@@ -779,7 +779,7 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2022-11-15T22:21:52+00:00"
+            "time": "2022-12-05T23:38:07+00:00"
         },
         {
             "name": "laminas/laminas-config",
@@ -920,16 +920,16 @@
         },
         {
             "name": "laminas/laminas-config-aggregator-parameters",
-            "version": "1.12.0",
+            "version": "1.13.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/laminas-config-aggregator-parameters.git",
-                "reference": "57a68c2f88aa135485126cd5c6a03096931c1913"
+                "reference": "901eeef9ee8f53a6720bc43476b66f38184cf72a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-config-aggregator-parameters/zipball/57a68c2f88aa135485126cd5c6a03096931c1913",
-                "reference": "57a68c2f88aa135485126cd5c6a03096931c1913",
+                "url": "https://api.github.com/repos/laminas/laminas-config-aggregator-parameters/zipball/901eeef9ee8f53a6720bc43476b66f38184cf72a",
+                "reference": "901eeef9ee8f53a6720bc43476b66f38184cf72a",
                 "shasum": ""
             },
             "require": {
@@ -944,10 +944,10 @@
             "require-dev": {
                 "dms/phpunit-arraysubset-asserts": "^0.4.0",
                 "laminas/laminas-coding-standard": "~2.4",
-                "laminas/laminas-config": "^3.7.0",
-                "phpunit/phpunit": "^9.5.25",
-                "psalm/plugin-phpunit": "^0.17.0",
-                "vimeo/psalm": "^4.29"
+                "laminas/laminas-config": "^3.8.0",
+                "phpunit/phpunit": "^9.5.26",
+                "psalm/plugin-phpunit": "^0.18.3",
+                "vimeo/psalm": "^5.1"
             },
             "type": "library",
             "autoload": {
@@ -975,7 +975,7 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2022-10-11T23:41:23+00:00"
+            "time": "2022-12-05T17:12:09+00:00"
         },
         {
             "name": "laminas/laminas-crypt",
@@ -1499,67 +1499,6 @@
             "time": "2022-12-02T17:15:52+00:00"
         },
         {
-            "name": "laminas/laminas-json",
-            "version": "3.5.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/laminas/laminas-json.git",
-                "reference": "7a8a1d7bf2d05dd6c1fbd7c0868d3848cf2b57ec"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-json/zipball/7a8a1d7bf2d05dd6c1fbd7c0868d3848cf2b57ec",
-                "reference": "7a8a1d7bf2d05dd6c1fbd7c0868d3848cf2b57ec",
-                "shasum": ""
-            },
-            "require": {
-                "php": "~8.0.0 || ~8.1.0 || ~8.2.0"
-            },
-            "conflict": {
-                "zendframework/zend-json": "*"
-            },
-            "require-dev": {
-                "laminas/laminas-coding-standard": "~2.4.0",
-                "laminas/laminas-stdlib": "^2.7.7 || ^3.1",
-                "phpunit/phpunit": "^9.5.25"
-            },
-            "suggest": {
-                "laminas/laminas-json-server": "For implementing JSON-RPC servers",
-                "laminas/laminas-xml2json": "For converting XML documents to JSON"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Laminas\\Json\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "description": "provides convenience methods for serializing native PHP to JSON and decoding JSON to native PHP",
-            "homepage": "https://laminas.dev",
-            "keywords": [
-                "json",
-                "laminas"
-            ],
-            "support": {
-                "chat": "https://laminas.dev/chat",
-                "docs": "https://docs.laminas.dev/laminas-json/",
-                "forum": "https://discourse.laminas.dev",
-                "issues": "https://github.com/laminas/laminas-json/issues",
-                "rss": "https://github.com/laminas/laminas-json/releases.atom",
-                "source": "https://github.com/laminas/laminas-json"
-            },
-            "funding": [
-                {
-                    "url": "https://funding.communitybridge.org/projects/laminas-project",
-                    "type": "community_bridge"
-                }
-            ],
-            "time": "2022-10-17T04:06:45+00:00"
-        },
-        {
             "name": "laminas/laminas-loader",
             "version": "2.9.0",
             "source": {
@@ -1975,25 +1914,24 @@
         },
         {
             "name": "laminas/laminas-twitter",
-            "version": "3.6.0",
+            "version": "3.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/laminas-twitter.git",
-                "reference": "677211384cecd7b3cda4c5b8461797e5b8ca1b60"
+                "reference": "266793e5ac84da4e17749cc97548386bac6bfa15"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-twitter/zipball/677211384cecd7b3cda4c5b8461797e5b8ca1b60",
-                "reference": "677211384cecd7b3cda4c5b8461797e5b8ca1b60",
+                "url": "https://api.github.com/repos/laminas/laminas-twitter/zipball/266793e5ac84da4e17749cc97548386bac6bfa15",
+                "reference": "266793e5ac84da4e17749cc97548386bac6bfa15",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
                 "laminas/laminas-feed": "^2.7",
                 "laminas/laminas-http": "^2.5.4",
-                "laminas/laminas-json": "^2.6.1 || ^3.0",
                 "laminas/laminas-oauth": "^2.0.3",
-                "laminas/laminas-stdlib": "^2.7.7 || ^3.0.1",
+                "laminas/laminas-stdlib": "^3.0.1",
                 "laminas/laminas-uri": "^2.5.2",
                 "php": "~8.0.0 || ~8.1.0 || ~8.2.0"
             },
@@ -2001,11 +1939,11 @@
                 "zendframework/zendservice-twitter": "*"
             },
             "require-dev": {
-                "laminas/laminas-coding-standard": "^2.1",
+                "laminas/laminas-coding-standard": "^2.4",
                 "phpspec/prophecy-phpunit": "^2.0.1",
                 "phpunit/phpunit": "^9.5.26",
-                "psalm/plugin-phpunit": "^0.18",
-                "vimeo/psalm": "^4.29.0"
+                "psalm/plugin-phpunit": "^0.18.4",
+                "vimeo/psalm": "^5.1"
             },
             "type": "library",
             "autoload": {
@@ -2037,7 +1975,7 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2022-11-16T00:06:58+00:00"
+            "time": "2022-12-05T22:39:00+00:00"
         },
         {
             "name": "laminas/laminas-uri",
