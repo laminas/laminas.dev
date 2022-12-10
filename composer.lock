@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "be8b423f07b9b889055c7d274284c20f",
+    "content-hash": "5a2ea2c9363e04c5e8911919cac093da",
     "packages": [
         {
             "name": "beberlei/assert",
@@ -2963,16 +2963,16 @@
         },
         {
             "name": "mezzio/mezzio-swoole",
-            "version": "4.5.0",
+            "version": "4.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mezzio/mezzio-swoole.git",
-                "reference": "589e1c51105a4dd2c9d817e1637bee49b2913193"
+                "reference": "29a57bfd20a8328d9d7fa1b87875e15c43dd4223"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mezzio/mezzio-swoole/zipball/589e1c51105a4dd2c9d817e1637bee49b2913193",
-                "reference": "589e1c51105a4dd2c9d817e1637bee49b2913193",
+                "url": "https://api.github.com/repos/mezzio/mezzio-swoole/zipball/29a57bfd20a8328d9d7fa1b87875e15c43dd4223",
+                "reference": "29a57bfd20a8328d9d7fa1b87875e15c43dd4223",
                 "shasum": ""
             },
             "require": {
@@ -2981,7 +2981,7 @@
                 "laminas/laminas-diactoros": "^2.11.2",
                 "laminas/laminas-httphandlerrunner": "^2.1",
                 "mezzio/mezzio": "^3.0.2",
-                "php": "^7.4 || ~8.0.0 || ~8.1.0",
+                "php": "~8.0.0 || ~8.1.0 || ~8.2.0",
                 "psr/container": "^1.0 || ^2.0",
                 "psr/event-dispatcher": "^1.0",
                 "psr/http-message": "^1.0",
@@ -2996,13 +2996,13 @@
                 "zendframework/zend-expressive-swoole": "*"
             },
             "require-dev": {
-                "filp/whoops": "^2.1",
+                "filp/whoops": "^2.14.5",
                 "laminas/laminas-coding-standard": "~2.4.0",
                 "laminas/laminas-servicemanager": "^3.3",
-                "phpunit/phpunit": "^9.5.5",
-                "psalm/plugin-phpunit": "^0.17.0",
+                "phpunit/phpunit": "^9.5.26",
+                "psalm/plugin-phpunit": "^0.18.0",
                 "swoole/ide-helper": "^5.0.0",
-                "vimeo/psalm": "^4.0"
+                "vimeo/psalm": "^4.29.0"
             },
             "suggest": {
                 "ext-inotify": "To use inotify based file watcher. Required for hot code reloading.",
@@ -3046,7 +3046,7 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2022-09-14T10:32:29+00:00"
+            "time": "2022-12-10T12:56:02+00:00"
         },
         {
             "name": "mezzio/mezzio-template",
