@@ -41,7 +41,7 @@
         "mezzio/mezzio-template": "^2.7",
         "monolog/monolog": "^3.2",
         "phly/phly-event-dispatcher": "^1.2",
-        "phpseclib/phpseclib": "^3.0.17",
+        "phpseclib/phpseclib": "^3.0.18",
         "psr/container": "^1.1.2 || ^2.0.2",
         "psr/event-dispatcher": "^1.0",
         "psr/http-factory": "^1.0.1",
