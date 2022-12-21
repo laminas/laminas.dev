@@ -33,7 +33,7 @@
         "league/commonmark": "^2.3.8",
         "mezzio/mezzio": "^3.14.0",
         "mezzio/mezzio-fastroute": "^3.7",
-        "mezzio/mezzio-hal": "^2.5.0",
+        "mezzio/mezzio-hal": "^2.5.1",
         "mezzio/mezzio-helpers": "^5.11",
         "mezzio/mezzio-platesrenderer": "^2.8.0",
         "mezzio/mezzio-problem-details": "^1.10.0",
