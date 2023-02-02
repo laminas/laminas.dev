@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ea9b93260423e3e03a243052819b2adc",
+    "content-hash": "198efd109787c1f8f9b40e9a5429880c",
     "packages": [
         {
             "name": "beberlei/assert",
@@ -648,16 +648,16 @@
         },
         {
             "name": "laminas/laminas-cli",
-            "version": "1.7.0",
+            "version": "1.8.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/laminas-cli.git",
-                "reference": "8476ca735f788cddc456ad660a29d9c8349554b0"
+                "reference": "97930db3fd2550da0374a3ccbdc7f9b9d6177319"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-cli/zipball/8476ca735f788cddc456ad660a29d9c8349554b0",
-                "reference": "8476ca735f788cddc456ad660a29d9c8349554b0",
+                "url": "https://api.github.com/repos/laminas/laminas-cli/zipball/97930db3fd2550da0374a3ccbdc7f9b9d6177319",
+                "reference": "97930db3fd2550da0374a3ccbdc7f9b9d6177319",
                 "shasum": ""
             },
             "require": {
@@ -670,13 +670,13 @@
                 "webmozart/assert": "^1.10"
             },
             "require-dev": {
-                "laminas/laminas-coding-standard": "~2.4.0",
-                "laminas/laminas-mvc": "^3.3.5",
-                "laminas/laminas-servicemanager": "^3.19",
+                "laminas/laminas-coding-standard": "~2.5.0",
+                "laminas/laminas-mvc": "^3.6",
+                "laminas/laminas-servicemanager": "^3.20",
                 "mikey179/vfsstream": "2.0.x-dev",
-                "phpunit/phpunit": "^9.5.25",
-                "psalm/plugin-phpunit": "^0.17.0",
-                "vimeo/psalm": "^4.29"
+                "phpunit/phpunit": "^9.5.28",
+                "psalm/plugin-phpunit": "^0.18.4",
+                "vimeo/psalm": "^5.6"
             },
             "bin": [
                 "bin/laminas"
@@ -712,7 +712,7 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2022-10-13T22:36:07+00:00"
+            "time": "2023-02-02T10:57:32+00:00"
         },
         {
             "name": "laminas/laminas-component-installer",
