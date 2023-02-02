@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "198efd109787c1f8f9b40e9a5429880c",
+    "content-hash": "3dcf7fc29bfd64ebf2e5709129feac61",
     "packages": [
         {
             "name": "beberlei/assert",
@@ -2559,16 +2559,16 @@
         },
         {
             "name": "mezzio/mezzio-hal",
-            "version": "2.5.1",
+            "version": "2.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mezzio/mezzio-hal.git",
-                "reference": "63cd0c47117bc5770e3ed68b23279c5c6465f4be"
+                "reference": "9e89b556f4f18ba9d10f6e0f7a0d580d418d4323"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mezzio/mezzio-hal/zipball/63cd0c47117bc5770e3ed68b23279c5c6465f4be",
-                "reference": "63cd0c47117bc5770e3ed68b23279c5c6465f4be",
+                "url": "https://api.github.com/repos/mezzio/mezzio-hal/zipball/9e89b556f4f18ba9d10f6e0f7a0d580d418d4323",
+                "reference": "9e89b556f4f18ba9d10f6e0f7a0d580d418d4323",
                 "shasum": ""
             },
             "require": {
@@ -2589,15 +2589,15 @@
                 "psr/link-implementation": "1.0"
             },
             "require-dev": {
-                "doctrine/orm": "^2.13.3",
-                "laminas/laminas-coding-standard": "~2.4.0",
-                "laminas/laminas-hydrator": "^4.3",
-                "laminas/laminas-paginator": "^2.11",
-                "mezzio/mezzio-helpers": "^5.7",
+                "doctrine/orm": "^2.14.1",
+                "laminas/laminas-coding-standard": "~2.5.0",
+                "laminas/laminas-hydrator": "^4.12",
+                "laminas/laminas-paginator": "^2.17",
+                "mezzio/mezzio-helpers": "^5.12",
                 "phpspec/prophecy-phpunit": "^2.0.1",
-                "phpunit/phpunit": "^9.5.26",
-                "psalm/plugin-phpunit": "^0.18.0",
-                "vimeo/psalm": "^4.29.0"
+                "phpunit/phpunit": "^9.5.28",
+                "psalm/plugin-phpunit": "^0.18.4",
+                "vimeo/psalm": "^5.6"
             },
             "suggest": {
                 "laminas/laminas-hydrator": "^4.3 in order to use the ResourceGenerator to create Resource instances from objects",
@@ -2648,7 +2648,7 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2022-12-21T07:07:13+00:00"
+            "time": "2023-02-02T15:54:57+00:00"
         },
         {
             "name": "mezzio/mezzio-helpers",
