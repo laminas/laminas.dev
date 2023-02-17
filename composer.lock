@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7f2e81e4b0d1160359eea75cb55c6610",
+    "content-hash": "18d83932f07fcaeefea6f626a4bb05ce",
     "packages": [
         {
             "name": "beberlei/assert",
@@ -2559,16 +2559,16 @@
         },
         {
             "name": "mezzio/mezzio-hal",
-            "version": "2.6.0",
+            "version": "2.6.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mezzio/mezzio-hal.git",
-                "reference": "9e89b556f4f18ba9d10f6e0f7a0d580d418d4323"
+                "reference": "197ef51b3f6580e7455b3d88421923f52db649ef"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mezzio/mezzio-hal/zipball/9e89b556f4f18ba9d10f6e0f7a0d580d418d4323",
-                "reference": "9e89b556f4f18ba9d10f6e0f7a0d580d418d4323",
+                "url": "https://api.github.com/repos/mezzio/mezzio-hal/zipball/197ef51b3f6580e7455b3d88421923f52db649ef",
+                "reference": "197ef51b3f6580e7455b3d88421923f52db649ef",
                 "shasum": ""
             },
             "require": {
@@ -2648,7 +2648,7 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2023-02-02T15:54:57+00:00"
+            "time": "2023-02-16T21:21:08+00:00"
         },
         {
             "name": "mezzio/mezzio-helpers",
