@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6b2be16f649a136c0cb47e94a6bdc39f",
+    "content-hash": "c35d113c27b2457a034e81d27c9eab41",
     "packages": [
         {
             "name": "beberlei/assert",
@@ -2374,16 +2374,16 @@
         },
         {
             "name": "mezzio/mezzio",
-            "version": "3.16.0",
+            "version": "3.16.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mezzio/mezzio.git",
-                "reference": "7d2efe760f62d5c43df3a3a86a470fccb00cf5a3"
+                "reference": "ef8a39a6a54f52bc5891609d9e2dac5b5da19fc4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mezzio/mezzio/zipball/7d2efe760f62d5c43df3a3a86a470fccb00cf5a3",
-                "reference": "7d2efe760f62d5c43df3a3a86a470fccb00cf5a3",
+                "url": "https://api.github.com/repos/mezzio/mezzio/zipball/ef8a39a6a54f52bc5891609d9e2dac5b5da19fc4",
+                "reference": "ef8a39a6a54f52bc5891609d9e2dac5b5da19fc4",
                 "shasum": ""
             },
             "require": {
@@ -2477,7 +2477,7 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2023-02-26T22:42:46+00:00"
+            "time": "2023-04-03T07:40:43+00:00"
         },
         {
             "name": "mezzio/mezzio-fastroute",
