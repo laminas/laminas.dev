@@ -63,9 +63,6 @@
     "config": {
         "discard-changes": true,
         "sort-packages": true,
-        "platform": {
-            "php": "8.1.99"
-        },
         "allow-plugins": {
             "dealerdirect/phpcodesniffer-composer-installer": true,
             "laminas/laminas-component-installer": true,
