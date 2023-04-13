@@ -22,7 +22,7 @@ hooks:
   build: |
     set -e
     echo "Installing Swoole extension"
-    bash install-swoole.sh openswoole 4.11.1
+    bash install-swoole.sh openswoole 22.0.0
     echo "Current PHP modules:"
     php -m
     echo "Installing platform.sh CLI"
