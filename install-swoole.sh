@@ -7,6 +7,8 @@
 #  - Florent HUCK <florent.huck@platform.sh>
 #  - Benjamin Hirsch <mail@benjaminhirsch.net>
 
+set -e
+
 run() {
     # Run the compilation process.
     cd $PLATFORM_CACHE_DIR || exit 1;
