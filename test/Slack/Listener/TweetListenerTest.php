@@ -10,6 +10,7 @@ use App\Slack\Event\Tweet;
 use App\Slack\Listener\TweetListener;
 use App\Slack\SlackClientInterface;
 use Laminas\Http\Client as TwitterHttpClient;
+use Laminas\Http\Response as LaminasHttpResponse;
 use Laminas\Twitter\Image;
 use Laminas\Twitter\Response as TwitterResponse;
 use Laminas\Twitter\Twitter;
@@ -21,6 +22,8 @@ use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
 use RuntimeException;
+
+use function json_encode;
 
 class TweetListenerTest extends TestCase
 {
@@ -354,8 +357,10 @@ class TweetListenerTest extends TestCase
             TestCase::assertSame('image contents', $contents);
         };
 
-        $twitterResponse           = new TwitterResponse();
-        $twitterResponse->media_id = $mediaId;
+        $response = new LaminasHttpResponse();
+        $response->setStatusCode(200);
+        $response->setContent(json_encode(['media_id' => $mediaId]));
+        $twitterResponse = new TwitterResponse($response);
 
         $image = $this->prophesize(Image::class);
         $image->upload($twitterHttpClient)->willReturn($twitterResponse)->shouldBeCalled();
@@ -448,8 +453,10 @@ class TweetListenerTest extends TestCase
             TestCase::assertSame('image contents', $contents);
         };
 
-        $twitterResponse           = new TwitterResponse();
-        $twitterResponse->media_id = $mediaId;
+        $response = new LaminasHttpResponse();
+        $response->setStatusCode(200);
+        $response->setContent(json_encode(['media_id' => $mediaId]));
+        $twitterResponse = new TwitterResponse($response);
 
         $image = $this->prophesize(Image::class);
         $image->upload($twitterHttpClient)->willReturn($twitterResponse)->shouldBeCalled();
