@@ -35,6 +35,8 @@ class VerificationMiddlewareTest extends TestCase
 
     /** @var string */
     private $secret;
+    /** @var VerificationMiddleware */
+    private $middleware;
 
     public function setUp(): void
     {

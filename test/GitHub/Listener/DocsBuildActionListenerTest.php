@@ -13,6 +13,7 @@ use App\Slack\SlackClientInterface;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
+use Prophecy\Prophecy\ObjectProphecy;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
@@ -21,6 +22,15 @@ use Psr\Log\LoggerInterface;
 class DocsBuildActionListenerTest extends TestCase
 {
     use ProphecyTrait;
+
+    /** @var GitHubClient&ObjectProphecy */
+    private $githubClient;
+    /** @var LoggerInterface&ObjectProphecy */
+    private $logger;
+    /** @var SlackClientInterface&ObjectProphecy */
+    private $slack;
+    /** @var DocsBuildActionListener */
+    private $listener;
 
     public function setUp(): void
     {

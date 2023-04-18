@@ -20,6 +20,7 @@ class TweetListener
 
     /** @var SlackClientInterface */
     private $slack;
+    private string $channel;
 
     public function __construct(SlackClientInterface $slack, string $channel = self::DEFAULT_SLACK_CHANNEL)
     {

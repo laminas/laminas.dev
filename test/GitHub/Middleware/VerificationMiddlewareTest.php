@@ -8,6 +8,7 @@ use App\GitHub\Middleware\VerificationMiddleware;
 use Mezzio\ProblemDetails\ProblemDetailsResponseFactory;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
+use Prophecy\Prophecy\ObjectProphecy;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\StreamInterface;
@@ -25,6 +26,8 @@ class VerificationMiddlewareTest extends TestCase
 
     /** @var RequestHandlerInterface|ObjectProphecy */
     private $handler;
+    /** @var ProblemDetailsResponseFactory&ObjectProphecy */
+    private $responseFactory;
 
     protected function setUp(): void
     {

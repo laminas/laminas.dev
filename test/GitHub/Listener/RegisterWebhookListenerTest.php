@@ -40,6 +40,8 @@ class RegisterWebhookListenerTest extends TestCase
 
     /** @var UrlHelper|ObjectProphecy */
     private $url;
+    /** @var RegisterWebhookListener */
+    private $listener;
 
     public function setUp(): void
     {
