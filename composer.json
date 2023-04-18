@@ -85,6 +85,9 @@
         }
     },
     "autoload": {
+        "files": [
+            "override/openswoole22-compat.php"
+        ],
         "psr-4": {
             "App\\": "src/"
         }
