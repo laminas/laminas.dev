@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "864c0457975a7fc19eb65f4950d4f524",
+    "content-hash": "3cc977afe1a2c9c3178df360b35e7872",
     "packages": [
         {
             "name": "beberlei/assert",
@@ -917,34 +917,33 @@
         },
         {
             "name": "laminas/laminas-config-aggregator-parameters",
-            "version": "1.13.0",
+            "version": "1.14.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/laminas-config-aggregator-parameters.git",
-                "reference": "901eeef9ee8f53a6720bc43476b66f38184cf72a"
+                "reference": "ff0cd89e4450c8ec70495c2e6999ab31ffe0c3e1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-config-aggregator-parameters/zipball/901eeef9ee8f53a6720bc43476b66f38184cf72a",
-                "reference": "901eeef9ee8f53a6720bc43476b66f38184cf72a",
+                "url": "https://api.github.com/repos/laminas/laminas-config-aggregator-parameters/zipball/ff0cd89e4450c8ec70495c2e6999ab31ffe0c3e1",
+                "reference": "ff0cd89e4450c8ec70495c2e6999ab31ffe0c3e1",
                 "shasum": ""
             },
             "require": {
-                "laminas/laminas-config-aggregator": "^1.1",
-                "laminas/laminas-stdlib": "^3.10.1",
-                "php": "~8.0.0 || ~8.1.0 || ~8.2.0",
-                "symfony/dependency-injection": "^5.4 || ^6.0"
+                "laminas/laminas-config-aggregator": "^1.13",
+                "laminas/laminas-stdlib": "^3.17",
+                "php": "~8.1.0 || ~8.2.0",
+                "symfony/dependency-injection": "^5.4 || ^6.2.8"
             },
             "conflict": {
                 "zendframework/zend-config-aggregator-parameters": "*"
             },
             "require-dev": {
-                "dms/phpunit-arraysubset-asserts": "^0.4.0",
-                "laminas/laminas-coding-standard": "~2.4",
+                "laminas/laminas-coding-standard": "^2.5",
                 "laminas/laminas-config": "^3.8.0",
-                "phpunit/phpunit": "^9.5.26",
-                "psalm/plugin-phpunit": "^0.18.3",
-                "vimeo/psalm": "^5.1"
+                "phpunit/phpunit": "^10.1.2",
+                "psalm/plugin-phpunit": "^0.18.4",
+                "vimeo/psalm": "^5.9"
             },
             "type": "library",
             "autoload": {
@@ -972,7 +971,7 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2022-12-05T17:12:09+00:00"
+            "time": "2023-04-23T23:43:37+00:00"
         },
         {
             "name": "laminas/laminas-crypt",
