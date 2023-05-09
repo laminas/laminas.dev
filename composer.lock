@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7cf8f28e5b167f23c670b7b0f1cbc92c",
+    "content-hash": "480ba0e71ac15a39100d7692fb4d0a5a",
     "packages": [
         {
             "name": "beberlei/assert",
@@ -2369,16 +2369,16 @@
         },
         {
             "name": "mezzio/mezzio",
-            "version": "3.16.1",
+            "version": "3.17.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mezzio/mezzio.git",
-                "reference": "ef8a39a6a54f52bc5891609d9e2dac5b5da19fc4"
+                "reference": "d0173b73fd6da085779b32db92a207a3e70e108f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mezzio/mezzio/zipball/ef8a39a6a54f52bc5891609d9e2dac5b5da19fc4",
-                "reference": "ef8a39a6a54f52bc5891609d9e2dac5b5da19fc4",
+                "url": "https://api.github.com/repos/mezzio/mezzio/zipball/d0173b73fd6da085779b32db92a207a3e70e108f",
+                "reference": "d0173b73fd6da085779b32db92a207a3e70e108f",
                 "shasum": ""
             },
             "require": {
@@ -2390,7 +2390,7 @@
                 "php": "~8.1.0 || ~8.2.0",
                 "psr/container": "^1.0||^2.0",
                 "psr/http-factory": "^1.0",
-                "psr/http-message": "^1.0.1",
+                "psr/http-message": "^1.0.1 || ^2.0.0",
                 "psr/http-server-middleware": "^1.0",
                 "webmozart/assert": "^1.10"
             },
@@ -2406,12 +2406,12 @@
             "require-dev": {
                 "filp/whoops": "^2.14.6",
                 "laminas/laminas-coding-standard": "~2.5.0",
-                "laminas/laminas-diactoros": "^2.24",
+                "laminas/laminas-diactoros": "^3.0",
                 "laminas/laminas-servicemanager": "^3.20",
                 "mezzio/mezzio-aurarouter": "^3.6",
                 "mezzio/mezzio-fastroute": "^3.8",
                 "mezzio/mezzio-laminasrouter": "^3.7",
-                "phpunit/phpunit": "^10.0.11",
+                "phpunit/phpunit": "^10.1",
                 "psalm/plugin-phpunit": "^0.18.4",
                 "vimeo/psalm": "^5.7.7"
             },
@@ -2472,7 +2472,7 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2023-04-03T07:40:43+00:00"
+            "time": "2023-05-09T14:54:58+00:00"
         },
         {
             "name": "mezzio/mezzio-fastroute",
