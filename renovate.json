@@ -19,7 +19,7 @@
       "matchStrings": [" OPENSWOOLE_VERSION=(?<currentValue>.*)\\n"],
       "depNameTemplate": "openswoole/ext-openswoole",
       "datasourceTemplate": "github-releases",
-      "extractVersion": "^v(?<version>.*)$",
+      "extractVersionTemplate": "^v(?<version>.*)$",
       "prBodyNotes": [
         ":warning: CI does not verify if extension can be built successfully or compatible. Build log review at platform.sh is required."
       ]
@@ -29,7 +29,7 @@
       "matchStrings": ["\\ntype: php:(?<currentValue>.*)\\n"],
       "depNameTemplate": "php/php-src",
       "datasourceTemplate": "github-tags",
-      "extractVersion": "^php-(?<version>\\d+\\.\\d+)",
+      "extractVersionTemplate": "^php-(?<version>\\d+\\.\\d+)",
       "groupName": "PHP",
       "prBodyNotes": [
         ":warning: PHP version might not be available at platform.sh. See https://docs.platform.sh/languages/php.html#supported-versions"
