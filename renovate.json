@@ -16,7 +16,7 @@
   "regexManagers": [
     {
       "fileMatch": ["^.platform.app.yaml$"],
-      "matchStrings": [" OPENSWOOLE_VERSION=(?<currentValue>.*)$"],
+      "matchStrings": [" OPENSWOOLE_VERSION=(?<currentValue>.*)\\n"],
       "depNameTemplate": "openswoole/ext-openswoole",
       "datasourceTemplate": "github-releases",
       "extractVersion": "^v(?<version>.*)$",
@@ -26,7 +26,7 @@
     },
     {
       "fileMatch": ["^.platform.app.yaml$"],
-      "matchStrings": ["^type: php:(?<currentValue>.*)$"],
+      "matchStrings": ["\\ntype: php:(?<currentValue>.*)\\n"],
       "depNameTemplate": "php/php-src",
       "datasourceTemplate": "github-tags",
       "extractVersion": "^php-(?<version>\\d+\\.\\d+)",
