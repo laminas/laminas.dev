@@ -35,14 +35,16 @@
       "matchStrings": [" OPENSWOOLE_VERSION=(?<currentValue>.*)\\n"],
       "depNameTemplate": "openswoole/ext-openswoole",
       "datasourceTemplate": "github-releases",
-      "extractVersionTemplate": "^v(?<version>.*)$"
+      "extractVersionTemplate": "^v(?<version>.*)$",
+      "versioningTemplate": "semver-coerced"
     },
     {
       "fileMatch": ["^.platform.app.yaml$"],
       "matchStrings": ["\\ntype: php:(?<currentValue>.*)\\n"],
       "depNameTemplate": "php/php-src",
       "datasourceTemplate": "github-tags",
-      "extractVersionTemplate": "^php-(?<version>\\d+\\.\\d+)"
+      "extractVersionTemplate": "^php-(?<version>\\d+\\.\\d+)",
+      "versioningTemplate": "semver-coerced"
     }
   ]
 }
