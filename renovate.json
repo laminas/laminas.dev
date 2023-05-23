@@ -7,6 +7,33 @@
     {
       "matchDepTypes": ["require"],
       "rangeStrategy": "bump"
+    },
+    {
+      "matchPackageNames": ["php"],
+      "rangeStrategy": "replace"
+    }
+  ],
+  "regexManagers": [
+    {
+      "fileMatch": ["^.platform.app.yaml$"],
+      "matchStrings": [" OPENSWOOLE_VERSION=(?<currentValue>.*)$"],
+      "depNameTemplate": "openswoole/ext-openswoole",
+      "datasourceTemplate": "github-releases",
+      "extractVersion": "^v(?<version>.*)$",
+      "prBodyNotes": [
+        ":warning: CI does not verify if extension can be built successfully or compatible. Build log review at platform.sh is required."
+      ]
+    },
+    {
+      "fileMatch": ["^.platform.app.yaml$"],
+      "matchStrings": ["^type: php:(?<currentValue>.*)$"],
+      "depNameTemplate": "php/php-src",
+      "datasourceTemplate": "github-tags",
+      "extractVersion": "^php-(?<version>\\d+\\.\\d+)",
+      "groupName": "PHP",
+      "prBodyNotes": [
+        ":warning: PHP version might not be available at platform.sh. See https://docs.platform.sh/languages/php.html#supported-versions"
+      ]
     }
   ]
 }
