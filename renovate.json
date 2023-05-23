@@ -10,7 +10,23 @@
     },
     {
       "matchPackageNames": ["php"],
-      "rangeStrategy": "replace"
+      "rangeStrategy": "replace",
+      "groupName": "PHP"
+    },
+    {
+      "matchFiles": [".platform.app.yaml"],
+      "matchDepNames": ["openswoole/ext-openswoole"],
+      "prBodyNotes": [
+        ":warning: CI does not verify if extension can be built successfully or compatible. Build log review at platform.sh is required."
+      ]
+    },
+    {
+      "matchFiles": [".platform.app.yaml"],
+      "matchDepNames": ["php/php-src"],
+      "groupName": "PHP",
+      "prBodyNotes": [
+        ":warning: PHP version might not be available at platform.sh. See https://docs.platform.sh/languages/php.html#supported-versions"
+      ]
     }
   ],
   "regexManagers": [
@@ -19,21 +35,14 @@
       "matchStrings": [" OPENSWOOLE_VERSION=(?<currentValue>.*)\\n"],
       "depNameTemplate": "openswoole/ext-openswoole",
       "datasourceTemplate": "github-releases",
-      "extractVersionTemplate": "^v(?<version>.*)$",
-      "prBodyNotes": [
-        ":warning: CI does not verify if extension can be built successfully or compatible. Build log review at platform.sh is required."
-      ]
+      "extractVersionTemplate": "^v(?<version>.*)$"
     },
     {
       "fileMatch": ["^.platform.app.yaml$"],
       "matchStrings": ["\\ntype: php:(?<currentValue>.*)\\n"],
       "depNameTemplate": "php/php-src",
       "datasourceTemplate": "github-tags",
-      "extractVersionTemplate": "^php-(?<version>\\d+\\.\\d+)",
-      "groupName": "PHP",
-      "prBodyNotes": [
-        ":warning: PHP version might not be available at platform.sh. See https://docs.platform.sh/languages/php.html#supported-versions"
-      ]
+      "extractVersionTemplate": "^php-(?<version>\\d+\\.\\d+)"
     }
   ]
 }
