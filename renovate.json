@@ -16,6 +16,7 @@
     {
       "matchFiles": [".platform.app.yaml"],
       "matchDepNames": ["openswoole/ext-openswoole"],
+      "extends": [":automergeDisabled", ":automergePr", ":label(Awaiting Maintainer Response)"],
       "prBodyNotes": [
         ":warning: CI does not verify if extension can be built successfully or compatible. Build log review at platform.sh is required."
       ]
@@ -23,6 +24,7 @@
     {
       "matchFiles": [".platform.app.yaml"],
       "matchDepNames": ["php/php-src"],
+      "extends": [":automergeDisabled", ":automergePr", ":label(Awaiting Maintainer Response)"],
       "groupName": "PHP",
       "prBodyNotes": [
         ":warning: PHP version might not be available at platform.sh. See https://docs.platform.sh/languages/php.html#supported-versions"
