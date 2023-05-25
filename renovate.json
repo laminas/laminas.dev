@@ -7,6 +7,47 @@
     {
       "matchDepTypes": ["require"],
       "rangeStrategy": "bump"
+    },
+    {
+      "matchPackageNames": ["php"],
+      "rangeStrategy": "replace",
+      "groupName": "PHP"
+    },
+    {
+      "matchFiles": [".platform.app.yaml"],
+      "matchPackageNames": ["openswoole/ext-openswoole"],
+      "extends": [":automergeDisabled", ":automergePr", ":label(Awaiting Maintainer Response)"],
+      "prBodyNotes": [
+        ":warning: CI does not verify if extension can be built successfully or compatible. Build log review at platform.sh is required."
+      ]
+    },
+    {
+      "matchFiles": [".platform.app.yaml"],
+      "matchPackageNames": ["php/php-src"],
+      "extends": [":automergeDisabled", ":automergePr", ":label(Awaiting Maintainer Response)"],
+      "groupName": "PHP",
+      "commitMessageTopic": "platform.sh PHP",
+      "prBodyNotes": [
+        ":warning: PHP version might not be available at platform.sh. See https://docs.platform.sh/languages/php.html#supported-versions"
+      ]
+    }
+  ],
+  "regexManagers": [
+    {
+      "fileMatch": ["^.platform.app.yaml$"],
+      "matchStrings": [" OPENSWOOLE_VERSION=(?<currentValue>.*)\\n"],
+      "depNameTemplate": "openswoole/ext-openswoole",
+      "datasourceTemplate": "github-releases",
+      "extractVersionTemplate": "^v(?<version>.*)$",
+      "versioningTemplate": "semver-coerced"
+    },
+    {
+      "fileMatch": ["^.platform.app.yaml$"],
+      "matchStrings": ["\\ntype: php:(?<currentValue>.*)\\n"],
+      "depNameTemplate": "php/php-src",
+      "datasourceTemplate": "github-tags",
+      "extractVersionTemplate": "^php-(?<version>\\d+\\.\\d+)",
+      "versioningTemplate": "semver-coerced"
     }
   ]
 }
