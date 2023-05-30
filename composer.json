@@ -36,7 +36,7 @@
         "mezzio/mezzio-hal": "^2.6.1",
         "mezzio/mezzio-helpers": "^5.15.0",
         "mezzio/mezzio-platesrenderer": "^2.9.0",
-        "mezzio/mezzio-problem-details": "^1.11.0",
+        "mezzio/mezzio-problem-details": "^1.12.0",
         "mezzio/mezzio-swoole": "^4.6.0",
         "mezzio/mezzio-template": "^2.8.0",
         "monolog/monolog": "^3.3.1",
