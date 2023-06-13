@@ -46,7 +46,7 @@
       "matchStrings": ["\\ntype: php:(?<currentValue>.*)\\n"],
       "depNameTemplate": "php/php-src",
       "datasourceTemplate": "github-tags",
-      "extractVersionTemplate": "^php-(?<version>\\d+\\.\\d+)",
+      "extractVersionTemplate": "^php-(?<version>\\d+\\.\\d+)\\.\\d+$",
       "versioningTemplate": "semver-coerced"
     }
   ]
