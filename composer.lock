@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "328a436e678ff4766b14e873311a2627",
+    "content-hash": "57b706e2fbffaec07d354197e69e5c2c",
     "packages": [
         {
             "name": "beberlei/assert",
@@ -710,16 +710,16 @@
         },
         {
             "name": "laminas/laminas-component-installer",
-            "version": "3.2.1",
+            "version": "3.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/laminas-component-installer.git",
-                "reference": "a7b486a4df99e0e1cf45ae6e72d88a475fecfb90"
+                "reference": "e1ceb9a7e768660e338974e22d8f74a0771980a9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-component-installer/zipball/a7b486a4df99e0e1cf45ae6e72d88a475fecfb90",
-                "reference": "a7b486a4df99e0e1cf45ae6e72d88a475fecfb90",
+                "url": "https://api.github.com/repos/laminas/laminas-component-installer/zipball/e1ceb9a7e768660e338974e22d8f74a0771980a9",
+                "reference": "e1ceb9a7e768660e338974e22d8f74a0771980a9",
                 "shasum": ""
             },
             "require": {
@@ -731,7 +731,7 @@
             },
             "require-dev": {
                 "composer/composer": "^2.4.4",
-                "laminas/laminas-coding-standard": "~2.4.0",
+                "laminas/laminas-coding-standard": "~2.5.0",
                 "mikey179/vfsstream": "^1.6.11",
                 "phpunit/phpunit": "^9.5.26",
                 "psalm/plugin-phpunit": "^0.18.0",
@@ -773,7 +773,7 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2023-05-24T16:25:08+00:00"
+            "time": "2023-07-17T06:52:58+00:00"
         },
         {
             "name": "laminas/laminas-config",
