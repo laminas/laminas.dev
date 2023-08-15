@@ -2017,16 +2017,16 @@
         },
         {
             "name": "laminas/laminas-validator",
-            "version": "2.37.0",
+            "version": "2.38.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/laminas-validator.git",
-                "reference": "e57810c007891066fdc4e9fb2523bf32e218fd92"
+                "reference": "5fafe1ec4cc23e4bb4dfe6b4cd96c28e1c7f48a3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-validator/zipball/e57810c007891066fdc4e9fb2523bf32e218fd92",
-                "reference": "e57810c007891066fdc4e9fb2523bf32e218fd92",
+                "url": "https://api.github.com/repos/laminas/laminas-validator/zipball/5fafe1ec4cc23e4bb4dfe6b4cd96c28e1c7f48a3",
+                "reference": "5fafe1ec4cc23e4bb4dfe6b4cd96c28e1c7f48a3",
                 "shasum": ""
             },
             "require": {
@@ -2097,7 +2097,7 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2023-08-07T12:36:50+00:00"
+            "time": "2023-08-14T07:19:58+00:00"
         },
         {
             "name": "league/commonmark",
@@ -6943,12 +6943,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Roave/SecurityAdvisories.git",
-                "reference": "eea8bf94d73239ed2975a39ad4d79fbfb2d15eca"
+                "reference": "8d05c4f2d63f4d95c9db14599f58872f704a72a9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/eea8bf94d73239ed2975a39ad4d79fbfb2d15eca",
-                "reference": "eea8bf94d73239ed2975a39ad4d79fbfb2d15eca",
+                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/8d05c4f2d63f4d95c9db14599f58872f704a72a9",
+                "reference": "8d05c4f2d63f4d95c9db14599f58872f704a72a9",
                 "shasum": ""
             },
             "conflict": {
@@ -7517,7 +7517,7 @@
                 "yidashi/yii2cmf": "<=2",
                 "yii2mod/yii2-cms": "<1.9.2",
                 "yiisoft/yii": "<1.1.27",
-                "yiisoft/yii2": "<2.0.47",
+                "yiisoft/yii2": "<2.0.38",
                 "yiisoft/yii2-bootstrap": "<2.0.4",
                 "yiisoft/yii2-dev": "<2.0.43",
                 "yiisoft/yii2-elasticsearch": "<2.0.5",
@@ -7592,7 +7592,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-08-09T17:04:30+00:00"
+            "time": "2023-08-14T21:04:03+00:00"
         },
         {
             "name": "sebastian/cli-parser",
