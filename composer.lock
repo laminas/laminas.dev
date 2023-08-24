@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "36d78577b8fabb56f568cc67a1ea4b64",
+    "content-hash": "25f53a30f90336755a74418e732eddd2",
     "packages": [
         {
             "name": "beberlei/assert",
@@ -2943,16 +2943,16 @@
         },
         {
             "name": "mezzio/mezzio-swoole",
-            "version": "4.7.0",
+            "version": "4.8.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mezzio/mezzio-swoole.git",
-                "reference": "862a7a6ae70bc266af7ca68b43388f18978fc8c8"
+                "reference": "bee6718c706fd61e5524cdfca77b73a142bab49e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mezzio/mezzio-swoole/zipball/862a7a6ae70bc266af7ca68b43388f18978fc8c8",
-                "reference": "862a7a6ae70bc266af7ca68b43388f18978fc8c8",
+                "url": "https://api.github.com/repos/mezzio/mezzio-swoole/zipball/bee6718c706fd61e5524cdfca77b73a142bab49e",
+                "reference": "bee6718c706fd61e5524cdfca77b73a142bab49e",
                 "shasum": ""
             },
             "require": {
@@ -2965,7 +2965,7 @@
                 "psr/container": "^1.1.2 || ^2.0.2",
                 "psr/event-dispatcher": "^1.0",
                 "psr/http-message": "^1.1 || ^2.0",
-                "psr/http-message-implementation": "^1.0",
+                "psr/http-message-implementation": "^1.0 || ^2.0",
                 "psr/http-server-handler": "^1.0.2",
                 "psr/log": "^1.0 || ^2.0 || ^3.0",
                 "symfony/console": "^5.0 || ^6.0.19",
@@ -3026,7 +3026,7 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2023-06-14T08:13:29+00:00"
+            "time": "2023-08-23T23:45:44+00:00"
         },
         {
             "name": "mezzio/mezzio-template",
