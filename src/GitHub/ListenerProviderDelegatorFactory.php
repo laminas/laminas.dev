@@ -22,6 +22,7 @@ class ListenerProviderDelegatorFactory
         $provider->listen(Event\GitHubRelease::class,       $container->get(Listener\GitHubReleaseSlackListener::class));
         $provider->listen(Event\GitHubRelease::class,       $container->get(Listener\GitHubReleaseWebsiteUpdateListener::class));
         $provider->listen(Event\GitHubRelease::class,       $container->get(Listener\GitHubReleaseTweetListener::class));
+        $provider->listen(Event\GitHubRelease::class,       $container->get(Listener\GitHubReleaseMastodonListener::class));
         $provider->listen(Event\GitHubStatus::class,        $container->get(Listener\GitHubStatusListener::class));
         $provider->listen(Event\RegisterWebhook::class,     $container->get(Listener\RegisterWebhookListener::class));
         // phpcs:enable

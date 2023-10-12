@@ -31,7 +31,7 @@ class GitHubReleaseMastodonListenerTest extends TestCase
             $this->mastodon,
             $this->logger,
             [
-                'laminas/ignored-component'
+                'laminas/ignored-component',
             ]
         );
     }
