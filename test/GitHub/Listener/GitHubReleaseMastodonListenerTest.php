@@ -7,35 +7,29 @@ namespace AppTest\GitHub\Listener;
 use App\GitHub\Event\GitHubRelease;
 use App\GitHub\Listener\GitHubReleaseMastodonListener;
 use App\Mastodon\MastodonClient;
-use Laminas\Twitter\Response;
 use PHPUnit\Framework\TestCase;
-use Prophecy\Argument;
-use Prophecy\PhpUnit\ProphecyTrait;
-use Prophecy\Prophecy\ObjectProphecy;
 use Psr\Log\LoggerInterface;
 use RuntimeException;
 
 class GitHubReleaseMastodonListenerTest extends TestCase
 {
-    use ProphecyTrait;
-
     /** @var GitHubReleaseMastodonListener */
     private $listener;
 
-    /** @var LoggerInterface|ObjectProphecy */
+    /** @var LoggerInterface */
     private $logger;
 
-    /** @var MastodonClient|ObjectProphecy */
+    /** @var MastodonClient */
     private $mastodon;
 
     public function setUp(): void
     {
-        $this->mastodon = $this->prophesize(MastodonClient::class);
-        $this->logger   = $this->prophesize(LoggerInterface::class);
+        $this->mastodon = $this->getMockBuilder(MastodonClient::class)->disableOriginalConstructor()->getMock();
+        $this->logger   = $this->getMockBuilder(LoggerInterface::class)->getMock();
 
         $this->listener = new GitHubReleaseMastodonListener(
-            $this->mastodon->reveal(),
-            $this->logger->reveal()
+            $this->mastodon,
+            $this->logger
         );
     }
 
@@ -47,8 +41,8 @@ class GitHubReleaseMastodonListenerTest extends TestCase
             ],
         ]);
 
-        $this->mastodon->statusesUpdate(Argument::any())->shouldNotBeCalled();
-        $this->logger->error(Argument::any())->shouldNotBeCalled();
+        $this->mastodon->expects($this->never())->method('statusesUpdate');
+        $this->logger->expects($this->never())->method('error');
 
         $this->assertNull($this->listener->__invoke($release));
     }
@@ -67,13 +61,14 @@ class GitHubReleaseMastodonListenerTest extends TestCase
         ]);
 
         $this->mastodon
-            ->statusesUpdate(Argument::containingString("laminas/some-component 2.3.4p8\n\nrelease-url"))
-            ->willThrow(new RuntimeException('Error tooting release'))
-            ->shouldBeCalled();
+            ->expects($this->once())
+            ->method('statusesUpdate')->with("Released: laminas/some-component 2.3.4p8\n\nrelease-url")
+            ->willThrowException(new RuntimeException('Error tooting release'));
 
         $this->logger
-            ->error(Argument::containingString('Error tooting release'))
-            ->shouldBeCalled();
+            ->expects($this->once())
+            ->method('error')
+            ->with('Error tooting release laminas/some-component 2.3.4p8: Error tooting release');
 
         $this->assertNull($this->listener->__invoke($release));
     }
@@ -91,13 +86,15 @@ class GitHubReleaseMastodonListenerTest extends TestCase
             ],
         ]);
 
-        $updateResponse = $this->prophesize(Response::class);
         $this->mastodon
-            ->statusesUpdate(Argument::containingString("laminas/some-component 2.3.4p8\n\nrelease-url"))
-            ->will([$updateResponse, 'reveal'])
-            ->shouldBeCalled();
+            ->expects($this->once())
+            ->method('statusesUpdate')
+            ->with("Released: laminas/some-component 2.3.4p8\n\nrelease-url")
+            ->willReturn('foo');
 
-        $this->logger->error(Argument::any())->shouldNotBeCalled();
+        $this->logger
+            ->expects($this->never())
+            ->method('error');
 
         $this->assertNull($this->listener->__invoke($release));
     }
