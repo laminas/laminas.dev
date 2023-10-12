@@ -10,11 +10,14 @@ use Psr\Log\LoggerInterface;
 
 class GitHubReleaseMastodonListenerFactory
 {
-    public function __invoke(ContainerInterface $container): GitHubReleaseTweetListener
+    public function __invoke(ContainerInterface $container): GitHubReleaseMastodonListener
     {
+        $config = $container->get('config');
+
         return new GitHubReleaseMastodonListener(
             $container->get(MastodonClient::class),
-            $container->get(LoggerInterface::class)
+            $container->get(LoggerInterface::class),
+            $config['mastodon']['ignore_list'] ?? [],
         );
     }
 }

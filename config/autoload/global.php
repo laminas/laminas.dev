@@ -65,6 +65,8 @@ return [
         'clientId'     => getenv('MASTODON_CLIENT_ID'),
         'clientSecret' => getenv('MASTODON_CLIENT_SECRET'),
         'token'        => getenv('MASTODON_BEARER_TOKEN'),
+        // A list of package-names that we do not want to send toots out when they are released
+        'ignore_list' => [],
     ],
     'mezzio-swoole' => [
         'enable_coroutine'   => true,

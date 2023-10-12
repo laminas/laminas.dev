@@ -29,7 +29,10 @@ class GitHubReleaseMastodonListenerTest extends TestCase
 
         $this->listener = new GitHubReleaseMastodonListener(
             $this->mastodon,
-            $this->logger
+            $this->logger,
+            [
+                'laminas/ignored-component'
+            ]
         );
     }
 
@@ -91,6 +94,30 @@ class GitHubReleaseMastodonListenerTest extends TestCase
             ->method('statusesUpdate')
             ->with("Released: laminas/some-component 2.3.4p8\n\nrelease-url")
             ->willReturn('foo');
+
+        $this->logger
+            ->expects($this->never())
+            ->method('error');
+
+        $this->assertNull($this->listener->__invoke($release));
+    }
+
+    public function testDoesNotSendWhenPackeIsOnIgnoreList(): void
+    {
+        $release = new GitHubRelease([
+            'release'    => [
+                'draft'    => false,
+                'tag_name' => '2.3.4p8',
+                'html_url' => 'release-url',
+            ],
+            'repository' => [
+                'full_name' => 'laminas/ignored-component',
+            ],
+        ]);
+
+        $this->mastodon
+            ->expects($this->never())
+            ->method('statusesUpdate');
 
         $this->logger
             ->expects($this->never())

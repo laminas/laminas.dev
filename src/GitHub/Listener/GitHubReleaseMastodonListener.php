@@ -9,6 +9,7 @@ use App\Mastodon\MastodonClient;
 use Psr\Log\LoggerInterface;
 use Throwable;
 
+use function in_array;
 use function sprintf;
 use function str_replace;
 
@@ -18,13 +19,18 @@ class GitHubReleaseMastodonListener
 
     public function __construct(
         private MastodonClient $mastodonClient,
-        private LoggerInterface $logger
+        private LoggerInterface $logger,
+        private array $ignoreList = []
     ) {
     }
 
     public function __invoke(GitHubRelease $message): void
     {
         if (! $message->isPublished()) {
+            return;
+        }
+
+        if (in_array($message->getPackage(), $this->ignoreList, true)) {
             return;
         }
 
