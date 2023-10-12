@@ -59,6 +59,13 @@ return [
         ],
         'tweet_verification_token' => getenv('TWEET_VERIFICATION_TOKEN'),
     ],
+    'mastodon'      => [
+        'name'         => getenv('MASTODON_NAME') ?: 'getlaminas',
+        'instance'     => getenv('MASTODON_INSTANCE') ?: 'https://phpc.social',
+        'clientId'     => getenv('MASTODON_CLIENT_ID'),
+        'clientSecret' => getenv('MASTODON_CLIENT_SECRET'),
+        'token'        => getenv('MASTODON_BEARER_TOKEN'),
+    ],
     'mezzio-swoole' => [
         'enable_coroutine'   => true,
         'log_handler'        => '%log.handler%',

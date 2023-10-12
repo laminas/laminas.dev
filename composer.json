@@ -19,6 +19,7 @@
         "ext-json": "*",
         "ext-openswoole": "*",
         "beberlei/assert": "^2.9.9 || ^3.0.0",
+        "colorfield/mastodon-api": "^0.1.5",
         "guzzlehttp/guzzle": "^6.3 || ^7.0",
         "laminas/laminas-cli": "^1.8.0",
         "laminas/laminas-component-installer": "^3.3.0",
