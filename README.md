@@ -102,6 +102,12 @@ The Laminas Bot acts as:
     - TWITTER_CONSUMER_SECRET
   - We need the shared token between IFTTT and the website for accepting tweets
     as TWEET_VERIFICATION_TOKEN.
+  
+- From Mastodon
+  - We need access credentials from a created app as
+    - MASTODON_CLIENT_ID
+    - MASTODON_CLIENT_SECRET
+    - MASTODON_BEARER_TOKEN
 
 - From getlaminas
   - We need the shared web token, as LAMINAS_API_TOKEN.
