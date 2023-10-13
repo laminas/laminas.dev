@@ -93,7 +93,7 @@ class GitHubReleaseMastodonListenerTest extends TestCase
             ->expects($this->once())
             ->method('statusesUpdate')
             ->with("Released: laminas/some-component 2.3.4p8\n\nrelease-url")
-            ->willReturn('foo');
+            ->willReturn('The response-body from Mastodon that is never to be used');
 
         $this->logger
             ->expects($this->never())
