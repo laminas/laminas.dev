@@ -61,7 +61,7 @@ return [
     ],
     'mastodon'      => [
         'name'         => getenv('MASTODON_NAME') ?: 'getlaminas',
-        'instance'     => getenv('MASTODON_INSTANCE') ?: 'https://phpc.social',
+        'instance'     => getenv('MASTODON_INSTANCE') ?: 'phpc.social',
         'clientId'     => getenv('MASTODON_CLIENT_ID'),
         'clientSecret' => getenv('MASTODON_CLIENT_SECRET'),
         'token'        => getenv('MASTODON_BEARER_TOKEN'),
