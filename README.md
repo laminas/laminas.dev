@@ -29,7 +29,6 @@ The Laminas Bot acts as:
   - Report repository build status to the Laminas Slack #github channel.
   - Report releases to:
     - The Laminas Slack #github channel.
-    - The [@getlaminas](https://twitter.com/getlaminas) twitter account.
     - The https://getlaminas API, to allow rebuilding the release RSS feed.
 
 - A Discourse webhook handler:
@@ -41,18 +40,6 @@ The Laminas Bot acts as:
     given repository.
   - /regenerate-tsc-list triggers rebuilding the list of TSC members (the only
     ones authorized to initiate slash commands).
-  - `/tweet [media:url] message` allows sending a tweet via the
-    [@getlaminas](https://twitter.com/getlaminas) twitter account, optionally
-    with media.
-  - `/retweet {url}` allows retweeting a tweet as specified by `{url}` via the
-    [@getlaminas](https://twitter.com/getlaminas) twitter account.
-  - `/reply-to-tweet {url} {message}` allows replying to a tweet as specified by
-    `{url}` via the [@getlaminas](https://twitter.com/getlaminas) twitter account.
-
-- A webhook for incoming tweets. This webhook works in conjunction with a recipe
-  on IFTTT that monitors tweets on the getlaminas account, and then passes them
-  to our webhook. The webhook queues a job that sends the tweet details to a
-  configured Slack channel.
 
 ### Requirements
 
@@ -77,9 +64,6 @@ The Laminas Bot acts as:
     - /regenerate-tsc-list
     - /register-repo {repo}
     - /build-docs {repo}
-    - /tweet [media:url] {message}
-    - /retweet {url}
-    - /reply-to-tweet {url} {message}
   - Setup an incoming webhook
     - Add location to SLACK_WEBHOOK_LOGGING
   - Invite the bot to #technical-steering-committee and #laminasbot-errors
@@ -93,15 +77,6 @@ The Laminas Bot acts as:
 - From Discourse
   - We need a signing secret; this can be arbitrary, but once used, must be used
     when registering ALL webhooks. Add to DISCOURSE_SECRET
-
-- From Twitter
-  - We need the access token and secret, and the consumer key and secret, as:
-    - TWITTER_ACCESS_TOKEN
-    - TWITTER_ACCESS_SECRET
-    - TWITTER_CONSUMER_KEY
-    - TWITTER_CONSUMER_SECRET
-  - We need the shared token between IFTTT and the website for accepting tweets
-    as TWEET_VERIFICATION_TOKEN.
   
 - From Mastodon
   - We need access credentials from a created app as
@@ -116,7 +91,7 @@ The Laminas Bot acts as:
 
 #### Handlers
 
-There are four primary endpoints:
+There are three primary endpoints:
 
 - `/api/discourse/[:channel]/:event` is an incoming webhook from Discourse. The
   `:channel` is the name of the Slack channel to notify, and the `:event`
@@ -136,12 +111,6 @@ There are four primary endpoints:
   implementation and dispatch. Individual implementations marshal appropriate
   events to dispatch via the event dispatcher.
 
-- `/api/twitter/[:token]` is an incoming webhook from IFTTT. The `:token` is the
-  shared token between the IFTTT and the webhook; if not identical, requests are
-  rejected. They payload must contain the elements text, url, and timestamp, and
-  is used to dispatch an `App\Twitter\Tweet` event before returning a 202
-  response.
-
 #### Events
 
 The repository provides the following event types, with the listed handlers.
@@ -153,14 +122,10 @@ Event Type | Handler(s) | Action taken
 `App\GitHub\Event\GitHubIssue` | `App\GitHub\Listener\GitHubIssueListener` | Send a notification to Slack about issue creation or closure.
 `App\GitHub\Event\GitHubIssueComment` | `App\GitHub\Listener\GitHubIssueCommentListener` | Send a notification to Slack about comment creation on an issue or pull request.
 `App\GitHub\Event\GitHubPullRequest` | `App\GitHub\Listener\GitHubPullRequestListener` | Send a notification to Slack about pull request creation or closure.
-`App\GitHub\Event\GitHubRelease` | `App\GitHub\Listener\GitHubRelease\SlackListener`, `App\GitHub\Listener\GitHubReleaseTweetListener`, `App\GitHub\Listener\GitHubReleaseWebsiteUpdateListener` | Send a notification to Slack about release creation; tweet the release details; and notify the website of the release so it can update the release RSS feed.
+`App\GitHub\Event\GitHubRelease` | `App\GitHub\Listener\GitHubRelease\SlackListener`, `App\GitHub\Listener\GitHubReleaseWebsiteUpdateListener` | Send a notification to Slack about release creation and notify the website of the release so it can update the release RSS feed.
 `App\GitHub\Event\GitHubStatus` | `App\GitHub\Listener\GitHubStatusListener` | Send a notification to Slack about a build failure, error, or success.
 `App\GitHub\Event\RegisterWebhook` | `App\GitHub\Listener\RegisterWebhookListener` | Use the GitHub API to register the Laminas-BOT webhook with the given repository.
 `App\Slack\Event\RegenerateAuthorizedUserList` | `App\Slack\Listener\RegenerateAuthorizedUserListListener` | Use the Slack Web API to rebuild the list of authorized slash command users from the current #technical-steering-committee list.
-`App\Slack\Event\Retweet` | `App\Slack\Listener\RetweetListener` | Use the Twitter API to retweet a given tweet.
-`App\Slack\Event\Tweet` | `App\Slack\Listener\TweetListener` | Use the Twitter API to send a tweet.
-`App\Slack\Event\TwitterReply` | `App\Slack\Listener\TwitterReplyListener` | Use the Twitter API to send a message in reply to another tweet.
-`App\Twitter\Tweet` | `App\Twitter\TweetListener` | Send a Slack message to a configured channel with details on a single tweet.
 
 All listeners are decorated using the `DeferredServiceListenerDelegator` class
 from the phly/phly-swoole-taskworker package. This means that they will be
@@ -236,6 +201,3 @@ All of these objects support:
   technical steering committee members. If not, an error message is returned to
   the user immediately. The list is generated on application initialization, and
   again on receipt of a /regenerate-tsc-list command.
-
-- A shared secret is configured between IFTTT and the Twitter webhook, and we
-  also verify the payload structure.
