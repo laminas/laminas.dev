@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1f17f8be69aa42f7907cc66972905d4a",
+    "content-hash": "0a76db8d2b4848039b1865e7d1fc5584",
     "packages": [
         {
             "name": "beberlei/assert",
@@ -2903,22 +2903,22 @@
         },
         {
             "name": "mezzio/mezzio-problem-details",
-            "version": "1.12.0",
+            "version": "1.13.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mezzio/mezzio-problem-details.git",
-                "reference": "ae583a383d8d1a49f55d02668518034bfb8300c3"
+                "reference": "7871fdfed25cb4572494cc8f16d3b83ecbec0ff6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mezzio/mezzio-problem-details/zipball/ae583a383d8d1a49f55d02668518034bfb8300c3",
-                "reference": "ae583a383d8d1a49f55d02668518034bfb8300c3",
+                "url": "https://api.github.com/repos/mezzio/mezzio-problem-details/zipball/7871fdfed25cb4572494cc8f16d3b83ecbec0ff6",
+                "reference": "7871fdfed25cb4572494cc8f16d3b83ecbec0ff6",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
                 "fig/http-message-util": "^1.1.2",
-                "php": "~8.1.0 || ~8.2.0",
+                "php": "~8.1.0 || ~8.2.0 || ~8.3.0",
                 "psr/container": "^1.0 || ^2.0",
                 "psr/http-factory": "^1.0",
                 "psr/http-message": "^1.0 || ^2.0",
@@ -2977,7 +2977,7 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2023-05-30T18:20:38+00:00"
+            "time": "2023-11-08T14:15:07+00:00"
         },
         {
             "name": "mezzio/mezzio-router",
@@ -4450,16 +4450,16 @@
         },
         {
             "name": "spatie/array-to-xml",
-            "version": "3.2.0",
+            "version": "3.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/array-to-xml.git",
-                "reference": "f9ab39c808500c347d5a8b6b13310bd5221e39e7"
+                "reference": "84a404e5b67dd21466a0ff47d335129d67b94029"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/array-to-xml/zipball/f9ab39c808500c347d5a8b6b13310bd5221e39e7",
-                "reference": "f9ab39c808500c347d5a8b6b13310bd5221e39e7",
+                "url": "https://api.github.com/repos/spatie/array-to-xml/zipball/84a404e5b67dd21466a0ff47d335129d67b94029",
+                "reference": "84a404e5b67dd21466a0ff47d335129d67b94029",
                 "shasum": ""
             },
             "require": {
@@ -4497,7 +4497,7 @@
                 "xml"
             ],
             "support": {
-                "source": "https://github.com/spatie/array-to-xml/tree/3.2.0"
+                "source": "https://github.com/spatie/array-to-xml/tree/3.2.1"
             },
             "funding": [
                 {
@@ -4509,7 +4509,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-07-19T18:30:26+00:00"
+            "time": "2023-11-08T08:19:46+00:00"
         },
         {
             "name": "symfony/console",
