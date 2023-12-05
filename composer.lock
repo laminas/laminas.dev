@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4d54377cb36113b312d214124a67704b",
+    "content-hash": "9d910c8336f5f07e99ddad02ae4ed202",
     "packages": [
         {
             "name": "beberlei/assert",
@@ -1035,22 +1035,22 @@
         },
         {
             "name": "laminas/laminas-config-aggregator-parameters",
-            "version": "1.14.0",
+            "version": "1.15.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/laminas-config-aggregator-parameters.git",
-                "reference": "ff0cd89e4450c8ec70495c2e6999ab31ffe0c3e1"
+                "reference": "15ee7bba3317365ebcd8c738a40dc0a1bcbde078"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-config-aggregator-parameters/zipball/ff0cd89e4450c8ec70495c2e6999ab31ffe0c3e1",
-                "reference": "ff0cd89e4450c8ec70495c2e6999ab31ffe0c3e1",
+                "url": "https://api.github.com/repos/laminas/laminas-config-aggregator-parameters/zipball/15ee7bba3317365ebcd8c738a40dc0a1bcbde078",
+                "reference": "15ee7bba3317365ebcd8c738a40dc0a1bcbde078",
                 "shasum": ""
             },
             "require": {
                 "laminas/laminas-config-aggregator": "^1.13",
                 "laminas/laminas-stdlib": "^3.17",
-                "php": "~8.1.0 || ~8.2.0",
+                "php": "~8.1.0 || ~8.2.0 || ~8.3.0",
                 "symfony/dependency-injection": "^5.4 || ^6.2.8"
             },
             "conflict": {
@@ -1061,7 +1061,7 @@
                 "laminas/laminas-config": "^3.8.0",
                 "phpunit/phpunit": "^10.1.2",
                 "psalm/plugin-phpunit": "^0.18.4",
-                "vimeo/psalm": "^5.9"
+                "vimeo/psalm": "^5.17"
             },
             "type": "library",
             "autoload": {
@@ -1089,7 +1089,7 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2023-04-23T23:43:37+00:00"
+            "time": "2023-12-05T03:30:48+00:00"
         },
         {
             "name": "laminas/laminas-crypt",
