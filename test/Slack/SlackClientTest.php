@@ -9,6 +9,7 @@ use App\Slack\Domain\SlashResponseMessage;
 use App\Slack\Domain\WebAPIMessage;
 use App\Slack\Response\SlackResponse;
 use App\Slack\SlackClient;
+use AppTest\Psr7Helper;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
@@ -59,9 +60,9 @@ class SlackClientTest extends TestCase
         $response = $this->prophesize(ResponseInterface::class);
         $response
             ->getBody()
-            ->willReturn(json_encode([
+            ->willReturn(Psr7Helper::stream(json_encode([
                 'ok' => true,
-            ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES))
+            ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES)))
             ->shouldBeCalled();
 
         $this->httpClient
@@ -89,10 +90,10 @@ class SlackClientTest extends TestCase
         $response->getStatusCode()->willReturn(400)->shouldBeCalled();
         $response
             ->getBody()
-            ->willReturn(json_encode([
+            ->willReturn(Psr7Helper::stream(json_encode([
                 'ok'    => false,
                 'error' => 'the error message',
-            ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES))
+            ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES)))
             ->shouldBeCalled();
 
         $this->httpClient
@@ -180,9 +181,9 @@ class SlackClientTest extends TestCase
         $response = $this->prophesize(ResponseInterface::class);
         $response
             ->getBody()
-            ->willReturn(json_encode([
+            ->willReturn(Psr7Helper::stream(json_encode([
                 'ok' => true,
-            ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES))
+            ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES)))
             ->shouldBeCalled();
 
         $this->httpClient
@@ -257,9 +258,9 @@ class SlackClientTest extends TestCase
         $response = $this->prophesize(ResponseInterface::class);
         $response
             ->getBody()
-            ->willReturn(json_encode([
+            ->willReturn(Psr7Helper::stream(json_encode([
                 'ok' => true,
-            ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES))
+            ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES)))
             ->shouldBeCalled();
 
         $this->httpClient

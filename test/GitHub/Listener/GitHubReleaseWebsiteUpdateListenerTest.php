@@ -7,6 +7,7 @@ namespace AppTest\GitHub\Listener;
 use App\GitHub\Event\GitHubRelease;
 use App\GitHub\Listener\GitHubReleaseWebsiteUpdateListener;
 use App\HttpClientInterface;
+use AppTest\Psr7Helper;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
@@ -128,7 +129,7 @@ class GitHubReleaseWebsiteUpdateListenerTest extends TestCase
 
         $response = $this->prophesize(ResponseInterface::class);
         $response->getStatusCode()->willReturn(400);
-        $response->getBody()->willReturn('');
+        $response->getBody()->willReturn(Psr7Helper::stream(''));
 
         $this->httpClient->send($request->reveal())->will([$response, 'reveal'])->shouldBeCalled();
 

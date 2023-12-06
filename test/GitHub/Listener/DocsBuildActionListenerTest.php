@@ -10,6 +10,7 @@ use App\GitHub\Listener\DocsBuildActionListener;
 use App\Slack\Domain\SlashResponseMessage;
 use App\Slack\Response\SlackResponse;
 use App\Slack\SlackClientInterface;
+use AppTest\Psr7Helper;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
@@ -81,7 +82,7 @@ class DocsBuildActionListenerTest extends TestCase
 
         $response = $this->prophesize(ResponseInterface::class);
         $response->getStatusCode()->willReturn($httpStatus)->shouldBeCalled();
-        $response->getBody()->willReturn('error message from github')->shouldBeCalled();
+        $response->getBody()->willReturn(Psr7Helper::stream('error message from github'))->shouldBeCalled();
 
         $this->githubClient->send($request->reveal())->will([$response, 'reveal'])->shouldBeCalled();
 
