@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9f7620ec492f00e9492e2bda97e9b491",
+    "content-hash": "1067606b9f4b543b12ab41eb8f03da1a",
     "packages": [
         {
             "name": "beberlei/assert",
@@ -3194,20 +3194,20 @@
         },
         {
             "name": "phly/phly-event-dispatcher",
-            "version": "1.3.1",
+            "version": "1.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phly/phly-event-dispatcher.git",
-                "reference": "f85132b634e31fe2bb09ede5101be8d1091216c0"
+                "reference": "c0f8043da05aeeaf95865b0f380028727a1b6cac"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phly/phly-event-dispatcher/zipball/f85132b634e31fe2bb09ede5101be8d1091216c0",
-                "reference": "f85132b634e31fe2bb09ede5101be8d1091216c0",
+                "url": "https://api.github.com/repos/phly/phly-event-dispatcher/zipball/c0f8043da05aeeaf95865b0f380028727a1b6cac",
+                "reference": "c0f8043da05aeeaf95865b0f380028727a1b6cac",
                 "shasum": ""
             },
             "require": {
-                "php": "~8.0.0 || ~8.1.0 || ~8.2.0",
+                "php": "~8.1.0 || ~8.2.0 || ~8.3.0",
                 "psr/container": "^1.0 || ^2.0",
                 "psr/event-dispatcher": "^1.0"
             },
@@ -3251,7 +3251,7 @@
                 "rss": "https://github.com/phly/phly-event-dispatcher/releases.atom",
                 "source": "https://github.com/phly/phly-event-dispatcher"
             },
-            "time": "2023-01-10T19:15:49+00:00"
+            "time": "2024-01-30T21:15:32+00:00"
         },
         {
             "name": "phpoption/phpoption",
@@ -6733,12 +6733,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Roave/SecurityAdvisories.git",
-                "reference": "cea5a32b418b44dc5a480049f531f53563c26210"
+                "reference": "d8d409bbdcf83230d4de84a5f49a4682c3d7a1d9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/cea5a32b418b44dc5a480049f531f53563c26210",
-                "reference": "cea5a32b418b44dc5a480049f531f53563c26210",
+                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/d8d409bbdcf83230d4de84a5f49a4682c3d7a1d9",
+                "reference": "d8d409bbdcf83230d4de84a5f49a4682c3d7a1d9",
                 "shasum": ""
             },
             "conflict": {
@@ -6830,7 +6830,7 @@
                 "contao/managed-edition": "<=1.5",
                 "corveda/phpsandbox": "<1.3.5",
                 "cosenary/instagram": "<=2.3",
-                "craftcms/cms": "<=4.5.10",
+                "craftcms/cms": "<4.6.2",
                 "croogo/croogo": "<4",
                 "cuyz/valinor": "<0.12",
                 "czproject/git-php": "<4.0.3",
@@ -6888,7 +6888,7 @@
                 "ezsystems/ezplatform-solr-search-engine": ">=1.7,<1.7.12|>=2,<2.0.2|>=3.3,<3.3.15",
                 "ezsystems/ezplatform-user": ">=1,<1.0.1",
                 "ezsystems/ezpublish-kernel": "<6.13.8.2-dev|>=7,<7.5.31",
-                "ezsystems/ezpublish-legacy": "<=2017.12.7.3|>=2018.06,<=2019.03.5.1",
+                "ezsystems/ezpublish-legacy": "<=2017.12.7.3|>=2018.6,<=2019.03.5.1",
                 "ezsystems/platform-ui-assets-bundle": ">=4.2,<4.2.3",
                 "ezsystems/repository-forms": ">=2.3,<2.3.2.1-dev|>=2.5,<2.5.15",
                 "ezyang/htmlpurifier": "<4.1.1",
@@ -7248,6 +7248,7 @@
                 "sukohi/surpass": "<1",
                 "sulu/sulu": "<1.6.44|>=2,<2.2.18|>=2.3,<2.3.8|==2.4.0.0-RC1|>=2.5,<2.5.10",
                 "sumocoders/framework-user-bundle": "<1.4",
+                "superbig/craft-audit": "<3.0.2",
                 "swag/paypal": "<5.4.4",
                 "swiftmailer/swiftmailer": ">=4,<5.4.5",
                 "swiftyedit/swiftyedit": "<1.2",
@@ -7455,7 +7456,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-01-24T22:04:16+00:00"
+            "time": "2024-01-30T20:04:27+00:00"
         },
         {
             "name": "sebastian/cli-parser",
@@ -8737,7 +8738,7 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": "~8.2.0",
+        "php": "~8.3.0",
         "ext-curl": "*",
         "ext-hash": "*",
         "ext-json": "*",
