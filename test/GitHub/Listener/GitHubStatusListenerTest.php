@@ -13,6 +13,7 @@ use App\Slack\Domain\TextObject;
 use App\Slack\Domain\WebAPIMessage;
 use App\Slack\Response\SlackResponseInterface;
 use App\Slack\SlackClientInterface;
+use AppTest\Psr7Helper;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
@@ -103,7 +104,7 @@ class GitHubStatusListenerTest extends TestCase
         $ghRequest  = $this->prophesize(RequestInterface::class);
         $ghResponse = $this->prophesize(ResponseInterface::class);
         $ghResponse->getStatusCode()->willReturn(400)->shouldBeCalled();
-        $ghResponse->getBody()->willReturn('')->shouldBeCalled();
+        $ghResponse->getBody()->willReturn(Psr7Helper::stream(''))->shouldBeCalled();
 
         $this->githubClient
             ->createRequest(
@@ -246,7 +247,7 @@ class GitHubStatusListenerTest extends TestCase
 
         $ghRequest = $this->prophesize(RequestInterface::class);
 
-        $ghResponsePayload = json_encode([
+        $ghResponsePayload = Psr7Helper::stream(json_encode([
             'incomplete_results' => false,
             'items'              => [
                 [
@@ -255,7 +256,7 @@ class GitHubStatusListenerTest extends TestCase
                     'html_url' => 'pull-request-url',
                 ],
             ],
-        ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+        ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES));
 
         $ghResponse = $this->prophesize(ResponseInterface::class);
         $ghResponse->getStatusCode()->willReturn(200)->shouldBeCalled();

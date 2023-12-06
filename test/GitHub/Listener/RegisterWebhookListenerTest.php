@@ -11,6 +11,7 @@ use App\Slack\Domain\SlashResponseMessage;
 use App\Slack\Response\SlackResponseInterface;
 use App\Slack\SlackClientInterface;
 use App\UrlHelper;
+use AppTest\Psr7Helper;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
@@ -153,7 +154,7 @@ class RegisterWebhookListenerTest extends TestCase
 
         $response = $this->prophesize(ResponseInterface::class);
         $response->getStatusCode()->willReturn(400)->shouldBeCalled();
-        $response->getBody()->willReturn('');
+        $response->getBody()->willReturn(Psr7Helper::stream(''));
 
         $this->github
             ->createRequest(
