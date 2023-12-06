@@ -8,10 +8,8 @@ use Laminas\Diactoros\RequestFactory;
 use Laminas\Diactoros\ResponseFactory;
 use Laminas\Diactoros\ServerRequestFactory;
 use Laminas\Diactoros\StreamFactory;
-use Laminas\Http\Client\Adapter\Curl;
 use Laminas\ServiceManager\Factory\InvokableFactory;
 use Laminas\Stratigility\Middleware\ErrorHandler;
-use Laminas\Twitter\Twitter as TwitterClient;
 use Mezzio\Application;
 use Mezzio\Helper\BodyParams\BodyParamsMiddleware;
 use Mezzio\MiddlewareFactory;
@@ -29,9 +27,6 @@ use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ServerRequestFactoryInterface;
 use Psr\Http\Message\StreamFactoryInterface;
 use Psr\Log\LoggerInterface;
-
-use const CURLOPT_SSL_VERIFYHOST;
-use const CURLOPT_SSL_VERIFYPEER;
 
 class ConfigProvider
 {
@@ -61,24 +56,6 @@ class ConfigProvider
                 'signing_secret' => '',
                 'token'          => '',
             ],
-            'twitter'      => [
-                'access_token'             => [
-                    'token'  => '',
-                    'secret' => '',
-                ],
-                'oauth_options'            => [
-                    'consumerKey'    => '',
-                    'consumerSecret' => '',
-                ],
-                'http_client_options'      => [
-                    'adapter'     => Curl::class,
-                    'curloptions' => [
-                        CURLOPT_SSL_VERIFYHOST => false,
-                        CURLOPT_SSL_VERIFYPEER => false,
-                    ],
-                ],
-                'tweet_verification_token' => '',
-            ],
         ];
     }
 
@@ -105,7 +82,6 @@ class ConfigProvider
                     Discourse\ListenerProviderDelegatorFactory::class,
                     GitHub\ListenerProviderDelegatorFactory::class,
                     Slack\ListenerProviderDelegatorFactory::class,
-                    Twitter\ListenerProviderDelegatorFactory::class,
                 ],
                 Discourse\Listener\DiscoursePostListener::class            => [DeferredServiceListenerDelegator::class],
                 GitHub\Listener\DocsBuildActionListener::class             => [DeferredServiceListenerDelegator::class],
@@ -113,15 +89,10 @@ class ConfigProvider
                 GitHub\Listener\GitHubIssueCommentListener::class          => [DeferredServiceListenerDelegator::class],
                 GitHub\Listener\GitHubPullRequestListener::class           => [DeferredServiceListenerDelegator::class],
                 GitHub\Listener\GitHubReleaseSlackListener::class          => [DeferredServiceListenerDelegator::class],
-                GitHub\Listener\GitHubReleaseTweetListener::class          => [DeferredServiceListenerDelegator::class],
                 GitHub\Listener\GitHubReleaseWebsiteUpdateListener::class  => [DeferredServiceListenerDelegator::class],
                 GitHub\Listener\GitHubStatusListener::class                => [DeferredServiceListenerDelegator::class],
                 GitHub\Listener\RegisterWebhookListener::class             => [DeferredServiceListenerDelegator::class],
                 Slack\Listener\RegenerateAuthorizedUserListListener::class => [DeferredServiceListenerDelegator::class],
-                Slack\Listener\RetweetListener::class                      => [DeferredServiceListenerDelegator::class],
-                Slack\Listener\TweetListener::class                        => [DeferredServiceListenerDelegator::class],
-                Slack\Listener\TwitterReplyListener::class                 => [DeferredServiceListenerDelegator::class],
-                Twitter\TweetListener::class                               => [DeferredServiceListenerDelegator::class],
             ],
 
             'factories' => [
@@ -138,7 +109,6 @@ class ConfigProvider
                 GitHub\Listener\GitHubPullRequestListener::class              => GitHub\Listener\GitHubPullRequestListenerFactory::class,
                 GitHub\Listener\GitHubReleaseMastodonListener::class          => GitHub\Listener\GitHubReleaseMastodonListenerFactory::class,
                 GitHub\Listener\GitHubReleaseSlackListener::class             => GitHub\Listener\GitHubReleaseSlackListenerFactory::class,
-                GitHub\Listener\GitHubReleaseTweetListener::class             => GitHub\Listener\GitHubReleaseTweetListenerFactory::class,
                 GitHub\Listener\GitHubReleaseWebsiteUpdateListener::class     => GitHub\Listener\GitHubReleaseWebsiteUpdateListenerFactory::class,
                 GitHub\Listener\GitHubStatusListener::class                   => GitHub\Listener\GitHubStatusListenerFactory::class,
                 GitHub\Listener\RegisterWebhookListener::class                => GitHub\Listener\RegisterWebhookListenerFactory::class,
@@ -156,9 +126,6 @@ class ConfigProvider
                 ResponseFactory::class                                        => InvokableFactory::class,
                 ServerRequestFactory::class                                   => InvokableFactory::class,
                 Slack\Listener\RegenerateAuthorizedUserListListener::class    => Slack\Listener\RegenerateAuthorizedUserListListenerFactory::class,
-                Slack\Listener\RetweetListener::class                         => Slack\Listener\RetweetListenerFactory::class,
-                Slack\Listener\TweetListener::class                           => Slack\Listener\TweetListenerFactory::class,
-                Slack\Listener\TwitterReplyListener::class                    => Slack\Listener\TwitterReplyListenerFactory::class,
                 Slack\Middleware\VerificationMiddleware::class                => Slack\Middleware\VerificationMiddlewareFactory::class,
                 Slack\Middleware\SlashCommandHandler::class                   => Slack\Middleware\SlashCommandHandlerFactory::class,
                 Slack\SlackClientInterface::class                             => Slack\SlackClientFactory::class,
@@ -166,17 +133,10 @@ class ConfigProvider
                 Slack\SlashCommand\BuildDocsCommand::class                    => Slack\SlashCommand\BuildDocsCommandFactory::class,
                 Slack\SlashCommand\RegenerateAuthorizedUserListCommand::class => Slack\SlashCommand\RegenerateAuthorizedUserListCommandFactory::class,
                 Slack\SlashCommand\RegisterRepoCommand::class                 => Slack\SlashCommand\RegisterRepoCommandFactory::class,
-                Slack\SlashCommand\RetweetCommand::class                      => Slack\SlashCommand\RetweetCommandFactory::class,
                 Slack\SlashCommand\SlashCommandResponseFactory::class         => Slack\SlashCommand\SlashCommandResponseFactoryFactory::class,
                 Slack\SlashCommand\SlashCommands::class                       => Slack\SlashCommand\SlashCommandsFactory::class,
-                Slack\SlashCommand\TweetCommand::class                        => Slack\SlashCommand\TweetCommandFactory::class,
-                Slack\SlashCommand\TwitterReplyCommand::class                 => Slack\SlashCommand\TwitterReplyCommandFactory::class,
-                Twitter\TweetHandler::class                                   => Twitter\TweetHandlerFactory::class,
-                Twitter\TweetListener::class                                  => Twitter\TweetListenerFactory::class,
-                Twitter\VerificationMiddleware::class                         => Twitter\VerificationMiddlewareFactory::class,
                 StreamFactory::class                                          => InvokableFactory::class,
                 SwooleLoggerFactory::SWOOLE_LOGGER                            => Factory\AccessLogFactory::class,
-                TwitterClient::class                                          => Factory\TwitterClientFactory::class,
                 UrlHelper::class                                              => Factory\UrlHelperFactory::class,
             ],
         ];
@@ -232,13 +192,5 @@ class ConfigProvider
             Slack\Middleware\VerificationMiddleware::class,
             Slack\Middleware\SlashCommandHandler::class,
         ], 'api.slack');
-
-        $app->post('/api/twitter/{token:[^/]+}', [
-            $initialMiddleware,
-            ProblemDetailsMiddleware::class,
-            BodyParamsMiddleware::class,
-            Twitter\VerificationMiddleware::class,
-            Twitter\TweetHandler::class,
-        ], 'api.twitter');
     }
 }
