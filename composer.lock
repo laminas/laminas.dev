@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e0831ac412b6fd69d04883d10304a7d2",
+    "content-hash": "45e769d5f7490f210c0afe1071447014",
     "packages": [
         {
             "name": "beberlei/assert",
@@ -2336,16 +2336,16 @@
         },
         {
             "name": "mezzio/mezzio-platesrenderer",
-            "version": "2.9.0",
+            "version": "2.10.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mezzio/mezzio-platesrenderer.git",
-                "reference": "34ca8e67ef8318a448df6ed080b7b4a49abd8a3c"
+                "reference": "45abd67ab3e6ff0e862186fb50fc195fee56516d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mezzio/mezzio-platesrenderer/zipball/34ca8e67ef8318a448df6ed080b7b4a49abd8a3c",
-                "reference": "34ca8e67ef8318a448df6ed080b7b4a49abd8a3c",
+                "url": "https://api.github.com/repos/mezzio/mezzio-platesrenderer/zipball/45abd67ab3e6ff0e862186fb50fc195fee56516d",
+                "reference": "45abd67ab3e6ff0e862186fb50fc195fee56516d",
                 "shasum": ""
             },
             "require": {
@@ -2354,7 +2354,7 @@
                 "mezzio/mezzio-helpers": "^5.2",
                 "mezzio/mezzio-router": "^3.0",
                 "mezzio/mezzio-template": "^2.0",
-                "php": "~8.0.0 || ~8.1.0 || ~8.2.0",
+                "php": "~8.0.0 || ~8.1.0 || ~8.2.0 || ~8.3.0",
                 "psr/container": "^1.0 || ^2.0"
             },
             "conflict": {
@@ -2363,7 +2363,6 @@
             },
             "require-dev": {
                 "laminas/laminas-coding-standard": "~2.5.0",
-                "phpspec/prophecy-phpunit": "^2.0.1",
                 "phpunit/phpunit": "^9.5.28",
                 "psalm/plugin-phpunit": "0.18.4",
                 "vimeo/psalm": "^5.4"
@@ -2408,7 +2407,7 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2023-01-15T11:18:12+00:00"
+            "time": "2023-12-07T19:41:05+00:00"
         },
         {
             "name": "mezzio/mezzio-problem-details",
@@ -6144,29 +6143,29 @@
         },
         {
             "name": "phpspec/prophecy",
-            "version": "v1.17.0",
+            "version": "v1.18.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpspec/prophecy.git",
-                "reference": "15873c65b207b07765dbc3c95d20fdf4a320cbe2"
+                "reference": "d4f454f7e1193933f04e6500de3e79191648ed0c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpspec/prophecy/zipball/15873c65b207b07765dbc3c95d20fdf4a320cbe2",
-                "reference": "15873c65b207b07765dbc3c95d20fdf4a320cbe2",
+                "url": "https://api.github.com/repos/phpspec/prophecy/zipball/d4f454f7e1193933f04e6500de3e79191648ed0c",
+                "reference": "d4f454f7e1193933f04e6500de3e79191648ed0c",
                 "shasum": ""
             },
             "require": {
                 "doctrine/instantiator": "^1.2 || ^2.0",
-                "php": "^7.2 || 8.0.* || 8.1.* || 8.2.*",
+                "php": "^7.2 || 8.0.* || 8.1.* || 8.2.* || 8.3.*",
                 "phpdocumentor/reflection-docblock": "^5.2",
-                "sebastian/comparator": "^3.0 || ^4.0",
-                "sebastian/recursion-context": "^3.0 || ^4.0"
+                "sebastian/comparator": "^3.0 || ^4.0 || ^5.0",
+                "sebastian/recursion-context": "^3.0 || ^4.0 || ^5.0"
             },
             "require-dev": {
                 "phpspec/phpspec": "^6.0 || ^7.0",
                 "phpstan/phpstan": "^1.9",
-                "phpunit/phpunit": "^8.0 || ^9.0"
+                "phpunit/phpunit": "^8.0 || ^9.0 || ^10.0"
             },
             "type": "library",
             "extra": {
@@ -6199,6 +6198,7 @@
             "keywords": [
                 "Double",
                 "Dummy",
+                "dev",
                 "fake",
                 "mock",
                 "spy",
@@ -6206,9 +6206,9 @@
             ],
             "support": {
                 "issues": "https://github.com/phpspec/prophecy/issues",
-                "source": "https://github.com/phpspec/prophecy/tree/v1.17.0"
+                "source": "https://github.com/phpspec/prophecy/tree/v1.18.0"
             },
-            "time": "2023-02-02T15:41:36+00:00"
+            "time": "2023-12-07T16:22:33+00:00"
         },
         {
             "name": "phpspec/prophecy-phpunit",
