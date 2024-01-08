@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7d922c7b60422c1e000e0f3af13a5efd",
+    "content-hash": "ee32464c28617743d32ec1d2b7987c35",
     "packages": [
         {
             "name": "beberlei/assert",
@@ -2167,22 +2167,22 @@
         },
         {
             "name": "mezzio/mezzio-hal",
-            "version": "2.8.0",
+            "version": "2.9.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mezzio/mezzio-hal.git",
-                "reference": "3d94ebd7857bbc217cee1d33503ffaeca5091d71"
+                "reference": "f708d13619a22d71460864fbfb1df5d74279b807"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mezzio/mezzio-hal/zipball/3d94ebd7857bbc217cee1d33503ffaeca5091d71",
-                "reference": "3d94ebd7857bbc217cee1d33503ffaeca5091d71",
+                "url": "https://api.github.com/repos/mezzio/mezzio-hal/zipball/f708d13619a22d71460864fbfb1df5d74279b807",
+                "reference": "f708d13619a22d71460864fbfb1df5d74279b807",
                 "shasum": ""
             },
             "require": {
                 "ext-dom": "*",
                 "ext-json": "*",
-                "php": "~8.0.0 || ~8.1.0 || ~8.2.0",
+                "php": "~8.1.0 || ~8.2.0 || ~8.3.0",
                 "psr/container": "^1.1.2 || ^2.0.2",
                 "psr/http-factory": "^1.0",
                 "psr/http-message": "^1.0.1 || ^2.0.0",
@@ -2205,7 +2205,7 @@
                 "phpspec/prophecy-phpunit": "^2.0.1",
                 "phpunit/phpunit": "^9.5.28",
                 "psalm/plugin-phpunit": "^0.18.4",
-                "vimeo/psalm": "^5.6"
+                "vimeo/psalm": "^5.18"
             },
             "suggest": {
                 "laminas/laminas-hydrator": "^4.3 in order to use the ResourceGenerator to create Resource instances from objects",
@@ -2256,7 +2256,7 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2023-08-01T21:06:55+00:00"
+            "time": "2024-01-08T13:12:46+00:00"
         },
         {
             "name": "mezzio/mezzio-helpers",
@@ -2658,16 +2658,16 @@
         },
         {
             "name": "mezzio/mezzio-template",
-            "version": "2.9.0",
+            "version": "2.10.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mezzio/mezzio-template.git",
-                "reference": "16060229d23cd5b715d92f28d9779c574b1d8385"
+                "reference": "2cc943c996b8a63f1f945a2b891346ecbc8f7a33"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mezzio/mezzio-template/zipball/16060229d23cd5b715d92f28d9779c574b1d8385",
-                "reference": "16060229d23cd5b715d92f28d9779c574b1d8385",
+                "url": "https://api.github.com/repos/mezzio/mezzio-template/zipball/2cc943c996b8a63f1f945a2b891346ecbc8f7a33",
+                "reference": "2cc943c996b8a63f1f945a2b891346ecbc8f7a33",
                 "shasum": ""
             },
             "require": {
@@ -2718,7 +2718,7 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2023-11-01T09:29:30+00:00"
+            "time": "2024-01-08T15:20:45+00:00"
         },
         {
             "name": "monolog/monolog",
