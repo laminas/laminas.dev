@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "41d2f4e9eee149eb0ab17ac4712247ea",
+    "content-hash": "76a6a77521c8a4d794d4f8838c4b9a0c",
     "packages": [
         {
             "name": "beberlei/assert",
@@ -2411,16 +2411,16 @@
         },
         {
             "name": "mezzio/mezzio-problem-details",
-            "version": "1.13.0",
+            "version": "1.13.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mezzio/mezzio-problem-details.git",
-                "reference": "7871fdfed25cb4572494cc8f16d3b83ecbec0ff6"
+                "reference": "b8b75be7532b5a03f1838e89b31e332fb66b3002"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mezzio/mezzio-problem-details/zipball/7871fdfed25cb4572494cc8f16d3b83ecbec0ff6",
-                "reference": "7871fdfed25cb4572494cc8f16d3b83ecbec0ff6",
+                "url": "https://api.github.com/repos/mezzio/mezzio-problem-details/zipball/b8b75be7532b5a03f1838e89b31e332fb66b3002",
+                "reference": "b8b75be7532b5a03f1838e89b31e332fb66b3002",
                 "shasum": ""
             },
             "require": {
@@ -2485,7 +2485,7 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2023-11-08T14:15:07+00:00"
+            "time": "2024-01-18T19:15:21+00:00"
         },
         {
             "name": "mezzio/mezzio-router",
