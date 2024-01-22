@@ -21,7 +21,7 @@ mounts:
 hooks:
   build: |
     set -e
-    OPENSWOOLE_VERSION=22.1.0
+    OPENSWOOLE_VERSION=22.1.2
     echo "Installing Swoole extension"
     bash install-swoole.sh openswoole "$OPENSWOOLE_VERSION"
     echo "Current PHP modules:"
