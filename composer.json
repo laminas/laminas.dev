@@ -18,9 +18,9 @@
         "ext-hash": "*",
         "ext-json": "*",
         "ext-openswoole": "*",
-        "beberlei/assert": "^2.9.9 || ^3.3.2",
+        "beberlei/assert": "^3.3.2",
         "colorfield/mastodon-api": "^0.1.5",
-        "guzzlehttp/guzzle": "^6.3 || ^7.8",
+        "guzzlehttp/guzzle": "^7.8",
         "laminas/laminas-cli": "^1.10.0",
         "laminas/laminas-component-installer": "^3.4.0",
         "laminas/laminas-config-aggregator": "^1.14.0",
@@ -48,7 +48,7 @@
         "psr/http-message": "^2.0.0",
         "psr/http-server-handler": "^1.0.2",
         "psr/http-server-middleware": "^1.0.2",
-        "psr/log": "^1.1 || ^2.0 || ^3.0"
+        "psr/log": "^3.0"
     },
     "require-dev": {
         "filp/whoops": "^2.15.3",
