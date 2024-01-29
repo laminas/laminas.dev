@@ -20,7 +20,7 @@
         "ext-openswoole": "*",
         "beberlei/assert": "^3.3.2",
         "colorfield/mastodon-api": "^0.1.5",
-        "guzzlehttp/guzzle": "^7.8",
+        "guzzlehttp/guzzle": "^7.8.1",
         "laminas/laminas-cli": "^1.10.0",
         "laminas/laminas-component-installer": "^3.4.0",
         "laminas/laminas-config-aggregator": "^1.14.0",
