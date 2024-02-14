@@ -31,7 +31,7 @@
         "laminas/laminas-stdlib": "^3.19.0",
         "laminas/laminas-stratigility": "^3.11.0",
         "league/commonmark": "^2.4.2",
-        "mezzio/mezzio": "^3.18.0",
+        "mezzio/mezzio": "^3.19.0",
         "mezzio/mezzio-fastroute": "^3.11.0",
         "mezzio/mezzio-hal": "^2.9.0",
         "mezzio/mezzio-helpers": "^5.16.0",
