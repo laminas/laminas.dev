@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "47d51845352ec49ecdcb94574bdf06df",
+    "content-hash": "6070e1ed4aac4f9a49797de36bb3c5b7",
     "packages": [
         {
             "name": "beberlei/assert",
@@ -2411,16 +2411,16 @@
         },
         {
             "name": "mezzio/mezzio-problem-details",
-            "version": "1.13.1",
+            "version": "1.14.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mezzio/mezzio-problem-details.git",
-                "reference": "b8b75be7532b5a03f1838e89b31e332fb66b3002"
+                "reference": "7d0449288fd795baccdca7d361ae185d5dc8fd2b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mezzio/mezzio-problem-details/zipball/b8b75be7532b5a03f1838e89b31e332fb66b3002",
-                "reference": "b8b75be7532b5a03f1838e89b31e332fb66b3002",
+                "url": "https://api.github.com/repos/mezzio/mezzio-problem-details/zipball/7d0449288fd795baccdca7d361ae185d5dc8fd2b",
+                "reference": "7d0449288fd795baccdca7d361ae185d5dc8fd2b",
                 "shasum": ""
             },
             "require": {
@@ -2440,10 +2440,10 @@
             },
             "require-dev": {
                 "laminas/laminas-coding-standard": "~2.5.0",
-                "laminas/laminas-diactoros": "^3.0",
-                "phpunit/phpunit": "^10.1.1",
+                "laminas/laminas-diactoros": "^3.3",
+                "phpunit/phpunit": "^10.5.10",
                 "psalm/plugin-phpunit": "^0.18.4",
-                "vimeo/psalm": "^5.9"
+                "vimeo/psalm": "^5.21.1"
             },
             "type": "library",
             "extra": {
@@ -2485,7 +2485,7 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2024-01-18T19:15:21+00:00"
+            "time": "2024-02-26T10:47:50+00:00"
         },
         {
             "name": "mezzio/mezzio-router",
