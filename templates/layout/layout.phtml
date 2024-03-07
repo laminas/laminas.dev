@@ -1,3 +1,13 @@
+<?php
+
+declare(strict_types=1);
+
+/**
+ * @var League\Plates\Template\Template $this
+ * @var string                          $title
+ * @var bool|null                       $redirect
+ */
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -10,6 +20,11 @@
 
     <title><?= $title ?? 'Laminas: Components and MVC for Enterprise Applications' ?></title>
     <link rel="stylesheet" href="/css/styles.css">
+
+    <?php if (isset($redirect) && $redirect === true) : ?>
+        <script>location.href = 'https://getlaminas.org'</script>
+        <meta http-equiv="refresh" content="0; url=https://getlaminas.org">
+    <?php endif ?>
 </head>
 <body id="page-top" class="laminas">
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
