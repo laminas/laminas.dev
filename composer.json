@@ -27,7 +27,7 @@
         "laminas/laminas-config-aggregator-parameters": "^1.15.0",
         "laminas/laminas-diactoros": "^3.3.1",
         "laminas/laminas-http": "^2.19.0",
-        "laminas/laminas-servicemanager": "^3.22.1",
+        "laminas/laminas-servicemanager": "^4.1.0",
         "laminas/laminas-stdlib": "^3.19.0",
         "laminas/laminas-stratigility": "^3.11.0",
         "league/commonmark": "^2.4.2",
