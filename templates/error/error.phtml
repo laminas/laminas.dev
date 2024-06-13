@@ -9,7 +9,7 @@
         <a href="/chat">contact us via chat</a>.
     </p>
 
-    <?php if (! empty($error)) : ?>
+    <?php if (isset($error)) : ?>
     <pre><?= $this->e($error) ?></pre>
     <?php endif ?>
 </section>
