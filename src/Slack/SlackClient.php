@@ -43,7 +43,11 @@ class SlackClient implements SlackClientInterface
     /** @var null|LoggerInterface */
     private $logger;
 
-    /** @see @web = new WebClient options.token */
+    /**
+     * @see
+     *
+     * @web = new WebClient options.token
+     */
     public function __construct(
         HttpClientInterface $httpClient,
         string $token,
