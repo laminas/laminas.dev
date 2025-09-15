@@ -1,20 +1,17 @@
 name: laminas_dev
 
-type: "composable:25.05"
+type: php:8.4
 
-stack:
-  - "php@8.4":
-      extensions:
-        - curl
-        - pdo_sqlite
-        - sqlite3
-        - swoole
-  - "php84Packages.composer"
-  - "platformsh"
-  - "jq"
 size: S
 
 disk: 256
+
+build:
+  flavor: none
+
+runtime:
+  extensions:
+    - swoole
 
 mounts:
   'data/cache':
@@ -26,6 +23,8 @@ hooks:
     set -e
     echo "Current PHP modules:"
     php -m
+    echo "Installing platform.sh CLI"
+    curl -fsSL https://raw.githubusercontent.com/platformsh/cli/main/installer.sh | bash
     echo "- Setting up configuration"
     rm -f config/development.config.php config/autoload/*.local.php
     mv config/autoload/local.php.dist config/autoload/local.php
