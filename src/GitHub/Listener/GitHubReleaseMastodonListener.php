@@ -9,13 +9,15 @@ use App\Mastodon\MastodonClient;
 use Psr\Log\LoggerInterface;
 use Throwable;
 
+use function implode;
 use function in_array;
 use function sprintf;
+use function str_contains;
 use function str_replace;
 
 class GitHubReleaseMastodonListener
 {
-    private const TOOT_TEMPLATE = "Released: {package} {version}\n\n{url}";
+    private const TOOT_TEMPLATE = "Released: {package} {version}\n{hashtags}\n\n{url}";
 
     public function __construct(
         private MastodonClient $mastodonClient,
@@ -34,9 +36,21 @@ class GitHubReleaseMastodonListener
             return;
         }
 
+        $hashtags = ['#php'];
+
+        if (str_contains($message->getPackage(), 'mezzio')) {
+            $hashtags[] = '#mezzio';
+        }
+
+        if (str_contains($message->getPackage(), 'laminas')) {
+            $hashtags[] = '#laminas';
+        }
+
+        $hashtags = implode(' ', $hashtags);
+
         $toot = str_replace(
-            ['{package}',             '{version}',             '{url}'],
-            [$message->getPackage(),  $message->getVersion(),  $message->getUrl()],
+            ['{package}',             '{version}',             '{url}',            '{hashtags}'],
+            [$message->getPackage(),  $message->getVersion(),  $message->getUrl(), $hashtags],
             self::TOOT_TEMPLATE
         );
 
