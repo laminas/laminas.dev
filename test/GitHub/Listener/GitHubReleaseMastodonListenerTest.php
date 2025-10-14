@@ -7,20 +7,16 @@ namespace AppTest\GitHub\Listener;
 use App\GitHub\Event\GitHubRelease;
 use App\GitHub\Listener\GitHubReleaseMastodonListener;
 use App\Mastodon\MastodonClient;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 use RuntimeException;
 
 class GitHubReleaseMastodonListenerTest extends TestCase
 {
-    /** @var GitHubReleaseMastodonListener */
-    private $listener;
-
-    /** @var LoggerInterface */
-    private $logger;
-
-    /** @var MastodonClient */
-    private $mastodon;
+    private GitHubReleaseMastodonListener $listener;
+    private LoggerInterface&MockObject $logger;
+    private MastodonClient&MockObject $mastodon;
 
     public function setUp(): void
     {
@@ -65,7 +61,7 @@ class GitHubReleaseMastodonListenerTest extends TestCase
 
         $this->mastodon
             ->expects($this->once())
-            ->method('statusesUpdate')->with("Released: laminas/some-component 2.3.4p8\n\nrelease-url")
+            ->method('statusesUpdate')->with("Released: laminas/some-component 2.3.4p8\n#php #laminas\n\nrelease-url")
             ->willThrowException(new RuntimeException('Error tooting release'));
 
         $this->logger
@@ -92,7 +88,7 @@ class GitHubReleaseMastodonListenerTest extends TestCase
         $this->mastodon
             ->expects($this->once())
             ->method('statusesUpdate')
-            ->with("Released: laminas/some-component 2.3.4p8\n\nrelease-url")
+            ->with("Released: laminas/some-component 2.3.4p8\n#php #laminas\n\nrelease-url")
             ->willReturn('The response-body from Mastodon that is never to be used');
 
         $this->logger
