@@ -24,68 +24,68 @@ Laminas Project Bot.
 The Laminas Bot acts as:
 
 - A GitHub webhook handler:
-  - Report new issues and pull requests to the Laminas Slack #github channel.
-  - Report new issue and pull request commments to the Laminas Slack #github channel.
-  - Report repository build status to the Laminas Slack #github channel.
-  - Report releases to:
-    - The Laminas Slack #github channel.
-    - The https://getlaminas API, to allow rebuilding the release RSS feed.
+    - Report new issues and pull requests to the Laminas Slack #github channel.
+    - Report new issue and pull request commments to the Laminas Slack #github channel.
+    - Report repository build status to the Laminas Slack #github channel.
+    - Report releases to:
+        - The Laminas Slack #github channel.
+        - The https://getlaminas API, to allow rebuilding the release RSS feed.
 
 - A Discourse webhook handler:
-  - Report new posts to the category-appropriate channel on the Laminas Slack.
+    - Report new posts to the category-appropriate channel on the Laminas Slack.
 
 - A Slack slash command handler for the Technical Steering Committee:
-  - /build-docs to trigger a documentation rebuild for a given repository.
-  - /register-repo to register the github webhooks for Laminas-BOT with the
-    given repository.
-  - /regenerate-tsc-list triggers rebuilding the list of TSC members (the only
-    ones authorized to initiate slash commands).
+    - /build-docs to trigger a documentation rebuild for a given repository.
+    - /register-repo to register the github webhooks for Laminas-BOT with the
+      given repository.
+    - /regenerate-tsc-list triggers rebuilding the list of TSC members (the only
+      ones authorized to initiate slash commands).
 
 ### Requirements
 
 - From Slack
-  - Create a Bot integration
-    - Add the signing secret to the SLACK_SIGNING_SECRET
-  - Setup OAuth
-    - Add the OAuth token value to SLACK_TOKEN
-    - Set the following scopes
-      - channels:read
-      - chat:write
-      - chat:write.public (to allow writing to any public channel)
-      - commands
-      - groups:read
-      - im:read
-      - links:read
-      - links:write
-      - mpim:read
-  - Setup Slash commands
-    - All commands go to https://laminas.dev/api/slack
-    - /laminas
-    - /regenerate-tsc-list
-    - /register-repo {repo}
-    - /build-docs {repo}
-  - Setup an incoming webhook
-    - Add location to SLACK_WEBHOOK_LOGGING
-  - Invite the bot to #technical-steering-committee and #laminasbot-errors
+    - Create a Bot integration
+        - Add the signing secret to the SLACK_SIGNING_SECRET
+    - Setup OAuth
+        - Add the OAuth token value to SLACK_TOKEN
+        - Set the following scopes
+            - channels:read
+            - chat:write
+            - chat:write.public (to allow writing to any public channel)
+            - commands
+            - groups:read
+            - im:read
+            - links:read
+            - links:write
+            - mpim:read
+    - Setup Slash commands
+        - All commands go to https://laminas.dev/api/slack
+        - /laminas
+        - /regenerate-tsc-list
+        - /register-repo {repo}
+        - /build-docs {repo}
+    - Setup an incoming webhook
+        - Add location to SLACK_WEBHOOK_LOGGING
+    - Invite the bot to #technical-steering-committee and #laminasbot-errors
 
 - From GitHub
-  - We need a valid personal access token with "repo" permissions; add to
-    GITHUB_TOKEN
-  - We need a signing secret; this can be arbitrary, but once used, must be used
-    for ALL repositories when registering the webhook. Add to GITHUB_SECRET
+    - We need a valid personal access token with "repo" permissions; add to
+      GITHUB_TOKEN
+    - We need a signing secret; this can be arbitrary, but once used, must be used
+      for ALL repositories when registering the webhook. Add to GITHUB_SECRET
 
 - From Discourse
-  - We need a signing secret; this can be arbitrary, but once used, must be used
-    when registering ALL webhooks. Add to DISCOURSE_SECRET
+    - We need a signing secret; this can be arbitrary, but once used, must be used
+      when registering ALL webhooks. Add to DISCOURSE_SECRET
   
 - From Mastodon
-  - We need access credentials from a created app as
-    - MASTODON_CLIENT_ID
-    - MASTODON_CLIENT_SECRET
-    - MASTODON_BEARER_TOKEN
+    - We need access credentials from a created app as
+        - MASTODON_CLIENT_ID
+        - MASTODON_CLIENT_SECRET
+        - MASTODON_BEARER_TOKEN
 
 - From getlaminas
-  - We need the shared web token, as LAMINAS_API_TOKEN.
+    - We need the shared web token, as LAMINAS_API_TOKEN.
 
 ### Architecture
 
@@ -153,27 +153,27 @@ API, and the classes providing the support are under the `App\Slack\Domain`
 namespace. Implementations include:
 
 - Messages
-  - General `Message` content (see https://api.slack.com/reference/messaging/payload)
+    - General `Message` content (see https://api.slack.com/reference/messaging/payload)
 
-  - `WebAPIMessage`, for sending messages via the Slack `chat.postMessage`
-    endpoint (and related endpoints). This is a normal `Message` payload, with
-    the addition of the Slack channel to which you are posting the message. (See
-    https://api.slack.com/methods/chat.postMessage#channels)
+    - `WebAPIMessage`, for sending messages via the Slack `chat.postMessage`
+      endpoint (and related endpoints). This is a normal `Message` payload, with
+      the addition of the Slack channel to which you are posting the message. (See
+      https://api.slack.com/methods/chat.postMessage#channels)
 
-  - `SlashResponseMessage`, for sending a message to a Slash command webhook
-    response URL. This is a normal `Message` payload, with the addition of the
-    `response_type` (one of "ephemeral" - the default - or "in_channel"). (See
-    https://api.slack.com/interactivity/handling#responses)
+    - `SlashResponseMessage`, for sending a message to a Slash command webhook
+      response URL. This is a normal `Message` payload, with the addition of the
+      `response_type` (one of "ephemeral" - the default - or "in_channel"). (See
+      https://api.slack.com/interactivity/handling#responses)
 
 - Blocks
-  - `ContextBlock` (see https://api.slack.com/reference/block-kit/blocks#context)
-  - `SectionBlock` (see https://api.slack.com/reference/block-kit/blocks#context)
+    - `ContextBlock` (see https://api.slack.com/reference/block-kit/blocks#context)
+    - `SectionBlock` (see https://api.slack.com/reference/block-kit/blocks#context)
 
 - Composition objects
-  - `TextObject` (see https://api.slack.com/reference/block-kit/composition-objects#text)
+    - `TextObject` (see https://api.slack.com/reference/block-kit/composition-objects#text)
 
 - Element objects
-  - `ImageElement` (see https://api.slack.com/reference/block-kit/block-elements#image)
+    - `ImageElement` (see https://api.slack.com/reference/block-kit/block-elements#image)
 
 All of these objects support:
 
